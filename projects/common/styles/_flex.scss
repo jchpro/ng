@@ -1,0 +1,39 @@
+@mixin classes() {
+
+  // Container
+  .flex {
+    display: flex;
+
+    // Orientation
+    &.col { flex-direction: column; }
+    &.row { flex-direction: row; }
+    &.col-r { flex-direction: column-reverse; }
+    &.row-r { flex-direction: row-reverse; }
+
+    // Wrap
+    &.nowrap { flex-wrap: nowrap; }
+    &.wrap { flex-wrap: wrap; }
+    &.wrap-reverse { flex-wrap: wrap; }
+  }
+
+  // Main axis
+  .m-start { justify-content: flex-start; }
+  .m-end { justify-content: flex-end; }
+  .m-center { justify-content: center; }
+  .m-between { justify-content: space-between; }
+  .m-around { justify-content: space-around; }
+  .m-evenly { justify-content: space-evenly; }
+
+  // Cross axis
+  .x-start { align-items: flex-start; }
+  .x-end { align-items: flex-end; }
+  .x-center { align-items: center; }
+  .x-baseline { align-items: baseline; }
+  .x-stretch { align-items: stretch; }
+
+  // Grow / shrink
+  .flex-grow { flex-grow: 1; }
+  .flex-shrink { flex-shrink: 1; }
+  .flex-no-grow { flex-grow: 0; }
+  .flex-no-shrink { flex-shrink: 0; }
+}

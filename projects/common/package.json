@@ -1,0 +1,19 @@
+{
+  "name": "@jchpro/ngx-common",
+  "version": "0.1.0",
+  "peerDependencies": {
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/router": "^19.2.0",
+    "rxjs": "~7.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "exports": {
+    "./flex": {
+      "sass": "./styles/_flex.scss"
+    }
+  },
+  "sideEffects": false
+}
