@@ -15,7 +15,8 @@
     "build:pico:prod": "ng build --project @jchpro/ngx-pico --configuration production",
     "docs:common": "compodoc -p projects/common/tsconfig.lib.doc.json -d docs/common/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test @jchpro/ngx-common --watch=false --browsers=ChromeHeadless",
+    "test-local": "ng test"
   },
   "private": true,
   "dependencies": {
