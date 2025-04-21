@@ -1,0 +1,69 @@
+<h3 class="flex row m-between x-center">
+  <span>Intl date-related pipes</span>
+  <span><code>{{ libraries.common }}</code></span>
+</h3>
+<article>
+  <div class="grid">
+    <label>
+      Locale
+      <select [(ngModel)]="locale"
+              (ngModelChange)="changeDetectorRef.markForCheck()"
+              required>
+        <option>en-GB</option>
+        <option>en-US</option>
+        <option>pl-PL</option>
+        <option>de-DE</option>
+        <option>fr-FR</option>
+      </select>
+    </label>
+    <label>
+      Date format
+      <select [(ngModel)]="dateFormat"
+              (ngModelChange)="changeDetectorRef.markForCheck()"
+              required>
+        <option>full</option>
+        <option>long</option>
+        <option>medium</option>
+        <option>short</option>
+      </select>
+    </label>
+    <label>
+      Date format
+      <select [(ngModel)]="timeFormat"
+              (ngModelChange)="changeDetectorRef.markForCheck()"
+              required>
+        <option>full</option>
+        <option>long</option>
+        <option>medium</option>
+        <option>short</option>
+      </select>
+    </label>
+  </div>
+  <div class="flex row m-between x-center">
+    <span>Raw date</span> <code>{{ rawDate }}</code>
+  </div>
+</article>
+<div class="grid">
+  <article>
+    <div class="flex row m-between x-center">
+      <span>Pipe <code>intlDate</code></span> <span>{{ date | intlDate:dateFormat:locale }}</span>
+    </div>
+    <div class="flex row m-between x-center">
+      <span>Pipe <code>intlTime</code></span> <span>{{ date | intlTime:timeFormat:locale }}</span>
+    </div>
+    <div class="flex row m-between x-center">
+      <span>Pipe <code>intlDatetime</code></span> <span>{{ date | intlDatetime:datetimeFormat:locale }}</span>
+    </div>
+  </article>
+  <article>
+    <div>
+      <code>date | intlDate:'{{ dateFormat }}':'{{ locale }}' </code>
+    </div>
+    <div>
+      <code>date | intlTime:'{{ timeFormat }}':'{{ locale }}' </code>
+    </div>
+    <div>
+      <code>date | intlDatetime:'{{ datetimeFormat }}':'{{ locale }}' </code>
+    </div>
+  </article>
+</div>

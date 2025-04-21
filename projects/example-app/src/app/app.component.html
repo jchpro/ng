@@ -1,7 +1,25 @@
 <div class="container">
   <hgroup>
     <h1>&commat;jchpro/ng</h1>
-    <p>Angular libraries monorepo</p>
+    <p>Angular libraries example app</p>
   </hgroup>
-  <p>Nothing here yet, work in progress 🏗️</p>
+  <input
+    type="search"
+    name="search"
+    placeholder="Search for stuff"
+    [ngModel]="searchQuery"
+    (ngModelChange)="onSearch($event, results)" />
+  <app-search-results #results>
+    <app-intl-dates appSearchable="intl date time format pipe"></app-intl-dates>
+  </app-search-results>
+  <hr/>
+  <div class="flex row m-center">
+    <p>Work in progress 🏗️</p>
+  </div>
+  <footer class="flex row m-center">
+    <small>
+      Made by <a href="https://github.com/jchpro" target="_blank" class="secondary">jchPRO</a>,
+      built with <a href="https://picocss.com/" class="secondary" target="_blank">Pico ✨</a>
+    </small>
+  </footer>
 </div>
