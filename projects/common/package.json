@@ -1,6 +1,6 @@
 {
   "name": "@jchpro/ngx-common",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Common parts for the Angular apps",
   "private": false,
   "keywords": [
@@ -28,11 +28,9 @@
     "rxjs": "~7.8.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "devDependencies": {
     "commander": "^13.1.0",
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "tslib": "^2.3.0"
   },
   "bin": {
     "jchpro-ngx": "./cli/bin.js"
