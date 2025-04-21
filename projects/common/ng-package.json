@@ -8,5 +8,9 @@
     "**/*.md",
     "**/_*.scss",
     "cli/**/*.js"
+  ],
+  "allowedNonPeerDependencies": [
+    "commander",
+    "dotenv"
   ]
 }
