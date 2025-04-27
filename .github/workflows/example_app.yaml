@@ -23,10 +23,10 @@ jobs:
           npm ci
           npm run build
       - name: ZIP the bundle
-        working-directory: ./dist/common/example-app/browser
+        working-directory: ./dist/example-app/browser
         run: zip -r ${{ env.BUNDLE_FILE }} *
       - name: Move the bundle to root
-        run: mv ./dist/common/example-app/browser/${{ env.BUNDLE_FILE }} .
+        run: mv ./dist/example-app/browser/${{ env.BUNDLE_FILE }} .
       - name: Install SSH key of VPS
         uses: shimataro/ssh-key-action@v2
         with:
