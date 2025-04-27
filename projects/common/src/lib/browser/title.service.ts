@@ -1,12 +1,14 @@
-import { EnvironmentProviders, inject, Injectable, InjectionToken, makeEnvironmentProviders } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd } from "@angular/router";
 import { map } from "rxjs";
 import { RouterEventsService } from "../routing/router-events.service";
+import { BROWSER_TITLE_CONFIG, RouteTitleData } from './title-config';
 
 /**
- * Observes `NavigationEnd` event and tries to resolve route data containing
- * the title to set as `<title>` tag content, assuming the data object implements {@link RouteTitleData}.
+ * Wrapper around Angular's `Title` with:
+ * - `NavigationEnd` observing and resolving title from route data
+ * - using format function to dynamically augment the title.
  */
 @Injectable({
   providedIn: 'root'
@@ -15,10 +17,12 @@ export class TitleService {
 
   protected readonly routerEventsService = inject(RouterEventsService);
   protected readonly title = inject(Title);
-  protected readonly formatFn = inject(ROUTE_TITLE_FORMAT_FN, { optional: true });
+  protected readonly config = inject(BROWSER_TITLE_CONFIG, { optional: true });
 
   constructor() {
-    this.observeNavigationEnd();
+    if (this.config?.observeRouteData) {
+      this.observeNavigationEnd();
+    }
   }
 
   /**
@@ -31,11 +35,18 @@ export class TitleService {
   }
 
   /**
-   * Formats the title using function provided with {@link ROUTE_TITLE_FORMAT_FN},
-   * if not just returns the passed string.
+   * Returns the raw title from the Angular's service
+   */
+  public get(): string {
+    return this.title.getTitle();
+  }
+
+  /**
+   * Formats the title using function provided in config,
+   * if not provided just returns the passed string.
    */
   public format(dynamic: string): string {
-    return this.formatFn?.(dynamic) ?? dynamic;
+    return this.config?.formatFn?.(dynamic) ?? dynamic;
   }
 
   private observeNavigationEnd(): void {
@@ -52,31 +63,4 @@ export class TitleService {
       });
   }
 
-}
-
-/**
- * Holder of the view title for usage in routing data.
- */
-export interface RouteTitleData {
-  title?: string;
-}
-
-/**
- * Allows formating the title, great for adding postfixes, prefixes, etc.
- */
-export type RouteTitleFormatFn = (dynamic: string) => string;
-
-/**
- * Injection token for providing {@link RouteTitleFormatFn}, please use {@link provideRouteTitleFormat}.
- */
-export const ROUTE_TITLE_FORMAT_FN = new InjectionToken<RouteTitleFormatFn>('ROUTE_TITLE_FORMAT_FN');
-
-/**
- * Provides a function which will be used to dynamically format the title.
- */
-export function provideRouteTitleFormat(formatFn: RouteTitleFormatFn): EnvironmentProviders {
-  return makeEnvironmentProviders([{
-    provide: ROUTE_TITLE_FORMAT_FN,
-    useValue: formatFn
-  }]);
 }
