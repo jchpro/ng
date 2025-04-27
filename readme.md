@@ -4,6 +4,8 @@
 
 `@jchpro` libraries for Angular apps. This is very much work in progress.
 
+Visit my [example app page](https://ng.jchpro.pl) for a quick start, refer to code comments for more.
+
 ## Libraries
 
 - `@jchpro/ngx-common` [Common parts for the Angular apps](/projects/common/readme.md)

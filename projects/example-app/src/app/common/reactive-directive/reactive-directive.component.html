@@ -1,0 +1,16 @@
+<h3 example-title
+    lib="common">
+  <code>ReactiveDirective</code>
+</h3>
+<article>
+  <div>
+    <span>
+      Extend all your directives with it for easier observable streams unsubscribing once the directive is destroyed.
+    </span>
+  </div>
+  <hr/>
+  <div fullRow>
+    <code>class YourDirective extends ReactiveDirective &#123; &#125;</code>
+    <code>someStream.pipe(this.observeUntilDestroy()).subscribe();</code>
+  </div>
+</article>

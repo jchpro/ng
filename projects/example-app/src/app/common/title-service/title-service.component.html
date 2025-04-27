@@ -1,0 +1,22 @@
+<h3 example-title
+    lib="common">
+  <code>TitleService</code>
+</h3>
+<article>
+  <div fullRow>
+    <span>Configure with <code>provideBrowserTitle</code></span>
+    <code>&#123; observeRouteData?: boolean; formatFn?: (dynamic: string) => string;  &#125;</code>
+  </div>
+  <hr/>
+  <div>
+    <span>
+      If <code>observeRouteData</code> enabled, service will read <code>&#123; title?: string;  &#125;</code>
+      from route data after each <code>NavigationEnd</code> event and try to set the title.
+    </span>
+  </div>
+  <hr/>
+  <div fullRow>
+    <span>If <code>formatFn</code> provided</span>
+    <code>titleService.setTitle('Start'); // &lt;title&gt;Start | your postfix&lt;/title&gt;</code>
+  </div>
+</article>

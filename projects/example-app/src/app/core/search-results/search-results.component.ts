@@ -4,8 +4,7 @@ import { SearchableDirective } from '../searchable.directive';
 @Component({
   selector: 'app-search-results',
   imports: [],
-  templateUrl: './search-results.component.html',
-  styleUrl: './search-results.component.scss'
+  templateUrl: './search-results.component.html'
 })
 export class SearchResultsComponent {
 

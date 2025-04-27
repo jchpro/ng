@@ -1,0 +1,24 @@
+<h3 example-title
+    lib="common">
+  <code>StorageService</code> and others
+</h3>
+<div class="grid">
+  <article>
+    <div>
+      <code>StorageService</code> is base class with common functionality, including keys namespace support
+    </div>
+    <hr/>
+    <div>
+      <code>get</code> and <code>set</code> values as JSON with strong typing and default values support
+    </div>
+  </article>
+  <article>
+    <div>
+      Use <code>getActiveObject</code> to return proxy object which will persist data in the storage when
+      reading and writing its values
+    </div>
+    <hr/>
+    <code>LocalStorageService</code> and <code>SessionStorageService</code> extend
+    the base service with respective underlying <code>Storage</code> implementation
+  </article>
+</div>
