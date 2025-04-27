@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Router, RouterModule, Routes } from '@angular/router';
-import { provideRouteTitleFormat, RouteTitleData, RouteTitleFormatFn, TitleService } from './title.service';
+import { provideBrowserTitle, RouteTitleData, TitleConfig } from './title-config';
+import { TitleService } from './title.service';
 
 describe('TitleService', () => {
   let service: TitleService;
@@ -13,13 +14,13 @@ describe('TitleService', () => {
     { path: 'path', component: Cmp, data: { title: 'from route' } as RouteTitleData },
   ];
 
-  function configureModule(formatFn?: RouteTitleFormatFn) {
+  function configureModule(config?: TitleConfig) {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot(routes),
       ],
-      providers: formatFn ? [
-        provideRouteTitleFormat(formatFn),
+      providers: config ? [
+        provideBrowserTitle(config),
       ] : []
     });
     service = TestBed.inject(TitleService);
@@ -39,7 +40,9 @@ describe('TitleService', () => {
 
   it('should format the title if format function was provided', () => {
     // Given
-    configureModule(input => `${input} world`);
+    configureModule({
+      formatFn: input => `${input} world`
+    });
 
     // When
     const formatted = service.format('hello');
@@ -48,7 +51,20 @@ describe('TitleService', () => {
     expect(formatted).toBe('hello world');
   });
 
-  it('should set the title after navigation to a component with route title data', async () => {
+  it('should set the title after navigation to a component with route title data, if observing was enabled', async () => {
+    // Given
+    configureModule({ observeRouteData: true });
+    const router = TestBed.inject(Router);
+    const setSpy = spyOn(TestBed.inject(Title), 'setTitle');
+
+    // When
+    await router.navigate(['/path']);
+
+    // Then
+    expect(setSpy).toHaveBeenCalledWith('from route');
+  });
+
+  it('should NOT set the title after navigation to a component with route title data, if observing was NOT enabled', async () => {
     // Given
     configureModule();
     const router = TestBed.inject(Router);
@@ -58,7 +74,7 @@ describe('TitleService', () => {
     await router.navigate(['/path']);
 
     // Then
-    expect(setSpy).toHaveBeenCalledWith('from route');
+    expect(setSpy).toHaveBeenCalledTimes(0);
   });
 
 });
