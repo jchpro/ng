@@ -1,6 +1,6 @@
-<h3 class="flex row m-between x-center">
-  <span>Intl date-related pipes</span>
-  <span><code>{{ libraries.common }}</code></span>
+<h3 example-title
+    lib="common">
+  Intl date-related pipes
 </h3>
 <article>
   <div class="grid">
@@ -39,19 +39,19 @@
       </select>
     </label>
   </div>
-  <div class="flex row m-between x-center">
+  <div fullRow>
     <span>Raw date</span> <code>{{ rawDate }}</code>
   </div>
 </article>
 <div class="grid">
   <article>
-    <div class="flex row m-between x-center">
+    <div fullRow>
       <span>Pipe <code>intlDate</code></span> <span>{{ date | intlDate:dateFormat:locale }}</span>
     </div>
-    <div class="flex row m-between x-center">
+    <div fullRow>
       <span>Pipe <code>intlTime</code></span> <span>{{ date | intlTime:timeFormat:locale }}</span>
     </div>
-    <div class="flex row m-between x-center">
+    <div fullRow>
       <span>Pipe <code>intlDatetime</code></span> <span>{{ date | intlDatetime:datetimeFormat:locale }}</span>
     </div>
   </article>

@@ -1,0 +1,15 @@
+<h3 example-title
+    lib="common">
+  <code>RouterEventsService</code>
+</h3>
+<article>
+  <div fullRow>
+    <span>Observe all router event of given type</span>
+    <code>reService.onEvent(NavigationStart).subscribe()</code>
+  </div>
+  <hr/>
+  <div fullRow>
+    <span>Map any observable stream to the current Router's <code>ActivatedRoute</code></span>
+    <code>stream().pipe(this.reService.resolveActivatedRouter()).subscribe()</code>
+  </div>
+</article>

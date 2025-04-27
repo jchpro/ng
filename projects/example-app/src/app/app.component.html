@@ -1,8 +1,17 @@
 <div class="container">
-  <hgroup>
-    <h1>&commat;jchpro/ng</h1>
-    <p>Angular libraries example app</p>
-  </hgroup>
+  <div fullRow>
+    <hgroup>
+      <h1>&commat;jchpro/ng</h1>
+      <p>Angular libraries example app</p>
+    </hgroup>
+    <a href="https://github.com/jchpro/ng"
+       class="secondary"
+       data-tooltip="Visit repository"
+       data-placement="bottom"
+       target="_blank">
+      <fa-icon [icon]="faGithub" size="2x"></fa-icon>
+    </a>
+  </div>
   <input
     type="search"
     name="search"
@@ -10,9 +19,12 @@
     [ngModel]="searchQuery"
     (ngModelChange)="onSearch($event, results)" />
   <app-search-results #results>
+    <app-title-service appSearchable="title service browser"></app-title-service>
     <app-intl-dates appSearchable="intl date time format pipe"></app-intl-dates>
+    <app-reactive-directive appSearchable="observe destroy takeuntil rxjs"></app-reactive-directive>
+    <app-router-events-service appSearchable="router events routing"></app-router-events-service>
+    <app-storage-service appSearchable="storage local session json active object"></app-storage-service>
   </app-search-results>
-  <hr/>
   <div class="flex row m-center">
     <p>Work in progress 🏗️</p>
   </div>

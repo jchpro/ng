@@ -1,0 +1,47 @@
+name: Publish example app
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    name: Build and publish
+    runs-on: ubuntu-22.04
+    env:
+      BUNDLE_FILE: dist.zip
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.12.0'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies and build code
+        run: |
+          npm ci
+          npm run build
+      - name: ZIP the bundle
+        working-directory: ./dist/common/example-app/browser
+        run: zip -r ${{ env.BUNDLE_FILE }} *
+      - name: Move the bundle to root
+        run: mv ./dist/common/example-app/browser/${{ env.BUNDLE_FILE }} .
+      - name: Install SSH key of VPS
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.VPS_KEY }}
+          name: ci_rsa
+          known_hosts: ${{ secrets.VPS_KNOWN_HOSTS }}
+          config: |
+            Host vps
+              HostName ${{ secrets.VPS_HOST }}
+              User ${{ secrets.VPS_USER }}
+              Port ${{ secrets.VPS_PORT }}
+              IdentityFile ~/.ssh/ci_rsa
+      - name: Upload the bundle to VPS
+        run: rsync ${{ env.BUNDLE_FILE }} vps:${{ secrets.VPS_UPLOAD_PATH }}
+      - name: Unpack the bundle on VPS
+        run: ssh vps 'rm -rf ~/temp && unzip ${{ secrets.VPS_UPLOAD_PATH }}/${{ env.BUNDLE_FILE }} -d ~/temp'
+      - name: Copy the bundle to deployment directory on VPS
+        run: ssh vps 'rm -rf ${{ secrets.VPS_DEPLOY_DIR }}/* && cp -r ~/temp/* ${{ secrets.VPS_DEPLOY_DIR }}'
