@@ -1,0 +1,66 @@
+<h3 example-title
+    lib="common">
+  Intl number-related pipes
+</h3>
+<article>
+  <h4>Number pipe</h4>
+  <p>
+    Pass either <code>style</code> string or full <code>Int.NumberFormatOptions</code> object.
+  </p>
+  <div class="grid">
+    <label>
+      Number
+      <input [(ngModel)]="number"
+             type="number" />
+    </label>
+    <label>
+      Style
+      <select [(ngModel)]="style"
+              required>
+        <option>decimal</option>
+        <option>percent</option>
+        <option disabled>currency</option>
+        <option disabled>unit</option>
+      </select>
+    </label>
+  </div>
+  <div fullRow>
+    <code>number | intlNumber:style:'en-GB'</code>
+    <code>{{ number | intlNumber:style:'en-GB' }}</code>
+  </div>
+</article>
+<article>
+  <h4>Currency pipe</h4>
+  <div class="grid">
+    <label>
+      Value
+      <input [(ngModel)]="money"
+             type="number" />
+    </label>
+    <label>
+      Currency
+      <select [(ngModel)]="currency"
+              required>
+        <option>USD</option>
+        <option>EUR</option>
+        <option>PLN</option>
+        <option>GBP</option>
+        <option>CAD</option>
+      </select>
+    </label>
+    <label>
+      Display
+      <select [(ngModel)]="display"
+              required>
+        <option>name</option>
+        <option>code</option>
+        <option>symbol</option>
+        <option>narrowSymbol</option>
+      </select>
+    </label>
+  </div>
+  <div fullRow>
+    <code>number | intlCurrency:currency:display:'en-GB'</code>
+    <code>{{ money | intlCurrency:currency:display:'en-GB' }}</code>
+  </div>
+</article>

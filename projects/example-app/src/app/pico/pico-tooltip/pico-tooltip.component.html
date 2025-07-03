@@ -1,0 +1,45 @@
+<h3 example-title
+    lib="pico">
+  Tooltip on hover
+</h3>
+<article>
+  <p>
+    Basic usage: <code>picoTooltip="Tooltip text"</code>
+  </p>
+  <hr>
+  <div class="grid">
+    <label>
+      Tooltip text
+      <input [(ngModel)]="text"
+              (ngModelChange)="changeDetectorRef.markForCheck()"
+              required />
+    </label>
+    <label>
+      Disable tooltip
+      <select [(ngModel)]="disabled"
+              (ngModelChange)="changeDetectorRef.markForCheck()"
+              required>
+        <option [ngValue]="true">yes</option>
+        <option [ngValue]="false">no</option>
+      </select>
+    </label>
+    <label>
+      Tooltip placement
+      <select [(ngModel)]="placement"
+              (ngModelChange)="changeDetectorRef.markForCheck()"
+              required>
+        <option ngValue="top">top</option>
+        <option ngValue="right">right</option>
+        <option ngValue="bottom">bottom</option>
+        <option ngValue="left">left</option>
+      </select>
+    </label>
+  </div>
+  <div>
+    <button [picoTooltip]="text"
+            [tooltipDisabled]="disabled"
+            [tooltipPlacement]="placement">
+      Hover over me
+    </button>
+  </div>
+</article>

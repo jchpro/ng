@@ -12,18 +12,51 @@
       <fa-icon [icon]="faGithub" size="2x"></fa-icon>
     </a>
   </div>
-  <input
-    type="search"
-    name="search"
-    placeholder="Search for stuff"
-    [ngModel]="searchQuery"
-    (ngModelChange)="onSearch($event, results)" />
+  @if (switchingLib) {
+    <div role="group">
+      <button [attr.aria-current]="lib === null ? 'true' : undefined"
+              (click)="onLibChange(null)">
+        All
+      </button>
+      <button [attr.aria-current]="lib === 'common' ? 'true' : undefined"
+              (click)="onLibChange('common')">
+        Common
+      </button>
+      <button [attr.aria-current]="lib === 'pico' ? 'true' : undefined"
+              (click)="onLibChange('pico')">
+        Pico
+      </button>
+      <button class="secondary"
+              (click)="switchingLib = false">
+        Cancel
+      </button>
+    </div>
+  } @else {
+    <form role="search">
+      <input
+        type="search"
+        name="search"
+        [placeholder]="'Search for stuff in ' + placeholderSuffix"
+        [ngModel]="searchQuery"
+        (ngModelChange)="onSearch($event)" />
+      <input type="button" value="Change library"
+             (click)="switchingLib = true"/>
+    </form>
+  }
   <app-search-results #results>
+
+    <!-- Common -->
     <app-title-service appSearchable="title service browser"></app-title-service>
     <app-intl-dates appSearchable="intl date time format pipe"></app-intl-dates>
+    <app-intl-numbers appSearchable="intl number currency format pipe"></app-intl-numbers>
     <app-reactive-directive appSearchable="observe destroy takeuntil rxjs"></app-reactive-directive>
     <app-router-events-service appSearchable="router events routing"></app-router-events-service>
     <app-storage-service appSearchable="storage local session json active object"></app-storage-service>
+
+    <!-- Pico -->
+    <app-pico-tooltip appSearchable="tooltip"></app-pico-tooltip>
+    <app-pico-loading appSearchable="loading indicator"></app-pico-loading>
+    <app-pico-dialog appSearchable="dialog modal"></app-pico-dialog>
   </app-search-results>
   <div class="flex row m-center">
     <p>Work in progress 🏗️</p>
@@ -35,3 +68,5 @@
     </small>
   </footer>
 </div>
+
+<ng-container *picoDialogOutlet></ng-container>
