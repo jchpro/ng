@@ -1,4 +1,5 @@
 import { Component, ContentChildren, QueryList } from '@angular/core';
+import { Library } from '../libraries';
 import { SearchableDirective } from '../searchable.directive';
 
 @Component({
@@ -10,16 +11,16 @@ export class SearchResultsComponent {
 
   @ContentChildren(SearchableDirective) protected items!: QueryList<SearchableDirective>;
 
-  filter(query: string) {
+  filter(query: string, lib: Library | null) {
     const items = this.items.toArray();
     items.forEach(item => {
-      item.visible = item.appSearchable.includes(query);
+      item.visible = (lib ? item.library === lib : true) && item.appSearchable.includes(query);
     });
   }
 
-  clear() {
+  clear(lib: Library | null) {
     this.items.toArray()
-      .forEach(item => item.visible = true);
+      .forEach(item => item.visible = (lib ? item.library === lib : true) && true);
   }
 
 }

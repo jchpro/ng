@@ -1,4 +1,13 @@
 <span><ng-content></ng-content></span>
 @if (lib) {
-  <span><code>{{ libraries[lib] }}</code></span>
+  <span class="flex row x-center"
+        style="gap: 8px;">
+    @if (lib === 'pico') {
+      <fa-icon
+        [icon]="warningIcon"
+        picoTooltip="Library not published yet">
+      </fa-icon>
+    }
+    <code>{{ libraries[lib] }}</code>
+  </span>
 }

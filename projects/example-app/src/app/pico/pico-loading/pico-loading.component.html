@@ -1,0 +1,27 @@
+<h3 example-title
+    lib="pico">
+  Loading indicator
+</h3>
+<article>
+  <p>
+    Basic usage: <code>[picoLoading]="true"</code> or just <code>picoLoading</code>
+  </p>
+  <hr>
+  <p>
+    <label>
+      <input name="terms" type="checkbox" role="switch"
+             [(ngModel)]="enabled"
+             (ngModelChange)="changeDetectorRef.markForCheck()"/>
+      Enabled
+    </label>
+  </p>
+  <div class="grid">
+    <button [picoLoading]="enabled">
+      {{ enabled ? 'Loading stuff...' : 'Action' }}
+    </button>
+    <button [picoLoading]="enabled"
+            class="outline">
+      {{ enabled ? 'Loading stuff...' : 'Action' }}
+    </button>
+  </div>
+</article>

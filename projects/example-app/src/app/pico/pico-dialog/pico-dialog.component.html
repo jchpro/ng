@@ -1,0 +1,130 @@
+<h3 example-title
+    lib="pico">
+  Modal / dialog
+</h3>
+<article>
+  <ol>
+    <li>
+      Setup default configuration with dedicated property of object passed to <code>providePicoConfig()</code> (optional).
+    </li>
+    <li>
+      Insert <code>&lt;ng-container *picoDialogOutlet&gt;&lt;/ng-container&gt;</code> inside <code>&lt;app-root&gt;</code>.
+    </li>
+    <li>
+      Prepare either <code>&lt;ng-template&gt;</code> or dedicated component with your dialog content.
+    </li>
+    <li>
+      Open the dialog using <code>PicoDialogService</code>.
+    </li>
+    <li>
+      Inside <code>&lt;ng-template&gt;</code> <code>PicoDialogRef</code> is passed as context. In the component it
+      can be injected using <code>PICO_DIALOG_REF</code> token.
+    </li>
+  </ol>
+</article>
+<div class="grid">
+  <article>
+    <h4>
+      Using template
+    </h4>
+    <pre appPreAlign>
+      &lt;!-- `PicoDialogRef` is available as template context --&gt;
+      &lt;ng-template #dialogTemplateRef
+                   let-data="data"
+                   let-close="close"&gt;
+        &lt;header&gt;
+          &lt;h2&gt;
+            Dialog title
+          &lt;/h2&gt;
+        &lt;/header&gt;
+        &lt;p&gt;
+          Any content you want. {{ '{{' }} data {{ '}}' }}
+        &lt;/p&gt;
+        &lt;footer&gt;
+          &lt;button (click)="close('any_result')"&gt;
+            Close
+          &lt;/button&gt;
+        &lt;/footer&gt;
+      &lt;/ng-template&gt;
+    </pre>
+  </article>
+  <article>
+    <h4>
+      Using component
+    </h4>
+    <pre appPreAlign>
+      &lt;!-- Notice usage of *picoDialogContent directive! --&gt;
+      &lt;ng-container *picoDialogContent&gt;
+        &lt;!-- `PicoDialogRef` injected as `ref` --&gt;
+        &lt;header&gt;
+          &lt;h2&gt;
+            {{ '{{' }} ref.data.title {{ '}}' }}
+          &lt;/h2&gt;
+        &lt;/header&gt;
+        &lt;p&gt;
+          {{ '{{' }} ref.data.message {{ '}}' }}
+        &lt;/p&gt;
+        &lt;footer&gt;
+          &lt;button (click)="ref.close(true)"&gt;
+            Confirm
+          &lt;/button&gt;
+          &lt;button (click)="ref.close(false)"
+                  class="secondary"&gt;
+            Cancel
+          &lt;/button&gt;
+        &lt;/footer&gt;
+      &lt;/ng-container&gt;
+    </pre>
+  </article>
+</div>
+<article>
+  <h4>
+    Display dialog
+  </h4>
+  <div class="grid">
+    <label>
+      Text to pass as data
+      <input type="text"
+             [(ngModel)]="text" />
+    </label>
+    <div class="flex col m-center">
+      <label>
+        <input [(ngModel)]="animate" type="checkbox" role="switch" />
+        Animate
+      </label>
+      <label>
+        <input [(ngModel)]="closeOnOverlayClick" type="checkbox" role="switch" />
+        Close on overlay click
+      </label>
+    </div>
+    <div class="flex col m-center">
+      <button (click)="onOpenDialogClick()">
+        Open dialog
+      </button>
+    </div>
+  </div>
+  <div>
+    Last dialog result: <strong>{{ result === undefined ? 'undefined' : result }}</strong>
+  </div>
+</article>
+
+<ng-template #dialog
+             let-data="data"
+             let-close="close">
+  <header>
+    <h2>
+      Dialog title
+    </h2>
+  </header>
+  <p>
+    Passed data {{ data | json }}
+  </p>
+  <footer>
+    <button (click)="close(true)">
+      Close with `true`
+    </button>
+    <button (click)="close(false)">
+      Close with `false`
+    </button>
+  </footer>
+</ng-template>

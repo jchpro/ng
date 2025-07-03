@@ -2,4 +2,5 @@
  * Public API Surface of @jchpro/ngx-pico
  */
 
-// Empty for now
+export * from './lib/components/public-api';
+export { providePicoConfig, type PicoConfigInit } from './lib/config';

@@ -64,3 +64,12 @@ export type TimeFormat = NonNullable<Intl.DateTimeFormatOptions['timeStyle']>;
  */
 export type DatetimeFormat = `${DateFormat}-${TimeFormat}`;
 
+/**
+ * Either `style` or full `Intl.NumberFormatOptions` object.
+ */
+export type NumberFormat = Intl.NumberFormatOptions['style'] | Intl.NumberFormatOptions;
+
+/**
+ * Style in which to format currency.
+ */
+export type CurrencyDisplay = Intl.NumberFormatOptionsCurrencyDisplay;
