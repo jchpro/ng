@@ -408,7 +408,7 @@ chat-language: en
 #config: xxx
 
 ## Specify the .env file to load (default: .env in git root)
-#env-file: .env
+env-file: .ai.env
 
 ## Enable/disable suggesting shell commands (default: True)
 #suggest-shell-commands: true

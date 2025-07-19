@@ -1,3 +1,4 @@
+export * from './angular/public-api';
 export * from './browser/public-api';
 export * from './intl/public-api';
 export * from './reactivity/public-api';
