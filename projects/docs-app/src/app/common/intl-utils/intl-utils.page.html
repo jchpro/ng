@@ -1,0 +1,142 @@
+<h1 lib-page-title></h1>
+
+<h2>Overview</h2>
+<p>
+  This library provides a set of pipes for formatting dates, times, numbers and currencies in different locales.<br/>
+  It builds on top of <code>Intl</code> API.
+</p>
+
+<h2>Live preview</h2>
+<h3>Date and time pipes</h3>
+<p class="controls">
+  <mat-form-field>
+    <mat-label>Locale</mat-label>
+    <mat-select [(ngModel)]="locale">
+      @for (locale of localeOptions; track $index) {
+        <mat-option [value]="locale">{{ locale }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Date format</mat-label>
+    <mat-select [(ngModel)]="dateFormat">
+      @for (format of dateFormats; track $index) {
+        <mat-option [value]="format">{{ format }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Time format</mat-label>
+    <mat-select [(ngModel)]="timeFormat">
+      @for (format of timeFormats; track $index) {
+        <mat-option [value]="format">{{ format }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</p>
+<div>
+  <strong>Raw date</strong>: <span class="raw" (click)="onDateClick()">{{ rawDate }}</span>
+</div>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Pipe</th>
+      <th>Result</th>
+      <th>Code</th>
+      <th>Info</th>
+    </tr>
+    <tr>
+      <td><code copy>intlDate</code></td>
+      <td>{{ rawDate | intlDate:locale:dateFormat }}</td>
+      <td><code copy>date | intlDate:locale:dateFormat</code></td>
+      <td rowspan="3">Last argument is optional</td>
+    </tr>
+    <tr>
+      <td><code copy>intlTime</code></td>
+      <td>{{ rawDate | intlTime:locale:timeFormat }}</td>
+      <td><code copy>date | intlTime:locale:timeFormat</code></td>
+    </tr>
+    <tr>
+      <td><code copy>intlDatetime</code></td>
+      <td>{{ rawDate | intlDatetime:locale:datetimeFormat }}</td>
+      <td><code copy>date | intlDatetime:locale:datetimeFormat</code></td>
+    </tr>
+  </table>
+</div>
+
+<h3>Number and currency pipes</h3>
+<p class="controls">
+  <mat-form-field>
+    <mat-label>Locale</mat-label>
+    <mat-select [(ngModel)]="locale">
+      @for (locale of localeOptions; track $index) {
+        <mat-option [value]="locale">{{ locale }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Number style</mat-label>
+    <mat-select [(ngModel)]="numberStyle">
+      <mat-option value="decimal">decimal</mat-option>
+      <mat-option value="percent">percent</mat-option>
+      <mat-option value="currency" disabled>currency</mat-option>
+      <mat-option value="unit" disabled>unit</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Currency</mat-label>
+    <mat-select [(ngModel)]="currency">
+      @for (format of currencies; track $index) {
+        <mat-option [value]="format">{{ format }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Currency display</mat-label>
+    <mat-select [(ngModel)]="currencyDisplay">
+      @for (format of currencyDisplays; track $index) {
+        <mat-option [value]="format">{{ format }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Number value</mat-label>
+    <input matInput type="number" [(ngModel)]="numberValue"/>  </mat-form-field>
+</p>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Pipe</th>
+      <th>Result</th>
+      <th>Code</th>
+      <th>Info</th>
+    </tr>
+    <tr>
+      <td><code copy>intlNumber</code></td>
+      <td>{{ numberValue | intlNumber:locale:numberStyle }}</td>
+      <td><code copy>number | intlNumber:locale:numberStyle</code></td>
+      <td rowspan="2">Last argument is optional</td>
+    </tr>
+    <tr>
+      <td><code copy>intlCurrency</code></td>
+      <td>{{ numberValue | intlCurrency:locale:currency:currencyDisplay }}</td>
+      <td><code copy>number | intlCurrency:locale:currency:currencyDisplay</code></td>
+    </tr>
+  </table>
+</div>
+
+<h2>Configuration</h2>
+<p>
+  Everything will work automatically using default options with any configuration. The locale read from the <code>navigator.language</code> property will be used.<br/>
+  If you want to override the configuration use <code>provideIntlConfig()</code> in the app config. See example below.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/intl/intl-config.example.ts">
+</app-code-example>
+<p>
+  The locale will be exposed in the <code>IntlService</code> as as Signal. Now you can inject the service wherever you use the pipes.<br/>
+  Because the pipes are <code>pure</code> they need to be passed the locale as a parameter, that's what the <code>IntlService</code> is for.
+</p>
+
+

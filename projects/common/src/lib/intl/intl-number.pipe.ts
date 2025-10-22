@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IntlBase } from './intl-base';
 import { NumberFormat } from './intl-config';
 
 /**
@@ -8,17 +7,17 @@ import { NumberFormat } from './intl-config';
 @Pipe({
   name: 'intlNumber'
 })
-export class IntlNumberPipe extends IntlBase implements PipeTransform {
+export class IntlNumberPipe implements PipeTransform {
 
   transform(value: string | number,
-            format?: NumberFormat,
-            locale?: string): string {
+            locale: string,
+            format?: NumberFormat): string {
     const num = IntlNumberPipe.makeFiniteNumber(value);
     if (num === null) {
       return '';
     }
     const formatInstance = new Intl.NumberFormat(
-      this.effectiveLocale(locale),
+      locale,
       typeof format === 'string' ? { style: format } : format
     );
     return formatInstance.format(num);

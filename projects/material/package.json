@@ -1,0 +1,33 @@
+{
+  "name": "@jchpro/ngx-material",
+  "version": "0.1.0",
+  "description": "Functionalities built on top of CDK and Material",
+  "keywords": [
+    "angular",
+    "cdk",
+    "material"
+  ],
+  "author": "https://github.com/jchpro",
+  "license": "LGPL-3.0-only",
+  "homepage": "https://github.com/jchpro/ng",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jchpro/ng.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^20.2.14",
+    "@angular/common": "^20.3.13",
+    "@angular/core": "^20.3.13",
+    "@angular/material": "^20.2.14"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,12 @@
+@if (lib()?.pages?.length) {
+  @for (page of lib()!.pages; track $index) {
+    <a class="clear"
+       [routerLink]="['/docs', 'lib', lib()!.path, page.path]">
+      <app-docs-feat-card
+        [header]="page.menuName"
+        [icon]="page.icon">
+        {{ page.desc }}
+      </app-docs-feat-card>
+    </a>
+  }
+}

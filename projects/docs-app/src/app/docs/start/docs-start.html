@@ -1,0 +1,17 @@
+<h1>
+  &commat;jchpro/ngx libraries
+</h1>
+<p>
+  Welcome to the documentation page. Select the library to learn more.
+</p>
+<div class="flex m-center row wrap">
+  @for (lib of libs; track $index) {
+    <a [routerLink]="['/docs', 'lib', lib.path]"
+       role="listitem"
+       class="clear">
+      <app-docs-feat-card [header]="lib.name">
+        {{ lib.desc }}
+      </app-docs-feat-card>
+    </a>
+  }
+</div>

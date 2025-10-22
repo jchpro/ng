@@ -1,0 +1,22 @@
+@if (lib()) {
+  <mat-nav-list>
+    @for (page of pages(); track $index) {
+      <a mat-list-item
+         [routerLink]="['/docs', 'lib', lib()!.path, page.path]"
+         routerLinkActive="active">
+        <fa-icon [icon]="page.icon"></fa-icon>
+        <span>
+          {{ page.menuName }}
+        </span>
+      </a>
+    }
+    @if (lib()?.libName === '@jchpro/ngx-common') {
+      <a mat-list-item>
+        <fa-icon [icon]="faClock"></fa-icon>
+        <span>
+          More to come...
+        </span>
+      </a>
+    }
+  </mat-nav-list>
+}

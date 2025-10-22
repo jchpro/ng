@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    @if (header()) {
+      <mat-card-title>
+        {{ header() }}
+        @if (icon()) {
+          <fa-icon size="2x" [icon]="icon()"></fa-icon>
+        }
+      </mat-card-title>
+    }
+  </mat-card-header>
+  <mat-card-content>
+    <ng-content></ng-content>
+  </mat-card-content>
+</mat-card>

@@ -1,4 +1,4 @@
-import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders, Signal } from '@angular/core';
 
 /**
  * Defaults for all mechanisms based on browser's `Intl` implementation.
@@ -6,9 +6,9 @@ import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '
 export interface IntlConfig {
 
   /**
-   * Locale, if not provided defaults to `navigator.language`.
+   * Locale, if not provided, defaults to `navigator.language`.
    */
-  locale?: string;
+  locale?: string | (() => Signal<string>);
 
   /**
    * Default values for various mechanisms.

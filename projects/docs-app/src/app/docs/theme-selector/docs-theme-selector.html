@@ -1,0 +1,41 @@
+<button matIconButton
+        matTooltip="Change theme"
+        [matMenuTriggerFor]="menu">
+  <fa-icon [icon]="faFillDrip"></fa-icon>
+</button>
+
+<!-- Top menu -->
+<mat-menu #menu>
+  <button mat-menu-item
+          [matMenuTriggerFor]="colorMenu">
+    <fa-icon [icon]="faPalette"></fa-icon>
+    <span>Color</span>
+  </button>
+  <button mat-menu-item
+          [matMenuTriggerFor]="schemeMenu">
+    <fa-icon [icon]="faCircleHalfStroke"></fa-icon>
+    <span>Scheme</span>
+  </button>
+</mat-menu>
+
+<!-- Color menu -->
+<mat-menu #colorMenu>
+  @for (option of colorOptions; track $index) {
+    <button mat-menu-item
+            (click)="changeColor(option.color)">
+      <fa-icon [icon]="theme().color === option.color ? faCircleDot : faCircle"></fa-icon>
+      <span>{{ option.label }}</span>
+    </button>
+  }
+</mat-menu>
+
+<!-- Scheme menu -->
+<mat-menu #schemeMenu>
+  @for (option of schemeOptions; track $index) {
+    <button mat-menu-item
+            (click)="changeScheme(option.scheme)">
+      <fa-icon [icon]="theme().scheme === option.scheme ? faCircleDot : faCircle"></fa-icon>
+      <span>{{ option.label }}</span>
+    </button>
+  }
+</mat-menu>

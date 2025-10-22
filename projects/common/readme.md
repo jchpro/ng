@@ -4,7 +4,7 @@ Typical parts for the typical Angular apps, just the way I like'em.
 
 ## Description
 
-Please refer the code comments for more information. 
+Please refer to the code comments for more information. 
 
 ## Installation
 

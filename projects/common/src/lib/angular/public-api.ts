@@ -1,1 +1,2 @@
-export * from './base-if.directive';
+export * from './base-if';
+export * from './content-provider';

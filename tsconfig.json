@@ -4,11 +4,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@jchpro/ngx-admin": [
+        "./dist/admin"
+      ],
       "@jchpro/ngx-common": [
         "./dist/common"
       ],
-      "@jchpro/ngx-pico": [
-        "./dist/pico"
+      "@jchpro/ngx-material": [
+        "./dist/material"
       ]
     },
     "outDir": "./dist/out-tsc",
@@ -31,5 +34,25 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "references": [
+    {
+      "path": "./projects/common/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/common/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/admin/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/admin/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/material/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/material/tsconfig.spec.json"
+    }
+  ]
 }

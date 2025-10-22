@@ -11,14 +11,14 @@ import { IntlDateBase } from './intl-date-base';
 export class IntlTimePipe extends IntlDateBase implements PipeTransform {
 
   transform(value: string | number | Date | null | undefined,
-            format?: TimeFormat,
-            locale?: string): string {
+            locale: string,
+            format?: TimeFormat): string {
     if (value === null || value === undefined) {
       return '';
     }
     const date = value instanceof Date ? value : new Date(value);
     return IntlDateBase.buildDateTimeFormat(
-      this.effectiveLocale(locale),
+      locale,
       undefined,
       format ?? this.defaultTimeFormat
     ).format(date);

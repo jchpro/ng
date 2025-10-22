@@ -1,1 +1,1 @@
-export * from './reactive.directive';
+export * from './reactive';

@@ -1,0 +1,57 @@
+@use '@angular/material' as mat;
+@use './themes';
+@use '../../../../common/styles/flex';
+
+@include themes.root-styles();
+@include flex.classes();
+
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  .mdc-button, .mdc-list-item, .mat-mdc-menu-item {
+    fa-icon {
+      margin-right: 0.5rem;
+    }
+  }
+
+  a.clear {
+    &:visited, &:hover, &:focus, &:active, &:link {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  code {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-secondary);
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+
+    &[copy] {
+      white-space: nowrap;
+      cursor: pointer;
+    }
+  }
+
+  table {
+
+    tr, td {
+      padding: 0.25rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+  }
+
+  .table-fit {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}

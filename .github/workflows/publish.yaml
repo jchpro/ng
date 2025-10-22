@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       BUILD_COMMON_LIBRARY: ${{ startsWith(github.ref_name, 'common') }}
+      BUILD_MATERIAL_LIBRARY: ${{ startsWith(github.ref_name, 'material') }}
+      BUILD_ADMIN_LIBRARY: ${{ startsWith(github.ref_name, 'admin') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,6 +25,7 @@ jobs:
       - name: Print what should happen
         run: |
           echo "Should build & publish common library: ${{ env.BUILD_COMMON_LIBRARY }}"
+          echo "Should build & publish material library: ${{ env.BUILD_MATERIAL_LIBRARY }}"
       - name: Build common library
         id: build_common
         if: ${{ env.BUILD_COMMON_LIBRARY == 'true' }}
@@ -30,6 +33,26 @@ jobs:
       - name: Publish common library
         if: ${{ steps.build_common.outcome == 'success' }}
         working-directory: ./dist/common
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build material library
+        id: build_material
+        if: ${{ env.BUILD_MATERIAL_LIBRARY == 'true' }}
+        run: npm run build:material:prod
+      - name: Publish material library
+        if: ${{ steps.build_material.outcome == 'success' }}
+        working-directory: ./dist/material
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build admin library
+        id: build_admin
+        if: ${{ env.BUILD_ADMIN_LIBRARY == 'true' }}
+        run: npm run build:admin:prod
+      - name: Publish admin library
+        if: ${{ steps.build_admin.outcome == 'success' }}
+        working-directory: ./dist/admin
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
