@@ -1,6 +1,6 @@
 {
   "name": "@jchpro/ngx-common",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Common parts for the Angular apps",
   "private": false,
   "keywords": [
@@ -22,9 +22,9 @@
     "node": ">=20"
   },
   "peerDependencies": {
-    "@angular/common": "^20.0.6",
-    "@angular/core": "^20.0.6",
-    "@angular/router": "^20.0.6",
+    "@angular/common": "^20.3.13",
+    "@angular/core": "^20.3.13",
+    "@angular/router": "^20.3.14",
     "rxjs": "~7.8.0"
   },
   "dependencies": {

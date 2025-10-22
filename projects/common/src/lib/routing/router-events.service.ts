@@ -7,7 +7,7 @@ import { filter, map, Observable, OperatorFunction } from "rxjs";
 })
 export class RouterEventsService {
 
-  protected readonly router = inject(Router);
+  readonly router = inject(Router);
   protected readonly route = inject(ActivatedRoute);
 
 

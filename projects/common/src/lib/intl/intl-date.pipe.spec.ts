@@ -13,13 +13,13 @@ describe('IntlDatePipe', () => {
 
   it('should return empty string for nullable input', () => {
     // When
-    let str = pipe.transform(null);
+    let str = pipe.transform(null, 'pl-PL');
 
     // Then
     expect(str).toEqual('');
 
     // When
-    str = pipe.transform(undefined);
+    str = pipe.transform(undefined, 'pl-PL');
 
     // Then
     expect(str).toEqual('');
@@ -27,19 +27,19 @@ describe('IntlDatePipe', () => {
 
   it('should return non-empty string for valid date input', () => {
     // When
-    let str = pipe.transform(new Date().toISOString());
+    let str = pipe.transform(new Date().toISOString(), 'pl-PL');
 
     // Then
     expect(str).not.toBe('');
 
     // When
-    str = pipe.transform(new Date().valueOf());
+    str = pipe.transform(new Date().valueOf(), 'pl-PL');
 
     // Then
     expect(str).not.toBe('');
 
     // When
-    str = pipe.transform(new Date());
+    str = pipe.transform(new Date(), 'pl-PL');
 
     // Then
     expect(str).not.toBe('');

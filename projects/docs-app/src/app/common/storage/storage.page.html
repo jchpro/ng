@@ -1,0 +1,25 @@
+<h1 lib-page-title></h1>
+
+<h2>Storage wrappers</h2>
+<h3>
+  <code>StorageService</code>
+</h3>
+<p>
+  This is a base class with common functionality, including keys namespace support.<br/>
+  <code>get</code> and <code>set</code> values as JSON with strong typing and default values support.
+</p>
+<p>
+  Use <code>getActiveObject</code> to return proxy object which will persist data in the storage when
+  reading and writing its field values<br/>
+  <code>LocalStorageService</code> and <code>SessionStorageService</code> extend
+  the base service with respective underlying <code>Storage</code> implementation
+</p>
+
+<h2>Configuration</h2>
+<p>
+  Everything will work automatically using default options with any configuration.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/storage/storage-config.example.ts">
+</app-code-example>

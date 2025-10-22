@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: 200px;
+  min-width: 300px;
+  max-width: 100%;
+  text-align: center;
+
+  .mdc-card {
+    height: 100%;
+
+    .mat-mdc-card-header {
+      flex-grow: 1;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mat-mdc-card-content {
+      flex-grow: 1;
+    }
+  }
+
+  fa-icon {
+    display: block;
+    margin-top: 0.5rem;
+  }
+}

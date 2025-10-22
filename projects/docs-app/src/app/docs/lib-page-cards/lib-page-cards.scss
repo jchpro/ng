@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  &.is-mobile {
+    flex-direction: column;
+  }
+}

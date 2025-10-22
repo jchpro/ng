@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IntlBase } from './intl-base';
-import { DateFormat, DatetimeFormat, TimeFormat } from './intl-config';
+import { DateFormat, TimeFormat } from './intl-config';
+import { IntlService } from './intl.service';
 
 /**
  * Base class for date-related mechanisms built on top of `Intl`.
@@ -8,11 +9,11 @@ import { DateFormat, DatetimeFormat, TimeFormat } from './intl-config';
 @Injectable()
 export class IntlDateBase extends IntlBase {
 
-  protected defaultDateFormat: DateFormat = this.config?.defaults?.dateFormat ?? 'medium';
-  protected defaultTimeFormat: TimeFormat = this.config?.defaults?.timeFormat ?? 'medium';
-  protected defaultDatetimeFormat: DatetimeFormat = this.config?.defaults?.datetimeFormat ?? `${this.defaultDateFormat}-${this.defaultTimeFormat}`;
+  protected defaultDateFormat = IntlService.defaultDateFormat(this.config);
+  protected defaultTimeFormat = IntlService.defaultTimeFormat(this.config)
+  protected defaultDatetimeFormat = IntlService.defaultDatetimeFormat(this.config);
 
-  static buildDateTimeFormat(locale?: string, dateFormat?: DateFormat, timeFormat?: TimeFormat): Intl.DateTimeFormat {
+  static buildDateTimeFormat(locale: string, dateFormat?: DateFormat, timeFormat?: TimeFormat): Intl.DateTimeFormat {
     return new Intl.DateTimeFormat(locale, {
       dateStyle: dateFormat,
       timeStyle: timeFormat,

@@ -1,0 +1,67 @@
+<!-- Top toolbar -->
+<mat-toolbar>
+
+  <!-- Start -->
+  @if (toolbarStart()) {
+    <div class="admin-toolbar-part flex row x-center start">
+
+      <!-- Sidebar toggle if passed -->
+      @if (sidebarToggle() && sidebarState() === 'toggle') {
+        <button matIconButton
+                (click)="toggleSidenav()">
+          @if (sidebarToggle()!.customIcon()) {
+            <ng-container *ngTemplateOutlet="sidebarToggle()!.contentTemplate()"></ng-container>
+          } @else {
+            <mat-icon fontIcon="menu"></mat-icon>
+          }
+        </button>
+      }
+
+      <!-- Rest of the content -->
+      <ng-container *ngTemplateOutlet="toolbarStart()!.contentTemplate()"></ng-container>
+    </div>
+  }
+
+  <!-- Middle, if not mobile -->
+  @if (toolbarMiddle() && !service.mobileLayout()) {
+    <div class="admin-toolbar-part flex row x-center middle">
+      <ng-container *ngTemplateOutlet="toolbarMiddle()!.contentTemplate()"></ng-container>
+    </div>
+  }
+
+  <!-- End -->
+  @if (toolbarEnd()) {
+    <div class="admin-toolbar-part flex row x-center end">
+      <ng-container *ngTemplateOutlet="toolbarEnd()!.contentTemplate()"></ng-container>
+    </div>
+  }
+</mat-toolbar>
+
+<!-- Extra toolbar -->
+@if (service.mobileLayout() && toolbarMiddle()) {
+  <mat-toolbar class="extra-toolbar flex m-center x-center">
+    <ng-container *ngTemplateOutlet="toolbarMiddle()!.contentTemplate()"></ng-container>
+  </mat-toolbar>
+}
+
+<!-- Sidenav with content -->
+<mat-sidenav-container>
+
+  <!-- Sidenav -->
+  <mat-sidenav
+    [attr.role]="sidebarState() === 'toggle' && sidebarToggleOpened() ? 'dialog' : 'navigation'"
+    [mode]="sidebarState() === 'toggle' ? 'over' : 'side'"
+    [opened]="sidebarState() === 'toggle' ? sidebarToggleOpened() : (sidebarState() === 'visible')"
+    (closed)="sidebarToggleOpened.set(false)"
+    [disableClose]="sidebarState() === 'visible'">
+    <ng-container *ngTemplateOutlet="sidebarContent()!.contentTemplate()"></ng-container>
+  </mat-sidenav>
+
+  <!-- Content -->
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template>
+</ng-template>

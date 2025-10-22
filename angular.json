@@ -36,23 +36,20 @@
         }
       }
     },
-    "@jchpro/ngx-pico": {
+    "@jchpro/ngx-admin": {
       "projectType": "library",
-      "root": "projects/pico",
-      "sourceRoot": "projects/pico/src",
+      "root": "projects/admin",
+      "sourceRoot": "projects/admin/src",
       "prefix": "pro",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
-          "options": {
-            "project": "projects/pico/ng-package.json"
-          },
           "configurations": {
             "production": {
-              "tsConfig": "projects/pico/tsconfig.lib.prod.json"
+              "tsConfig": "projects/admin/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/pico/tsconfig.lib.json"
+              "tsConfig": "projects/admin/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -60,7 +57,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/pico/tsconfig.spec.json",
+            "tsConfig": "projects/admin/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -69,36 +66,66 @@
         }
       }
     },
-    "example-app": {
+    "@jchpro/ngx-material": {
+      "projectType": "library",
+      "root": "projects/material",
+      "sourceRoot": "projects/material/src",
+      "prefix": "pro",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/material/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/material/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/material/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "docs-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/example-app",
-      "sourceRoot": "projects/example-app/src",
+      "root": "projects/docs-app",
+      "sourceRoot": "projects/docs-app/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/example-app",
-            "index": "projects/example-app/src/index.html",
-            "browser": "projects/example-app/src/main.ts",
+            "outputPath": "dist/docs-app",
+            "index": "projects/docs-app/src/index.html",
+            "browser": "projects/docs-app/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "projects/example-app/tsconfig.app.json",
+            "tsConfig": "projects/docs-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/example-app/public"
+                "input": "projects/docs-app/public"
               }
             ],
             "styles": [
-              "projects/example-app/src/styles.scss"
+              "projects/docs-app/src/app/styles/index.scss"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
@@ -112,13 +139,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
                 }
               ],
               "outputHashing": "all"
@@ -135,10 +162,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "example-app:build:production"
+              "buildTarget": "docs-app:build:production"
             },
             "development": {
-              "buildTarget": "example-app:build:development"
+              "buildTarget": "docs-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -153,16 +180,16 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "projects/example-app/tsconfig.spec.json",
+            "tsConfig": "projects/docs-app/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/example-app/public"
+                "input": "projects/docs-app/public"
               }
             ],
             "styles": [
-              "projects/example-app/src/styles.scss"
+              "projects/docs-app/src/styles.scss"
             ],
             "scripts": []
           }
@@ -175,13 +202,12 @@
   },
   "schematics": {
     "@schematics/angular:component": {
-      "type": "component"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
-      "type": "directive"
     },
     "@schematics/angular:service": {
-      "type": "service"
+      "type": "Service"
     },
     "@schematics/angular:guard": {
       "typeSeparator": "."

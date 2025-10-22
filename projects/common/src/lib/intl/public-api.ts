@@ -1,3 +1,4 @@
+export * from './intl.service';
 export * from './intl-base';
 export * from './intl-config';
 export * from './intl-currency.pipe';

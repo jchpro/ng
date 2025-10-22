@@ -1,0 +1,53 @@
+@use '@angular/material' as mat;
+
+@mixin root-styles() {
+
+  html {
+    color-scheme: light dark;
+
+    @include mat.theme((
+      typography: Roboto,
+      density: 0,
+    ));
+
+  }
+
+  .theme {
+
+    &.azure {
+      @include mat.theme((
+        color: (
+          primary: mat.$azure-palette,
+          tertiary: mat.$blue-palette,
+        ),
+      ));
+    }
+
+    &.rose {
+      @include mat.theme((
+        color: (
+          primary: mat.$rose-palette,
+          tertiary: mat.$red-palette,
+        ),
+      ));
+    }
+
+    &.green {
+      @include mat.theme((
+        color: (
+          primary: mat.$spring-green-palette,
+          tertiary: mat.$yellow-palette,
+        ),
+      ));
+    }
+
+    &.dark {
+      color-scheme: dark;
+    }
+
+    &.light {
+      color-scheme: light;
+    }
+  }
+
+}

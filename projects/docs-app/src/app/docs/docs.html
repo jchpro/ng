@@ -1,0 +1,43 @@
+<pro-admin-layout #layout>
+
+  <!-- Toolbar -->
+  <pro-admin-sidebar-toggle [customIcon]="true">
+    <fa-icon [icon]="faBars"></fa-icon>
+  </pro-admin-sidebar-toggle>
+  <pro-admin-toolbar-start>
+    <a matButton="text"
+       [routerLink]="['/docs']">
+      <span>&commat;jchpro/ngx</span>
+    </a>
+    @if (!layout.service.mobileLayout()) {
+      <ng-container *ngTemplateOutlet="topNav"></ng-container>
+    }
+  </pro-admin-toolbar-start>
+  <pro-admin-toolbar-middle>
+    @if (layout.service.mobileLayout()) {
+      <ng-container *ngTemplateOutlet="topNav"></ng-container>
+    }
+  </pro-admin-toolbar-middle>
+  <pro-admin-toolbar-end>
+    <app-docs-theme-selector></app-docs-theme-selector>
+  </pro-admin-toolbar-end>
+
+  <!-- Top nav template -->
+  <ng-template #topNav>
+    @for (lib of libs; track $index) {
+      <a matButton="text"
+         [routerLink]="['/docs', 'lib', lib.path]"
+         [routerLinkActive]="'active'">
+        <span>{{ lib.name }}</span>
+      </a>
+    }
+  </ng-template>
+
+  <!-- Sidebar = menu -->
+  <pro-admin-sidebar-content>
+    <app-docs-menu></app-docs-menu>
+  </pro-admin-sidebar-content>
+
+  <!-- Content = router outlet -->
+  <router-outlet></router-outlet>
+</pro-admin-layout>

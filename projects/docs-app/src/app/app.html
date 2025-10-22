@@ -1,0 +1,69 @@
+<router-outlet></router-outlet>
+
+<!--<div class="container">-->
+<!--  <div fullRow>-->
+<!--    <hgroup>-->
+<!--      <h1>&commat;jchpro/ng</h1>-->
+<!--      <p>Angular libraries example app</p>-->
+<!--    </hgroup>-->
+<!--    <a href="https://github.com/jchpro/ng"-->
+<!--       class="secondary"-->
+<!--       data-tooltip="Visit repository"-->
+<!--       data-placement="bottom"-->
+<!--       target="_blank">-->
+<!--      <fa-icon [icon]="faGithub" size="2x"></fa-icon>-->
+<!--    </a>-->
+<!--  </div>-->
+<!--  @if (switchingLib) {-->
+<!--    <div role="group">-->
+<!--      <button [attr.aria-current]="lib === null ? 'true' : undefined"-->
+<!--              (click)="onLibChange(null)">-->
+<!--        All-->
+<!--      </button>-->
+<!--      <button [attr.aria-current]="lib === 'common' ? 'true' : undefined"-->
+<!--              (click)="onLibChange('common')">-->
+<!--        Common-->
+<!--      </button>-->
+<!--      <button class="secondary"-->
+<!--              (click)="switchingLib = false">-->
+<!--        Cancel-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  } @else {-->
+<!--    <form role="search">-->
+<!--      <input-->
+<!--        type="search"-->
+<!--        name="search"-->
+<!--        [placeholder]="'Search for stuff in ' + placeholderSuffix"-->
+<!--        [ngModel]="searchQuery"-->
+<!--        (ngModelChange)="onSearch($event)" />-->
+<!--      <input type="button" value="Change library"-->
+<!--             (click)="switchingLib = true"/>-->
+<!--    </form>-->
+<!--  }-->
+<!--  <app-search-results #results>-->
+
+<!--    &lt;!&ndash; Common &ndash;&gt;-->
+<!--    <app-title-service appSearchable="title service browser"></app-title-service>-->
+<!--    <app-intl-dates appSearchable="intl date time format pipe"></app-intl-dates>-->
+<!--    <app-intl-numbers appSearchable="intl number currency format pipe"></app-intl-numbers>-->
+<!--    <app-reactive-directive appSearchable="observe destroy takeuntil rxjs"></app-reactive-directive>-->
+<!--    <app-router-events-service appSearchable="router events routing"></app-router-events-service>-->
+<!--    <app-storage appSearchable="storage local session json active object"></app-storage>-->
+
+<!--    &lt;!&ndash; Pico &ndash;&gt;-->
+<!--    <app-pico-tooltip appSearchable="tooltip"></app-pico-tooltip>-->
+<!--    <app-pico-loading appSearchable="loading indicator"></app-pico-loading>-->
+<!--    <app-pico-dialog appSearchable="dialog modal"></app-pico-dialog>-->
+<!--  </app-search-results>-->
+<!--  <div class="flex row m-center">-->
+<!--    <p>Work in progress 🏗️</p>-->
+<!--  </div>-->
+<!--  <footer class="flex row m-center">-->
+<!--    <small>-->
+<!--      Made by <a href="https://github.com/jchpro" target="_blank" class="secondary">jchPRO</a>,-->
+<!--      built with <a href="https://picocss.com/" class="secondary" target="_blank">Pico ✨</a>-->
+<!--    </small>-->
+<!--  </footer>-->
+<!--</div>-->
+

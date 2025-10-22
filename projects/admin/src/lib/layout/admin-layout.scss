@@ -1,0 +1,101 @@
+@use '@angular/material' as mat;
+
+// View encapsulation is turned off
+
+pro-admin-layout {
+  display: block;
+  height: 100%;
+
+  $toolbar-height-standard: 4rem;
+  $toolbar-height-mobile: 3.5rem;
+  --mat-toolbar-standard-height: #{$toolbar-height-standard};
+  --mat-toolbar-mobile-height: #{$toolbar-height-mobile};
+
+  --admin-layout-sidenav-width: 300px;
+
+  // Toolbar
+
+  > .mat-toolbar {
+    height: var(--mat-toolbar-standard-height);
+    gap: 0.5rem;
+    justify-content: space-between;
+
+    @include mat.toolbar-overrides((
+      container-background-color: var(--mat-sys-primary-container),
+      container-text-color: var(--mat-sys-primary),
+    ));
+
+    .admin-toolbar-part {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+
+      &.start {
+        justify-content: flex-start;
+      }
+      &.middle {
+        justify-content: flex-start;
+        flex-grow: 1;
+      }
+      &.end {
+        justify-content: flex-end;
+      }
+    }
+
+    &.extra-toolbar {
+      justify-content: center;
+    }
+
+  }
+
+  &.mobile-toolbar-height {
+    > .mat-toolbar {
+      height: var(--mat-toolbar-mobile-height);
+    }
+  }
+
+  // Sidebar container
+
+  > .mat-sidenav-container {
+    height: calc(100% - var(--mat-toolbar-standard-height));
+  }
+
+  &.mobile-toolbar-height {
+
+    > .mat-sidenav-container {
+      height: calc(100% - var(--mat-toolbar-mobile-height));
+    }
+
+    &.has-middle-toolbar {
+      > .mat-sidenav-container {
+        height: calc(100% - var(--mat-toolbar-mobile-height) * 2);
+      }
+    }
+  }
+
+  // Sidebar
+
+  > .mat-sidenav-container .mat-sidenav {
+    width: var(--admin-layout-sidenav-width);
+
+    @include mat.sidenav-overrides((
+      container-divider-color: var(--mat-sys-outline),
+    ));
+
+    > .mat-drawer-inner-container {
+      padding: 1rem;
+      width: calc(100% - 2rem);
+      height: calc(100% - 2rem);
+      overflow-y: auto;
+    }
+  }
+
+  // Sidebar content
+
+  > .mat-sidenav-container .mat-sidenav-content {
+    padding: 1rem;
+    height: calc(100% - 2rem);
+  }
+
+}

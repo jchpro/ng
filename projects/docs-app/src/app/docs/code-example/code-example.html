@@ -1,0 +1,27 @@
+<!-- Utils panel -->
+@if (!fetching() && isValid()) {
+  <div class="panel flex row x-center">
+    <a matIconButton
+       [href]="source()"
+       [download]="sourceFilename()"
+       matTooltip="Download file">
+      <fa-icon [icon]="faDownload"></fa-icon>
+    </a>
+    <button matIconButton
+            matTooltip="Copy to clipboard"
+            [cdkCopyToClipboard]="code()"
+            (cdkCopyToClipboardCopied)="snackbar.open('Code copied to clipboard', 'OK', { duration: 3000 })">
+      <fa-icon [icon]="faCopy"></fa-icon>
+    </button>
+    <span class="lang">{{ prettyLang() }}</span>
+  </div>
+}
+
+<!-- Loading indicator or highlight.js -->
+@if (fetching()) {
+  <div class="fetching">
+    <fa-icon [icon]="faSpinner" size="3x"></fa-icon>
+  </div>
+} @else {
+  <pre class="hljs" [innerHTML]="html()"></pre>
+}
