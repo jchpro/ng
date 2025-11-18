@@ -96,4 +96,16 @@ describe('JSONStorage', () => {
     expect(keys).toEqual(['other', 'another', 'ns.1', 'ns.2']);
   });
 
+  it('should delete the value from storage', () => {
+    // Given
+    const storage = new JSONStorage(getMockStorage({ key: '"value"' }));
+    expect(storage.get('key')).toBe('value');
+
+    // When
+    storage.delete('key');
+
+    // Then
+    expect(storage.get('key')).toBeNull();
+  });
+
 });
