@@ -39,11 +39,19 @@ export class JSONStorage {
   }
 
   /**
-   * Serialized value to JSON and stores it.
+   * Serializes value to JSON and stores it.
    */
   set<T>(key: string, value: T): void {
     const effectiveKey = this.getKey(key);
     this.storage.setItem(effectiveKey, JSON.stringify(value));
+  }
+
+  /**
+   * Deletes the value stored at a given key.
+   */
+  delete(key: string): void {
+    const effectiveKey = this.getKey(key);
+    this.storage.removeItem(effectiveKey);
   }
 
   /**

@@ -32,7 +32,8 @@ export class StorageService extends JSONStorage {
    *                 Because of this optional fields should be defined with `T | null` rather than `?: T`.
    *                 Setting `null` values will clear values stored at given key in underlying `Storage`.
    * @param dynamicKeys When passed, Proxy object is returned which will handle properties with names not known statically.
-   *                    Known properties can still be passed in `defaults` object, but are not required.
+   *                    Known properties can still be passed in `defaults` object, but are not required. Dynamic properties
+   *                    can also be deleted using the `delete` operator.
    *
    * @example
    *
@@ -82,6 +83,14 @@ export class StorageService extends JSONStorage {
           return true;
         }
         storage.set(key, newValue);
+        return true;
+      },
+      deleteProperty(target: T, key: string): boolean {
+        if (knownKeys.includes(key)) {
+          delete target[key as keyof T];
+          return true;
+        }
+        storage.delete(key);
         return true;
       },
       ownKeys(): string[] {

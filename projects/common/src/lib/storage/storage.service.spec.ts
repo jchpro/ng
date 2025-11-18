@@ -92,7 +92,7 @@ describe('StorageService', () => {
     expect(keys).toEqual(['key1', 'key2', 'key3']);
   });
 
-  it('should return active object without statically known keys which supports reading, storing and key inspection', () => {
+  it('should return active object without statically known keys which supports reading, storing, deleting items and key inspection', () => {
     // Given
     const mockStorage = getMockStorage({
       'obj.key1': '"value"',
@@ -118,6 +118,13 @@ describe('StorageService', () => {
 
     // Then
     expect(keys).toEqual(['key1', 'key2']);
+
+    // When
+    delete object['key2'];
+
+    // Then
+    expect(object['key2']).toBeNull();
+    expect(rawData['obj.key2']).toBeUndefined();
   });
 
 });
