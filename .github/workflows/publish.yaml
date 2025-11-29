@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "Should build & publish common library: ${{ env.BUILD_COMMON_LIBRARY }}"
           echo "Should build & publish material library: ${{ env.BUILD_MATERIAL_LIBRARY }}"
+          echo "Should build & publish admin library: ${{ env.BUILD_ADMIN_LIBRARY }}"
       - name: Build common library
         id: build_common
         if: ${{ env.BUILD_COMMON_LIBRARY == 'true' }}
@@ -49,7 +50,9 @@ jobs:
       - name: Build admin library
         id: build_admin
         if: ${{ env.BUILD_ADMIN_LIBRARY == 'true' }}
-        run: npm run build:admin:prod
+        run: |
+          npm run build:common:prod
+          npm run build:admin:prod
       - name: Publish admin library
         if: ${{ steps.build_admin.outcome == 'success' }}
         working-directory: ./dist/admin
