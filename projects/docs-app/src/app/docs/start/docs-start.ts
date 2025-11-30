@@ -15,6 +15,9 @@ import { DocsFeatCard } from '../feat-card/docs-feat-card';
       display: block;
       text-align: center;
     }
+    .libs {
+      gap: 1rem;
+    }
   `
 })
 export class DocsStart {

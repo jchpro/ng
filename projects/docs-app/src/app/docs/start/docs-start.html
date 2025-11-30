@@ -4,7 +4,7 @@
 <p>
   Welcome to the documentation page. Select the library to learn more.
 </p>
-<div class="flex m-center row wrap">
+<div class="flex libs m-center row wrap">
   @for (lib of libs; track $index) {
     <a [routerLink]="['/docs', 'lib', lib.path]"
        role="listitem"

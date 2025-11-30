@@ -5,21 +5,21 @@
   "projects": {
     "@jchpro/ngx-common": {
       "projectType": "library",
-      "root": "projects/common",
-      "sourceRoot": "projects/common/src",
+      "root": "projects/@jchpro/ngx-common",
+      "sourceRoot": "projects/@jchpro/ngx-common/src",
       "prefix": "pro",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/common/ng-package.json"
+            "project": "projects/@jchpro/ngx-common/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/common/tsconfig.lib.prod.json"
+              "tsConfig": "projects/@jchpro/ngx-common/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/common/tsconfig.lib.json"
+              "tsConfig": "projects/@jchpro/ngx-common/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,7 +27,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/common/tsconfig.spec.json",
+            "tsConfig": "projects/@jchpro/ngx-common/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -38,18 +38,18 @@
     },
     "@jchpro/ngx-admin": {
       "projectType": "library",
-      "root": "projects/admin",
-      "sourceRoot": "projects/admin/src",
+      "root": "projects/@jchpro/ngx-admin",
+      "sourceRoot": "projects/@jchpro/ngx-admin/src",
       "prefix": "pro",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/admin/tsconfig.lib.prod.json"
+              "tsConfig": "projects/@jchpro/ngx-admin/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/admin/tsconfig.lib.json"
+              "tsConfig": "projects/@jchpro/ngx-admin/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -57,7 +57,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/admin/tsconfig.spec.json",
+            "tsConfig": "projects/@jchpro/ngx-admin/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -68,18 +68,18 @@
     },
     "@jchpro/ngx-material": {
       "projectType": "library",
-      "root": "projects/material",
-      "sourceRoot": "projects/material/src",
+      "root": "projects/@jchpro/ngx-material",
+      "sourceRoot": "projects/@jchpro/ngx-material/src",
       "prefix": "pro",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/material/tsconfig.lib.prod.json"
+              "tsConfig": "projects/@jchpro/ngx-material/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/material/tsconfig.lib.json"
+              "tsConfig": "projects/@jchpro/ngx-material/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -87,7 +87,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/material/tsconfig.spec.json",
+            "tsConfig": "projects/@jchpro/ngx-material/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -130,7 +130,7 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/common"
+                "./projects"
               ]
             }
           },

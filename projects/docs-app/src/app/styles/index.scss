@@ -1,21 +1,24 @@
 @use '@angular/material' as mat;
 @use './themes';
-@use '../../../../common/styles/flex';
+@use '@jchpro/ngx-common/styles/flex' as pro-flex;
+@use '@jchpro/ngx-material/styles' as pro-material;
+@use '@jchpro/ngx-admin/styles' as pro-admin;
 
+// Theme
 @include themes.root-styles();
-@include flex.classes();
 
-html, body {
-  height: 100%;
-}
+// Helpers
+@include pro-flex.classes();
+
+// Libraries
+@include pro-material.core();
+@include pro-admin.core();
+
 body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
-  .mdc-button, .mdc-list-item, .mat-mdc-menu-item {
+  .mdc-list-item, .mat-mdc-menu-item {
     fa-icon {
       margin-right: 0.5rem;
     }
@@ -54,4 +57,8 @@ body {
     overflow-x: auto;
     max-width: 100%;
   }
+
+  .gap-sm { gap: 0.5rem; }
+  .gap { gap: 1rem; }
+  .gap-lg { gap: 2rem; }
 }

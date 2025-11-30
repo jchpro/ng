@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { AdminLayout, AdminSidebarContent, AdminSidebarToggle, AdminToolbarEnd, AdminToolbarMiddle, AdminToolbarStart } from '@jchpro/ngx-admin';
-import { COMMON_LIB } from '../common/docs';
+import { LIBS } from '../libs';
 import { DocsMenu } from './menu/docs-menu';
 import { DocsThemeSelector } from './theme-selector/docs-theme-selector';
 
@@ -33,8 +33,6 @@ import { DocsThemeSelector } from './theme-selector/docs-theme-selector';
 export class Docs {
 
   protected readonly faBars = faBars;
-  protected readonly libs = [
-    COMMON_LIB
-  ];
+  protected readonly libs = LIBS;
 
 }

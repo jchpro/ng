@@ -1,0 +1,27 @@
+name: Publish @jchpro/ngx-common to NPM
+on:
+  push:
+    tags:
+      - 'common-*'
+
+jobs:
+  publish:
+    name: Build and publish @jchpro/ngx-common
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.19.3'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build common library
+        run: npm run build:common:prod
+      - name: Publish common library
+        working-directory: ./dist/@jchpro/ngx-common
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,16 @@
+<!-- Simple file selector emits `File[]` on selection -->
+<pro-file-selector
+  (filesChange)="handleFileSelection($event)"
+  accept=".pdf"
+  [multiple]="true"
+  selectAppearance="filled"
+  align="start">
+</pro-file-selector>
+
+<!-- Dropzone must be attached to the selector -->
+<pro-file-dropzone [for]="selector"></pro-file-dropzone>
+<pro-file-selector
+  #selector
+  accept="image/*"
+  (filesChange)="handleFileSelection($event)">
+</pro-file-selector>

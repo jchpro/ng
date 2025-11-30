@@ -5,13 +5,13 @@
   "compilerOptions": {
     "paths": {
       "@jchpro/ngx-admin": [
-        "./dist/admin"
+        "./dist/@jchpro/ngx-admin"
       ],
       "@jchpro/ngx-common": [
-        "./dist/common"
+        "./dist/@jchpro/ngx-common"
       ],
       "@jchpro/ngx-material": [
-        "./dist/material"
+        "./dist/@jchpro/ngx-material"
       ]
     },
     "outDir": "./dist/out-tsc",
@@ -37,22 +37,22 @@
   },
   "references": [
     {
-      "path": "./projects/common/tsconfig.lib.json"
+      "path": "./projects/@jchpro/ngx-common/tsconfig.lib.json"
     },
     {
-      "path": "./projects/common/tsconfig.spec.json"
+      "path": "./projects/@jchpro/ngx-common/tsconfig.spec.json"
     },
     {
-      "path": "./projects/admin/tsconfig.lib.json"
+      "path": "./projects/@jchpro/ngx-admin/tsconfig.lib.json"
     },
     {
-      "path": "./projects/admin/tsconfig.spec.json"
+      "path": "./projects/@jchpro/ngx-admin/tsconfig.spec.json"
     },
     {
-      "path": "./projects/material/tsconfig.lib.json"
+      "path": "./projects/@jchpro/ngx-material/tsconfig.lib.json"
     },
     {
-      "path": "./projects/material/tsconfig.spec.json"
+      "path": "./projects/@jchpro/ngx-material/tsconfig.spec.json"
     }
   ]
 }

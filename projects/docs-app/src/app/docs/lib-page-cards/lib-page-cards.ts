@@ -1,6 +1,6 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MediaRangesService } from '../../core/services/media-ranges.service';
+import { ToTablet } from '../../core/to-tablet';
 import { DocsFeatCard } from '../feat-card/docs-feat-card';
 import { DocLib } from '../types';
 
@@ -12,13 +12,12 @@ import { DocLib } from '../types';
   ],
   templateUrl: './lib-page-cards.html',
   styleUrl: './lib-page-cards.scss',
-  host: {
-    '[class.is-mobile]': 'isMobile()'
-  }
+  hostDirectives: [
+    ToTablet
+  ]
 })
 export class LibPageCards {
 
   readonly lib = input<DocLib>();
-  readonly isMobile = inject(MediaRangesService).signalState(['sm', 'md']);
 
 }

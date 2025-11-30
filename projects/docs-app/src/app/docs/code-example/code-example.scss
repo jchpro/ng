@@ -31,7 +31,7 @@ app-code-example {
     }
   }
 
-  &.is-mobile {
+  &.to-tablet {
     .panel {
       position: static;
     }
@@ -47,7 +47,6 @@ app-code-example {
 
   &.scheme-dark {
     @import 'highlight.js/scss/github-dark.scss' ;
-
   }
 
   pre.hljs {

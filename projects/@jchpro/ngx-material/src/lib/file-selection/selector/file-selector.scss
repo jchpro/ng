@@ -1,0 +1,21 @@
+:host {
+  display: block;
+
+  .selection-info {
+    margin-bottom: 1rem;
+  }
+
+  .actions {
+    gap: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+
+    &.row {
+      flex-direction: row;
+    }
+
+    &.row-reverse {
+      flex-direction: row-reverse;
+    }
+  }
+}
