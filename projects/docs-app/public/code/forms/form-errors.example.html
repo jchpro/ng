@@ -1,0 +1,16 @@
+<!-- All validators from Angular's `Validators` will be handled by this, messages translated in English by default. -->
+
+<!-- This will also handle all your custom errors if you decide to register their messages globally, as described later -->
+<mat-form-field>
+  <mat-label>Example</mat-label>
+  <input matInput [formControl]="form.controls.text" />
+  <mat-error *proErrors="let message">{{ message }}</mat-error>
+</mat-form-field>
+
+<!-- You can still add form-specific error messages, just make sure to put the before the *proError directive -->
+<mat-form-field>
+  <mat-label>Example</mat-label>
+  <input matInput [formControl]="form.controls.custom" />
+  @if (form.controls.custom.hasError('my-error')) { <mat-error>My custom message!</mat-error> }
+  <mat-error *proErrors="let message">{{ message }}</mat-error>
+</mat-form-field>

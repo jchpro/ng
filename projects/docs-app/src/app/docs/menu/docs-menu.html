@@ -1,4 +1,5 @@
 @if (lib()) {
+  <h3>{{ lib()!.name }}</h3>
   <mat-nav-list>
     @for (page of pages(); track $index) {
       <a mat-list-item
@@ -10,7 +11,7 @@
         </span>
       </a>
     }
-    @if (lib()?.libName === '@jchpro/ngx-common') {
+    @if (lib()?.libName !== '@jchpro/ngx-admin') {
       <a mat-list-item>
         <fa-icon [icon]="faClock"></fa-icon>
         <span>

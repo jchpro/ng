@@ -1,0 +1,12 @@
+// Import styles module
+@use '@jchpro/ngx-admin/styles' as pro-admin;
+
+// Include at root level, it contains html and body styles
+@include pro-admin.core();
+
+body {
+
+  // Font family, size, etc.
+  //font-family: Roboto, "Helvetica Neue", sans-serif;
+  //font: var(--mat-sys-body-medium);
+}

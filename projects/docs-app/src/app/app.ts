@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TitleService } from '@jchpro/ngx-common';
 import { ThemesService } from './core/services/themes.service';
 import { DocsContextService } from './docs/docs-context.service';
 
@@ -13,6 +14,7 @@ import { DocsContextService } from './docs/docs-context.service';
 })
 export class App {
 
+  #titleService = inject(TitleService);
   #themesService = inject(ThemesService);
   #docsContextService = inject(DocsContextService);
 

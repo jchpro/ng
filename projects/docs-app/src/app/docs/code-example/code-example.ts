@@ -6,8 +6,8 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCopy, faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import hljs from 'highlight.js/lib/core';
-import { MediaRangesService } from '../../core/services/media-ranges.service';
 import { ThemesService } from '../../core/services/themes.service';
+import { ToTablet } from '../../core/to-tablet';
 
 @Component({
   selector: 'app-code-example',
@@ -22,8 +22,10 @@ import { ThemesService } from '../../core/services/themes.service';
   host: {
     '[class.scheme-dark]': 'effectiveScheme() === "dark"',
     '[class.scheme-light]': 'effectiveScheme() === "light"',
-    '[class.is-mobile]': 'isMobile()'
   },
+  hostDirectives: [
+    ToTablet
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class CodeExample {
@@ -32,7 +34,6 @@ export class CodeExample {
   readonly lang = input.required<CodeLang>();
 
   protected readonly fetching = signal(true);
-  protected readonly isMobile = inject(MediaRangesService).signalState(['sm', 'md']);
   protected readonly snackbar = inject(MatSnackBar);
   protected readonly effectiveScheme = inject(ThemesService).effectiveScheme;
   protected readonly faSpinner = faSpinner;

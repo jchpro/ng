@@ -1,0 +1,13 @@
+<!-- String -->
+<pro-render content="Just simple text :)"></pro-render>
+
+<!-- HTML -->
+<pro-render [content]="{ html: '<strong>What up!</strong>' }"></pro-render>
+
+<!-- TemplateRef -->
+<pro-render [content]="tmp"></pro-render>
+<ng-template #tmp>
+  <p>
+    This is a template.
+  </p>
+</ng-template>

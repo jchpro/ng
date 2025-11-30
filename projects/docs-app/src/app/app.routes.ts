@@ -17,7 +17,9 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: DocsStart,
-        title: '@jchpro/ngx libraries documentation'
+        data: {
+          title: 'Overview'
+        }
       },
       {
         path: 'lib',
@@ -26,7 +28,7 @@ export const routes: Routes = [
             path: lib.path,
             data: {
               lib,
-              title: lib.libName
+              title: lib.name
             },
             children: [
               {
@@ -39,7 +41,7 @@ export const routes: Routes = [
                 data: {
                   lib,
                   page,
-                  title: page.fullName + '/' + lib.libName
+                  title: page.fullName + ' | ' + lib.name
                 },
                 component: page.component
               }))

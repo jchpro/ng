@@ -1,0 +1,56 @@
+<h1 lib-page-title></h1>
+
+<h2>Overview</h2>
+<p>
+  Built on top of <code>mat-progress-bar</code> and <code>mat-progress-spinner</code>,
+  the two components let you indicate indeterminate loading state in global and local scopes.
+</p>
+
+<h2>Live preview</h2>
+<h3>Global loading indicator</h3>
+<div>
+  <mat-form-field>
+    <mat-label>Locale</mat-label>
+    <mat-select [(ngModel)]="globalPosition">
+      <mat-option value="top"><code>top</code> (default)</mat-option>
+      <mat-option value="bottom"><code>bottom</code></mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<mat-slide-toggle [(ngModel)]="globalLoading">
+  Show the indicator
+</mat-slide-toggle>
+<pro-global-loading-indicator
+  [active]="globalLoading()"
+  [position]="globalPosition()">
+</pro-global-loading-indicator>
+
+<h3>Loading overlay</h3>
+<p>
+  Will cover the entire container with <code>position: relative</code>.
+</p>
+<div>
+  <mat-form-field>
+    <mat-label>Spinner diameter</mat-label>
+    <input matInput type="number" [(ngModel)]="overlayDiameter">
+  </mat-form-field>
+</div>
+<mat-slide-toggle [(ngModel)]="overlayLoading">
+  Show the overlay
+</mat-slide-toggle>
+<div class="container flex m-center x-center">
+  <span>Some container</span>
+  <pro-loading-overlay
+    [active]="overlayLoading()"
+    [diameter]="overlayDiameter()">
+  </pro-loading-overlay>
+</div>
+
+<h2>Usage</h2>
+<p>
+  Import <code copy>LoadingOverlay</code> or <code copy>GlobalLoadingIndicator</code> from the library.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/loading/loading.html">
+</app-code-example>
