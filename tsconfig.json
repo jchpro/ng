@@ -4,14 +4,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@jchpro/ngx-admin": [
-        "./dist/@jchpro/ngx-admin"
-      ],
       "@jchpro/ngx-common": [
         "./dist/@jchpro/ngx-common"
-      ],
-      "@jchpro/ngx-material": [
-        "./dist/@jchpro/ngx-material"
       ]
     },
     "outDir": "./dist/out-tsc",
@@ -41,18 +35,6 @@
     },
     {
       "path": "./projects/@jchpro/ngx-common/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/@jchpro/ngx-admin/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/@jchpro/ngx-admin/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/@jchpro/ngx-material/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/@jchpro/ngx-material/tsconfig.spec.json"
     }
   ]
 }

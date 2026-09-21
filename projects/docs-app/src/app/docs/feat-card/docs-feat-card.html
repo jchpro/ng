@@ -1,15 +1,15 @@
-<mat-card>
-  <mat-card-header>
+<div class="card flex col">
+  <div class="card-header flex col x-center">
     @if (header()) {
-      <mat-card-title>
+      <div class="card-title">
         {{ header() }}
         @if (icon()) {
           <fa-icon size="2x" [icon]="icon()"></fa-icon>
         }
-      </mat-card-title>
+      </div>
     }
-  </mat-card-header>
-  <mat-card-content>
+  </div>
+  <div class="card-content">
     <ng-content></ng-content>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

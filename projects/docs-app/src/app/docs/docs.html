@@ -1,43 +1,58 @@
-<pro-admin-layout #layout>
+<header class="toolbar flex row x-center gap-sm">
 
-  <!-- Toolbar -->
-  <pro-admin-sidebar-toggle [customIcon]="true">
-    <fa-icon [icon]="faBars"></fa-icon>
-  </pro-admin-sidebar-toggle>
-  <pro-admin-toolbar-start>
-    <a matButton="text"
-       [routerLink]="['/docs']">
-      <span>&commat;jchpro/ngx</span>
-    </a>
-    @if (!layout.service.mobileLayout()) {
-      <ng-container *ngTemplateOutlet="topNav"></ng-container>
-    }
-  </pro-admin-toolbar-start>
-  <pro-admin-toolbar-middle>
-    @if (layout.service.mobileLayout()) {
-      <ng-container *ngTemplateOutlet="topNav"></ng-container>
-    }
-  </pro-admin-toolbar-middle>
-  <pro-admin-toolbar-end>
-    <app-docs-theme-selector></app-docs-theme-selector>
-  </pro-admin-toolbar-end>
+  @if (sidebarState() === 'toggle') {
+    <button type="button"
+            class="icon-btn"
+            (click)="toggleSidebar()">
+      <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+  }
 
-  <!-- Top nav template -->
-  <ng-template #topNav>
+  <a class="clear brand"
+     [routerLink]="['/docs']">
+    <span>&commat;jchpro/ngx</span>
+  </a>
+
+  @if (!mobileLayout()) {
+    <nav class="top-nav flex row x-center gap-sm">
+      @for (lib of libs; track $index) {
+        <a class="clear"
+           [routerLink]="['/docs', 'lib', lib.path]"
+           [routerLinkActive]="'active'">
+          <span>{{ lib.name }}</span>
+        </a>
+      }
+    </nav>
+  }
+
+  <span class="flex-grow"></span>
+
+  <app-docs-theme-selector></app-docs-theme-selector>
+</header>
+
+@if (mobileLayout()) {
+  <nav class="top-nav mobile flex row m-center gap-sm">
     @for (lib of libs; track $index) {
-      <a matButton="text"
+      <a class="clear"
          [routerLink]="['/docs', 'lib', lib.path]"
          [routerLinkActive]="'active'">
         <span>{{ lib.name }}</span>
       </a>
     }
-  </ng-template>
+  </nav>
+}
 
-  <!-- Sidebar = menu -->
-  <pro-admin-sidebar-content>
-    <app-docs-menu></app-docs-menu>
-  </pro-admin-sidebar-content>
+<div class="layout flex row">
+  @if (sidebarState() !== 'hidden') {
+    <nav class="sidebar"
+         [class.toggle]="sidebarState() === 'toggle'"
+         [class.opened]="sidebarOpened()"
+         (click)="closeSidebar()">
+      <app-docs-menu></app-docs-menu>
+    </nav>
+  }
 
-  <!-- Content = router outlet -->
-  <router-outlet></router-outlet>
-</pro-admin-layout>
+  <main class="content flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+</div>

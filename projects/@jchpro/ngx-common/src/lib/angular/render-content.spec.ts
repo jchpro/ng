@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RenderContent, HtmlContent, RenderableContent } from './render-content';
 import { By } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
     <pro-render [content]="content" [templateContext]="templateContext"></pro-render>
   `,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RenderContent]
 })
 class HostComponent {

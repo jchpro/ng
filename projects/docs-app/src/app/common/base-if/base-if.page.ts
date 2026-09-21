@@ -3,13 +3,13 @@ import { CodeExample } from '../../docs/code-example/code-example';
 import { LibPageTitle } from '../../docs/page-title/lib-page-title';
 
 @Component({
-  selector: 'app-reactive',
+  selector: 'app-base-if',
   imports: [
     LibPageTitle,
     CodeExample
   ],
-  templateUrl: './reactive.page.html'
+  templateUrl: './base-if.page.html'
 })
-export class ReactivePage {
+export class BaseIfPage {
 
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
-const { env2config } = require('./env2config/cli');
+import { Command } from 'commander';
+import { env2config } from './env2config/cli.js';
 
 // Program
 const program = new Command()

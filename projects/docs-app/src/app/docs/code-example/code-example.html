@@ -1,16 +1,20 @@
 <!-- Utils panel -->
 @if (!fetching() && isValid()) {
   <div class="panel flex row x-center">
-    <a matIconButton
+    @if (copied()) {
+      <span class="copied">Copied!</span>
+    }
+    <a class="icon-btn"
        [href]="source()"
        [download]="sourceFilename()"
-       matTooltip="Download file">
+       title="Download file">
       <fa-icon [icon]="faDownload"></fa-icon>
     </a>
-    <button matIconButton
-            matTooltip="Copy to clipboard"
+    <button type="button"
+            class="icon-btn"
+            title="Copy to clipboard"
             [cdkCopyToClipboard]="code()"
-            (cdkCopyToClipboardCopied)="snackbar.open('Code copied to clipboard', 'OK', { duration: 3000 })">
+            (cdkCopyToClipboardCopied)="onCopied()">
       <fa-icon [icon]="faCopy"></fa-icon>
     </button>
     <span class="lang">{{ prettyLang() }}</span>

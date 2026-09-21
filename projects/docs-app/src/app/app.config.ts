@@ -1,15 +1,11 @@
-import { ApplicationConfig, inject, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideAdminLayoutRules } from '@jchpro/ngx-admin';
 import { provideBrowserTitle, provideIntlConfig, provideStorage } from '@jchpro/ngx-common';
-import { provideIcons } from './app.icons';
 import { routes } from './app.routes';
-import { MediaRangesService } from './core/services/media-ranges.service';
-import { DocsContextService } from './docs/docs-context.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideRouter(routes),
     provideStorage({
       namespace: {
@@ -24,12 +20,5 @@ export const appConfig: ApplicationConfig = {
     provideIntlConfig({
       locale: 'en-GB',
     }),
-    provideAdminLayoutRules({
-      mobileLayout: () => inject(MediaRangesService).signalState(['sm', 'md']),
-      sidebar: {
-        available: () => inject(DocsContextService).hasMenu
-      }
-    }),
-    provideIcons(),
   ]
 };

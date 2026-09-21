@@ -1,8 +1,8 @@
 @if (lib()) {
   <h3>{{ lib()!.name }}</h3>
-  <mat-nav-list>
+  <nav class="flex col">
     @for (page of pages(); track $index) {
-      <a mat-list-item
+      <a class="clear"
          [routerLink]="['/docs', 'lib', lib()!.path, page.path]"
          routerLinkActive="active">
         <fa-icon [icon]="page.icon"></fa-icon>
@@ -11,13 +11,11 @@
         </span>
       </a>
     }
-    @if (lib()?.libName !== '@jchpro/ngx-admin') {
-      <a mat-list-item>
-        <fa-icon [icon]="faClock"></fa-icon>
-        <span>
-          More to come...
-        </span>
-      </a>
-    }
-  </mat-nav-list>
+    <a class="clear disabled">
+      <fa-icon [icon]="faClock"></fa-icon>
+      <span>
+        More to come...
+      </span>
+    </a>
+  </nav>
 }

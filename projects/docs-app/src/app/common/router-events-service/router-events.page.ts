@@ -3,13 +3,13 @@ import { CodeExample } from '../../docs/code-example/code-example';
 import { LibPageTitle } from '../../docs/page-title/lib-page-title';
 
 @Component({
-  selector: 'app-reactive',
+  selector: 'app-router-events',
   imports: [
     LibPageTitle,
     CodeExample
   ],
-  templateUrl: './reactive.page.html'
+  templateUrl: './router-events.page.html'
 })
-export class ReactivePage {
+export class RouterEventsPage {
 
 }

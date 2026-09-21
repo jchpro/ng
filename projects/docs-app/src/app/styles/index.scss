@@ -1,8 +1,5 @@
-@use '@angular/material' as mat;
 @use './themes';
 @use '@jchpro/ngx-common/styles/flex' as pro-flex;
-@use '@jchpro/ngx-material/styles' as pro-material;
-@use '@jchpro/ngx-admin/styles' as pro-admin;
 
 // Theme
 @include themes.root-styles();
@@ -10,19 +7,16 @@
 // Helpers
 @include pro-flex.classes();
 
-// Libraries
-@include pro-material.core();
-@include pro-admin.core();
+// Reset (no longer provided implicitly via Angular Material)
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font: var(--mat-sys-body-medium);
-
-  .mdc-list-item, .mat-mdc-menu-item {
-    fa-icon {
-      margin-right: 0.5rem;
-    }
-  }
+  margin: 0;
+  font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 
   a.clear {
     &:visited, &:hover, &:focus, &:active, &:link {
@@ -32,8 +26,8 @@ body {
   }
 
   code {
-    background-color: var(--mat-sys-secondary-container);
-    color: var(--mat-sys-secondary);
+    background-color: var(--color-surface);
+    color: var(--color-primary);
     padding: 0.2rem;
     border-radius: 0.2rem;
 

@@ -1,5 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
-import { MatListItem, MatNavList } from "@angular/material/list";
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
@@ -9,13 +8,12 @@ import { DocPage } from '../types';
 @Component({
   selector: 'app-docs-menu',
   imports: [
-    MatNavList,
-    MatListItem,
     FaIconComponent,
     RouterLink,
     RouterLinkActive
   ],
   templateUrl: './docs-menu.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './docs-menu.scss'
 })
 export class DocsMenu {

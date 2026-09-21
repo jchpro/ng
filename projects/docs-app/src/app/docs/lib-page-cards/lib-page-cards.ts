@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ToTablet } from '../../core/to-tablet';
 import { DocsFeatCard } from '../feat-card/docs-feat-card';
@@ -12,6 +12,7 @@ import { DocLib } from '../types';
   ],
   templateUrl: './lib-page-cards.html',
   styleUrl: './lib-page-cards.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [
     ToTablet
   ]

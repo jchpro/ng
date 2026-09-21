@@ -1,8 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatInput } from '@angular/material/input';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
 import {
   CurrencyDisplay,
   DateFormat,
@@ -25,20 +22,17 @@ import { LibPageTitle } from '../../docs/page-title/lib-page-title';
     FormsModule,
     LibPageTitle,
     CodeExample,
-    MatFormField,
-    MatLabel,
-    MatOption,
-    MatSelect,
     IntlDatePipe,
     IntlTimePipe,
     IntlDatetimePipe,
     CodeCopyDirective,
-    MatInput,
     IntlNumberPipe,
     IntlCurrencyPipe
   ],
   templateUrl: './intl-utils.page.html',
-  styles: ` .controls { > * { margin-right: 0.5rem; } }
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styles: ` .controls { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .controls label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; }
     table { margin-top: 0.5rem;  }
     .raw { font-family: monospace; cursor: pointer; }`
 })

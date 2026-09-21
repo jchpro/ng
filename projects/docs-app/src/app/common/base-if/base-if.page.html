@@ -1,0 +1,22 @@
+<h1 lib-page-title></h1>
+
+<h2>Overview</h2>
+<p>
+  Base class for building your own <code>*ngIf</code>-like structural directives, driven by any boolean-emitting stream
+  instead of a plain input. Extends <code>Reactive</code>, so its subscriptions are cleaned up automatically once your
+  directive is destroyed.
+</p>
+<p>
+  The contract is simple: assign a <code>Subject&lt;boolean&gt;</code>-like source to <code>this.renderBinding</code>,
+  then call <code>this.bindRendering()</code> once your directive has finished its own initialization. From then on,
+  the embedded view is created whenever the bound stream emits <code>true</code>, and cleared on <code>false</code>.
+</p>
+
+<h2>Usage</h2>
+<app-code-example
+  lang="ts"
+  source="/code/base-if/base-if-usage.example.ts">
+</app-code-example>
+<p>
+  Usage in a template is exactly like a built-in structural directive: <code copy>&lt;div *appIfOnline&gt;...&lt;/div&gt;</code>
+</p>
