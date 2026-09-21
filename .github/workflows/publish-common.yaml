@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    name: Build and publish @jchpro/ngx-common
+    name: Build and stage publish @jchpro/ngx-common
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -20,8 +20,8 @@ jobs:
         run: npm ci
       - name: Build common library
         run: npm run build:common:prod
-      - name: Publish common library
+      - name: Stage publish common library
         working-directory: ./dist/@jchpro/ngx-common
-        run: npm publish
+        run: npm stage publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
