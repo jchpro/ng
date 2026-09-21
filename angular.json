@@ -36,66 +36,6 @@
         }
       }
     },
-    "@jchpro/ngx-admin": {
-      "projectType": "library",
-      "root": "projects/@jchpro/ngx-admin",
-      "sourceRoot": "projects/@jchpro/ngx-admin/src",
-      "prefix": "pro",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/@jchpro/ngx-admin/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/@jchpro/ngx-admin/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "tsConfig": "projects/@jchpro/ngx-admin/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
-    },
-    "@jchpro/ngx-material": {
-      "projectType": "library",
-      "root": "projects/@jchpro/ngx-material",
-      "sourceRoot": "projects/@jchpro/ngx-material/src",
-      "prefix": "pro",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/@jchpro/ngx-material/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/@jchpro/ngx-material/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "tsConfig": "projects/@jchpro/ngx-material/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
-    },
     "docs-app": {
       "projectType": "application",
       "schematics": {
@@ -113,9 +53,6 @@
             "outputPath": "dist/docs-app",
             "index": "projects/docs-app/src/index.html",
             "browser": "projects/docs-app/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "projects/docs-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -176,10 +113,6 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
             "tsConfig": "projects/docs-app/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [

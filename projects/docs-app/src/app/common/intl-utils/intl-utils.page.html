@@ -9,30 +9,30 @@
 <h2>Live preview</h2>
 <h3>Date and time pipes</h3>
 <p class="controls">
-  <mat-form-field>
-    <mat-label>Locale</mat-label>
-    <mat-select [(ngModel)]="locale">
+  <label>
+    Locale
+    <select [(ngModel)]="locale">
       @for (locale of localeOptions; track $index) {
-        <mat-option [value]="locale">{{ locale }}</mat-option>
+        <option [value]="locale">{{ locale }}</option>
       }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Date format</mat-label>
-    <mat-select [(ngModel)]="dateFormat">
+    </select>
+  </label>
+  <label>
+    Date format
+    <select [(ngModel)]="dateFormat">
       @for (format of dateFormats; track $index) {
-        <mat-option [value]="format">{{ format }}</mat-option>
+        <option [value]="format">{{ format }}</option>
       }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Time format</mat-label>
-    <mat-select [(ngModel)]="timeFormat">
+    </select>
+  </label>
+  <label>
+    Time format
+    <select [(ngModel)]="timeFormat">
       @for (format of timeFormats; track $index) {
-        <mat-option [value]="format">{{ format }}</mat-option>
+        <option [value]="format">{{ format }}</option>
       }
-    </mat-select>
-  </mat-form-field>
+    </select>
+  </label>
 </p>
 <div>
   <strong>Raw date</strong>: <span class="raw" (click)="onDateClick()">{{ rawDate }}</span>
@@ -66,42 +66,43 @@
 
 <h3>Number and currency pipes</h3>
 <p class="controls">
-  <mat-form-field>
-    <mat-label>Locale</mat-label>
-    <mat-select [(ngModel)]="locale">
+  <label>
+    Locale
+    <select [(ngModel)]="locale">
       @for (locale of localeOptions; track $index) {
-        <mat-option [value]="locale">{{ locale }}</mat-option>
+        <option [value]="locale">{{ locale }}</option>
       }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Number style</mat-label>
-    <mat-select [(ngModel)]="numberStyle">
-      <mat-option value="decimal">decimal</mat-option>
-      <mat-option value="percent">percent</mat-option>
-      <mat-option value="currency" disabled>currency</mat-option>
-      <mat-option value="unit" disabled>unit</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Currency</mat-label>
-    <mat-select [(ngModel)]="currency">
+    </select>
+  </label>
+  <label>
+    Number style
+    <select [(ngModel)]="numberStyle">
+      <option value="decimal">decimal</option>
+      <option value="percent">percent</option>
+      <option value="currency" disabled>currency</option>
+      <option value="unit" disabled>unit</option>
+    </select>
+  </label>
+  <label>
+    Currency
+    <select [(ngModel)]="currency">
       @for (format of currencies; track $index) {
-        <mat-option [value]="format">{{ format }}</mat-option>
+        <option [value]="format">{{ format }}</option>
       }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Currency display</mat-label>
-    <mat-select [(ngModel)]="currencyDisplay">
+    </select>
+  </label>
+  <label>
+    Currency display
+    <select [(ngModel)]="currencyDisplay">
       @for (format of currencyDisplays; track $index) {
-        <mat-option [value]="format">{{ format }}</mat-option>
+        <option [value]="format">{{ format }}</option>
       }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Number value</mat-label>
-    <input matInput type="number" [(ngModel)]="numberValue"/>  </mat-form-field>
+    </select>
+  </label>
+  <label>
+    Number value
+    <input type="number" [(ngModel)]="numberValue"/>
+  </label>
 </p>
 <div class="table-fit">
   <table>

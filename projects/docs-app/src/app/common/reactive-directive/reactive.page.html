@@ -1,16 +1,20 @@
-<h3 example-title
-    lib="common">
-  <code>ReactiveDirective</code>
-</h3>
-<article>
-  <div>
-    <span>
-      Extend all your directives with it for easier observable streams unsubscribing once the directive is destroyed.
-    </span>
-  </div>
-  <hr/>
-  <div fullRow>
-    <code>class YourDirective extends ReactiveDirective &#123; &#125;</code>
-    <code>someStream.pipe(this.observeUntilDestroy()).subscribe();</code>
-  </div>
-</article>
+<h1 lib-page-title></h1>
+
+<h2>Reactive</h2>
+<p>
+  Extend your directives or components with <code>Reactive</code> to get an <code>observeUntilDestroy()</code>
+  operator, which automatically unsubscribes any observable stream once the host directive or component is destroyed.
+</p>
+<p>
+  If you implement your own <code>ngOnDestroy</code> in the extending class, remember to call <code>super.ngOnDestroy()</code>.
+</p>
+
+<h2>Usage</h2>
+<app-code-example
+  lang="ts"
+  source="/code/reactive/reactive-usage.example.ts">
+</app-code-example>
+<p>
+  <code>BaseIf</code> is built on top of <code>Reactive</code>, take a look if you're building your own
+  structural directives.
+</p>

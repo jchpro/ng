@@ -1,16 +1,16 @@
-const { readFile, writeFile } = require('fs/promises');
-const { resolve, join } = require('path');
-const dotenv = require('dotenv').config;
+import { readFile, writeFile } from 'fs/promises';
+import { resolve, join } from 'path';
+import { config as dotenv } from 'dotenv';
 
 const cwd = process.cwd();
 const NG_FILE = 'angular.json';
 
-module.exports.env2config = async (project, {
+export async function env2config(project, {
   doOverride,
   configFilePath,
   overrideFile,
   exclude
-}) => {
+}) {
 
   // Resolve project
   const ngFile = await readJsonFile(resolve(cwd, NG_FILE));

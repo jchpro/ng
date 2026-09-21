@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { DocsContextService } from '../docs-context.service';
 
 @Component({
@@ -8,6 +8,7 @@ import { DocsContextService } from '../docs-context.service';
   host: {
     'class': 'flex row m-between x-center'
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `:host { line-height: 1.1; } .lib-name { font-size: 75%; }`
 })
 export class LibPageTitle {

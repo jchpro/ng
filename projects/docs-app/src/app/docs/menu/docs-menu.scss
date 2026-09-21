@@ -1,8 +1,23 @@
-.mat-mdc-list-item.active {
-  background-color: var(--mat-sys-secondary-container);
-}
-
 h3 {
   text-align: center;
   margin-block-end: 0;
+}
+
+nav {
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+
+    &.active {
+      background-color: var(--color-surface);
+      color: var(--color-primary);
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
 }

@@ -1,7 +1,0 @@
-// Import styles module
-@use '@jchpro/ngx-material/styles' as pro-material;
-
-body {
-  // Include inside the body
-  @include pro-material.core();
-}

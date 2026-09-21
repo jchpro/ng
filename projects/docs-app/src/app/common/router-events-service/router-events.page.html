@@ -1,0 +1,32 @@
+<h1 lib-page-title></h1>
+
+<h2>RouterEventsService</h2>
+<p>
+  Observe router events of a given type with <code>onEvent</code>, instead of filtering <code>Router.events</code> yourself:
+</p>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code copy>onEvent(eventType)</code></td>
+      <td>Filters <code>Router.events</code> to instances of the given event class</td>
+    </tr>
+    <tr>
+      <td><code copy>resolveActivatedRoute()</code></td>
+      <td>Operator mapping any stream to the current, deepest <code>ActivatedRoute</code></td>
+    </tr>
+  </table>
+</div>
+
+<h2>Usage</h2>
+<app-code-example
+  lang="ts"
+  source="/code/routing/router-events-usage.example.ts">
+</app-code-example>
+<p>
+  <code>TitleService</code> uses exactly this combination internally to resolve the title from route data
+  after each <code>NavigationEnd</code>.
+</p>

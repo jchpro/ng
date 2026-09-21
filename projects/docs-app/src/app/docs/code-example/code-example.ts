@@ -1,8 +1,5 @@
 import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
-import { Component, computed, effect, inject, input, signal, ViewEncapsulation } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTooltip } from '@angular/material/tooltip';
+import { Component, computed, effect, inject, input, signal, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCopy, faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import hljs from 'highlight.js/lib/core';
@@ -13,8 +10,6 @@ import { ToTablet } from '../../core/to-tablet';
   selector: 'app-code-example',
   imports: [
     FaIconComponent,
-    MatIconButton,
-    MatTooltip,
     CdkCopyToClipboard
   ],
   templateUrl: './code-example.html',
@@ -26,6 +21,7 @@ import { ToTablet } from '../../core/to-tablet';
   hostDirectives: [
     ToTablet
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None
 })
 export class CodeExample {
@@ -34,7 +30,6 @@ export class CodeExample {
   readonly lang = input.required<CodeLang>();
 
   protected readonly fetching = signal(true);
-  protected readonly snackbar = inject(MatSnackBar);
   protected readonly effectiveScheme = inject(ThemesService).effectiveScheme;
   protected readonly faSpinner = faSpinner;
   protected readonly html = signal('');
@@ -47,6 +42,7 @@ export class CodeExample {
   });
   protected readonly sourceFilename = computed(() => this.source().split('/').pop());
   protected readonly code = signal('');
+  protected readonly copied = signal(false);
 
   constructor() {
     // Fetch code
@@ -72,6 +68,11 @@ export class CodeExample {
     });
   }
 
+  protected onCopied() {
+    this.copied.set(true);
+    setTimeout(() => this.copied.set(false), 2000);
+  }
+
   async #fetchSource(url: string) {
     const response = await fetch(url);
     if (!response.ok) {
@@ -95,4 +96,3 @@ export class CodeExample {
 }
 
 export type CodeLang = 'ts' | 'scss' | 'json' | 'html';
-

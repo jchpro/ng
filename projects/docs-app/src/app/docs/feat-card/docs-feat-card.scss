@@ -7,16 +7,19 @@ app-docs-feat-card {
   max-width: 100%;
   text-align: center;
 
-  > .mdc-card {
+  > .card {
     height: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
 
-    > .mat-mdc-card-header {
+    > .card-header {
       flex-grow: 1;
       justify-content: center;
       align-items: center;
     }
 
-    > .mat-mdc-card-content {
+    > .card-content {
       flex-grow: 1;
       text-wrap: balance;
     }

@@ -38,7 +38,7 @@ export class ThemesService {
   }
 
   #apply(theme: Theme) {
-    this.#body.classList.remove('theme', 'dark', 'light', 'azure', 'rose', 'green');
+    this.#body.classList.remove('theme', 'system', 'dark', 'light', 'azure', 'rose', 'green');
     this.#body.classList.add('theme', theme.scheme, theme.color);
   }
 

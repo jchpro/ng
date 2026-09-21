@@ -5,16 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.8.0] – unreleased
+## [0.8.0] - 2026-09-21
 
-## Added
+### Added
 
 - `splitLocale` function
 - `RenderContent` component
 
-### Added
+### Changed
 
-- `IntlService` exposing `locale` signal
+- Peer dependencies bumped for Angular 22 compatibility (`@angular/common`, `@angular/core`, `@angular/router` now `^22.1.7`)
+- Minimum supported Node version raised to match Angular 22 (`^22.22.3 || ^24.15.0 || >=26.0.0`)
+
+### Fixed
+
+- `jchpro-ngx` CLI (`cli/bin.js`, `cli/env2config/cli.js`) converted from CommonJS to ESM syntax; the upgraded
+  `ng-packagr` now marks the published package as `"type": "module"`, which broke the CLI's `require()` calls
 
 ## [0.7.0] - 2025-11-28
 

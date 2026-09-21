@@ -1,0 +1,42 @@
+<h1 lib-page-title></h1>
+
+<h2>Overview</h2>
+<p>
+  Wrapper around Angular's <code>Title</code> service, configured with <code copy>provideBrowserTitle</code>.
+</p>
+<p>
+  This documentation site itself is built with it: watch the browser tab title as you navigate between pages,
+  it's formatted with a <code>&nbsp;| &commat;jchpro/ngx</code> postfix, set up in <code>app.config.ts</code>.
+</p>
+
+<h2>Configuration</h2>
+<app-code-example
+  lang="ts"
+  source="/code/title/title-config.example.ts">
+</app-code-example>
+<p>
+  If <code>observeRouteData</code> is enabled, the service observes <code>NavigationEnd</code> and reads
+  <code>&#123; title?: string; &#125;</code> from the resolved route's data, setting it automatically.<br/>
+  See route <code>data</code> in <code>app.routes.ts</code> for an example of providing the title this way.
+</p>
+
+<h2>Manual usage</h2>
+<p>
+  Inject <code>TitleService</code> to set the title yourself, the <code>formatFn</code> from the configuration still applies:
+</p>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code copy>titleService.set('Start')</code></td>
+      <td>Sets the title, formatted with <code>formatFn</code> if configured</td>
+    </tr>
+    <tr>
+      <td><code copy>titleService.get()</code></td>
+      <td>Returns the raw title, as currently set on the document</td>
+    </tr>
+  </table>
+</div>

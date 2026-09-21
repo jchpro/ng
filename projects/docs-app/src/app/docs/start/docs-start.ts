@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LIBS } from '../../libs';
 import { DocsFeatCard } from '../feat-card/docs-feat-card';
@@ -10,6 +10,7 @@ import { DocsFeatCard } from '../feat-card/docs-feat-card';
     DocsFeatCard,
   ],
   templateUrl: './docs-start.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     :host {
       display: block;
