@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { Docs } from './docs/docs';
 import { DocsStart } from './docs/start/docs-start';
 import { LIBS } from './libs';
 
@@ -11,7 +10,6 @@ export const routes: Routes = [
   },
   {
     path: 'docs',
-    component: Docs,
     children: [
       {
         path: '',

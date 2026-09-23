@@ -1,0 +1,16 @@
+<!-- One color modifier each: primary, secondary, ghost, danger -->
+<button type="button" class="kit-btn kit-btn--primary">Save</button>
+<button type="submit" class="kit-btn kit-btn--secondary">Send</button>
+<button type="reset" class="kit-btn kit-btn--ghost">Reset</button>
+
+<!-- A link that looks like a button; aria-disabled stands in for `disabled` -->
+<a class="kit-btn kit-btn--secondary" routerLink="/users">Users</a>
+<a class="kit-btn kit-btn--ghost" aria-disabled="true" tabindex="-1">Unavailable</a>
+
+<!-- Inputs: the value is the label -->
+<input type="button" class="kit-btn kit-btn--primary" value="Save">
+<input type="submit" class="kit-btn kit-btn--secondary" value="Send">
+
+<!-- Sizes: icon-only (needs an aria-label), large -->
+<button type="button" class="kit-btn kit-btn--ghost kit-btn--icon" aria-label="Add"><svg lucidePlus></svg></button>
+<button type="button" class="kit-btn kit-btn--primary kit-btn--lg">Create user</button>

@@ -1,66 +1,47 @@
-import { computed, DOCUMENT, inject, Injectable, Signal, signal } from '@angular/core';
-import { LocalStorageService, WINDOW } from '@jchpro/ngx-common';
-import { cloneDeep } from "lodash";
+import { DOCUMENT, inject, Injectable, signal } from '@angular/core';
+import { LocalStorageService } from '@jchpro/ngx-common';
 
+/**
+ * The dark/light/system scheme itself is owned by `KitThemeService` from `@jchpro/ngx-kit`.
+ * This service only manages the docs-app-only accent hue layered on top of it.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class ThemesService {
 
-  #storage = inject(LocalStorageService).getActiveObject<Theme>('theme', {
-    color: 'azure',
-    scheme: 'system',
-  });
-
-  #theme = signal(this.#storage);
+  #storage = inject(LocalStorageService);
   #body = inject(DOCUMENT).body;
-  #window = inject(WINDOW);
+  #color = signal(this.#storage.get<ThemeColor>('theme.color', 'jchPRO'));
 
   constructor() {
-    this.#apply(this.theme());
+    this.#apply(this.#color());
   }
 
-  get theme() {
-    return computed(() => cloneDeep(this.#theme()));
+  get color() {
+    return this.#color.asReadonly();
   }
 
-  get effectiveScheme(): Signal<ThemeEffectiveScheme> {
-    return computed(() => this.theme().scheme === 'system'
-      ? (this.#window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      : this.#storage.scheme as ThemeEffectiveScheme);
+  change(color: ThemeColor) {
+    this.#storage.set('theme.color', color);
+    this.#color.set(color);
+    this.#apply(color);
   }
 
-  change(theme: Theme) {
-    this.#storage.color = theme.color;
-    this.#storage.scheme = theme.scheme;
-    this.#theme.set(theme);
-    this.#apply(theme);
-  }
-
-  #apply(theme: Theme) {
-    this.#body.classList.remove('theme', 'system', 'dark', 'light', 'azure', 'rose', 'green');
-    this.#body.classList.add('theme', theme.scheme, theme.color);
+  #apply(color: ThemeColor) {
+    this.#body.classList.remove('azure-color', 'green-color');
+    if (color === 'jchPRO') {
+      return;
+    }
+    this.#body.classList.add(`${color}-color`);
   }
 
 }
 
 export const THEME_COLOR_OPTIONS = [
+  { color: 'jchPRO', label: 'jchPRO' },
   { color: 'azure', label: 'Azure & blue' },
-  { color: 'rose', label: 'Rose & red' },
   { color: 'green', label: 'Green & yellow' },
 ] as const;
 
-export const THEME_SCHEME_OPTIONS = [
-  { scheme: 'system', label: 'System' },
-  { scheme: 'dark', label: 'Dark' },
-  { scheme: 'light', label: 'Light'}
-] as const;
-
 export type ThemeColor = typeof THEME_COLOR_OPTIONS[number]['color'];
-export type ThemeScheme = typeof THEME_SCHEME_OPTIONS[number]['scheme'];
-export type ThemeEffectiveScheme = Exclude<ThemeScheme, 'system'>;
-
-export interface Theme {
-  color: ThemeColor;
-  scheme: ThemeScheme;
-}

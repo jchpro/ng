@@ -1,0 +1,6 @@
+// Your app's global stylesheet, e.g. src/styles.scss
+@use '@jchpro/ngx-kit/styles/tokens';
+@use '@jchpro/ngx-kit/styles/shell';
+
+@include tokens.root-styles();  // Design tokens: --kit-* custom properties, light & dark schemes
+@include shell.root-styles();   // Layout CSS for the shell components

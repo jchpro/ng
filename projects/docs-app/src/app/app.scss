@@ -1,4 +1,6 @@
-:host {
-  display: block;
-  height: 100%;
+.brand {
+  font-family: var(--kit-font-display);
+  font-weight: 600;
+  color: var(--kit-ink-primary);
+  white-space: nowrap;
 }

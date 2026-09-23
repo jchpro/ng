@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { IconDefinition } from '@fortawesome/angular-fontawesome';
+import { LucideIcon } from '@lucide/angular';
 
 export interface DocLib {
   name: string;
@@ -14,7 +14,7 @@ export interface DocPage {
   fullName: string;
   menuName: string;
   path: string;
-  icon: IconDefinition;
+  icon: LucideIcon;
   desc: string;
   component: Type<any>;
   extraData?: any;

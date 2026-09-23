@@ -1,0 +1,102 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  The top of a page: breadcrumb, title and the page's main actions aligned to the right of the title.
+  Plain classes, not a component, as what goes in it (the trail, the buttons, menus) is up to the app.
+  Every part is optional.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-page-header/page-header.example.html">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="demo-frame">
+  <header class="kit-page-header">
+    <nav class="kit-page-header__breadcrumb" aria-label="Breadcrumb">
+      <ol class="kit-breadcrumb">
+        <li><span class="kit-breadcrumb__item">Home</span></li>
+        <li><span class="kit-breadcrumb__item" aria-current="page">Users</span></li>
+      </ol>
+    </nav>
+
+    <h1 class="kit-page-header__title">Users</h1>
+    <p class="kit-page-header__subtitle">People with access to this workspace</p>
+
+    <div class="kit-page-header__actions">
+      <button type="button" class="kit-btn kit-btn--ghost kit-btn--icon" aria-label="More actions" [kitMenuTriggerFor]="more">
+        <svg lucideEllipsisVertical size="18"></svg>
+      </button>
+      <button type="button" class="kit-btn kit-btn--secondary" (click)="lastAction.set('export')">Export</button>
+      <button type="button" class="kit-btn kit-btn--primary kit-btn--lg" (click)="lastAction.set('create')">
+        <svg lucidePlus size="18"></svg> Create user
+      </button>
+    </div>
+  </header>
+  <p>Last action: {{ lastAction() }}</p>
+</div>
+
+<ng-template #more>
+  <div kitMenu>
+    <button type="button" kitMenuItem (click)="lastAction.set('download')"><svg lucideDownload size="16"></svg> Download CSV</button>
+  </div>
+</ng-template>
+
+<h2>Guidelines</h2>
+<ul>
+  <li>One primary action per page, with an icon and <code>kit-btn--lg</code>, written last so it sits at the far right.</li>
+  <li>Up to two secondary actions, the rest in a menu behind an icon-only <code>kit-btn--icon</code> button.</li>
+  <li>Below 768px the actions move to their own row under the title and share it equally.</li>
+  <li>
+    <code>kit-page-header--sticky</code> pins the header inside the shell's content area,
+    bleeding out over its padding, so only use it there.
+  </li>
+</ul>
+
+<h2>Styles</h2>
+<p>
+  Part of <code>primitives</code>, or on its own:
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-page-header/styles.example.scss">
+</app-code-example>
+
+<h2>Classes</h2>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>.kit-page-header</code></td>
+      <td>The container, a grid of breadcrumb, title, subtitle and actions</td>
+    </tr>
+    <tr>
+      <td><code>.kit-page-header__breadcrumb</code></td>
+      <td>Wraps the breadcrumb <code>&lt;nav&gt;</code></td>
+    </tr>
+    <tr>
+      <td><code>.kit-page-header__title</code></td>
+      <td>The page's <code>&lt;h1&gt;</code></td>
+    </tr>
+    <tr>
+      <td><code>.kit-page-header__subtitle</code></td>
+      <td>Optional muted line under the title</td>
+    </tr>
+    <tr>
+      <td><code>.kit-page-header__actions</code></td>
+      <td>The page's main actions, right-aligned, in DOM order</td>
+    </tr>
+    <tr>
+      <td><code>.kit-page-header--sticky</code></td>
+      <td>Pins the header to the top of the shell's content area</td>
+    </tr>
+    <tr>
+      <td><code>.kit-btn--lg</code></td>
+      <td>Button size modifier for the headline action</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,27 @@
+name: Publish @jchpro/ngx-kit to NPM
+on:
+  push:
+    tags:
+      - 'kit-*'
+
+jobs:
+  publish:
+    name: Build and stage publish @jchpro/ngx-kit
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build kit library
+        run: npm run build:kit:prod
+      - name: Stage publish kit library
+        working-directory: ./dist/@jchpro/ngx-kit
+        run: npm stage publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

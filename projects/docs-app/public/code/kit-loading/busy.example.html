@@ -1,0 +1,12 @@
+<!-- import KitBusy into the component -->
+<button type="button" class="kit-btn kit-btn--primary" [kitBusy]="saving()" (click)="save()">
+  Save
+</button>
+
+<section class="kit-card" [kitBusy]="loading()">
+  <h3 class="kit-card__title">Orders</h3>
+  <p class="kit-card__body">Covered by a scrim and spinner, and inert, while loading.</p>
+</section>
+
+<span class="kit-spinner"></span>
+<div class="kit-skeleton" style="height: 80px"></div>

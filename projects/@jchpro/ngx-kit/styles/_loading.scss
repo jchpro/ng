@@ -1,0 +1,124 @@
+// Local loading indicators: `.kit-spinner` and `.kit-skeleton` are plain classes; `.kit-busy` is
+// applied by the `kitBusy` directive (on a button it swaps the label for a spinner, on anything
+// else it covers the element with a scrim and spinner). The global top bar lives in the shell
+// stylesheet instead, since the shell renders it.
+@mixin _ring($size) {
+  content: '';
+  display: block;
+  width: $size;
+  height: $size;
+  border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-top-color: currentColor;
+  border-radius: var(--kit-radius-full);
+  animation: kit-spin 0.7s linear infinite;
+
+  // Slowed rather than stopped, a frozen spinner reads as a hung page.
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 2.4s;
+  }
+}
+
+@mixin classes() {
+
+  @keyframes kit-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes kit-skeleton-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  // Inline spinner, sized with the surrounding text, or override `--kit-spinner-size`.
+  // Inherits `color`, so it works on any background.
+  .kit-spinner {
+    display: inline-block;
+    flex: 0 0 auto;
+    vertical-align: middle;
+
+    &::before {
+      @include _ring(var(--kit-spinner-size, 1.25em));
+    }
+  }
+
+  // Placeholder block for content that's still loading. Size it with width/height or
+  // `min-height`, e.g. `<div class="kit-skeleton" style="height: 80px"></div>`.
+  .kit-skeleton {
+    display: block;
+    min-height: 1em;
+    border-radius: var(--kit-radius-sm);
+    background-color: var(--kit-border-subtle);
+    background-image: linear-gradient(
+      90deg,
+      transparent 25%,
+      color-mix(in srgb, var(--kit-surface-raised) 60%, transparent) 50%,
+      transparent 75%
+    );
+    background-size: 200% 100%;
+    animation: kit-skeleton-shimmer 1.6s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  .kit-busy {
+    position: relative;
+    cursor: progress;
+  }
+
+  // Buttons: hide the label (and icons) but keep its width, so nothing jumps.
+  .kit-btn.kit-busy {
+    &,
+    &:visited {
+      color: transparent;
+    }
+
+    &::after {
+      @include _ring(1.25em);
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      color: var(--kit-btn-fg, var(--kit-ink-primary));
+    }
+  }
+
+  // `<input type="submit | button | reset">` can't draw a pseudo-element, so there's no spinner to
+  // swap the label for: it keeps its label (its `value`) and is dimmed instead.
+  input.kit-btn.kit-busy {
+    opacity: 0.6;
+
+    &,
+    &:visited {
+      color: var(--kit-btn-fg, var(--kit-ink-primary));
+    }
+  }
+
+  // Panels, cards, forms: scrim over the content plus a centered spinner.
+  .kit-busy:not(.kit-btn) {
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      background-color: color-mix(in srgb, var(--kit-surface-raised) 65%, transparent);
+    }
+
+    &::after {
+      @include _ring(1.5rem);
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      margin: auto;
+    }
+  }
+
+}

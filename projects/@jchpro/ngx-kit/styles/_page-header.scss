@@ -1,0 +1,96 @@
+// jchPRO App page header — breadcrumb on top, then the page title with the page's main actions
+// aligned to its right, then an optional subtitle. Plain classes, no component: what goes in it
+// (the trail, the buttons, menus) is app-specific, this only lays it out. Every part is
+// optional; the title row simply collapses around whatever is left out.
+//
+// The mobile breakpoint is the shell's default, 768px — a media query can't read the
+// `KIT_SHELL_MOBILE_QUERY` token, so an app that changes that token overrides it here too.
+@mixin classes() {
+
+  .kit-page-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'breadcrumb breadcrumb'
+      'title actions'
+      'subtitle actions';
+    align-items: center;
+    column-gap: var(--kit-space-4);
+    margin-bottom: var(--kit-space-4);
+    font-family: var(--kit-font-body);
+    color: var(--kit-ink-primary);
+  }
+
+  .kit-page-header__breadcrumb {
+    grid-area: breadcrumb;
+    margin-bottom: var(--kit-space-2);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+  }
+
+  .kit-page-header__title {
+    grid-area: title;
+    margin: 0;
+    font-family: var(--kit-font-display);
+    font-size: var(--kit-app-h1-size);
+    line-height: var(--kit-app-h1-line-height);
+    font-weight: var(--kit-app-h1-weight);
+    overflow-wrap: anywhere;
+  }
+
+  .kit-page-header__subtitle {
+    grid-area: subtitle;
+    margin: var(--kit-space-1) 0 0;
+    color: var(--kit-ink-muted);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+    font-weight: var(--kit-app-body-sm-weight);
+  }
+
+  // Buttons and menu triggers, in DOM order — put the primary one last, so it ends up at the
+  // far right.
+  .kit-page-header__actions {
+    grid-area: actions;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--kit-space-2);
+  }
+
+  // Pins the header to the top of the shell's scrolling content area. Sized for that area's
+  // padding (`--kit-space-4`): it bleeds out over it so the page scrolls cleanly underneath.
+  .kit-page-header--sticky {
+    position: sticky;
+    top: calc(-1 * var(--kit-space-4));
+    z-index: 5;
+    margin: calc(-1 * var(--kit-space-4)) calc(-1 * var(--kit-space-4)) var(--kit-space-4);
+    padding: var(--kit-space-3) var(--kit-space-4);
+    border-bottom: 1px solid var(--kit-border-subtle);
+    background-color: var(--kit-surface-canvas);
+  }
+
+  @media (max-width: 768px) {
+
+    // Actions drop below the title, on their own row; each button shares it equally (icon
+    // buttons keep their square).
+    .kit-page-header {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'breadcrumb'
+        'title'
+        'subtitle'
+        'actions';
+    }
+
+    .kit-page-header__actions {
+      justify-content: flex-start;
+      margin-top: var(--kit-space-3);
+
+      > .kit-btn:not(.kit-btn--icon) {
+        flex: 1 1 auto;
+      }
+    }
+  }
+
+}

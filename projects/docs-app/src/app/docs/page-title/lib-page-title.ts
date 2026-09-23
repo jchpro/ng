@@ -1,15 +1,15 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DocsContextService } from '../docs-context.service';
 
 @Component({
-  selector: 'h1[lib-page-title]',
-  imports: [],
+  selector: 'header[lib-page-title]',
+  imports: [RouterLink],
   templateUrl: './lib-page-title.html',
   host: {
-    'class': 'flex row m-between x-center'
+    'class': 'kit-page-header'
   },
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styles: `:host { line-height: 1.1; } .lib-name { font-size: 75%; }`
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class LibPageTitle {
 

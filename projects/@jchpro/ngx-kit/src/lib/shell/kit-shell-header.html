@@ -1,0 +1,54 @@
+<ng-template #navRow>
+  @for (item of navItems(); track item) {
+    <ng-template #itemBody>
+      @if (item.icon(); as icon) {
+        <svg [lucideIcon]="icon" size="18"></svg>
+      }
+      <span><ng-container [ngTemplateOutlet]="item.content()"></ng-container></span>
+    </ng-template>
+
+    @if (item.link(); as link) {
+      <a class="kit-shell-header__nav-item"
+         [routerLink]="link"
+         routerLinkActive="kit-shell-header__nav-item--active"
+         [routerLinkActiveOptions]="item.linkActiveOptions()"
+         [class.kit-shell-header__nav-item--disabled]="item.disabled()"
+         [attr.aria-disabled]="item.disabled() ? 'true' : null">
+        <ng-container [ngTemplateOutlet]="itemBody"></ng-container>
+      </a>
+    } @else {
+      <button type="button"
+              class="kit-shell-header__nav-item"
+              [class.kit-shell-header__nav-item--disabled]="item.disabled()"
+              [disabled]="item.disabled()"
+              (click)="item.linkClick.emit()">
+        <ng-container [ngTemplateOutlet]="itemBody"></ng-container>
+      </button>
+    }
+  }
+</ng-template>
+
+<div class="kit-shell-header__row">
+  @if (state.sidenavMode() === 'overlay') {
+    <button type="button"
+            class="kit-shell-header__toggle"
+            [attr.aria-expanded]="state.sidenavOpen()"
+            [attr.aria-label]="toggleLabel()"
+            (click)="state.toggleSidenav()">
+      <svg lucideMenu size="20"></svg>
+    </button>
+  }
+  <ng-content select="[kit-shell-header-leading]"></ng-content>
+  @if (navItems().length && state.sidenavMode() !== 'overlay') {
+    <nav class="kit-shell-header__nav">
+      <ng-container [ngTemplateOutlet]="navRow"></ng-container>
+    </nav>
+  }
+  <ng-content></ng-content>
+</div>
+
+@if (navItems().length && state.sidenavMode() === 'overlay') {
+  <nav class="kit-shell-header__nav kit-shell-header__nav--row2">
+    <ng-container [ngTemplateOutlet]="navRow"></ng-container>
+  </nav>
+}

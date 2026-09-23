@@ -1,0 +1,126 @@
+// jchPRO App progress bar and meter — classes on the native elements:
+//   <progress class="kit-progress" max="100" value="65"></progress>
+//   <progress class="kit-progress"></progress>             <- no value: indeterminate
+//   <meter class="kit-meter" min="0" max="100" low="30" high="80" optimum="90" value="55"></meter>
+//
+// A progress bar is the one violet fill. A meter is a measurement against a range, so it takes
+// its color from where the value falls — the browser decides that from `low`, `high` and
+// `optimum`: green in the good zone, amber in the middle one, red in the bad one.
+//
+// Each engine styles these through its own pseudo-elements, and a selector list holding one the
+// engine doesn't know is dropped whole, so every rule is written once per engine.
+@mixin classes() {
+
+  @keyframes kit-progress-indeterminate {
+    from {
+      background-position: -67% 0;
+    }
+    to {
+      background-position: 167% 0;
+    }
+  }
+
+  .kit-progress,
+  .kit-meter {
+    --kit-gauge-height: 8px;
+    --kit-gauge-track: color-mix(in srgb, var(--kit-ink-muted) 30%, var(--kit-surface-raised));
+
+    appearance: none;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: var(--kit-gauge-height);
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: var(--kit-radius-full);
+    overflow: hidden;
+    background-color: var(--kit-gauge-track);
+    vertical-align: middle;
+  }
+
+  .kit-progress {
+
+    // WebKit / Blink: the element carries the track, so the bar's own background has to go
+    // for the indeterminate sweep below to show through.
+    &::-webkit-progress-bar {
+      background: transparent;
+    }
+
+    &::-webkit-progress-value {
+      border-radius: var(--kit-radius-full);
+      background-color: var(--kit-brand-violet-muted);
+      transition: width 0.2s ease-out;
+    }
+
+    // Firefox
+    &::-moz-progress-bar {
+      border-radius: var(--kit-radius-full);
+      background-color: var(--kit-brand-violet-muted);
+    }
+
+    // No value: a segment sweeps across, drawn on the element so it works in both engines. With
+    // reduced motion it stands still instead, centered.
+    &:indeterminate {
+      background-image: linear-gradient(var(--kit-brand-violet-muted), var(--kit-brand-violet-muted));
+      background-repeat: no-repeat;
+      background-size: 40% 100%;
+      animation: kit-progress-indeterminate 1.2s ease-in-out infinite;
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+        background-position: 50% 0;
+      }
+    }
+  }
+
+  .kit-meter {
+
+    // WebKit / Blink. Each layer gets the explicit pixel height, and the track is painted on
+    // the bar: with `100%` heights or the track on the element alone, the value bar comes out
+    // thinner than the track.
+    &::-webkit-meter-inner-element {
+      height: var(--kit-gauge-height);
+    }
+
+    &::-webkit-meter-bar {
+      height: var(--kit-gauge-height);
+      border: none;
+      border-radius: var(--kit-radius-full);
+      background: var(--kit-gauge-track);
+    }
+
+    &::-webkit-meter-optimum-value {
+      height: var(--kit-gauge-height);
+      border-radius: var(--kit-radius-full);
+      background: var(--kit-status-success);
+    }
+
+    &::-webkit-meter-suboptimum-value {
+      height: var(--kit-gauge-height);
+      border-radius: var(--kit-radius-full);
+      background: var(--kit-status-warning);
+    }
+
+    &::-webkit-meter-even-less-good-value {
+      height: var(--kit-gauge-height);
+      border-radius: var(--kit-radius-full);
+      background: var(--kit-status-danger);
+    }
+
+    // Firefox: one bar, colored by which zone the element is in
+    &::-moz-meter-bar {
+      border-radius: var(--kit-radius-full);
+      background: var(--kit-status-success);
+    }
+
+    &:-moz-meter-sub-optimum::-moz-meter-bar {
+      background: var(--kit-status-warning);
+    }
+
+    &:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+      background: var(--kit-status-danger);
+    }
+  }
+
+}

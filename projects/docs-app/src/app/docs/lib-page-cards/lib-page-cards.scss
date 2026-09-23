@@ -1,10 +1,11 @@
 :host {
-  display: flex;
-  flex-direction: row;
+  // Grid instead of flex-wrap so columns line up at the same width across rows — flex items
+  // size to their own content, so a wrapped row's cards don't match the widths of cards above.
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;
-  flex-wrap: wrap;
 
   &.to-tablet {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }

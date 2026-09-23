@@ -1,10 +1,10 @@
 import { Component, input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { FaIconComponent, IconDefinition } from '@fortawesome/angular-fontawesome';
+import { LucideDynamicIcon, LucideIcon } from '@lucide/angular';
 
 @Component({
   selector: 'app-docs-feat-card',
   imports: [
-    FaIconComponent,
+    LucideDynamicIcon,
   ],
   templateUrl: './docs-feat-card.html',
   styleUrl: './docs-feat-card.scss',
@@ -14,6 +14,6 @@ import { FaIconComponent, IconDefinition } from '@fortawesome/angular-fontawesom
 export class DocsFeatCard {
 
   readonly header = input('');
-  readonly icon = input<IconDefinition>();
+  readonly icon = input<LucideIcon>();
 
 }

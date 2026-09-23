@@ -10,7 +10,7 @@ app-code-example {
     align-items: center;
     padding: 1rem;
 
-    fa-icon {
+    .spin {
       animation: spin 2s infinite linear;
     }
 

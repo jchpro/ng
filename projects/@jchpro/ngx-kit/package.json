@@ -1,0 +1,88 @@
+{
+  "name": "@jchpro/ngx-kit",
+  "version": "0.1.0",
+  "description": "Admin-app UI kit styled with the App surface of the jchPRO design system, built on Angular CDK",
+  "private": false,
+  "keywords": [
+    "angular",
+    "cdk",
+    "admin",
+    "layout",
+    "ui-kit",
+    "design-system"
+  ],
+  "author": "https://github.com/jchpro",
+  "license": "LGPL-3.0-only",
+  "homepage": "https://github.com/jchpro/ng",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jchpro/ng.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^22.1.7",
+    "@angular/common": "^22.1.7",
+    "@angular/core": "^22.1.7",
+    "@jchpro/ngx-common": "^0.8.0",
+    "@lucide/angular": "^1.47.0"
+  },
+  "sideEffects": false,
+  "exports": {
+    "./styles/tokens": {
+      "sass": "./styles/_tokens.scss"
+    },
+    "./styles/button": {
+      "sass": "./styles/_button.scss"
+    },
+    "./styles/field": {
+      "sass": "./styles/_field.scss"
+    },
+    "./styles/card": {
+      "sass": "./styles/_card.scss"
+    },
+    "./styles/status-dot": {
+      "sass": "./styles/_status-dot.scss"
+    },
+    "./styles/breadcrumb": {
+      "sass": "./styles/_breadcrumb.scss"
+    },
+    "./styles/check": {
+      "sass": "./styles/_check.scss"
+    },
+    "./styles/dialog": {
+      "sass": "./styles/_dialog.scss"
+    },
+    "./styles/fieldset": {
+      "sass": "./styles/_fieldset.scss"
+    },
+    "./styles/loading": {
+      "sass": "./styles/_loading.scss"
+    },
+    "./styles/menu": {
+      "sass": "./styles/_menu.scss"
+    },
+    "./styles/overlay": {
+      "sass": "./styles/_overlay.scss"
+    },
+    "./styles/page-header": {
+      "sass": "./styles/_page-header.scss"
+    },
+    "./styles/progress": {
+      "sass": "./styles/_progress.scss"
+    },
+    "./styles/range": {
+      "sass": "./styles/_range.scss"
+    },
+    "./styles/primitives": {
+      "sass": "./styles/_primitives.scss"
+    },
+    "./styles/shell": {
+      "sass": "./styles/_shell.scss"
+    }
+  }
+}

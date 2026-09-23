@@ -1,0 +1,91 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  Contextual menus opened from a button, on CDK overlays.
+  Keyboard navigation, focus handling and ARIA come from the CDK menu, the kit adds consistent styling
+  and a small API. There are no submenus for now.
+</p>
+
+<h2>Setup</h2>
+<p>
+  Menus render in the CDK overlay container, which needs its structural styles once in your global stylesheet.
+  The menu look itself is part of <code>primitives</code>.
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-menu/styles.example.scss">
+</app-code-example>
+
+<h2>Usage</h2>
+<p>
+  Point <code>[kitMenuTriggerFor]</code> at an <code>&lt;ng-template&gt;</code> whose root is a <code>kitMenu</code>.
+  Items are buttons or links, mark destructive ones with <code>danger</code>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-menu/menu.example.html">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap x-center gap-sm">
+  <button type="button" class="kit-btn kit-btn--ghost" [kitMenuTriggerFor]="demoMenu">
+    Actions <svg lucideChevronDown size="16"></svg>
+  </button>
+  <button type="button" class="kit-btn kit-btn--ghost kit-btn--icon" aria-label="Row actions" [kitMenuTriggerFor]="demoMenu">
+    <svg lucideEllipsisVertical size="18"></svg>
+  </button>
+  <span>Last action: {{ lastAction() }}</span>
+</div>
+
+<ng-template #demoMenu>
+  <div kitMenu>
+    <button type="button" kitMenuItem (click)="lastAction.set('edit')"><svg lucidePencil size="16"></svg> Edit</button>
+    <a kitMenuItem href="https://ng.jchpro.pl" target="_blank"><svg lucideExternalLink size="16"></svg> Open</a>
+    <button type="button" kitMenuItem [disabled]="true"><svg lucideCopy size="16"></svg> Copy link (disabled)</button>
+    <hr class="kit-menu__separator">
+    <button type="button" kitMenuItem danger (click)="lastAction.set('delete')"><svg lucideTrash size="16"></svg> Delete</button>
+  </div>
+</ng-template>
+
+<h2>API</h2>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>KitMenuTrigger</code></td>
+      <td>
+        <code>[kitMenuTriggerFor]</code> on any element, with <code>[kitMenuPosition]</code>,
+        <code>[kitMenuTriggerData]</code>, <code>(kitMenuOpened)</code> and <code>(kitMenuClosed)</code>.
+        Opens below the trigger by default and flips when there is no room
+      </td>
+    </tr>
+    <tr>
+      <td><code>KitMenu</code></td>
+      <td>The panel, on the root element of the template</td>
+    </tr>
+    <tr>
+      <td><code>KitMenuItem</code></td>
+      <td>A button or link inside the panel, <code>danger</code> and <code>[disabled]</code> inputs, closes the menu when activated</td>
+    </tr>
+    <tr>
+      <td><code>[checked]</code>, <code>checkbox</code></td>
+      <td>On an item: makes it a choice (<code>menuitemradio</code>, or <code>menuitemcheckbox</code> with <code>checkbox</code>) exposing <code>aria-checked</code>. The state is yours, show it with an icon</td>
+    </tr>
+    <tr>
+      <td><code>.kit-menu__separator</code></td>
+      <td>Class for an <code>&lt;hr&gt;</code> between groups of items</td>
+    </tr>
+    <tr>
+      <td><code>.kit-menu__label</code></td>
+      <td>Class for a non-interactive group heading, the stand-in for submenus: one flat menu, a label per group</td>
+    </tr>
+    <tr>
+      <td><code>.kit-btn--icon</code></td>
+      <td>Button modifier for a square, icon-only trigger, give it an <code>aria-label</code></td>
+    </tr>
+  </table>
+</div>

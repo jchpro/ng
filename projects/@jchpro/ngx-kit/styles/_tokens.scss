@@ -1,0 +1,147 @@
+// jchPRO App-surface tokens only — Marketing tokens and skew transforms are out of scope for this library.
+// Values are mirrored from the jchPRO design system (https://claude.ai/artifact/E5g8nwVTun2rBodT6nvynp).
+
+// Shared by the explicit `.kit-light` override and the OS-driven `.kit-system` one, so the
+// light values are written once.
+@mixin _light-values {
+  color-scheme: light;
+
+  // Color — light
+  --kit-surface-canvas: #faf8fc;
+  --kit-surface-raised: #ffffff;
+  --kit-surface-overlay: #ffffff;
+  --kit-ink-primary: #211c30;
+  --kit-ink-muted: #6b6480;
+  --kit-ink-on-accent: #ffffff;
+  --kit-ink-on-peach: #241f33;
+  --kit-border-subtle: #e6e1f0;
+  --kit-brand-pink: #93298f;
+  --kit-brand-violet: #6c2a8c;
+  --kit-brand-magenta: #8a2c93;
+  --kit-brand-indigo: #390f61;
+  --kit-accent-peach: #eab88f;
+  --kit-accent-peach-muted: #c9a891;
+  --kit-brand-violet-muted: #5d3671;
+  --kit-status-success: #1f9d68;
+  --kit-status-warning: #b9743c;
+  --kit-status-danger: #c81e4c;
+  --kit-status-info: #6d4fc7;
+
+  // Shadow — light
+  --kit-shadow-sm: 0 1px 2px rgba(33, 28, 48, 0.08);
+  --kit-shadow-md: 0 4px 16px rgba(33, 28, 48, 0.10);
+  --kit-shadow-overlay: 0 16px 40px rgba(33, 28, 48, 0.16);
+}
+
+@mixin root-styles() {
+
+  .kit-theme {
+    color-scheme: dark;
+
+    // Color — dark (the primary theme; also the `.kit-system` default until told otherwise)
+    --kit-surface-canvas: #1a1a26;
+    --kit-surface-raised: #232230;
+    --kit-surface-overlay: #100f18;
+    --kit-ink-primary: #ffffff;
+    --kit-ink-muted: #a89fc0;
+    --kit-ink-on-accent: #ffffff;
+    --kit-ink-on-peach: #241f33;
+    --kit-border-subtle: #302e42;
+    --kit-brand-pink: #ab41ab;
+    --kit-brand-violet: #6c2a8c;
+    --kit-brand-magenta: #a034a3;
+    --kit-brand-indigo: #390f61;
+    --kit-accent-peach: #eab88f;
+    --kit-accent-peach-muted: #897264;
+    --kit-brand-violet-muted: #7d4896;
+    --kit-status-success: #3ecf8e;
+    --kit-status-warning: #eab88f;
+    --kit-status-danger: #ef4b6b;
+    --kit-status-info: #8b6fd9;
+
+    // Shadow — dark
+    --kit-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --kit-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --kit-shadow-overlay: 0 16px 40px rgba(0, 0, 0, 0.55);
+
+    // Explicit light scheme.
+    &.kit-light {
+      @include _light-values;
+    }
+
+    // Follows the OS preference — starts from the dark values above, switches to light only
+    // when the OS prefers light. Pure CSS, no JS re-application needed as the OS setting
+    // changes; `KitThemeService.effectiveScheme` tracks it live for JS consumers.
+    &.kit-system {
+      color-scheme: light dark;
+
+      @media (prefers-color-scheme: light) {
+        @include _light-values;
+      }
+    }
+
+    // Type — shared across both schemes. Google Fonts "Dosis" (headings) and "Inter" (body) load separately.
+    --kit-font-display: "Dosis", sans-serif;
+    --kit-font-body: "Inter", sans-serif;
+
+    --kit-app-h1-size: 24px;
+    --kit-app-h1-line-height: 30px;
+    --kit-app-h1-weight: 700;
+
+    --kit-app-h2-size: 18px;
+    --kit-app-h2-line-height: 24px;
+    --kit-app-h2-weight: 600;
+
+    --kit-app-h3-size: 15px;
+    --kit-app-h3-line-height: 20px;
+    --kit-app-h3-weight: 600;
+
+    --kit-app-body-size: 14px;
+    --kit-app-body-line-height: 20px;
+    --kit-app-body-weight: 400;
+
+    --kit-app-body-sm-size: 13px;
+    --kit-app-body-sm-line-height: 18px;
+    --kit-app-body-sm-weight: 400;
+
+    --kit-app-label-size: 12px;
+    --kit-app-label-line-height: 16px;
+    --kit-app-label-weight: 600;
+
+    --kit-app-caption-size: 11px;
+    --kit-app-caption-line-height: 14px;
+    --kit-app-caption-weight: 500;
+
+    // Type — prose. Headings for long-form, documentation-style content, where the App scale's
+    // h2/h3 (18px / 15px against 14px body) are too close to the text to separate sections.
+    // NOT in the design system artifact yet — these values are provisional, to be backfilled
+    // there (and possibly adjusted): https://github.com/jchpro/ng/issues/10
+    --kit-prose-h2-size: 22px;
+    --kit-prose-h2-line-height: 28px;
+    --kit-prose-h2-weight: 600;
+
+    --kit-prose-h3-size: 17px;
+    --kit-prose-h3-line-height: 24px;
+    --kit-prose-h3-weight: 600;
+
+    // Spacing — shared, admin range only (space-1–space-6; space-8 and up are Marketing-only)
+    --kit-space-1: 4px;
+    --kit-space-2: 8px;
+    --kit-space-3: 12px;
+    --kit-space-4: 16px;
+    --kit-space-5: 20px;
+    --kit-space-6: 24px;
+
+    // Radius — shared, admin range only, plus radius-full (used in both surfaces for icon buttons/avatars)
+    --kit-radius-sm: 8px;
+    --kit-radius-md: 12px;
+    --kit-radius-lg: 20px;
+    --kit-radius-full: 9999px;
+
+    // Component sizing — not a named token family in the design system, but both the App
+    // Button and App Field are specced at this same height, so it's shared rather than
+    // duplicated per component.
+    --kit-control-height: 36px;
+  }
+
+}

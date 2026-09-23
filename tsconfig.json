@@ -6,6 +6,9 @@
     "paths": {
       "@jchpro/ngx-common": [
         "./dist/@jchpro/ngx-common"
+      ],
+      "@jchpro/ngx-kit": [
+        "./dist/@jchpro/ngx-kit"
       ]
     },
     "outDir": "./dist/out-tsc",
@@ -35,6 +38,12 @@
     },
     {
       "path": "./projects/@jchpro/ngx-common/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/@jchpro/ngx-kit/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/@jchpro/ngx-kit/tsconfig.spec.json"
     }
   ]
 }

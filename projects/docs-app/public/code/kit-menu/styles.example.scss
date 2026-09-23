@@ -1,0 +1,5 @@
+@use '@jchpro/ngx-kit/styles/overlay';
+@use '@jchpro/ngx-kit/styles/primitives';
+
+@include overlay.root-styles();   // CDK overlay container, needed once
+@include primitives.classes();    // includes the menu look

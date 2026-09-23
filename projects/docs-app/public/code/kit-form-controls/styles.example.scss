@@ -1,0 +1,15 @@
+// Your app's global stylesheet, e.g. src/styles.scss
+@use '@jchpro/ngx-kit/styles/tokens';
+@use '@jchpro/ngx-kit/styles/primitives';
+
+@include tokens.root-styles();    // Design tokens: --kit-* custom properties, light & dark schemes
+@include primitives.classes();    // Every control below, plus buttons, cards, menus, dialogs...
+
+// Or take only some of them, each its own module:
+//   @use '@jchpro/ngx-kit/styles/field';      // kit-field, text inputs, textarea, select, file, color
+//   @use '@jchpro/ngx-kit/styles/check';      // checkbox, radio, switch
+//   @use '@jchpro/ngx-kit/styles/range';      // range
+//   @use '@jchpro/ngx-kit/styles/progress';   // progress, meter
+//   @use '@jchpro/ngx-kit/styles/fieldset';   // fieldset, legend
+//   @use '@jchpro/ngx-kit/styles/button';     // kit-btn
+// then @include field.classes(); and so on.

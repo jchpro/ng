@@ -1,0 +1,112 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  The application frame: a header, a collapsible sidenav, an optional footer and the main content area.
+  The sidenav is docked on wide screens and turns into a focus-trapped overlay on narrow ones,
+  with a toggle button added to the header automatically.
+</p>
+<p>
+  This documentation site itself is built with it.
+</p>
+
+<h2>Setup</h2>
+<h3>1. Install</h3>
+<p>
+  <code copy>npm install &#64;jchpro/ngx-kit &#64;angular/cdk &#64;lucide/angular &#64;jchpro/ngx-common</code>
+</p>
+
+<h3>2. Include the styles</h3>
+<p>
+  Shell layout CSS ships as one global stylesheet, next to the design tokens it relies on.
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-shell/styles.example.scss">
+</app-code-example>
+
+<h3>3. Mark the root component</h3>
+<p>
+  Compose the shell directly in your app's root component, not in a routed one,
+  and mark that component with <code>KitShellRoot</code>.
+  The shell warns in the console if the marker is missing.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-shell/app.example.ts">
+</app-code-example>
+
+<h3>4. Compose the layout</h3>
+<p>
+  The router outlet is usually the main content.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-shell/app.example.html">
+</app-code-example>
+
+<h3>5. Add navigation (optional)</h3>
+<p>
+  <code>KitShellNavItem</code>s placed in the header become top navigation, and ones grouped
+  in <code>KitShellNavSection</code>s inside the sidenav become the sidebar menu.
+  Import <code>KitShellNavItem</code> and <code>KitShellNavSection</code> alongside the rest.
+  Keep top navigation to 3-4 items, on mobile it moves to a second row of the header.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-shell/nav.example.html">
+</app-code-example>
+
+<h2>Components</h2>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>KitShell</code></td>
+      <td>The frame itself, caps the layout at viewport height so only the content area scrolls</td>
+    </tr>
+    <tr>
+      <td><code>KitShellRoot</code></td>
+      <td>Marker directive for the app's root component, required for the shell styles to apply</td>
+    </tr>
+    <tr>
+      <td><code>KitShellHeader</code></td>
+      <td>Top bar, hosts the sidenav toggle on mobile and renders top navigation from projected nav items</td>
+    </tr>
+    <tr>
+      <td><code>KitShellSidenav</code></td>
+      <td>Docked or overlay side panel, depending on screen width</td>
+    </tr>
+    <tr>
+      <td><code>KitShellFooter</code></td>
+      <td>Optional bar pinned below the content</td>
+    </tr>
+    <tr>
+      <td><code>KitShellNavSection</code></td>
+      <td>Titled, optionally disabled group of nav items for the sidenav</td>
+    </tr>
+    <tr>
+      <td><code>KitShellNavItem</code></td>
+      <td>A navigation entry: link (with optional active-match options) or click action, optional icon and disabled state, rendered by its section or the header</td>
+    </tr>
+    <tr>
+      <td><code>KitShellState</code></td>
+      <td>Injectable shell state: sidenav mode and open state, <code>closeSidenav()</code></td>
+    </tr>
+    <tr>
+      <td><code>KIT_SHELL_MOBILE_QUERY</code></td>
+      <td>Injection token overriding the breakpoint at which the sidenav collapses, 768px by default</td>
+    </tr>
+    <tr>
+      <td><code>KIT_SHELL_LABELS</code>, <code>provideKitShellLabels()</code></td>
+      <td>
+        The only text the shell renders, the accessible name of the sidenav toggle, English by default.
+        Override it app-wide, with <code>provideKitLabels('pl')</code>, or per header with the
+        <code>toggleNavigationLabel</code> input
+      </td>
+    </tr>
+  </table>
+</div>

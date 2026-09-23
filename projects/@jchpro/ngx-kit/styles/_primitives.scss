@@ -1,0 +1,30 @@
+@use 'button';
+@use 'field';
+@use 'card';
+@use 'status-dot';
+@use 'breadcrumb';
+@use 'check';
+@use 'dialog';
+@use 'fieldset';
+@use 'loading';
+@use 'menu';
+@use 'page-header';
+@use 'progress';
+@use 'range';
+
+// Convenience aggregate — includes every primitive's classes in one call.
+@mixin classes() {
+  @include page-header.classes();
+  @include progress.classes();
+  @include range.classes();
+  @include check.classes();
+  @include dialog.classes();
+  @include fieldset.classes();
+  @include loading.classes();
+  @include menu.classes();
+  @include button.classes();
+  @include field.classes();
+  @include card.classes();
+  @include status-dot.classes();
+  @include breadcrumb.classes();
+}

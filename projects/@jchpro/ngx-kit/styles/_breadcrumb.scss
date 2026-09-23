@@ -1,0 +1,50 @@
+// jchPRO App Breadcrumb — a plain <nav><ol> trail, not a component: apps derive the trail
+// themselves (it's route-tree-specific, see docs/layout.md), this only styles it. Mark the
+// final, non-link segment with `aria-current="page"` rather than a modifier class.
+@mixin classes() {
+
+  .kit-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: var(--kit-space-2);
+
+      &:not(:first-child)::before {
+        content: '/';
+        color: var(--kit-ink-muted);
+      }
+    }
+  }
+
+  .kit-breadcrumb__item {
+    color: var(--kit-ink-muted);
+    text-decoration: none;
+
+    &[aria-current='page'] {
+      color: var(--kit-ink-primary);
+    }
+  }
+
+  a.kit-breadcrumb__item {
+    border-radius: var(--kit-radius-sm);
+
+    &:hover {
+      color: var(--kit-ink-primary);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+  }
+
+}

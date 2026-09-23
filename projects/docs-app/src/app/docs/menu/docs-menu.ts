@@ -1,20 +1,17 @@
 import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { LucideClock } from '@lucide/angular';
+import { KitShellNavItem, KitShellNavSection } from '@jchpro/ngx-kit';
 import { DocsContextService } from '../docs-context.service';
 import { DocPage } from '../types';
 
 @Component({
   selector: 'app-docs-menu',
   imports: [
-    FaIconComponent,
-    RouterLink,
-    RouterLinkActive
+    KitShellNavSection,
+    KitShellNavItem
   ],
   templateUrl: './docs-menu.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './docs-menu.scss'
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DocsMenu {
 
@@ -30,6 +27,6 @@ export class DocsMenu {
     return lib.pages;
   });
 
+  protected readonly moreIcon = LucideClock;
 
-  protected readonly faClock = faClock;
 }

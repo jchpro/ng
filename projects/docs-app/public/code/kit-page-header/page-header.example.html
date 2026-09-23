@@ -1,0 +1,23 @@
+<!-- import KitMenuTrigger, KitMenu and KitMenuItem for the "more" menu -->
+<header class="kit-page-header">
+  <nav class="kit-page-header__breadcrumb" aria-label="Breadcrumb">
+    <ol class="kit-breadcrumb">
+      <li><a class="kit-breadcrumb__item" routerLink="/">Home</a></li>
+      <li><span class="kit-breadcrumb__item" aria-current="page">Users</span></li>
+    </ol>
+  </nav>
+
+  <h1 class="kit-page-header__title">Users</h1>
+  <p class="kit-page-header__subtitle">People with access to this workspace</p>
+
+  <div class="kit-page-header__actions">
+    <button type="button" class="kit-btn kit-btn--ghost kit-btn--icon"
+            aria-label="More actions" [kitMenuTriggerFor]="more">
+      <svg lucideEllipsisVertical></svg>
+    </button>
+    <button type="button" class="kit-btn kit-btn--secondary">Export</button>
+    <button type="button" class="kit-btn kit-btn--primary kit-btn--lg" (click)="create()">
+      <svg lucidePlus></svg> Create user
+    </button>
+  </div>
+</header>

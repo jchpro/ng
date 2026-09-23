@@ -1,0 +1,11 @@
+<!-- Range. The fill is optional, and needs the value as a percentage -->
+<input class="kit-range" type="range" min="0" max="100"
+       [value]="volume()" (input)="volume.set(+$any($event.target).value)"
+       [style.--kit-range-fill]="volume() + '%'">
+
+<!-- Progress: a value, or none for an indeterminate bar -->
+<progress class="kit-progress" max="100" value="65">65%</progress>
+<progress class="kit-progress">Working</progress>
+
+<!-- Meter: green, amber or red from where the value falls -->
+<meter class="kit-meter" min="0" max="100" low="30" high="80" optimum="90" value="55">55</meter>

@@ -1,0 +1,20 @@
+// A small state indicator for a Card's meta row. Always pair `.kit-status-dot` with
+// exactly one state modifier below — it has no color of its own.
+@mixin classes() {
+
+  .kit-status-dot {
+    --kit-status-dot-size: 8px;
+
+    display: inline-block;
+    flex: 0 0 auto;
+    width: var(--kit-status-dot-size);
+    height: var(--kit-status-dot-size);
+    border-radius: var(--kit-radius-full);
+
+    &--success { background-color: var(--kit-status-success); }
+    &--warning { background-color: var(--kit-status-warning); }
+    &--danger { background-color: var(--kit-status-danger); }
+    &--info { background-color: var(--kit-status-info); }
+  }
+
+}

@@ -36,6 +36,39 @@
         }
       }
     },
+    "@jchpro/ngx-kit": {
+      "projectType": "library",
+      "root": "projects/@jchpro/ngx-kit",
+      "sourceRoot": "projects/@jchpro/ngx-kit/src",
+      "prefix": "kit",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "project": "projects/@jchpro/ngx-kit/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/@jchpro/ngx-kit/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/@jchpro/ngx-kit/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/@jchpro/ngx-kit/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
     "docs-app": {
       "projectType": "application",
       "schematics": {
@@ -114,6 +147,10 @@
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "projects/docs-app/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -122,9 +159,14 @@
               }
             ],
             "styles": [
-              "projects/docs-app/src/styles.scss"
+              "projects/docs-app/src/app/styles/index.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects"
+              ]
+            }
           }
         }
       }

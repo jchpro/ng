@@ -1,0 +1,45 @@
+<!-- Every control here is a kit-field__control inside a kit-field, like a text input -->
+
+<!-- Textarea: as tall as its rows, resizes vertically -->
+<div class="kit-field">
+  <label class="kit-field__label" for="bio">Bio</label>
+  <textarea class="kit-field__control" id="bio" rows="4"></textarea>
+</div>
+
+<!-- Select: the kit's chevron replaces the browser's arrow -->
+<div class="kit-field">
+  <label class="kit-field__label" for="country">Country</label>
+  <select class="kit-field__control" id="country">
+    <optgroup label="Europe">
+      <option>Poland</option>
+      <option>Germany</option>
+    </optgroup>
+    <option>Elsewhere</option>
+  </select>
+</div>
+
+<!-- A list box (multiple, or size above 1) shows its options inline; the selected ones take the violet fill -->
+<select class="kit-field__control" multiple size="4" aria-label="Colors">
+  <option>Red</option>
+  <option selected>Green</option>
+  <option>Blue</option>
+</select>
+
+<!-- Input with suggestions. The popup is drawn by the browser and left alone -->
+<input class="kit-field__control" list="cities" aria-label="City">
+<datalist id="cities">
+  <option value="Warsaw"></option>
+  <option value="Kraków"></option>
+</datalist>
+
+<!-- File: the browser's button is styled to fit the field -->
+<div class="kit-field">
+  <label class="kit-field__label" for="avatar">Avatar</label>
+  <input class="kit-field__control" id="avatar" type="file" accept="image/*" multiple>
+</div>
+
+<!-- Color: a small swatch rather than a full-width bar -->
+<div class="kit-field">
+  <label class="kit-field__label" for="accent">Accent</label>
+  <input class="kit-field__control" id="accent" type="color" value="#7d4896">
+</div>
