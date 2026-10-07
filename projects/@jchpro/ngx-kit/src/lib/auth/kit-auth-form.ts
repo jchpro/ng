@@ -1,4 +1,5 @@
 import { computed, Signal, signal } from '@angular/core';
+import { formatKitLabel } from '../labels/kit-labels';
 
 let nextId = 0;
 
@@ -9,7 +10,7 @@ export function nextKitAuthId(prefix: string): string {
 
 /** Replaces each `{name}` in `template` with its value, e.g. the `{min}` of a length message. */
 export function formatKitAuthMessage(template: string, values: Record<string, string | number>): string {
-  return Object.entries(values).reduce((message, [name, value]) => message.replaceAll(`{${name}}`, String(value)), template);
+  return formatKitLabel(template, values);
 }
 
 /** Loose on purpose — the server decides what an address is; this only catches a typo. */

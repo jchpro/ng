@@ -1,0 +1,49 @@
+<label class="kit-paginator__size">
+  <span>{{ labels().paginator.rowsPerPage }}</span>
+  <select class="kit-field__control" (change)="setPageSize($event)">
+    @for (size of sizes(); track size) {
+      <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
+    }
+  </select>
+</label>
+
+<span class="kit-paginator__range" aria-live="polite">{{ summary() }}</span>
+
+<div class="kit-paginator__buttons">
+  @if (pageCount() !== null) {
+    <button
+      type="button"
+      class="kit-btn kit-btn--ghost kit-btn--icon"
+      [attr.aria-label]="labels().paginator.first"
+      [disabled]="!canPrevious()"
+      (click)="goTo(1)">
+      <svg lucideChevronsLeft size="18"></svg>
+    </button>
+  }
+  <button
+    type="button"
+    class="kit-btn kit-btn--ghost kit-btn--icon"
+    [attr.aria-label]="labels().paginator.previous"
+    [disabled]="!canPrevious()"
+    (click)="goTo(page() - 1)">
+    <svg lucideChevronLeft size="18"></svg>
+  </button>
+  <button
+    type="button"
+    class="kit-btn kit-btn--ghost kit-btn--icon"
+    [attr.aria-label]="labels().paginator.next"
+    [disabled]="!canNext()"
+    (click)="goTo(page() + 1)">
+    <svg lucideChevronRight size="18"></svg>
+  </button>
+  @if (pageCount(); as pageCount) {
+    <button
+      type="button"
+      class="kit-btn kit-btn--ghost kit-btn--icon"
+      [attr.aria-label]="labels().paginator.last"
+      [disabled]="!canNext()"
+      (click)="goTo(pageCount)">
+      <svg lucideChevronsRight size="18"></svg>
+    </button>
+  }
+</div>

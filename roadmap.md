@@ -49,7 +49,7 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
   `.kit-badge`; empty value as an em dash. `KitPaginator` (`page`/`pageSize` as `model()`, `total`,
   `pageSizes`, `total = null` + `hasNext` for cursor APIs, labels via `KIT_TABLE_LABELS` EN/PL; no
   numbered page buttons). Phases:
-  1. **Design shells**: `_table.scss`, `.kit-badge`, `KitSort`, `KitPaginator`, `KitDataTable`
+  1. **Design shells** (done on `feat/kit-table`, kit 0.3.0 unreleased): `_table.scss`, `.kit-badge`, `KitSort`, `KitPaginator`, `KitDataTable`
      (no wiring), labels, `docs/table.md`, changelog, and the docs-app Table page built
      *incrementally* alongside, with a static dataset showing every column convention, so
      misalignments with the design show up early.

@@ -1,0 +1,44 @@
+// A small pill for a state or a category, e.g. a status column in a table. The text is always
+// primary ink on a tint of the state's color; the color itself is carried by a dot before the
+// text (the `-ink` status tokens can't hold 4.5:1 on their own tint in both schemes). Pair
+// `.kit-badge` with at most one color modifier: without one it is neutral and has no dot.
+//   <span class="kit-badge kit-badge--success">Active</span>
+@mixin classes() {
+
+  .kit-badge {
+    --kit-badge-color: var(--kit-ink-muted);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kit-space-2);
+    padding: 2px var(--kit-space-3);
+    border-radius: var(--kit-radius-full);
+    background-color: color-mix(in srgb, var(--kit-badge-color) 10%, var(--kit-surface-raised));
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-label-size);
+    line-height: var(--kit-app-label-line-height);
+    font-weight: var(--kit-app-label-weight);
+    white-space: nowrap;
+
+    &--success,
+    &--warning,
+    &--danger,
+    &--info {
+      &::before {
+        content: '';
+        flex: 0 0 auto;
+        width: 6px;
+        height: 6px;
+        border-radius: var(--kit-radius-full);
+        background-color: var(--kit-badge-color);
+      }
+    }
+
+    &--success { --kit-badge-color: var(--kit-status-success); }
+    &--warning { --kit-badge-color: var(--kit-status-warning); }
+    &--danger { --kit-badge-color: var(--kit-status-danger); }
+    &--info { --kit-badge-color: var(--kit-status-info); }
+  }
+
+}

@@ -26,5 +26,6 @@ npm i @jchpro/ngx-kit
 - [Auth views](docs/auth.md) — local sign-in: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (reset and invitation) and the pieces to build your own
 - [Dialogs](docs/dialogs.md) — one dialog look, `KitDialogService` with Promise-based `alert`/`confirm`
 - [Labels and translations](docs/labels.md) — every built-in string is overridable: defaults, app-wide, per call; `provideKitLabels('pl')`
+- [Data tables](docs/table.md) — `KitDataTable` frame, `KitSort` headers, `KitPaginator`, column conventions, `kit-badge`
 - [Menus](docs/menu.md) — contextual menus on CDK overlays: `kitMenuTriggerFor`, `kitMenu`, `kitMenuItem`
 - [Loading state](docs/loading.md) — `kitBusy` for buttons and panels, the shell's global loading bar

@@ -1,0 +1,14 @@
+<button type="button" class="kit-sort__button" (click)="toggle()">
+  <ng-content></ng-content>
+  @switch (direction()) {
+    @case ('asc') {
+      <svg lucideArrowUp aria-hidden="true"></svg>
+    }
+    @case ('desc') {
+      <svg lucideArrowDown aria-hidden="true"></svg>
+    }
+    @default {
+      <svg lucideArrowUpDown aria-hidden="true"></svg>
+    }
+  }
+</button>

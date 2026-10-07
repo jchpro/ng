@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - Unreleased
+
+### Added
+
+- Data tables, the design pass — see `docs/table.md`. `KitDataTable` (`<kit-data-table>`) frames your own typed
+  `<table class="kit-table">` and `@for` with a toolbar (`kitTableSearch`, `kitTableFilters`, `kitTableActions`), an
+  applied-filters row (`kitTableChips`), a sticky-header scroll region and a footer, and renders the loading
+  (`kitBusy`), empty (also "filtered", with a clear button), custom empty (`kitTableEmpty`) and error (with retry) states.
+  `KitSort` (`<th kitSort="field">`) is a sortable header over the frame's `sort` model: a button, `aria-sort`,
+  ascending / descending, optional `cycle`. `KitPaginator` has `[(page)]`, `[(pageSize)]`, `total`, `pageSizes`, and
+  `hasNext` for APIs without a total. Nothing is wired together yet: the request, sorting of rows and paging are the app's
+- `.kit-table` and its cell conventions (`kit-cell--num | truncate | nowrap | mono | muted | actions | select`,
+  `kit-table--compact`, `kit-table__link | secondary | bool | empty | sr-only`), `.kit-data-table__*` and `.kit-paginator__*`
+  classes, via `@jchpro/ngx-kit/styles/table` (also part of `primitives`)
+- `.kit-badge` (`--success | warning | danger | info`), a status pill: primary ink on a tint, a dot in the state color,
+  via `@jchpro/ngx-kit/styles/badge` (also part of `primitives`)
+- Table labels: `KIT_TABLE_LABELS`, `provideKitTableLabels()` and `KIT_TABLE_LABELS_EN|PL`, covered by `provideKitLabels()`.
+  The range and page strings carry `{from}`, `{to}`, `{total}` and `{page}` placeholders
+- `formatKitLabel()`, the `{name}` placeholder replacement the auth views already used, exported from the labels module
+
 ## [0.2.0] - 2026-10-07
 
 ### Added

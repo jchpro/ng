@@ -1,0 +1,57 @@
+<div class="kit-data-table__toolbar">
+  <div class="kit-data-table__toolbar-start">
+    <ng-content select="[kitTableSearch]"></ng-content>
+    <ng-content select="[kitTableFilters]"></ng-content>
+  </div>
+  <div class="kit-data-table__toolbar-end">
+    <ng-content select="[kitTableActions]"></ng-content>
+  </div>
+</div>
+
+<div class="kit-data-table__chips">
+  <ng-content select="[kitTableChips]"></ng-content>
+</div>
+
+<div
+  class="kit-data-table__scroll"
+  tabindex="0"
+  [attr.role]="label() ? 'region' : null"
+  [attr.aria-label]="label() ?? null"
+  [kitBusy]="loading()">
+  @if (state() !== 'error') {
+    <ng-content></ng-content>
+  }
+
+  @switch (state()) {
+    @case ('error') {
+      <div class="kit-data-table__state" role="alert">
+        <svg lucideCircleAlert></svg>
+        <h3 class="kit-data-table__state-title">{{ labels().states.errorTitle }}</h3>
+        @if (errorMessage()) {
+          <p class="kit-data-table__state-text">{{ errorMessage() }}</p>
+        }
+        <button type="button" class="kit-btn kit-btn--ghost" (click)="retry.emit()">{{ labels().states.retry }}</button>
+      </div>
+    }
+    @case ('filtered') {
+      <div class="kit-data-table__state">
+        <svg lucideInbox></svg>
+        <h3 class="kit-data-table__state-title">{{ labels().states.emptyFilteredTitle }}</h3>
+        <p class="kit-data-table__state-text">{{ labels().states.emptyFilteredMessage }}</p>
+        <button type="button" class="kit-btn kit-btn--ghost" (click)="clearFilters.emit()">{{ labels().states.clearFilters }}</button>
+      </div>
+    }
+    @case ('empty') {
+      <div class="kit-data-table__state">
+        <ng-content select="[kitTableEmpty]">
+          <svg lucideInbox></svg>
+          <h3 class="kit-data-table__state-title">{{ labels().states.emptyTitle }}</h3>
+        </ng-content>
+      </div>
+    }
+  }
+</div>
+
+<div class="kit-data-table__footer">
+  <ng-content select="kit-paginator, [kitTableFooter]"></ng-content>
+</div>

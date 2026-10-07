@@ -65,16 +65,45 @@ const pairs = [
   ['accent-peach-muted', 'surface-raised', UI, { light: 'the label identifies the button, not its fill' }],
 ];
 
+// A color blended over a base the way `color-mix(in srgb, tint P%, base)` does, for fills such as
+// a badge's tint. A background written `tint@P>base` (e.g. `status-success-ink@14>surface-raised`)
+// is resolved this way.
+const mix = (tint, percent, base) => '#' + [1, 3, 5].map((i) => {
+  const a = parseInt(tint.slice(i, i + 2), 16);
+  const b = parseInt(base.slice(i, i + 2), 16);
+  return Math.round(a * percent / 100 + b * (1 - percent / 100)).toString(16).padStart(2, '0');
+}).join('');
+const resolve = (tokens, name) => {
+  const [, tint, percent, base] = name.match(/^(.+)@(\d+)>(.+)$/) ?? [];
+  return tint ? (tokens[tint] && tokens[base] ? mix(tokens[tint], Number(percent), tokens[base]) : undefined) : tokens[name];
+};
+
+// Text on a tint: badges (primary ink on a tint of the status color, with a dot in the status
+// color), the table's header row and its hovered rows.
+pairs.splice(pairs.length - 2, 0,
+  ...['success', 'warning', 'danger', 'info'].flatMap((s) => [
+    ['ink-primary', `status-${s}@10>surface-raised`, TEXT],
+    [`status-${s}`, `status-${s}@10>surface-raised`, UI],
+  ]),
+  ['ink-primary', 'ink-muted@10>surface-raised', TEXT],
+  ['ink-muted', 'ink-primary@4>surface-raised', TEXT],
+  ['ink-primary', 'brand-violet-muted@8>surface-raised', TEXT],
+  ['ink-muted', 'brand-violet-muted@8>surface-raised', TEXT],
+  ['ink-primary', 'brand-violet-muted@28>surface-raised', TEXT],
+);
+
 let failures = 0;
 const rows = [];
 for (const [fg, bg, need, exceptions = {}] of pairs) {
   const cells = ['dark', 'light'].map((scheme) => {
     const tokens = schemes[scheme];
-    if (!tokens[fg] || !tokens[bg]) {
+    const fgValue = tokens[fg];
+    const bgValue = resolve(tokens, bg);
+    if (!fgValue || !bgValue) {
       failures++;
-      return `missing ${!tokens[fg] ? fg : bg}`;
+      return `missing ${!fgValue ? fg : bg}`;
     }
-    const value = ratio(tokens[fg], tokens[bg]);
+    const value = ratio(fgValue, bgValue);
     const text = value.toFixed(2);
     if (value >= need) {
       return text;

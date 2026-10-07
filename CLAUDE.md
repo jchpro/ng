@@ -183,5 +183,12 @@ Notes that aren't obvious from the code:
   `--kit-ink-on-primary` for the primary button label. `npm run check:contrast` (part of `npm test`) prints the
   ratio of every pairing from `_tokens.scss` and fails on one under its threshold, minus documented exceptions.
   Invalid state: `aria-invalid="true"` / `:user-invalid` (never `:invalid`), message line `kit-field__error`.
+- **Data tables, design pass** (`ngx-kit/docs/table.md`, docs-app Tables page): your own typed `<table class="kit-table">`
+  with `@for` inside the layout-only `KitDataTable` frame (slots by attribute, loading/empty/error states), `th[kitSort]`
+  headers over the frame's `sort` model, `KitPaginator`, `.kit-badge`, cell classes `kit-cell--*`. Not wired yet:
+  `kitTableState()` (query/filters/sort/page signals, params, opt-in URL sync) is phase 2 on the roadmap. A projected
+  `@if` suppresses a slot's fallback content, so `kitTableEmpty` must be unconditional. `.kit-badge` is primary ink on a tint
+  with a status-colored dot, since `status-*-ink` text on its own tint fails 4.5:1 (the contrast script checks tinted pairs
+  with `status-x@10>surface-raised` backgrounds).
 - docs-app's `.claude/launch.json` serves on 4200; if another project's dev server holds that
   port, preview on a different one with a temporary launch config rather than reusing it.

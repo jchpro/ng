@@ -1,0 +1,50 @@
+<!-- import KitDataTable, KitSort and KitPaginator into the component -->
+<kit-data-table
+  [(sort)]="sort"
+  [loading]="users.isLoading()"
+  [error]="users.error() ? 'Check your connection.' : null"
+  [empty]="!users.value()?.items.length"
+  [filtered]="!!query()"
+  (retry)="users.reload()"
+  (clearFilters)="query.set('')">
+
+  <div kitTableSearch class="kit-data-table__search">
+    <svg lucideSearch></svg>
+    <input #search class="kit-field__control" type="search" aria-label="Search users"
+           [value]="query()" (input)="query.set(search.value)">
+  </div>
+
+  <button kitTableActions type="button" class="kit-btn kit-btn--primary">Add user</button>
+
+  <table class="kit-table">
+    <thead>
+      <tr>
+        <th kitSort="name">User</th>
+        <th>Status</th>
+        <th kitSort="seats" class="kit-cell--num">Seats</th>
+        <th class="kit-cell--actions"><span class="kit-table__sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- `user` is typed: the row type of `items` -->
+      @for (user of users.value()?.items; track user.id) {
+        <tr>
+          <td>
+            <a class="kit-table__link" [routerLink]="['/users', user.id]">{{ user.name }}</a>
+            <span class="kit-table__secondary">{{ user.email }}</span>
+          </td>
+          <td><span class="kit-badge kit-badge--success">{{ user.status }}</span></td>
+          <td class="kit-cell--num">{{ user.seats | number }}</td>
+          <td class="kit-cell--actions">
+            <button type="button" class="kit-btn kit-btn--ghost kit-btn--icon"
+                    [attr.aria-label]="'Actions for ' + user.name" [kitMenuTriggerFor]="rowMenu">
+              <svg lucideEllipsisVertical></svg>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <kit-paginator [total]="users.value()?.total ?? 0" [(page)]="page" [(pageSize)]="pageSize" />
+</kit-data-table>
