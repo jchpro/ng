@@ -1,0 +1,45 @@
+// jchPRO App Card — see the design system's Card component README for the source spec.
+// Usage: pair a status dot in the meta row for state, never a colored left border.
+@mixin classes() {
+
+  .kit-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-3);
+    padding: var(--kit-space-4);
+    border-radius: var(--kit-radius-lg);
+    border: 1px solid var(--kit-border-subtle);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-sm);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+  }
+
+  .kit-card__title {
+    margin: 0;
+    font-family: var(--kit-font-display);
+    font-size: var(--kit-app-h3-size);
+    line-height: var(--kit-app-h3-line-height);
+    font-weight: var(--kit-app-h3-weight);
+    color: var(--kit-ink-primary);
+  }
+
+  .kit-card__body {
+    // Reset for when it's a <p>: the card's own gap sets the spacing, default margins would double it.
+    margin: 0;
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+  }
+
+  .kit-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--kit-space-2);
+    font-size: var(--kit-app-caption-size);
+    line-height: var(--kit-app-caption-line-height);
+    font-weight: var(--kit-app-caption-weight);
+    color: var(--kit-ink-muted);
+  }
+
+}

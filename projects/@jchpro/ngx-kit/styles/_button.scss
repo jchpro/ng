@@ -1,0 +1,133 @@
+// jchPRO App Button — see the design system's Button component README for the source spec.
+// Always pair `.kit-btn` with exactly one color modifier (primary, secondary, ghost, danger); the size
+// modifiers (icon, lg) are optional on top.
+//
+// `.kit-btn` works on every native button-like element: `<button>`, `<a>` (a link that looks like a
+// button), and `<input type="button | submit | reset">` (its `value` is the label). Mind that a
+// `<button>` or `<input>` without a `type` inside a form submits it.
+@mixin classes() {
+
+  .kit-btn {
+    --kit-btn-label-size: 13px;
+    --kit-btn-label-weight: 600;
+    --kit-btn-height: var(--kit-control-height);
+
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kit-space-2);
+    height: var(--kit-btn-height);
+    padding: 0 var(--kit-space-3);
+    border-radius: var(--kit-radius-md);
+    border: 1px solid transparent;
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-btn-label-size);
+    font-weight: var(--kit-btn-label-weight);
+    line-height: 1;
+    white-space: nowrap;
+    // For when it's a link.
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.12s;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    // `aria-disabled` is for links, which have no native `disabled`.
+    &:disabled,
+    &[aria-disabled='true'] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &[aria-disabled='true'] {
+      pointer-events: none;
+    }
+
+    // A link keeps the button's text color in every state, whatever the browser does to visited ones.
+    &:visited {
+      color: var(--kit-btn-fg);
+    }
+
+    // Hover and press darken the fill (never lighten it: the labels are tuned for contrast on
+    // the resting fill). Only on a button that can be pressed.
+    &:hover:not(:disabled):not([aria-disabled='true']) {
+      background-color: color-mix(in srgb, var(--kit-btn-bg) 86%, black);
+    }
+
+    &:active:not(:disabled):not([aria-disabled='true']) {
+      background-color: color-mix(in srgb, var(--kit-btn-bg) 74%, black);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
+    // Size modifier: a taller, roomier button for a view's headline action (see page-header).
+    &--lg {
+      --kit-btn-height: calc(var(--kit-control-height) + 8px);
+      --kit-btn-label-size: 14px;
+      padding: 0 var(--kit-space-4);
+    }
+
+    // Size modifier, combined with a color one: a square, icon-only button. Always give it an
+    // `aria-label`. Declared after `--lg` so a large icon button keeps no side padding.
+    &--icon {
+      width: var(--kit-btn-height);
+      padding: 0;
+    }
+
+    // Each color modifier sets `--kit-btn-bg` and `--kit-btn-fg` rather than `background-color` and
+    // `color` alone: the hover and press fills derive from the first, and the busy spinner (see
+    // loading) needs the second after the label itself is hidden.
+
+    // The one primary action per view.
+    &--primary {
+      --kit-btn-bg: var(--kit-accent-peach-muted);
+      --kit-btn-fg: var(--kit-ink-on-accent);
+      background-color: var(--kit-btn-bg);
+      color: var(--kit-btn-fg);
+    }
+
+    // A destructive action (confirming a delete, say). The status color is darkened toward
+    // black rather than used as is: white text on `--kit-status-danger` alone is about 3.6:1 in
+    // the dark scheme, this keeps it above 4.5:1 in both.
+    &--danger {
+      --kit-btn-bg: color-mix(in srgb, var(--kit-status-danger) 75%, black);
+      --kit-btn-fg: var(--kit-ink-on-accent);
+      background-color: var(--kit-btn-bg);
+      color: var(--kit-btn-fg);
+    }
+
+    // A secondary action.
+    &--secondary {
+      --kit-btn-bg: var(--kit-brand-violet-muted);
+      --kit-btn-fg: var(--kit-ink-on-accent);
+      background-color: var(--kit-btn-bg);
+      color: var(--kit-btn-fg);
+    }
+
+    // Tertiary actions — bordered, no fill. Nothing to darken, so hover and press tint it with the
+    // same violet as the other "selected" fills instead.
+    &--ghost {
+      --kit-btn-bg: transparent;
+      --kit-btn-fg: var(--kit-ink-primary);
+      background-color: var(--kit-btn-bg);
+      border-color: var(--kit-border-subtle);
+      color: var(--kit-btn-fg);
+
+      &:hover:not(:disabled):not([aria-disabled='true']) {
+        background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 14%, transparent);
+      }
+
+      &:active:not(:disabled):not([aria-disabled='true']) {
+        background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 26%, transparent);
+      }
+    }
+  }
+
+}

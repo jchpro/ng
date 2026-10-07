@@ -1,15 +1,21 @@
 // View encapsulation is turned off
 
 app-docs-feat-card {
-  display: block;
-  height: 200px;
-  min-width: 300px;
-  max-width: 100%;
+  // The containing <a class="clear"> is the actual grid item that gets stretched to match the
+  // tallest card in its row — height: 100% passes that stretched height down; min-height is the
+  // floor when there's no taller sibling in the row to stretch against. Host is itself a flex
+  // column (rather than relying on .card's height: 100%) because a percentage height only
+  // resolves against a containing block with an *explicit* height — ours only has min-height
+  // once stretch doesn't apply (e.g. single-column mobile) — where flex: 1 fills it regardless.
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 200px;
   text-align: center;
 
   > .card {
-    height: 100%;
-    border: 1px solid var(--color-border);
+    flex: 1;
+    border: 1px solid var(--kit-border-subtle);
     border-radius: 0.5rem;
     padding: 1rem;
 
@@ -25,8 +31,8 @@ app-docs-feat-card {
     }
   }
 
-  fa-icon {
+  .card-icon {
     display: block;
-    margin-top: 0.5rem;
+    margin: 0.5rem auto 0;
   }
 }

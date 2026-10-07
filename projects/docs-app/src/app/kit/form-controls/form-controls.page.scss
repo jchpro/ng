@@ -1,0 +1,35 @@
+// Layout of the specimens only, the controls themselves are shown exactly as the kit styles them.
+.specimens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--kit-space-4);
+  align-items: start;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kit-space-3);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kit-space-2);
+}
+
+.number {
+  width: 6rem;
+}
+
+.note {
+  color: var(--kit-ink-muted);
+}
+
+// The class reference: a roomy first column, its cells hold sentences.
+.reference {
+  td:first-child {
+    min-width: 16rem;
+  }
+}

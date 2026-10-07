@@ -1,15 +1,16 @@
 import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
 import { Component, computed, effect, inject, input, signal, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faCopy, faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { LucideCopy, LucideDownload, LucideLoaderCircle } from '@lucide/angular';
+import { KitThemeService } from '@jchpro/ngx-kit';
 import hljs from 'highlight.js/lib/core';
-import { ThemesService } from '../../core/services/themes.service';
 import { ToTablet } from '../../core/to-tablet';
 
 @Component({
   selector: 'app-code-example',
   imports: [
-    FaIconComponent,
+    LucideCopy,
+    LucideDownload,
+    LucideLoaderCircle,
     CdkCopyToClipboard
   ],
   templateUrl: './code-example.html',
@@ -30,8 +31,7 @@ export class CodeExample {
   readonly lang = input.required<CodeLang>();
 
   protected readonly fetching = signal(true);
-  protected readonly effectiveScheme = inject(ThemesService).effectiveScheme;
-  protected readonly faSpinner = faSpinner;
+  protected readonly effectiveScheme = inject(KitThemeService).effectiveScheme;
   protected readonly html = signal('');
   protected readonly isValid = signal(true);
   protected readonly prettyLang = computed(() => {
@@ -91,8 +91,6 @@ export class CodeExample {
     }
   }
 
-  protected readonly faCopy = faCopy;
-  protected readonly faDownload = faDownload;
 }
 
 export type CodeLang = 'ts' | 'scss' | 'json' | 'html';

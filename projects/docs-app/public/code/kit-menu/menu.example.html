@@ -1,0 +1,18 @@
+<!-- import KitMenuTrigger, KitMenu and KitMenuItem into the component -->
+<button type="button" class="kit-btn kit-btn--ghost" [kitMenuTriggerFor]="rowMenu">Actions</button>
+
+<ng-template #rowMenu>
+  <div kitMenu>
+    <button type="button" kitMenuItem (click)="edit()"><svg lucidePencil></svg> Edit</button>
+    <a kitMenuItem routerLink="/users/1"><svg lucideExternalLink></svg> Open</a>
+    <button type="button" kitMenuItem [disabled]="!canCopy()"><svg lucideCopy></svg> Copy link</button>
+    <hr class="kit-menu__separator">
+    <button type="button" kitMenuItem danger (click)="remove()"><svg lucideTrash></svg> Delete</button>
+  </div>
+</ng-template>
+
+<!-- icon-only trigger, e.g. on a table row -->
+<button type="button" class="kit-btn kit-btn--ghost kit-btn--icon"
+        aria-label="Row actions" [kitMenuTriggerFor]="rowMenu">
+  <svg lucideEllipsisVertical></svg>
+</button>

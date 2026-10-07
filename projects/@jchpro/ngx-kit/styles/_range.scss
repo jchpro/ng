@@ -1,0 +1,113 @@
+// jchPRO App range slider — a class on a native `<input type="range">`:
+//   <input class="kit-range" type="range" min="0" max="100" value="40">
+//
+// The filled part of the track needs to know the value, which CSS alone can't read back out of
+// the input (WebKit has no pseudo-element for it). Bind it as a percentage when you want it:
+//   <input class="kit-range" type="range" [value]="v()" (input)="..."
+//          [style.--kit-range-fill]="v() + '%'">
+// Without `--kit-range-fill` the track stays plain and the thumb alone marks the value. For a
+// range other than 0-100, the percentage is `(value - min) / (max - min) * 100`.
+//
+// Tick marks from a `list` attribute are the browser's own to draw and are lost with
+// `appearance: none`; a visible scale is better done in markup under the slider.
+//
+// Each engine styles its slider through its own pseudo-elements, and a selector list containing
+// a pseudo-element the engine doesn't know is dropped whole — so every rule is written once per
+// engine through the mixins below.
+@mixin _range-track {
+  height: 6px;
+  border: none;
+  border-radius: var(--kit-radius-full);
+  background-image: linear-gradient(
+    to right,
+    var(--kit-brand-violet-muted) var(--kit-range-fill, 0%),
+    var(--kit-range-track) var(--kit-range-fill, 0%)
+  );
+}
+
+// The thumb is the violet fill with a white ring (`--kit-ink-on-accent`), so it stands out on
+// both the dark surface, where the violet alone is faint, and the light one.
+@mixin _range-thumb {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--kit-ink-on-accent);
+  border-radius: var(--kit-radius-full);
+  background-color: var(--kit-brand-violet-muted);
+  box-shadow: var(--kit-shadow-sm);
+  cursor: pointer;
+}
+
+@mixin _range-thumb-focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+}
+
+@mixin classes() {
+
+  .kit-range {
+    --kit-range-track: color-mix(in srgb, var(--kit-ink-muted) 30%, var(--kit-surface-raised));
+
+    appearance: none;
+    box-sizing: border-box;
+    width: 100%;
+    // As tall as the thumb, so the whole thumb is inside the hit area.
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // WebKit / Blink
+    &::-webkit-slider-runnable-track {
+      @include _range-track;
+    }
+
+    &::-webkit-slider-thumb {
+      @include _range-thumb;
+      appearance: none;
+      // Centers the 18px thumb on the 6px track.
+      margin-top: -6px;
+    }
+
+    &:focus-visible::-webkit-slider-thumb {
+      @include _range-thumb-focus;
+    }
+
+    &:disabled::-webkit-slider-thumb {
+      cursor: not-allowed;
+    }
+
+    // Firefox
+    &::-moz-range-track {
+      @include _range-track;
+    }
+
+    // Firefox paints the filled part itself; keep it off so both engines look the same, driven
+    // by `--kit-range-fill` alone.
+    &::-moz-range-progress {
+      background: transparent;
+    }
+
+    &::-moz-range-thumb {
+      @include _range-thumb;
+    }
+
+    &:focus-visible::-moz-range-thumb {
+      @include _range-thumb-focus;
+    }
+
+    &:disabled::-moz-range-thumb {
+      cursor: not-allowed;
+    }
+  }
+
+}

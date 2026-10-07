@@ -4,37 +4,4 @@
     color-scheme: light dark;
   }
 
-  .theme {
-
-    // Color variants (hue only)
-    &.azure { --color-primary: #1e6fd9; }
-    &.rose { --color-primary: #d81b60; }
-    &.green { --color-primary: #2e7d32; }
-
-    // Light scheme (default)
-    --color-bg: #ffffff;
-    --color-surface: #f5f5f5;
-    --color-text: #1a1a1a;
-    --color-border: #dcdcdc;
-    --color-primary-contrast: #ffffff;
-
-    // Explicit dark scheme
-    &.dark {
-      --color-bg: #121212;
-      --color-surface: #1e1e1e;
-      --color-text: #eaeaea;
-      --color-border: #3a3a3a;
-    }
-
-    // System scheme, follows OS preference
-    &.system {
-      @media (prefers-color-scheme: dark) {
-        --color-bg: #121212;
-        --color-surface: #1e1e1e;
-        --color-text: #eaeaea;
-        --color-border: #3a3a3a;
-      }
-    }
-  }
-
 }

@@ -8,7 +8,8 @@ Visit my [example app page](https://ng.jchpro.pl) for a quick start, refer to co
 
 ## Libraries
 
-- `@jchpro/ngx-common` [Common parts for the Angular apps](/projects/common/readme.md)
+- `@jchpro/ngx-common` [Common parts for the Angular apps](/projects/@jchpro/ngx-common/readme.md)
+- `@jchpro/ngx-kit` [Admin-app UI kit styled with the jchPRO design system](/projects/@jchpro/ngx-kit/readme.md)
 
 ## Installation
 

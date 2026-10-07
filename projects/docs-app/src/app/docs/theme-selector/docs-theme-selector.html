@@ -1,39 +1,27 @@
-<details class="theme-menu">
-  <summary class="icon-btn" title="Change theme">
-    <fa-icon [icon]="faFillDrip"></fa-icon>
-  </summary>
+<button type="button" class="kit-btn kit-btn--ghost kit-btn--icon"
+        aria-label="Change theme" title="Change theme"
+        [kitMenuTriggerFor]="themeMenu">
+  <svg [lucideIcon]="themeIcon"></svg>
+</button>
 
-  <div class="panel">
-    <details>
-      <summary>
-        <fa-icon [icon]="faPalette"></fa-icon>
-        <span>Color</span>
-      </summary>
-      <div class="options flex col">
-        @for (option of colorOptions; track $index) {
-          <button type="button"
-                  (click)="changeColor(option.color)">
-            <fa-icon [icon]="theme().color === option.color ? faCircleDot : faCircle"></fa-icon>
-            <span>{{ option.label }}</span>
-          </button>
-        }
-      </div>
-    </details>
+<ng-template #themeMenu>
+  <div kitMenu>
+    <div class="kit-menu__label">Color</div>
+    @for (option of colorOptions; track option.color) {
+      <button type="button" kitMenuItem [checked]="color() === option.color" (click)="changeColor(option.color)">
+        <svg [lucideIcon]="color() === option.color ? selectedIcon : unselectedIcon"></svg>
+        <span>{{ option.label }}</span>
+      </button>
+    }
 
-    <details>
-      <summary>
-        <fa-icon [icon]="faCircleHalfStroke"></fa-icon>
-        <span>Scheme</span>
-      </summary>
-      <div class="options flex col">
-        @for (option of schemeOptions; track $index) {
-          <button type="button"
-                  (click)="changeScheme(option.scheme)">
-            <fa-icon [icon]="theme().scheme === option.scheme ? faCircleDot : faCircle"></fa-icon>
-            <span>{{ option.label }}</span>
-          </button>
-        }
-      </div>
-    </details>
+    <hr class="kit-menu__separator">
+
+    <div class="kit-menu__label">Scheme</div>
+    @for (option of schemeOptions; track option.scheme) {
+      <button type="button" kitMenuItem [checked]="scheme() === option.scheme" (click)="changeScheme(option.scheme)">
+        <svg [lucideIcon]="scheme() === option.scheme ? selectedIcon : unselectedIcon"></svg>
+        <span>{{ option.label }}</span>
+      </button>
+    }
   </div>
-</details>
+</ng-template>

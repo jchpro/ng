@@ -1,21 +1,10 @@
-@if (lib()) {
-  <h3>{{ lib()!.name }}</h3>
-  <nav class="flex col">
-    @for (page of pages(); track $index) {
-      <a class="clear"
-         [routerLink]="['/docs', 'lib', lib()!.path, page.path]"
-         routerLinkActive="active">
-        <fa-icon [icon]="page.icon"></fa-icon>
-        <span>
-          {{ page.menuName }}
-        </span>
-      </a>
+@if (lib(); as activeLib) {
+  <kit-shell-nav-section [title]="activeLib.name">
+    @for (page of pages(); track page.path) {
+      <kit-shell-nav-item [link]="['/docs', 'lib', activeLib.path, page.path]" [icon]="page.icon">
+        {{ page.menuName }}
+      </kit-shell-nav-item>
     }
-    <a class="clear disabled">
-      <fa-icon [icon]="faClock"></fa-icon>
-      <span>
-        More to come...
-      </span>
-    </a>
-  </nav>
+    <kit-shell-nav-item [icon]="moreIcon" [disabled]="true">More to come...</kit-shell-nav-item>
+  </kit-shell-nav-section>
 }

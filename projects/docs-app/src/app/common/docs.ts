@@ -1,4 +1,4 @@
-import { faBroom, faCodeBranch, faDiagramProject, faGlobe, faHardDrive, faHeading, faRoute } from '@fortawesome/free-solid-svg-icons';
+import { LucideBroom, LucideGitBranch, LucideGlobe, LucideHardDrive, LucideHeading, LucideRoute, LucideWorkflow } from '@lucide/angular';
 import { DocLib } from '../docs/types';
 import { CommonStartPage } from './_start-page/common-start-page';
 import { BaseIfPage } from './base-if/base-if.page';
@@ -20,7 +20,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Internationalization utilities',
       menuName: 'Internationalization',
       path: 'intl-utils',
-      icon: faGlobe,
+      icon: LucideGlobe,
       desc: 'Internationalization service and pipes',
       component: IntlUtilsPage
     },
@@ -28,7 +28,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Storage utilities',
       menuName: 'Storage',
       path: 'storage-utils',
-      icon: faHardDrive,
+      icon: LucideHardDrive,
       desc: 'Storage utilities',
       component: StoragePage
     },
@@ -36,7 +36,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Content rendering and projection',
       menuName: 'Rendering & projection',
       path: 'angular-content',
-      icon: faDiagramProject,
+      icon: LucideWorkflow,
       desc: 'Things related to rendering and projection of content in Angular apps.',
       component: ContentPage
     },
@@ -44,7 +44,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Reactive base class',
       menuName: 'Reactive',
       path: 'reactive',
-      icon: faBroom,
+      icon: LucideBroom,
       desc: 'Effortless observable cleanup on directive/component destroy.',
       component: ReactivePage
     },
@@ -52,7 +52,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Router events service',
       menuName: 'Router events',
       path: 'router-events',
-      icon: faRoute,
+      icon: LucideRoute,
       desc: 'Observe router events by type and resolve the active route.',
       component: RouterEventsPage
     },
@@ -60,7 +60,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Browser title service',
       menuName: 'Browser title',
       path: 'browser-title',
-      icon: faHeading,
+      icon: LucideHeading,
       desc: 'Set the document title, optionally driven by route data.',
       component: TitleServicePage
     },
@@ -68,7 +68,7 @@ export const COMMON_LIB: DocLib = {
       fullName: 'Custom structural directives',
       menuName: 'Structural directives',
       path: 'base-if',
-      icon: faCodeBranch,
+      icon: LucideGitBranch,
       desc: 'Base class for building your own *ngIf-like structural directives.',
       component: BaseIfPage
     }

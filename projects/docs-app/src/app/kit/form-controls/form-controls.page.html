@@ -1,0 +1,472 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  Every native form control, shown as it renders in the dark and light scheme, the kit classes on each.
+  What the kit leaves to the browser is noted where it comes up: the <code>datalist</code> popup, the image input
+  and the <code>output</code> element, which have nothing of their own to style.
+</p>
+<p class="note">
+  Headings marked <em>kit</em> are the controls that carry kit classes.
+</p>
+
+<h3>Setup</h3>
+<p>
+  All of it ships in <code>primitives</code>, after the design tokens. Each control also has a module of its own
+  to take on its own.
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-form-controls/styles.example.scss">
+</app-code-example>
+
+<h3>Which class for what</h3>
+<div class="table-fit">
+  <table class="reference">
+    <tr>
+      <th>Element</th>
+      <th>Classes</th>
+      <th>Module</th>
+    </tr>
+    <tr>
+      <td>Text, email, password, search, tel, url, number, date and time inputs, <code>textarea</code>, <code>select</code>, <code>file</code>, <code>color</code></td>
+      <td><code>kit-field</code> around <code>kit-field__label</code> and <code>kit-field__control</code></td>
+      <td><code>field</code></td>
+    </tr>
+    <tr>
+      <td>Checkbox, radio, switch</td>
+      <td><code>kit-check</code> and <code>kit-check__input</code>, <code>role="switch"</code> for a switch, <code>kit-check-group</code> for a list</td>
+      <td><code>check</code></td>
+    </tr>
+    <tr>
+      <td><code>fieldset</code> and <code>legend</code></td>
+      <td><code>kit-fieldset</code> (<code>--plain</code>) and <code>kit-fieldset__legend</code></td>
+      <td><code>fieldset</code></td>
+    </tr>
+    <tr>
+      <td>Range</td>
+      <td><code>kit-range</code>, <code>--kit-range-fill</code> for the filled part</td>
+      <td><code>range</code></td>
+    </tr>
+    <tr>
+      <td>Progress, meter</td>
+      <td><code>kit-progress</code>, <code>kit-meter</code></td>
+      <td><code>progress</code></td>
+    </tr>
+    <tr>
+      <td><code>button</code>, a link, <code>input</code> button, submit and reset</td>
+      <td><code>kit-btn</code> with <code>--primary</code>, <code>--secondary</code>, <code>--ghost</code> or <code>--danger</code>, and <code>--icon</code>, <code>--lg</code></td>
+      <td><code>button</code></td>
+    </tr>
+    <tr>
+      <td><code>datalist</code> popup, <code>output</code>, <code>input type="image"</code></td>
+      <td>None, they are left to the browser</td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+
+<h2>Text inputs <em>kit</em></h2>
+<p>
+  A <code>kit-field</code> wraps a label and its control, the label's <code>for</code> matching the control's
+  <code>id</code>. The same markup serves every text-like type, the date and time ones below, and the states, which
+  are the native attributes. An invalid value is described with ARIA, there is no invalid styling yet.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/field.example.html">
+</app-code-example>
+
+<div class="specimens">
+  @for (type of textTypes; track type) {
+    <div class="kit-field">
+      <label class="kit-field__label" [for]="'text-' + type">{{ type }}</label>
+      <input class="kit-field__control" [id]="'text-' + type" [type]="type" [placeholder]="'type=' + type">
+    </div>
+  }
+</div>
+
+<h3>States</h3>
+<div class="specimens">
+  <div class="kit-field">
+    <label class="kit-field__label" for="state-default">Default</label>
+    <input class="kit-field__control" id="state-default" value="Some value">
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="state-placeholder">Placeholder</label>
+    <input class="kit-field__control" id="state-placeholder" placeholder="Nothing typed yet">
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="state-disabled">Disabled</label>
+    <input class="kit-field__control" id="state-disabled" value="Can't touch this" disabled>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="state-readonly">Read-only</label>
+    <input class="kit-field__control" id="state-readonly" value="Selectable, not editable" readonly>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="state-required">Required</label>
+    <input class="kit-field__control" id="state-required" placeholder="Required" required>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="state-invalid">Invalid (aria-invalid)</label>
+    <input class="kit-field__control" id="state-invalid" value="not an email" aria-invalid="true" aria-describedby="state-invalid-hint">
+    <span id="state-invalid-hint" class="note">Hint text under a field</span>
+  </div>
+</div>
+
+<h2>Date and time <em>kit</em></h2>
+<p>The same <code>kit-field</code> markup, with a date or time <code>type</code>. The picker is the browser's.</p>
+<div class="specimens">
+  @for (type of dateTypes; track type) {
+    <div class="kit-field">
+      <label class="kit-field__label" [for]="'date-' + type">{{ type }}</label>
+      <input class="kit-field__control" [id]="'date-' + type" [type]="type">
+    </div>
+  }
+</div>
+
+<h2>Multi-line, choice and files <em>kit</em></h2>
+<p>
+  <code>textarea</code>, <code>select</code>, <code>file</code> and <code>color</code> take the same
+  <code>kit-field__control</code> as a text input, and adapt to the element: a textarea grows with its rows, a select
+  gets the kit's chevron, a file input its styled button.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/choice.example.html">
+</app-code-example>
+
+<div class="specimens">
+  <div class="kit-field">
+    <label class="kit-field__label" for="area">Textarea <em>kit</em></label>
+    <textarea class="kit-field__control" id="area" rows="4" placeholder="Longer text"></textarea>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="area-disabled">Textarea, disabled <em>kit</em></label>
+    <textarea class="kit-field__control" id="area-disabled" rows="4" disabled>Can't touch this</textarea>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="select">Select <em>kit</em></label>
+    <select class="kit-field__control" id="select">
+      <option>First option</option>
+      <option>Second option</option>
+      <option>Third option</option>
+    </select>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="select-groups">Select with groups <em>kit</em></label>
+    <select class="kit-field__control" id="select-groups">
+      <optgroup label="Fruit">
+        <option>Apple</option>
+        <option>Pear</option>
+      </optgroup>
+      <optgroup label="Vegetables">
+        <option>Carrot</option>
+        <option disabled>Leek (disabled)</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="select-disabled">Select, disabled <em>kit</em></label>
+    <select class="kit-field__control" id="select-disabled" disabled>
+      <option>First option</option>
+    </select>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="select-multiple">Select, multiple <em>kit</em></label>
+    <select class="kit-field__control" id="select-multiple" multiple size="4">
+      <option>Red</option>
+      <option selected>Green</option>
+      <option>Blue</option>
+      <option selected>Yellow</option>
+    </select>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="datalist-input">Input with datalist <em>kit</em></label>
+    <input class="kit-field__control" id="datalist-input" list="datalist-options" placeholder="Start typing">
+    <datalist id="datalist-options">
+      <option value="Warsaw"></option>
+      <option value="Kraków"></option>
+      <option value="Gdańsk"></option>
+    </datalist>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="file">File <em>kit</em></label>
+    <input class="kit-field__control" id="file" type="file">
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="file-multiple">File, multiple <em>kit</em></label>
+    <input class="kit-field__control" id="file-multiple" type="file" multiple>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="color">Color <em>kit</em></label>
+    <input class="kit-field__control" id="color" type="color" value="#93298f">
+  </div>
+</div>
+
+<h2>Checkboxes, radios and switches <em>kit</em></h2>
+<p>
+  Classes on native inputs: <code>kit-check__input</code> inside a <code>kit-check</code> label.
+  A switch is a checkbox with <code>role="switch"</code>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/check.example.html">
+</app-code-example>
+
+<div class="specimens">
+  <div class="kit-check-group">
+    <strong>Checkbox</strong>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox"> Unchecked</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" checked> Checked</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" [indeterminate]="true"> Indeterminate</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" disabled> Disabled</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" checked disabled> Checked, disabled</label>
+  </div>
+  <div class="kit-check-group">
+    <strong>Radio group</strong>
+    <label class="kit-check"><input class="kit-check__input" type="radio" name="radio-demo"> First</label>
+    <label class="kit-check"><input class="kit-check__input" type="radio" name="radio-demo" checked> Second, checked</label>
+    <label class="kit-check"><input class="kit-check__input" type="radio" name="radio-demo"> Third</label>
+    <label class="kit-check"><input class="kit-check__input" type="radio" name="radio-demo" disabled> Disabled</label>
+    <label class="kit-check"><input class="kit-check__input" type="radio" name="radio-demo-2" checked disabled> Checked, disabled</label>
+  </div>
+  <div class="kit-check-group">
+    <strong>Switch</strong>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch"> Off</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch" checked> On</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch" disabled> Disabled</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch" checked disabled> On, disabled</label>
+  </div>
+  <div class="kit-check-group">
+    <strong>Long labels</strong>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" checked> A rather long label that wraps onto a second line, to check the box stays aligned with the first one</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch"> Same for a switch with a label long enough to wrap onto a second line</label>
+  </div>
+</div>
+
+<h3>Inline group</h3>
+<div class="kit-check-group kit-check-group--inline">
+  <label class="kit-check"><input class="kit-check__input" type="radio" name="inline-demo" checked> Daily</label>
+  <label class="kit-check"><input class="kit-check__input" type="radio" name="inline-demo"> Weekly</label>
+  <label class="kit-check"><input class="kit-check__input" type="radio" name="inline-demo"> Monthly</label>
+</div>
+
+<h2>Fieldset and legend <em>kit</em></h2>
+<p>
+  <code>kit-fieldset</code> on the <code>&lt;fieldset&gt;</code> and <code>kit-fieldset__legend</code> on the
+  <code>&lt;legend&gt;</code>, which keep their native job: the legend names the group for assistive technology and
+  <code>disabled</code> on the fieldset disables everything inside.
+  The fieldset spaces what is directly inside it, so fields need no margins.
+  Add <code>kit-fieldset--plain</code> for a group without a border, whose legend reads as a heading.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/fieldset.example.html">
+</app-code-example>
+
+<div class="specimens">
+  <fieldset class="kit-fieldset">
+    <legend class="kit-fieldset__legend">Notifications</legend>
+    <div class="kit-check-group">
+      <label class="kit-check"><input class="kit-check__input" type="checkbox" checked> Email me</label>
+      <label class="kit-check"><input class="kit-check__input" type="checkbox"> Text me</label>
+      <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch" checked> Push notifications</label>
+    </div>
+  </fieldset>
+
+  <fieldset class="kit-fieldset" disabled>
+    <legend class="kit-fieldset__legend">Disabled fieldset</legend>
+    <div class="kit-check-group">
+      <label class="kit-check"><input class="kit-check__input" type="checkbox" checked> Email me</label>
+      <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch" checked> Push notifications</label>
+    </div>
+    <div class="kit-field">
+      <label class="kit-field__label" for="fs-disabled-input">Everything inside is disabled</label>
+      <input class="kit-field__control" id="fs-disabled-input" value="Can't touch this">
+    </div>
+  </fieldset>
+
+  <fieldset class="kit-fieldset">
+    <legend class="kit-fieldset__legend">Contact details</legend>
+    <div class="kit-field">
+      <label class="kit-field__label" for="fs-name">Name</label>
+      <input class="kit-field__control" id="fs-name" placeholder="Ada Lovelace">
+    </div>
+    <div class="kit-field">
+      <label class="kit-field__label" for="fs-email">Email</label>
+      <input class="kit-field__control" id="fs-email" type="email" placeholder="ada@example.com">
+    </div>
+  </fieldset>
+
+  <fieldset class="kit-fieldset kit-fieldset--plain">
+    <legend class="kit-fieldset__legend">Plan, without a border</legend>
+    <div class="kit-check-group">
+      <label class="kit-check"><input class="kit-check__input" type="radio" name="fs-plan" checked> Free</label>
+      <label class="kit-check"><input class="kit-check__input" type="radio" name="fs-plan"> Pro</label>
+      <label class="kit-check"><input class="kit-check__input" type="radio" name="fs-plan"> Team</label>
+    </div>
+  </fieldset>
+</div>
+
+<h3>Nested</h3>
+<fieldset class="kit-fieldset">
+  <legend class="kit-fieldset__legend">Account</legend>
+  <fieldset class="kit-fieldset kit-fieldset--plain">
+    <legend class="kit-fieldset__legend">Profile</legend>
+    <div class="kit-field">
+      <label class="kit-field__label" for="fs-nested-name">Display name</label>
+      <input class="kit-field__control" id="fs-nested-name" placeholder="Ada">
+    </div>
+  </fieldset>
+  <fieldset class="kit-fieldset kit-fieldset--plain">
+    <legend class="kit-fieldset__legend">Privacy</legend>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch"> Make my profile public</label>
+  </fieldset>
+</fieldset>
+
+<h2>Range, progress and meter <em>kit</em></h2>
+<p>
+  <code>kit-range</code>, <code>kit-progress</code> and <code>kit-meter</code> on the native elements.
+  A range only knows its filled part if you tell it: bind <code>--kit-range-fill</code> as a percentage
+  (<code>(value - min) / (max - min) * 100</code>). A progress bar is the violet fill, a meter takes its green, amber
+  or red from where the value falls against <code>low</code>, <code>high</code> and <code>optimum</code>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/gauges.example.html">
+</app-code-example>
+
+<div class="specimens">
+  <div class="stack">
+    <label for="range">Range, with fill: {{ rangeValue() }}</label>
+    <input class="kit-range" id="range" type="range" min="0" max="100" [value]="rangeValue()"
+           [style.--kit-range-fill]="rangeValue() + '%'" (input)="onRange($event)">
+  </div>
+  <div class="stack">
+    <label for="range-plain">Range, no fill</label>
+    <input class="kit-range" id="range-plain" type="range" min="0" max="100" value="40">
+  </div>
+  <div class="stack">
+    <label for="range-disabled">Range, disabled</label>
+    <input class="kit-range" id="range-disabled" type="range" min="0" max="100" value="60" disabled
+           style="--kit-range-fill: 60%">
+  </div>
+  <div class="stack">
+    <label for="range-steps">Range, steps of 25</label>
+    <input class="kit-range" id="range-steps" type="range" min="0" max="100" step="25" value="50"
+           style="--kit-range-fill: 50%">
+  </div>
+  <div class="stack">
+    <label for="progress">Progress, 65%</label>
+    <progress class="kit-progress" id="progress" max="100" value="65">65%</progress>
+  </div>
+  <div class="stack">
+    <label for="progress-empty">Progress, 0%</label>
+    <progress class="kit-progress" id="progress-empty" max="100" value="0">0%</progress>
+  </div>
+  <div class="stack">
+    <label for="progress-full">Progress, 100%</label>
+    <progress class="kit-progress" id="progress-full" max="100" value="100">100%</progress>
+  </div>
+  <div class="stack">
+    <label for="progress-indeterminate">Progress, indeterminate</label>
+    <progress class="kit-progress" id="progress-indeterminate">Working</progress>
+  </div>
+  <div class="stack">
+    <label for="meter">Meter, good</label>
+    <meter class="kit-meter" id="meter" min="0" max="100" low="30" high="80" optimum="90" value="85">85</meter>
+  </div>
+  <div class="stack">
+    <label for="meter-mid">Meter, middle</label>
+    <meter class="kit-meter" id="meter-mid" min="0" max="100" low="30" high="80" optimum="90" value="55">55</meter>
+  </div>
+  <div class="stack">
+    <label for="meter-low">Meter, bad</label>
+    <meter class="kit-meter" id="meter-low" min="0" max="100" low="30" high="80" optimum="90" value="15">15</meter>
+  </div>
+  <div class="stack">
+    <label for="meter-high">Meter, high is bad</label>
+    <meter class="kit-meter" id="meter-high" min="0" max="100" low="30" high="80" optimum="10" value="92">92</meter>
+  </div>
+</div>
+
+<h2>Output</h2>
+<p>
+  <code>&lt;output&gt;</code> is plain text with a role, so it is left as is. Here it shows the sum of two
+  <code>kit-field__control</code> number inputs.
+</p>
+<form class="row" (input)="out.value = a.value + ' + ' + b.value + ' = ' + (+a.value + +b.value)">
+  <input class="kit-field__control number" #a type="number" value="2" aria-label="First number">
+  <span>+</span>
+  <input class="kit-field__control number" #b type="number" value="3" aria-label="Second number">
+  <span>=</span>
+  <output #out>2 + 3 = 5</output>
+</form>
+
+<h2>Buttons <em>kit</em></h2>
+<p>
+  <code>kit-btn</code> with a color modifier works on every native button-like element:
+  <code>&lt;button&gt;</code>, a link, and <code>&lt;input type="button | submit | reset"&gt;</code>.
+  Hover and press darken the fill (the ghost button tints instead), and a disabled one ignores both.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/buttons.example.html">
+</app-code-example>
+
+<h3>Colors</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary">Primary</button>
+  <button type="button" class="kit-btn kit-btn--secondary">Secondary</button>
+  <button type="button" class="kit-btn kit-btn--ghost">Ghost</button>
+  <button type="button" class="kit-btn kit-btn--danger">Danger</button>
+</div>
+
+<h3>Disabled</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary" disabled>Primary</button>
+  <button type="button" class="kit-btn kit-btn--secondary" disabled>Secondary</button>
+  <button type="button" class="kit-btn kit-btn--ghost" disabled>Ghost</button>
+  <button type="button" class="kit-btn kit-btn--danger" disabled>Danger</button>
+</div>
+
+<h3>Sizes</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary">Default</button>
+  <button type="button" class="kit-btn kit-btn--primary kit-btn--lg">Large</button>
+  <button type="button" class="kit-btn kit-btn--ghost kit-btn--icon" aria-label="Add"><svg lucidePlus size="18"></svg></button>
+  <button type="button" class="kit-btn kit-btn--primary kit-btn--icon" aria-label="Add"><svg lucidePlus size="18"></svg></button>
+  <button type="button" class="kit-btn kit-btn--secondary kit-btn--icon kit-btn--lg" aria-label="Add"><svg lucidePlus size="20"></svg></button>
+  <button type="button" class="kit-btn kit-btn--primary"><svg lucidePlus size="16"></svg> With an icon</button>
+</div>
+
+<h3>Native elements</h3>
+<form class="row" (submit)="$event.preventDefault()" (reset)="$event.preventDefault()">
+  <button type="button" class="kit-btn kit-btn--primary">button</button>
+  <button type="submit" class="kit-btn kit-btn--primary">submit</button>
+  <button type="reset" class="kit-btn kit-btn--ghost">reset</button>
+  <a href="#" class="kit-btn kit-btn--secondary" (click)="$event.preventDefault()">link</a>
+  <a href="#" class="kit-btn kit-btn--ghost" aria-disabled="true" tabindex="-1">disabled link</a>
+  <input type="button" class="kit-btn kit-btn--primary" value="input button">
+  <input type="submit" class="kit-btn kit-btn--secondary" value="input submit">
+  <input type="reset" class="kit-btn kit-btn--ghost" value="input reset">
+  <input type="button" class="kit-btn kit-btn--primary" value="input, disabled" disabled>
+</form>
+
+<h3>Busy</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary" [kitBusy]="busy()" (click)="runBusy()">Button</button>
+  <a href="#" class="kit-btn kit-btn--secondary" [kitBusy]="busy()" (click)="$event.preventDefault(); runBusy()">Link</a>
+  <input type="button" class="kit-btn kit-btn--ghost" [kitBusy]="busy()" (click)="runBusy()" value="Input">
+  <span class="note">Click any: a spinner replaces the label, an input can only be dimmed</span>
+</div>
+
+<h3>Image input</h3>
+<p>
+  <code>&lt;input type="image"&gt;</code> is its image, so there is nothing to style: the kit leaves it alone.
+</p>
+<div class="row">
+  <input type="image" alt="input image" width="24" height="24" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2393298f'/%3E%3C/svg%3E">
+</div>

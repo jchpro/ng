@@ -1,0 +1,132 @@
+// jchPRO App dialog — the look for everything opened with `KitDialogService`, the built-in
+// `alert()`/`confirm()` and your own components alike. Plain classes: lay a component out with
+// `kit-dialog` > `__header` / `__body` / `__footer`, name it with `kitDialogTitle`, close it
+// with `kitDialogClose` buttons. Needs the overlay styles too (`styles/overlay`).
+//
+// The width comes from the pane the service opens it in (`kit-dialog-panel--sm|md|lg`, set by
+// the `size` option) through `--kit-dialog-width`, and is always capped to the viewport minus
+// a margin — so on a phone a dialog is near full width, centered.
+@mixin classes() {
+
+  @keyframes kit-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+  }
+
+  .kit-dialog-backdrop {
+    background-color: color-mix(in srgb, var(--kit-surface-overlay) 60%, transparent);
+  }
+
+  .kit-dialog-panel {
+    --kit-dialog-width: 520px;
+
+    &--sm {
+      --kit-dialog-width: 400px;
+    }
+
+    &--md {
+      --kit-dialog-width: 520px;
+    }
+
+    &--lg {
+      --kit-dialog-width: 720px;
+    }
+  }
+
+  .kit-dialog {
+    display: flex;
+    flex-direction: column;
+    width: var(--kit-dialog-width, 520px);
+    max-width: calc(100vw - 2 * var(--kit-space-4));
+    max-height: calc(100dvh - 2 * var(--kit-space-4));
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-lg);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-overlay);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    animation: kit-dialog-in 0.15s ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+
+    // Accent per tone: colors the icon, nothing else — no colored bars or borders.
+    &--info {
+      --kit-dialog-tone: var(--kit-status-info);
+    }
+
+    &--success {
+      --kit-dialog-tone: var(--kit-status-success);
+    }
+
+    &--warning {
+      --kit-dialog-tone: var(--kit-status-warning);
+    }
+
+    &--danger,
+    &--error {
+      --kit-dialog-tone: var(--kit-status-danger);
+    }
+  }
+
+  .kit-dialog__header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: var(--kit-space-3);
+    padding: var(--kit-space-5) var(--kit-space-5) var(--kit-space-3);
+  }
+
+  // Round icon badge in front of the title — an `<svg>` inside. The icon is the tone's status
+  // color on a faint tint of itself, a graphic rather than text, so it isn't held to text contrast.
+  .kit-dialog__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--kit-radius-full);
+    color: var(--kit-dialog-tone, var(--kit-ink-muted));
+    background-color: color-mix(in srgb, var(--kit-dialog-tone, var(--kit-ink-muted)) 15%, transparent);
+  }
+
+  .kit-dialog__title {
+    margin: 0;
+    font-family: var(--kit-font-display);
+    font-size: var(--kit-app-h2-size);
+    line-height: var(--kit-app-h2-line-height);
+    font-weight: var(--kit-app-h2-weight);
+    overflow-wrap: anywhere;
+  }
+
+  // The only part that scrolls: header and footer stay in view.
+  .kit-dialog__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--kit-space-2) var(--kit-space-5);
+  }
+
+  // The text of the built-in alert/confirm dialogs.
+  .kit-dialog__message {
+    margin: 0;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  .kit-dialog__footer {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--kit-space-2);
+    padding: var(--kit-space-4) var(--kit-space-5) var(--kit-space-5);
+  }
+
+}

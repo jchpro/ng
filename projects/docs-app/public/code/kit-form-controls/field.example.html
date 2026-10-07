@@ -1,0 +1,32 @@
+<!-- Wrap a label and its control in a kit-field. The label's `for` matches the control's `id` -->
+<div class="kit-field">
+  <label class="kit-field__label" for="email">Email</label>
+  <input class="kit-field__control" id="email" type="email" placeholder="ada@example.com">
+</div>
+
+<!-- The same markup for every text-like type: text, email, password, search, tel, url, number -->
+<div class="kit-field">
+  <label class="kit-field__label" for="age">Age</label>
+  <input class="kit-field__control" id="age" type="number" min="0">
+</div>
+
+<!-- ...and for the date and time types: date, time, datetime-local, month, week -->
+<div class="kit-field">
+  <label class="kit-field__label" for="born">Date of birth</label>
+  <input class="kit-field__control" id="born" type="date">
+</div>
+
+<!-- States are the native attributes: placeholder, disabled, readonly, required -->
+<input class="kit-field__control" placeholder="Nothing typed yet">
+<input class="kit-field__control" value="Can't touch this" disabled>
+<input class="kit-field__control" value="Selectable, not editable" readonly>
+<input class="kit-field__control" required>
+
+<!-- An invalid value is described with ARIA. The kit has no invalid styling yet, so the message
+     and its look are yours -->
+<input class="kit-field__control" id="email2" type="email" aria-invalid="true" aria-describedby="email2-hint">
+<span id="email2-hint">Enter a valid email</span>
+
+<!-- Angular forms need nothing extra, it is a plain input -->
+<input class="kit-field__control" [formControl]="email">
+<input class="kit-field__control" [(ngModel)]="name">

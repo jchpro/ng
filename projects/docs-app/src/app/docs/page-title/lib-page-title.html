@@ -1,6 +1,25 @@
-<span>
-  {{ context().page?.fullName ?? context().lib?.name ?? '?' }}
-</span>
-<span class="lib-name">
+<nav class="kit-page-header__breadcrumb" aria-label="Breadcrumb">
+  <ol class="kit-breadcrumb">
+    <li>
+      <a class="kit-breadcrumb__item" [routerLink]="['/docs']">Docs</a>
+    </li>
+    @if (context().lib; as lib) {
+      <li>
+        @if (context().page) {
+          <a class="kit-breadcrumb__item" [routerLink]="['/docs', 'lib', lib.path]">{{ lib.name }}</a>
+        } @else {
+          <span class="kit-breadcrumb__item" aria-current="page">{{ lib.name }}</span>
+        }
+      </li>
+    }
+    @if (context().page; as page) {
+      <li>
+        <span class="kit-breadcrumb__item" aria-current="page">{{ page.fullName }}</span>
+      </li>
+    }
+  </ol>
+</nav>
+<h1 class="kit-page-header__title">{{ context().page?.fullName ?? context().lib?.name }}</h1>
+<div class="kit-page-header__actions">
   <code>{{ context().lib?.libName ?? '?' }}</code>
-</span>
+</div>

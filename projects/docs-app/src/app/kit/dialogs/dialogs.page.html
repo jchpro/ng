@@ -1,0 +1,119 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  One look for every dialog, built on the CDK dialog, and a service that opens them and answers with Promises.
+  <code>alert</code> tells the user something, <code>confirm</code> asks, and <code>open</code> shows a component of your own.
+  None of them ever reject, a dismissed dialog (Escape, backdrop click, navigation) just resolves.
+</p>
+
+<h2>Setup</h2>
+<p>
+  Dialogs render in the CDK overlay container, which needs its structural styles once.
+  The dialog look itself is part of <code>primitives</code>.
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-dialogs/styles.example.scss">
+</app-code-example>
+
+<h2>Alerts and confirmations</h2>
+<app-code-example
+  lang="ts"
+  source="/code/kit-dialogs/service.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap x-center gap-sm">
+  @for (tone of tones; track tone) {
+    <button type="button" class="kit-btn kit-btn--ghost" (click)="alert(tone)">Alert, {{ tone }}</button>
+  }
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="confirm()">Confirm</button>
+  <button type="button" class="kit-btn kit-btn--danger" (click)="confirmDanger()">Confirm, danger</button>
+</div>
+<p>Last result: {{ lastResult() }}</p>
+
+<p>
+  Tones are <code>info</code> (default), <code>success</code>, <code>warning</code>, <code>danger</code> and <code>error</code>.
+  <code>danger</code> is for a destructive action about to happen, its confirm button turns red and focus starts on Cancel.
+  <code>error</code> is for something that just failed.
+</p>
+
+<h2>Your own dialogs</h2>
+<p>
+  Lay a component out with the <code>kit-dialog</code> classes, name it with <code>kitDialogTitle</code> and close it
+  with <code>[kitDialogClose]="value"</code> buttons, then open it with <code>open()</code>.
+  The body scrolls while the header and footer stay in view, and the width is capped to the screen minus a margin.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-dialogs/custom-dialog.example.ts">
+</app-code-example>
+<app-code-example
+  lang="html"
+  source="/code/kit-dialogs/custom-dialog.example.html">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap x-center gap-sm">
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="openCustom(0, 'md')">Medium</button>
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="openCustom(40, 'lg')">Large, scrolling body</button>
+</div>
+
+<h2>Labels and translations</h2>
+<p>
+  Titles and button labels have three layers, the closest one wins:
+  English defaults, then app-wide labels (<code>provideKitDialogLabels</code> or <code>provideKitLabels</code>),
+  then the call's own options. <code>provideKitLabels('pl')</code> switches every feature of the kit to Polish at once.
+  The kit has no i18n dependency, pass a signal to follow your own library.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-dialogs/labels.example.ts">
+</app-code-example>
+
+<h2>API</h2>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>KitDialogService</code></td>
+      <td><code>alert()</code>, <code>confirm()</code> and <code>open()</code>, all returning Promises that never reject</td>
+    </tr>
+    <tr>
+      <td><code>KitDialogRef</code></td>
+      <td>Returned by <code>open()</code>: <code>result</code> Promise, <code>close()</code>, <code>componentInstance</code></td>
+    </tr>
+    <tr>
+      <td><code>KitDialogTitle</code></td>
+      <td><code>[kitDialogTitle]</code>, marks the heading, styles it and makes it the dialog's accessible name</td>
+    </tr>
+    <tr>
+      <td><code>KitDialogClose</code></td>
+      <td><code>[kitDialogClose]="value"</code>, closes the dialog on click and resolves <code>result</code> with the value</td>
+    </tr>
+    <tr>
+      <td><code>KIT_DIALOG_LABELS</code></td>
+      <td>Signal of the default titles and button labels, English unless overridden</td>
+    </tr>
+    <tr>
+      <td><code>provideKitDialogLabels()</code></td>
+      <td>App-wide override, merged over the defaults, takes a value or a signal</td>
+    </tr>
+    <tr>
+      <td><code>KIT_DIALOG_LABELS_EN</code>, <code>KIT_DIALOG_LABELS_PL</code></td>
+      <td>Complete label sets to build on</td>
+    </tr>
+    <tr>
+      <td><code>provideKitLabels()</code></td>
+      <td>One-call <code>'en'</code> or <code>'pl'</code> for every built-in string of the kit</td>
+    </tr>
+    <tr>
+      <td><code>.kit-btn--danger</code></td>
+      <td>Button color modifier for a destructive action</td>
+    </tr>
+  </table>
+</div>

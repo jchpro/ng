@@ -1,8 +1,20 @@
+@use '@jchpro/ngx-kit/styles/tokens';
+@use '@jchpro/ngx-kit/styles/overlay';
+@use '@jchpro/ngx-kit/styles/primitives';
+@use '@jchpro/ngx-kit/styles/shell';
 @use './themes';
+@use './theme-colors';
 @use '@jchpro/ngx-common/styles/flex' as pro-flex;
 
-// Theme
+// jchPRO tokens, primitives & layout shell
+@include tokens.root-styles();
+@include overlay.root-styles();
+@include primitives.classes();
+@include shell.root-styles();
+
+// Theme (scheme aliases + docs-app-only hue overrides)
 @include themes.root-styles();
+@include theme-colors.root-styles();
 
 // Helpers
 @include pro-flex.classes();
@@ -12,11 +24,47 @@
   box-sizing: border-box;
 }
 
+// Doc page typography: body from the design system's App type scale, headings from the
+// prose scale. Scoped to the shell's content
+// area (the menu and header style themselves) and written with :where/:not([class]) so it
+// stays below any kit class: only plain, unclassed elements get it.
+:where(.kit-shell__content) {
+  font-size: var(--kit-app-body-size);
+  line-height: var(--kit-app-body-line-height);
+  font-weight: var(--kit-app-body-weight);
+
+  h2, h3 {
+    font-family: var(--kit-font-display);
+  }
+
+  h2 {
+    margin: var(--kit-space-6) 0 var(--kit-space-2);
+    font-size: var(--kit-prose-h2-size);
+    line-height: var(--kit-prose-h2-line-height);
+    font-weight: var(--kit-prose-h2-weight);
+  }
+
+  h3 {
+    margin: var(--kit-space-4) 0 var(--kit-space-2);
+    font-size: var(--kit-prose-h3-size);
+    line-height: var(--kit-prose-h3-line-height);
+    font-weight: var(--kit-prose-h3-weight);
+  }
+
+  :is(p, ul, ol):not([class]) {
+    margin: 0 0 var(--kit-space-3);
+  }
+
+  :is(ul, ol):not([class]) {
+    padding-left: var(--kit-space-5);
+  }
+}
+
 body {
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  color: var(--color-text);
-  background-color: var(--color-bg);
+  font-family: var(--kit-font-body);
+  color: var(--kit-ink-primary);
+  background-color: var(--kit-surface-canvas);
 
   a.clear {
     &:visited, &:hover, &:focus, &:active, &:link {
@@ -26,8 +74,8 @@ body {
   }
 
   code {
-    background-color: var(--color-surface);
-    color: var(--color-primary);
+    background-color: var(--kit-surface-raised);
+    color: var(--kit-accent-peach-muted);
     padding: 0.2rem;
     border-radius: 0.2rem;
 
@@ -37,19 +85,44 @@ body {
     }
   }
 
-  table {
-
-    tr, td {
-      padding: 0.25rem;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-  }
-
+  // Doc tables: a rounded frame (the .table-fit wrapper, which also scrolls on narrow screens),
+  // a tinted header row and hairlines between rows.
   .table-fit {
     overflow-x: auto;
     max-width: 100%;
+    margin: var(--kit-space-3) 0 var(--kit-space-4);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: var(--kit-space-2) var(--kit-space-4);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: var(--kit-surface-raised);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    tr + tr > :is(th, td) {
+      border-top: 1px solid var(--kit-border-subtle);
+    }
+
+    tbody tr:hover {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, transparent);
+    }
+
+    // Rows are tight, so code chips don't need the vertical padding that makes them tall
+    code {
+      padding: 0.1rem 0.3rem;
+    }
   }
 
   .gap-sm { gap: 0.5rem; }

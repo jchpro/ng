@@ -1,0 +1,296 @@
+// All of KitShell's layout CSS lives here, rather than spread across each shell component's
+// own stylesheet, so the whole layout is one thing to read/edit and — being plain global CSS
+// instead of Angular-encapsulated component styles — trivial for a consumer to override.
+//
+// Requires an ancestor (normally your app's root component) marked with the `kit-shell-root`
+// class, which the `KitShellRoot` directive applies for you — see docs/layout.md. `KitShell`
+// itself warns to the console if it can't find that directive anywhere above it.
+@mixin root-styles() {
+
+  @keyframes kit-loading-bar {
+    to {
+      transform: translateX(250%);
+    }
+  }
+
+  @keyframes kit-loading-bar-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  // Neutralizes the root element's own box (e.g. <app-root>) so kit-shell can size itself
+  // against the real viewport/body instead of an arbitrarily-styled ancestor.
+  .kit-shell-root {
+    display: contents;
+  }
+
+  .kit-shell-root kit-shell {
+    display: flex;
+    flex-direction: column;
+    // A hard cap, not just a floor: this is what keeps the header and footer in view and
+    // confines scrolling to .kit-shell__body below. Header/footer stay normal flow-positioned
+    // (no position: fixed, no margin hand-matched to the header's height) — they simply never
+    // leave the viewport because their container never grows past it.
+    height: 100dvh;
+    background-color: var(--kit-surface-canvas);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+
+    .kit-shell__body {
+      position: relative;
+      display: flex;
+      flex: 1;
+      // Lets this shrink below its content's intrinsic size so the overflow-y: auto below
+      // (on both the sidenav and .kit-shell__content) actually gets to do the scrolling,
+      // instead of this element just growing to fit everything.
+      min-height: 0;
+    }
+
+    .kit-shell__scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      background-color: color-mix(in srgb, var(--kit-surface-overlay) 60%, transparent);
+    }
+
+    // Global loading bar (`KitLoadingBar`). Fixed to the viewport's top edge, above the overlay
+    // sidenav — it takes no layout space, so nothing shifts when it appears.
+    kit-loading-bar {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      z-index: 20;
+      height: 3px;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      // Hidden only after the fade-out has finished, so the segment keeps travelling while it
+      // fades instead of freezing mid-bar. The animation is never paused or reset for the same
+      // reason; `visibility: hidden` keeps it from painting while the bar is away.
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0s 0.2s;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        width: 40%;
+        // Soft ends, so the segment melts into the edges instead of being cut off by them.
+        background-image: linear-gradient(
+          90deg,
+          transparent,
+          var(--kit-brand-pink) 35%,
+          var(--kit-brand-pink) 65%,
+          transparent
+        );
+        transform: translateX(-100%);
+        animation: kit-loading-bar 1.2s ease-in-out infinite;
+      }
+
+      &.kit-loading-bar--visible {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.2s;
+      }
+
+      // No travelling segment: a full-width bar that gently pulses instead.
+      @media (prefers-reduced-motion: reduce) {
+        &::after {
+          width: 100%;
+          background-image: none;
+          background-color: var(--kit-brand-pink);
+          transform: none;
+          animation-name: kit-loading-bar-pulse;
+          animation-duration: 1.6s;
+        }
+      }
+    }
+
+    .kit-shell__content {
+      flex: 1;
+      min-width: 0;
+      overflow-y: auto;
+      padding: var(--kit-space-4);
+    }
+
+    kit-shell-header {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid var(--kit-border-subtle);
+      background-color: var(--kit-surface-raised);
+
+      .kit-shell-header__row {
+        display: flex;
+        align-items: center;
+        gap: var(--kit-space-3);
+        padding: var(--kit-space-2) var(--kit-space-4);
+      }
+
+      .kit-shell-header__toggle {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        width: var(--kit-control-height);
+        height: var(--kit-control-height);
+        padding: 0;
+        border: none;
+        border-radius: var(--kit-radius-md);
+        background: transparent;
+        color: var(--kit-ink-primary);
+        cursor: pointer;
+
+        &:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+        }
+      }
+
+      .kit-shell-header__nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--kit-space-1);
+        flex: 0 0 auto;
+
+        &--row2 {
+          gap: var(--kit-space-3);
+          padding: 0 var(--kit-space-4) var(--kit-space-2);
+          overflow-x: auto;
+        }
+      }
+
+      .kit-shell-header__nav-item {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: var(--kit-space-2);
+        padding: var(--kit-space-2) var(--kit-space-3);
+        border: none;
+        border-radius: var(--kit-radius-md);
+        background: transparent;
+        color: var(--kit-ink-primary);
+        font-family: var(--kit-font-body);
+        font-size: var(--kit-app-body-size);
+        line-height: var(--kit-app-body-line-height);
+        font-weight: var(--kit-app-body-weight);
+        white-space: nowrap;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+        }
+
+        &--active {
+          background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+          font-weight: 600;
+        }
+
+        &--disabled,
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+      }
+    }
+
+    kit-shell-sidenav {
+      display: block;
+      flex: 0 0 auto;
+      width: 240px;
+      border-right: 1px solid var(--kit-border-subtle);
+      background-color: var(--kit-surface-raised);
+      overflow-y: auto;
+
+      &.kit-shell-sidenav--overlay {
+        position: fixed;
+        inset-block: 0;
+        inset-inline-start: 0;
+        z-index: 10;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease-in-out;
+        box-shadow: var(--kit-shadow-overlay);
+
+        &.kit-shell-sidenav--open {
+          transform: translateX(0);
+        }
+      }
+    }
+
+    kit-shell-nav-section {
+      display: block;
+      padding: var(--kit-space-3) 0;
+
+      & + kit-shell-nav-section {
+        border-top: 1px solid var(--kit-border-subtle);
+      }
+
+      .kit-shell-nav-section__title {
+        padding: 0 var(--kit-space-4) var(--kit-space-2);
+        font-size: var(--kit-app-label-size);
+        line-height: var(--kit-app-label-line-height);
+        font-weight: var(--kit-app-label-weight);
+        color: var(--kit-ink-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .kit-shell-nav-section__list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .kit-shell-nav-section__item {
+        display: flex;
+        align-items: center;
+        gap: var(--kit-space-2);
+        width: 100%;
+        padding: var(--kit-space-2) var(--kit-space-4);
+        border: none;
+        background: transparent;
+        color: var(--kit-ink-primary);
+        font-family: var(--kit-font-body);
+        font-size: var(--kit-app-body-size);
+        line-height: var(--kit-app-body-line-height);
+        font-weight: var(--kit-app-body-weight);
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:focus-visible {
+          outline: none;
+          box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+        }
+
+        &--active {
+          background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+          font-weight: 600;
+        }
+
+        &--disabled,
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+      }
+    }
+
+    kit-shell-footer {
+      display: block;
+      padding: var(--kit-space-3) var(--kit-space-4);
+      border-top: 1px solid var(--kit-border-subtle);
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-muted);
+      font-size: var(--kit-app-caption-size);
+      line-height: var(--kit-app-caption-line-height);
+      font-weight: var(--kit-app-caption-weight);
+    }
+  }
+
+}

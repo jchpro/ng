@@ -1,0 +1,99 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  Two levels of loading state: a local indicator on the element that is waiting
+  (a button, a card, a form) and a global bar at the top of the viewport that the shell renders by itself.
+</p>
+
+<h2>Local</h2>
+<p>
+  Add <code>[kitBusy]</code> (import <code>KitBusy</code>) to any element.
+  A button swaps its label for a spinner at the same width and swallows clicks while staying focusable.
+  Anything else is covered by a scrim and spinner and made inert.
+  <code>.kit-spinner</code> and <code>.kit-skeleton</code> are plain classes for the rest.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-loading/busy.example.html">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap x-center gap-sm">
+  <button type="button" class="kit-btn kit-btn--primary" [kitBusy]="saving()" (click)="saveDemo()">Save</button>
+  <button type="button" class="kit-btn kit-btn--secondary" [kitBusy]="saving()" (click)="saveDemo()">Secondary</button>
+  <button type="button" class="kit-btn kit-btn--ghost" [kitBusy]="saving()" (click)="saveDemo()">Ghost</button>
+  <span class="kit-spinner"></span>
+</div>
+<br>
+<div class="kit-card" [kitBusy]="panelLoading()">
+  <h3 class="kit-card__title">Orders</h3>
+  <p class="kit-card__body">Some content that is about to be refreshed.</p>
+  <div>
+    <button type="button" class="kit-btn kit-btn--ghost" (click)="panelDemo()">Reload card</button>
+  </div>
+</div>
+<br>
+<div class="kit-skeleton" style="height: 60px"></div>
+
+<h2>Global</h2>
+<p>
+  <code>KitLoadingService</code> counts overlapping operations behind the bar at the top edge of the viewport.
+  The bar appears only after an operation has lasted 150 ms and stays for at least 400 ms, so quick requests
+  never flash it. Tune that with <code>KIT_LOADING_OPTIONS</code>.
+</p>
+<p>
+  Nothing is tracked automatically unless you opt in: <code>kitLoadingInterceptor</code> for HTTP requests
+  (skip one with <code>KIT_LOADING_SKIP</code>) and <code>provideKitNavigationLoading()</code> for router navigations.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-loading/global.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<button type="button" class="kit-btn kit-btn--ghost" (click)="globalDemo()">Track a 2.5 s operation</button>
+
+<h2>Styles</h2>
+<p>
+  The classes ship in their own stylesheet and are also part of <code>primitives</code>.
+  The bar itself is part of the shell stylesheet.
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-loading/styles.example.scss">
+</app-code-example>
+
+<h2>API</h2>
+<div class="table-fit">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>KitBusy</code></td>
+      <td>The <code>[kitBusy]</code> directive, local busy state for a button or any other element</td>
+    </tr>
+    <tr>
+      <td><code>KitLoadingService</code></td>
+      <td><code>begin()</code>, <code>track(promise | observable)</code> and the <code>isLoading</code> signal behind the global bar</td>
+    </tr>
+    <tr>
+      <td><code>KIT_LOADING_OPTIONS</code></td>
+      <td>Injection token for the bar's show delay and minimum visible time</td>
+    </tr>
+    <tr>
+      <td><code>kitLoadingInterceptor</code></td>
+      <td>Opt-in HTTP interceptor reporting requests to the service</td>
+    </tr>
+    <tr>
+      <td><code>KIT_LOADING_SKIP</code></td>
+      <td>HTTP context flag keeping a request out of the global state, built with <code>kitLoadingSkipContext()</code></td>
+    </tr>
+    <tr>
+      <td><code>provideKitNavigationLoading()</code></td>
+      <td>Opt-in provider reporting router navigations to the service</td>
+    </tr>
+  </table>
+</div>

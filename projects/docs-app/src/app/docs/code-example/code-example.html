@@ -8,14 +8,14 @@
        [href]="source()"
        [download]="sourceFilename()"
        title="Download file">
-      <fa-icon [icon]="faDownload"></fa-icon>
+      <svg lucideDownload></svg>
     </a>
     <button type="button"
             class="icon-btn"
             title="Copy to clipboard"
             [cdkCopyToClipboard]="code()"
             (cdkCopyToClipboardCopied)="onCopied()">
-      <fa-icon [icon]="faCopy"></fa-icon>
+      <svg lucideCopy></svg>
     </button>
     <span class="lang">{{ prettyLang() }}</span>
   </div>
@@ -24,7 +24,7 @@
 <!-- Loading indicator or highlight.js -->
 @if (fetching()) {
   <div class="fetching">
-    <fa-icon [icon]="faSpinner" size="3x"></fa-icon>
+    <svg lucideLoaderCircle class="spin" size="3em"></svg>
   </div>
 } @else {
   <pre class="hljs" [innerHTML]="html()"></pre>

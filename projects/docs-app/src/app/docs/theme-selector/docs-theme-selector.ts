@@ -1,12 +1,21 @@
-import { Component, DestroyRef, ElementRef, inject, ChangeDetectionStrategy } from '@angular/core';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faPalette, faFillDrip, faCircleHalfStroke, faCircle, faCircleDot } from '@fortawesome/free-solid-svg-icons';
-import { THEME_COLOR_OPTIONS, THEME_SCHEME_OPTIONS, ThemeColor, ThemeScheme, ThemesService } from '../../core/services/themes.service';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { LucideCircle, LucideCircleDot, LucideDynamicIcon, LucidePaintBucket } from '@lucide/angular';
+import { KitMenu, KitMenuItem, KitMenuTrigger, KitScheme, KitThemeService } from '@jchpro/ngx-kit';
+import { THEME_COLOR_OPTIONS, ThemeColor, ThemesService } from '../../core/services/themes.service';
+
+const SCHEME_OPTIONS = [
+  { scheme: 'system', label: 'System' },
+  { scheme: 'dark', label: 'Dark' },
+  { scheme: 'light', label: 'Light' },
+] as const satisfies readonly { scheme: KitScheme; label: string }[];
 
 @Component({
   selector: 'app-docs-theme-selector',
   imports: [
-    FaIconComponent
+    LucideDynamicIcon,
+    KitMenu,
+    KitMenuItem,
+    KitMenuTrigger
   ],
   templateUrl: './docs-theme-selector.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -15,41 +24,23 @@ import { THEME_COLOR_OPTIONS, THEME_SCHEME_OPTIONS, ThemeColor, ThemeScheme, The
 export class DocsThemeSelector {
 
   protected colorOptions = THEME_COLOR_OPTIONS;
-  protected schemeOptions = THEME_SCHEME_OPTIONS;
+  protected schemeOptions = SCHEME_OPTIONS;
 
-  #service = inject(ThemesService);
-  protected readonly theme = this.#service.theme;
+  #colorService = inject(ThemesService);
+  #schemeService = inject(KitThemeService);
+  protected readonly color = this.#colorService.color;
+  protected readonly scheme = this.#schemeService.scheme;
 
-  #host = inject(ElementRef<HTMLElement>).nativeElement;
-
-  protected readonly faPalette = faPalette;
-  protected readonly faFillDrip = faFillDrip;
-  protected readonly faCircleHalfStroke = faCircleHalfStroke;
-  protected readonly faCircle = faCircle;
-  protected readonly faCircleDot = faCircleDot;
-
-  constructor() {
-    const onDocumentClick = (event: MouseEvent) => {
-      if (!this.#host.contains(event.target as Node)) {
-        this.#closeAll();
-      }
-    };
-    document.addEventListener('click', onDocumentClick);
-    inject(DestroyRef).onDestroy(() => document.removeEventListener('click', onDocumentClick));
-  }
+  protected readonly themeIcon = LucidePaintBucket;
+  protected readonly selectedIcon = LucideCircleDot;
+  protected readonly unselectedIcon = LucideCircle;
 
   protected changeColor(color: ThemeColor) {
-    this.#service.change({ ...this.theme(), color });
-    this.#closeAll();
+    this.#colorService.change(color);
   }
 
-  protected changeScheme(scheme: ThemeScheme) {
-    this.#service.change({ ...this.theme(), scheme });
-    this.#closeAll();
-  }
-
-  #closeAll() {
-    this.#host.querySelectorAll('details').forEach((details: HTMLDetailsElement) => details.open = false);
+  protected changeScheme(scheme: KitScheme) {
+    this.#schemeService.set(scheme);
   }
 
 }

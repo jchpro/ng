@@ -1,0 +1,109 @@
+// jchPRO App menu — the panel opened by `kitMenuTriggerFor`. Plain classes: `.kit-menu` is set by
+// the `kitMenu` directive and `.kit-menu__item` by `kitMenuItem`; `.kit-menu__separator` you put
+// on an `<hr>` yourself. Needs the overlay styles too (`styles/overlay`).
+@mixin classes() {
+
+  @keyframes kit-menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  .kit-menu {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+    max-width: min(320px, 90vw);
+    max-height: min(24rem, 70dvh);
+    overflow-y: auto;
+    padding: var(--kit-space-1);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-overlay);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    animation: kit-menu-in 0.12s ease-out;
+
+    // The CDK focuses the panel itself when it opens by pointer; the items show focus.
+    &:focus {
+      outline: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  .kit-menu__item {
+    display: flex;
+    align-items: center;
+    gap: var(--kit-space-2);
+    width: 100%;
+    padding: var(--kit-space-2) var(--kit-space-3);
+    border: none;
+    border-radius: var(--kit-radius-sm);
+    background: transparent;
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    svg {
+      flex: 0 0 auto;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    // Destructive action. The status color is mixed toward the ink color rather than used
+    // as is: `--kit-status-danger` alone is just under AA contrast on the dark raised surface.
+    &--danger {
+      color: color-mix(in srgb, var(--kit-status-danger) 70%, var(--kit-ink-primary));
+
+      &:hover,
+      &:focus-visible {
+        background-color: color-mix(in srgb, var(--kit-status-danger) 15%, transparent);
+      }
+    }
+
+    &[aria-disabled='true'] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  // A non-interactive heading for a group of items, usually after a separator. Not focusable,
+  // the CDK keyboard navigation skips it.
+  .kit-menu__label {
+    padding: var(--kit-space-2) var(--kit-space-3) var(--kit-space-1);
+    color: var(--kit-ink-muted);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .kit-menu__separator {
+    height: 1px;
+    margin: var(--kit-space-1) 0;
+    border: none;
+    background-color: var(--kit-border-subtle);
+  }
+
+}

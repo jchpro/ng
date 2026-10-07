@@ -1,0 +1,3 @@
+@use '@jchpro/ngx-kit/styles/loading';
+
+@include loading.classes();   // already included by `primitives.classes()`

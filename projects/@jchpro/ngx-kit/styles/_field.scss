@@ -1,0 +1,170 @@
+// jchPRO App Field — see the design system's Field component README for the source spec.
+// Usage: wrap a label and its control in one `.kit-field`, e.g.
+//   <div class="kit-field">
+//     <label class="kit-field__label" for="email">Email</label>
+//     <input class="kit-field__control" id="email" type="email">
+//   </div>
+@mixin classes() {
+
+  .kit-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-1);
+  }
+
+  .kit-field__label {
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-label-size);
+    line-height: var(--kit-app-label-line-height);
+    font-weight: var(--kit-app-label-weight);
+    color: var(--kit-ink-primary);
+  }
+
+  .kit-field__control {
+    box-sizing: border-box;
+    height: var(--kit-control-height);
+    padding: 0 var(--kit-space-3);
+    border-radius: var(--kit-radius-md);
+    border: 1px solid var(--kit-border-subtle);
+    background-color: var(--kit-surface-raised);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+
+    &::placeholder {
+      color: var(--kit-ink-muted);
+    }
+
+    // The one place an App field borrows the marketing accent directly — a small,
+    // momentary state rather than the field's resting look.
+    &:focus-visible {
+      outline: none;
+      border-color: var(--kit-brand-pink);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // File input: the browser's own button gets the kit's look, inset by the same 4px on every
+    // side so its corners run concentric with the field's. The tint (not a brand color as text)
+    // follows the "selected" fill used elsewhere in the kit.
+    //
+    // A file input doesn't center its content vertically the way a text input does, and the
+    // browser aligns the button and the filename on a shared baseline. So the vertical padding
+    // is sized to leave a content box exactly as tall as the button (36 - 2 border - 2 * 4 = 26px),
+    // and `align-items: center` centers the filename against it.
+    &[type='file'] {
+      align-items: center;
+      padding: var(--kit-space-1) var(--kit-space-3) var(--kit-space-1) var(--kit-space-1);
+      cursor: pointer;
+    }
+
+    &::file-selector-button {
+      height: calc(var(--kit-control-height) - 2 * var(--kit-space-1) - 2px);
+      margin: 0 var(--kit-space-3) 0 0;
+      padding: 0 var(--kit-space-3);
+      border: 1px solid var(--kit-border-subtle);
+      // Concentric with the field: its radius, less the border and the inset.
+      border-radius: calc(var(--kit-radius-md) - var(--kit-space-1) - 1px);
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+      color: var(--kit-ink-primary);
+      font-family: var(--kit-font-body);
+      font-size: var(--kit-app-body-sm-size);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.12s;
+    }
+
+    &:hover:not(:disabled)::file-selector-button {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 28%, transparent);
+    }
+
+    &:disabled::file-selector-button {
+      cursor: not-allowed;
+    }
+
+    // Color input: a small swatch, inset 4px like the file button, rather than a stretched bar.
+    &[type='color'] {
+      align-self: flex-start;
+      width: calc(var(--kit-control-height) * 1.5);
+      padding: var(--kit-space-1);
+      cursor: pointer;
+
+      &::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      &::-webkit-color-swatch {
+        border: none;
+        border-radius: calc(var(--kit-radius-md) - var(--kit-space-1) - 1px);
+      }
+
+      &::-moz-color-swatch {
+        border: none;
+        border-radius: calc(var(--kit-radius-md) - var(--kit-space-1) - 1px);
+      }
+    }
+  }
+
+  // Textarea: same field, but as tall as its `rows` and resizable up and down. `height: auto`
+  // lets `rows` take effect; `min-height` keeps an empty one from collapsing to a single line.
+  textarea.kit-field__control {
+    height: auto;
+    min-height: calc(var(--kit-control-height) * 2);
+    padding: var(--kit-space-2) var(--kit-space-3);
+    resize: vertical;
+  }
+
+  // Select: the browser's arrow is replaced with the kit's chevron. A drawn SVG, so one mid-tone
+  // (`#8f88a3`) serves both schemes — a CSS variable can't reach into a data URI — chosen to
+  // hold at least 3:1 against both the light and dark field backgrounds.
+  select.kit-field__control {
+    appearance: none;
+    padding-right: calc(var(--kit-space-3) + 28px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%238f88a3' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--kit-space-3) center;
+    background-size: 16px 16px;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    // Colors for the options of the open list, where the browser lets us (Firefox, Windows).
+    option,
+    optgroup {
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+    }
+
+    // A list box (`multiple` or `size` > 1) shows its options inline: no arrow, grows with them.
+    &[multiple],
+    &[size]:not([size='1']) {
+      height: auto;
+      padding: var(--kit-space-1);
+      background-image: none;
+      cursor: default;
+      overflow-y: auto;
+
+      option {
+        padding: var(--kit-space-1) var(--kit-space-2);
+        border-radius: calc(var(--kit-radius-sm) / 2);
+      }
+
+      // Selected options: the fill used for "selected" elsewhere, with its white text.
+      option:checked {
+        background-color: var(--kit-brand-violet-muted);
+        background-image: linear-gradient(var(--kit-brand-violet-muted), var(--kit-brand-violet-muted));
+        color: var(--kit-ink-on-accent);
+      }
+    }
+  }
+
+}

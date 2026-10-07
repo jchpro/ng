@@ -3,8 +3,8 @@
     @if (header()) {
       <div class="card-title">
         {{ header() }}
-        @if (icon()) {
-          <fa-icon size="2x" [icon]="icon()"></fa-icon>
+        @if (icon(); as iconValue) {
+          <svg [lucideIcon]="iconValue" size="2em" class="card-icon"></svg>
         }
       </div>
     }

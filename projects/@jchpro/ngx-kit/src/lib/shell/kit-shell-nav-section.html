@@ -1,0 +1,30 @@
+<div class="kit-shell-nav-section__title" [id]="titleId">{{ title() }}</div>
+<nav class="kit-shell-nav-section__list" [attr.aria-labelledby]="titleId">
+  @for (item of items(); track item) {
+    <ng-template #itemBody>
+      @if (item.icon(); as icon) {
+        <svg [lucideIcon]="icon" size="18"></svg>
+      }
+      <span><ng-container [ngTemplateOutlet]="item.content()"></ng-container></span>
+    </ng-template>
+
+    @if (item.link(); as link) {
+      <a class="kit-shell-nav-section__item"
+         [routerLink]="link"
+         routerLinkActive="kit-shell-nav-section__item--active"
+         [routerLinkActiveOptions]="item.linkActiveOptions()"
+         [class.kit-shell-nav-section__item--disabled]="isDisabled(item)"
+         [attr.aria-disabled]="isDisabled(item) ? 'true' : null">
+        <ng-container [ngTemplateOutlet]="itemBody"></ng-container>
+      </a>
+    } @else {
+      <button type="button"
+              class="kit-shell-nav-section__item"
+              [class.kit-shell-nav-section__item--disabled]="isDisabled(item)"
+              [disabled]="isDisabled(item)"
+              (click)="item.linkClick.emit()">
+        <ng-container [ngTemplateOutlet]="itemBody"></ng-container>
+      </button>
+    }
+  }
+</nav>

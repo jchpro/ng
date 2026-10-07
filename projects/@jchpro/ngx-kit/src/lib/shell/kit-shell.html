@@ -1,0 +1,12 @@
+<kit-loading-bar></kit-loading-bar>
+<ng-content select="kit-shell-header"></ng-content>
+<div class="kit-shell__body">
+  <ng-content select="kit-shell-sidenav"></ng-content>
+  @if (state.sidenavMode() === 'overlay' && state.sidenavOpen()) {
+    <div class="kit-shell__scrim" (click)="state.closeSidenav()"></div>
+  }
+  <main class="kit-shell__content" [attr.aria-busy]="loading.isLoading() ? 'true' : null">
+    <ng-content></ng-content>
+  </main>
+</div>
+<ng-content select="kit-shell-footer"></ng-content>

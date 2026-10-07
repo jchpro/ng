@@ -1,0 +1,181 @@
+// jchPRO App checkbox, radio and switch — plain classes on native inputs, no component:
+//   <label class="kit-check"><input class="kit-check__input" type="checkbox"> Label</label>
+//   <label class="kit-check"><input class="kit-check__input" type="radio" name="x"> Label</label>
+//   <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch"> Label</label>
+// A switch is a checkbox with `role="switch"`: the ARIA role picks the look, so what assistive
+// tech announces and what the user sees can't drift apart. The wrapping `<label>` is optional
+// (`.kit-check` only lays out the box and its text); a standalone input needs an `aria-label`.
+//
+// Resting state: a `--kit-ink-muted` outline, which keeps the box at 3:1 against the surface in
+// both schemes (the Field's `--kit-border-subtle` is too faint for a control with no other
+// outline). Selected: filled `--kit-brand-violet-muted` with white mark, the same fill pairing
+// as the secondary button.
+// Inline SVG marks, white because they only ever sit on the violet fill (`--kit-ink-on-accent`
+// is white in both schemes).
+$_check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+$_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8h8' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+
+@mixin classes() {
+
+  .kit-check {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--kit-space-2);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+    color: var(--kit-ink-primary);
+    cursor: pointer;
+
+    &:has(.kit-check__input:disabled) {
+      color: var(--kit-ink-muted);
+      cursor: not-allowed;
+    }
+  }
+
+  .kit-check__input {
+    appearance: none;
+    // A grid so the radio dot and switch thumb, drawn as `::before`, center in the box.
+    display: grid;
+    place-content: center;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    // Centers the 18px box on the first line of text (20px line height).
+    margin: 1px 0 0;
+    border: 1.5px solid var(--kit-ink-muted);
+    border-radius: calc(var(--kit-radius-sm) / 2);
+    background-color: var(--kit-surface-raised);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.12s, border-color 0.12s;
+
+    &:hover:not(:disabled) {
+      border-color: var(--kit-ink-primary);
+    }
+
+    // Same momentary pink as the Field's focus ring.
+    &:focus-visible {
+      outline: none;
+      border-color: var(--kit-brand-pink);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &::before {
+        transition: none;
+      }
+    }
+
+    // Checkbox. `:indeterminate` is checkbox-only here: it also matches a radio group with
+    // nothing selected.
+    &[type='checkbox']:checked,
+    &[type='checkbox']:indeterminate {
+      border-color: var(--kit-brand-violet-muted);
+      background-color: var(--kit-brand-violet-muted);
+    }
+
+    &[type='checkbox']:checked {
+      background-image: $_check-mark;
+    }
+
+    &[type='checkbox']:indeterminate {
+      background-image: $_dash-mark;
+    }
+
+    // Radio: a white dot on the violet fill. Drawn as a real element rather than a gradient
+    // background, so its edge is properly anti-aliased.
+    &[type='radio'] {
+      border-radius: var(--kit-radius-full);
+    }
+
+    &[type='radio']:checked {
+      border-color: var(--kit-brand-violet-muted);
+      background-color: var(--kit-brand-violet-muted);
+    }
+
+    &[type='radio']:checked::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: var(--kit-radius-full);
+      background-color: var(--kit-ink-on-accent);
+    }
+
+    // Switch: a pill track and a round thumb that slides across it. The thumb is a real element
+    // moved with a transform (smooth, and sub-pixel anti-aliased, unlike a gradient background).
+    // Declared after the checkbox rules so it overrides them. 40x22 with a 1.5px border leaves a
+    // 37x19 inside: a 15px thumb sits 2px from each edge, centered at +-9px.
+    &[role='switch'] {
+      width: 40px;
+      height: 22px;
+      // Centers the 22px track on the first line of text (20px line height).
+      margin: -1px 0 0;
+      border-radius: var(--kit-radius-full);
+    }
+
+    &[role='switch']::before {
+      content: '';
+      width: 15px;
+      height: 15px;
+      border-radius: var(--kit-radius-full);
+      background-color: var(--kit-ink-muted);
+      box-shadow: var(--kit-shadow-sm);
+      transform: translateX(-9px);
+      transition: transform 0.15s ease-out, background-color 0.12s;
+    }
+
+    &[role='switch']:checked {
+      border-color: var(--kit-brand-violet-muted);
+      background-color: var(--kit-brand-violet-muted);
+      // The thumb is the mark: drop the checkbox's tick.
+      background-image: none;
+    }
+
+    &[role='switch']:checked::before {
+      background-color: var(--kit-ink-on-accent);
+      transform: translateX(9px);
+    }
+
+    // Forced colors (Windows high contrast) drop backgrounds, which would erase every mark
+    // above: give the native control back.
+    @media (forced-colors: active) {
+      appearance: auto;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin: 1px 0 0;
+      border-radius: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  // Lays several checks or radios out one under the other, or side by side with `--inline`.
+  .kit-check-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-2);
+
+    &--inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--kit-space-2) var(--kit-space-4);
+    }
+  }
+
+}

@@ -1,0 +1,18 @@
+<header class="kit-dialog__header">
+  <span class="kit-dialog__icon"><svg [lucideIcon]="icon" size="20"></svg></span>
+  <h2 kitDialogTitle>{{ data.title }}</h2>
+</header>
+<div class="kit-dialog__body">
+  <p class="kit-dialog__message">{{ data.message }}</p>
+</div>
+<footer class="kit-dialog__footer">
+  @if (data.cancelLabel) {
+    <button class="kit-btn kit-btn--ghost kit-dialog__cancel"
+            [kitDialogClose]="false"
+            [attr.cdkFocusInitial]="isDanger ? '' : null">{{ data.cancelLabel }}</button>
+  }
+  <button class="kit-btn kit-dialog__confirm"
+          [class.kit-btn--danger]="isDanger"
+          [class.kit-btn--primary]="!isDanger"
+          [kitDialogClose]="true">{{ data.confirmLabel }}</button>
+</footer>

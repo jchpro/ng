@@ -1,0 +1,8 @@
+@use '@angular/cdk';
+
+// Structural CSS the CDK's overlay container needs (positioning, stacking, backdrop) — shared
+// by everything the kit opens in an overlay: menus now, dialogs next. Include it once, in your
+// global stylesheet. Visual styling is each component's own (see `menu`, ...).
+@mixin root-styles() {
+  @include cdk.overlay();
+}

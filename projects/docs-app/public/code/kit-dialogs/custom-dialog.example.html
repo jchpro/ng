@@ -1,0 +1,13 @@
+<header class="kit-dialog__header">
+  <h2 kitDialogTitle>Edit user</h2>
+</header>
+<div class="kit-dialog__body">
+  <div class="kit-field">
+    <label class="kit-field__label" for="name">Name</label>
+    <input class="kit-field__control" id="name" [value]="name()" (input)="onName($event)">
+  </div>
+</div>
+<footer class="kit-dialog__footer">
+  <button class="kit-btn kit-btn--ghost" [kitDialogClose]="undefined">Cancel</button>
+  <button class="kit-btn kit-btn--primary" [kitDialogClose]="name()">Save</button>
+</footer>

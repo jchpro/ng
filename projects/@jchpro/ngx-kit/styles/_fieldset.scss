@@ -1,0 +1,70 @@
+// jchPRO App fieldset — classes on the native `<fieldset>` and `<legend>`, which keep doing their
+// job: the legend names the group for assistive tech, and `disabled` on the fieldset disables
+// everything inside it.
+//   <fieldset class="kit-fieldset">
+//     <legend class="kit-fieldset__legend">Notifications</legend>
+//     …fields, `kit-check-group`s…
+//   </fieldset>
+//
+// Bordered by default, with the legend sitting in the border as the browser draws it. Add
+// `kit-fieldset--plain` for a borderless group whose legend reads as a heading above its content.
+//
+// The fieldset is a grid with a gap, so what's directly inside it (a `kit-field`, a
+// `kit-check-group`, …) is spaced without margins of its own.
+@mixin classes() {
+
+  .kit-fieldset {
+    display: grid;
+    // One column that fits the fieldset. The default is an auto-sized column, which grows to the
+    // widest child's intrinsic width (a text input is ~230px) and pushes everything past the
+    // right padding instead of stretching the children to it.
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kit-space-3);
+    // Browsers give a fieldset `min-width: min-content`, so wide content would stretch it past
+    // its container; 0 lets it shrink with it.
+    min-width: 0;
+    margin: 0;
+    padding: var(--kit-space-3) var(--kit-space-4) var(--kit-space-4);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+
+    // Controls inside a disabled fieldset already dim themselves (`:disabled` matches them), so
+    // the fieldset only mutes its own legend instead of dimming everything a second time.
+    &:disabled .kit-fieldset__legend {
+      color: var(--kit-ink-muted);
+    }
+
+    &--plain {
+      padding: 0;
+      border: none;
+      border-radius: 0;
+    }
+  }
+
+  // Same type as a field label. In the bordered fieldset it breaks the border, with a little
+  // space either side; the padding is the gap in the line.
+  .kit-fieldset__legend {
+    padding: 0 var(--kit-space-2);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-label-size);
+    line-height: var(--kit-app-label-line-height);
+    font-weight: var(--kit-app-label-weight);
+  }
+
+  // Without a border to sit in, the legend is a heading: the card-title type, flush left.
+  .kit-fieldset--plain > .kit-fieldset__legend {
+    padding: 0;
+    margin-bottom: var(--kit-space-3);
+    font-family: var(--kit-font-display);
+    font-size: var(--kit-app-h3-size);
+    line-height: var(--kit-app-h3-line-height);
+    font-weight: var(--kit-app-h3-weight);
+  }
+
+}

@@ -1,0 +1,18 @@
+<kit-shell-header>
+  <a kit-shell-header-leading routerLink="/">My App</a>
+  <!-- Top navigation: inline in the header, a second row on mobile -->
+  <kit-shell-nav-item [link]="['/dashboard']">Dashboard</kit-shell-nav-item>
+  <kit-shell-nav-item [link]="['/reports']">Reports</kit-shell-nav-item>
+</kit-shell-header>
+
+<kit-shell-sidenav>
+  <!-- Sidebar navigation: titled groups of the same items -->
+  <kit-shell-nav-section title="Workspace">
+    <kit-shell-nav-item [link]="['/dashboard']">Dashboard</kit-shell-nav-item>
+    <kit-shell-nav-item [link]="['/settings']" [disabled]="!canManageSettings()">Settings</kit-shell-nav-item>
+  </kit-shell-nav-section>
+  <kit-shell-nav-section title="Account">
+    <!-- No link: renders a button and emits linkClick -->
+    <kit-shell-nav-item (linkClick)="logOut()">Log out</kit-shell-nav-item>
+  </kit-shell-nav-section>
+</kit-shell-sidenav>
