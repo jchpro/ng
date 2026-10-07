@@ -45,6 +45,7 @@ const pairs = [
   ['ink-on-accent', 'brand-violet-muted', TEXT],
   ['ink-on-accent', 'brand-magenta', TEXT],
   ['ink-on-accent', 'brand-indigo', TEXT],
+  ['ink-on-accent', 'status-danger-fill', TEXT],
   ['ink-on-peach', 'accent-peach', TEXT],
   ...['success', 'warning', 'danger', 'info'].flatMap((s) => [
     [`status-${s}-ink`, 'surface-raised', TEXT],

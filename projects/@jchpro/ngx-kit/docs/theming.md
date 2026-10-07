@@ -32,7 +32,8 @@ theme.toggle(); // cycles system -> dark -> light -> system
 `--kit-ink-on-primary` (the primary button's label: white in dark, near-black in light),
 `--kit-border-control` (the edge of a control, at 3:1 or more on both surfaces; `--kit-border-subtle` is for
 decorative dividers and card edges only) and `--kit-status-{success,warning,danger,info}-ink` (status as
-text; the plain `--kit-status-*` colors are for fills and icons). `npm run check:contrast` in the repo reads
+text; the plain `--kit-status-*` colors are for fills and icons) and `--kit-status-danger-fill` (the destructive
+button's fill, under a white label). `npm run check:contrast` in the repo reads
 the tokens and prints the ratio of every pairing the App surface uses, failing on any that drops under 4.5:1
 for text or 3:1 for controls, except the documented exceptions.
 

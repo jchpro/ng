@@ -103,7 +103,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   content, where the App scale's h2/h3 are too close to the body text. Mirror the design system's `prose-h2` /
   `prose-h3` styles (family stays Dosis via `--kit-font-display`)
 - Contrast fixes, from the design system's contrast review. New tokens `--kit-ink-on-primary`, `--kit-border-control` and
-  `--kit-status-{success,warning,danger,info}-ink`; dark `--kit-brand-pink` is `#b24cb2` (focus ring 3.4:1 on the raised
+  `--kit-status-{success,warning,danger,info}-ink` and `--kit-status-danger-fill` (the danger button's fill, replacing its
+  `color-mix` darkening); dark `--kit-brand-pink` is `#b24cb2` (focus ring 3.4:1 on the raised
   surface, was 3.0). The primary button's label is `--kit-ink-on-primary` (was white, 2.2:1 in light); fields, the file
   button, and the unchecked outline of checkbox, radio and switch use `--kit-border-control` (was `--kit-border-subtle`
   at 1.2:1 and `--kit-ink-muted`); a selected checkbox, radio or switch keeps its outline; the destructive menu item uses

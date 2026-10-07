@@ -94,11 +94,11 @@
       color: var(--kit-btn-fg);
     }
 
-    // A destructive action (confirming a delete, say). The status color is darkened toward
-    // black rather than used as is: white text on `--kit-status-danger` alone is about 3.6:1 in
-    // the dark scheme, this keeps it above 4.5:1 in both.
+    // A destructive action (confirming a delete, say), not a second primary. The fill is
+    // `--kit-status-danger-fill`, not the plain status color: white text on `--kit-status-danger`
+    // is about 3.6:1 in the dark scheme, the darker fill keeps it above 4.5:1 in both.
     &--danger {
-      --kit-btn-bg: color-mix(in srgb, var(--kit-status-danger) 75%, black);
+      --kit-btn-bg: var(--kit-status-danger-fill);
       --kit-btn-fg: var(--kit-ink-on-accent);
       background-color: var(--kit-btn-bg);
       color: var(--kit-btn-fg);

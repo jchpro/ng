@@ -33,6 +33,8 @@
   --kit-status-warning-ink: #9d6333;
   --kit-status-danger-ink: #c81e4c;
   --kit-status-info-ink: #6d4fc7;
+  // The destructive button's fill: status-danger darkened 25% toward black, so a white label passes.
+  --kit-status-danger-fill: #961739;
 
   // Shadow — light
   --kit-shadow-sm: 0 1px 2px rgba(33, 28, 48, 0.08);
@@ -71,6 +73,7 @@
     --kit-status-warning-ink: #eab88f;
     --kit-status-danger-ink: #f05473;
     --kit-status-info-ink: #957cdc;
+    --kit-status-danger-fill: #b33850;
 
     // Shadow — dark
     --kit-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
