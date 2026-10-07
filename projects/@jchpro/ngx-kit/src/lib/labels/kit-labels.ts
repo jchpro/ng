@@ -37,3 +37,8 @@ export function provideKitLabelsFor<T extends object>(
       : signal(mergeKitLabels(defaults, labels)).asReadonly()
   };
 }
+
+/** Replaces each `{name}` in `template` with its value, e.g. the `{from}` of a paginator range. */
+export function formatKitLabel(template: string, values: Record<string, string | number>): string {
+  return Object.entries(values).reduce((message, [name, value]) => message.replaceAll(`{${name}}`, String(value)), template);
+}

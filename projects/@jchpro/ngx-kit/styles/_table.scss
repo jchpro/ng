@@ -1,0 +1,463 @@
+// jchPRO data table: a native `<table class="kit-table">` for the rows, and `.kit-data-table`, the
+// framed card around it with a toolbar, the scroll region and a footer (`KitDataTable` renders
+// the frame, so most of these classes are used by the kit's own templates).
+//
+// Cells are styled with modifier classes on `<th>` / `<td>`: `kit-cell--num`, `--truncate`,
+// `--mono`, `--muted`, `--nowrap`, `--actions`, `--select`. Content conventions (an identity cell,
+// a boolean, an empty value) are the `kit-table__*` classes.
+@mixin classes() {
+
+  // The frame ----------------------------------------------------------------------------------
+
+  .kit-data-table {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    // The rounded frame clips the table; menus and dialogs render in the overlay container instead.
+    overflow: hidden;
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-sm);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+  }
+
+  .kit-data-table__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-3);
+    padding: var(--kit-space-3) var(--kit-space-4);
+    border-bottom: 1px solid var(--kit-border-subtle);
+
+    // Nothing projected into either side.
+    &:not(:has(.kit-data-table__toolbar-start > *, .kit-data-table__toolbar-end > *)) {
+      display: none;
+    }
+  }
+
+  .kit-data-table__toolbar-start {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-2);
+    min-width: 0;
+  }
+
+  .kit-data-table__toolbar-end {
+    display: flex;
+    align-items: center;
+    gap: var(--kit-space-2);
+    margin-left: auto;
+  }
+
+  // The search: an icon over a native `type="search"` field.
+  //   <div class="kit-data-table__search" kitTableSearch>
+  //     <svg lucideSearch></svg>
+  //     <input class="kit-field__control" type="search" aria-label="Search">
+  //   </div>
+  .kit-data-table__search {
+    position: relative;
+    flex: 1 1 14rem;
+    max-width: 22rem;
+
+    > svg {
+      position: absolute;
+      top: 50%;
+      left: var(--kit-space-3);
+      width: 16px;
+      height: 16px;
+      transform: translateY(-50%);
+      color: var(--kit-ink-muted);
+      pointer-events: none;
+    }
+
+    > .kit-field__control {
+      width: 100%;
+      padding-left: calc(var(--kit-space-3) + 16px + var(--kit-space-2));
+    }
+  }
+
+  // Inline filters: native selects, as wide as their content.
+  .kit-data-table__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kit-space-2);
+
+    > .kit-field__control {
+      width: auto;
+    }
+  }
+
+  // The applied filters, one chip each. A chip is a button that removes its filter. The fill is
+  // the "selected" tint used elsewhere in the kit, with primary ink on it.
+  .kit-data-table__chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-2);
+    padding: var(--kit-space-2) var(--kit-space-4);
+    border-bottom: 1px solid var(--kit-border-subtle);
+
+    &:not(:has(*)) {
+      display: none;
+    }
+  }
+
+  .kit-data-table__chip {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kit-space-1);
+    padding: var(--kit-space-1) var(--kit-space-2) var(--kit-space-1) var(--kit-space-3);
+    border: 0;
+    border-radius: var(--kit-radius-full);
+    background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+    color: var(--kit-ink-primary);
+    font-family: inherit;
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+    cursor: pointer;
+    transition: background-color 0.12s;
+
+    > svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 28%, transparent);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    // "Clear all": text only, no fill.
+    &--clear {
+      padding-left: var(--kit-space-2);
+      background-color: transparent;
+      text-decoration: underline;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // Scrolls both ways. Cap its height (`--kit-data-table-max-height`) for a table that scrolls
+  // under its sticky header instead of growing with its rows.
+  .kit-data-table__scroll {
+    position: relative;
+    overflow: auto;
+    max-height: var(--kit-data-table-max-height, none);
+
+    &:focus-visible {
+      outline: 2px solid var(--kit-brand-pink);
+      outline-offset: -2px;
+    }
+
+    &.kit-busy {
+      min-height: 8rem;
+    }
+  }
+
+  // Empty and error messages, under the header row.
+  .kit-data-table__state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--kit-space-2);
+    padding: var(--kit-space-6) var(--kit-space-4);
+    text-align: center;
+    color: var(--kit-ink-muted);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+
+    > svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .kit-data-table__state-title {
+    margin: 0;
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-display);
+    font-size: var(--kit-app-h3-size);
+    line-height: var(--kit-app-h3-line-height);
+    font-weight: var(--kit-app-h3-weight);
+  }
+
+  .kit-data-table__state-text {
+    margin: 0;
+  }
+
+  .kit-data-table__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--kit-space-4);
+    padding: var(--kit-space-2) var(--kit-space-4);
+    border-top: 1px solid var(--kit-border-subtle);
+
+    &:not(:has(*)) {
+      display: none;
+    }
+  }
+
+  // The table ----------------------------------------------------------------------------------
+  // Selectors here start with `.kit-table`, which keeps them above the unclassed-table rules of
+  // `kit-prose` when a table sits inside prose content.
+
+  .kit-table {
+    --kit-table-cell-py: var(--kit-space-3);
+
+    width: 100%;
+    // `separate`, not `collapse`: a sticky header keeps its bottom border only this way.
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+
+    th,
+    td {
+      padding: var(--kit-table-cell-py) var(--kit-space-4);
+      border-top: 0;
+      border-bottom: 1px solid var(--kit-border-subtle);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding-block: var(--kit-space-2);
+      background-color: color-mix(in srgb, var(--kit-ink-primary) 4%, var(--kit-surface-raised));
+      color: var(--kit-ink-muted);
+      font-size: var(--kit-app-label-size);
+      line-height: var(--kit-app-label-line-height);
+      font-weight: var(--kit-app-label-weight);
+      white-space: nowrap;
+    }
+
+    tbody tr:last-child > :is(th, td) {
+      border-bottom: 0;
+    }
+
+    // Tinted on the cells, not the row: the cells are opaque, so a prose row tint can't stack.
+    tbody tr:hover > :is(th, td) {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, var(--kit-surface-raised));
+    }
+
+    // Row height. `kit-table--compact` for dense lists.
+    &--compact {
+      --kit-table-cell-py: var(--kit-space-2);
+    }
+
+    // Cell modifiers, on `<th>` and `<td>` alike so a header lines up with its column.
+
+    // Numbers: right-aligned, equal-width figures.
+    .kit-cell--num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    // One line, cut off with an ellipsis; give the cell a `title` with the full text.
+    // Width: `--kit-cell-max-width`, 20rem by default.
+    .kit-cell--truncate {
+      max-width: var(--kit-cell-max-width, 20rem);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .kit-cell--nowrap {
+      white-space: nowrap;
+    }
+
+    // Identifiers, codes, hashes.
+    .kit-cell--mono {
+      font-family: var(--kit-font-mono);
+      font-size: var(--kit-app-body-sm-size);
+    }
+
+    // Secondary information, such as a time next to a date.
+    .kit-cell--muted {
+      color: var(--kit-ink-muted);
+    }
+
+    // The last column: row actions, as narrow as its buttons.
+    .kit-cell--actions {
+      width: 1px;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    // The first column when rows are selectable.
+    .kit-cell--select {
+      width: 1px;
+      padding-right: 0;
+    }
+
+    // Content conventions ----------------------------------------------------------------------
+
+    // The link that opens a row: a bold name rather than an underlined one. Make this the way into
+    // the row, not the whole row clickable (a row is not a control).
+    .kit-table__link {
+      color: var(--kit-ink-primary);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        outline: none;
+        border-radius: var(--kit-radius-sm);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+      }
+    }
+
+    // Two lines in one cell: a name over its email, say.
+    .kit-table__secondary {
+      display: block;
+      color: var(--kit-ink-muted);
+      font-size: var(--kit-app-body-sm-size);
+      line-height: var(--kit-app-body-sm-line-height);
+      font-weight: var(--kit-app-body-sm-weight);
+    }
+
+    // A yes/no: an icon and a word, never a color alone. The icon is green for yes; `--off` mutes
+    // the whole thing for no.
+    .kit-table__bool {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--kit-space-2);
+
+      > svg {
+        width: 16px;
+        height: 16px;
+        color: var(--kit-status-success);
+      }
+
+      &--off {
+        color: var(--kit-ink-muted);
+
+        > svg {
+          color: inherit;
+        }
+      }
+    }
+
+    // Text for screen readers only, e.g. the name of an icon-only column.
+    .kit-table__sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    // A cell with no value: an em dash, with `role="img"` and an `aria-label` so a screen reader
+    // says "no value" rather than "dash".
+    .kit-table__empty {
+      color: var(--kit-ink-muted);
+    }
+  }
+
+  // Sort header --------------------------------------------------------------------------------
+  // `KitSort` renders the button inside a `<th kitSort="field">`. The arrow shows on hover and
+  // focus, and stays while the column is the sorted one.
+
+  .kit-sort__button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kit-space-1);
+    padding: 0;
+    border: 0;
+    border-radius: var(--kit-radius-sm);
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    > svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+      transition: opacity 0.12s;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    &:hover > svg,
+    &:focus-visible > svg {
+      opacity: 0.6;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      > svg {
+        transition: none;
+      }
+    }
+  }
+
+  th[aria-sort='ascending'],
+  th[aria-sort='descending'] {
+    color: var(--kit-ink-primary);
+
+    .kit-sort__button > svg {
+      opacity: 1;
+    }
+  }
+
+  // A numeric column is right-aligned, so its arrow goes before the label to keep the label flush.
+  .kit-cell--num .kit-sort__button {
+    flex-direction: row-reverse;
+  }
+
+  // Paginator ----------------------------------------------------------------------------------
+
+  .kit-paginator {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-4);
+    color: var(--kit-ink-muted);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+  }
+
+  .kit-paginator__size {
+    display: flex;
+    align-items: center;
+    gap: var(--kit-space-2);
+
+    > .kit-field__control {
+      width: auto;
+    }
+  }
+
+  .kit-paginator__range {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kit-paginator__buttons {
+    display: flex;
+    gap: var(--kit-space-1);
+  }
+
+}

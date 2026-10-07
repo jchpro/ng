@@ -2,6 +2,7 @@ import { Provider } from '@angular/core';
 import { KIT_AUTH_LABELS_EN, KIT_AUTH_LABELS_PL, provideKitAuthLabels } from '../auth/kit-auth-labels';
 import { KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL, provideKitDialogLabels } from '../dialog/kit-dialog-labels';
 import { KIT_SHELL_LABELS_EN, KIT_SHELL_LABELS_PL, provideKitShellLabels } from '../shell/kit-shell-labels';
+import { KIT_TABLE_LABELS_EN, KIT_TABLE_LABELS_PL, provideKitTableLabels } from '../table/kit-table-labels';
 
 export type KitLanguage = 'en' | 'pl';
 
@@ -17,6 +18,7 @@ export function provideKitLabels(language: KitLanguage): Provider[] {
   return [
     provideKitAuthLabels(pl ? KIT_AUTH_LABELS_PL : KIT_AUTH_LABELS_EN),
     provideKitDialogLabels(pl ? KIT_DIALOG_LABELS_PL : KIT_DIALOG_LABELS_EN),
-    provideKitShellLabels(pl ? KIT_SHELL_LABELS_PL : KIT_SHELL_LABELS_EN)
+    provideKitShellLabels(pl ? KIT_SHELL_LABELS_PL : KIT_SHELL_LABELS_EN),
+    provideKitTableLabels(pl ? KIT_TABLE_LABELS_PL : KIT_TABLE_LABELS_EN)
   ];
 }

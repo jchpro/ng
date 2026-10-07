@@ -6,3 +6,4 @@ export * from './labels/public-api';
 export * from './loading/public-api';
 export * from './menu/public-api';
 export * from './shell/public-api';
+export * from './table/public-api';

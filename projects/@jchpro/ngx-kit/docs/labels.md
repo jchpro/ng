@@ -12,6 +12,7 @@ bring the translations.
 | [Auth views](auth.md) | `KIT_AUTH_LABELS` | `provideKitAuthLabels()` | `KIT_AUTH_LABELS_EN`, `KIT_AUTH_LABELS_PL` |
 | [Dialogs](dialogs.md) | `KIT_DIALOG_LABELS` | `provideKitDialogLabels()` | `KIT_DIALOG_LABELS_EN`, `KIT_DIALOG_LABELS_PL` |
 | [Layout shell](layout.md) | `KIT_SHELL_LABELS` | `provideKitShellLabels()` | `KIT_SHELL_LABELS_EN`, `KIT_SHELL_LABELS_PL` |
+| [Data tables](table.md) | `KIT_TABLE_LABELS` | `provideKitTableLabels()` | `KIT_TABLE_LABELS_EN`, `KIT_TABLE_LABELS_PL` |
 
 Each token holds a `Signal` of the feature's labels, so they can follow a language switch at
 runtime.

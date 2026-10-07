@@ -1,4 +1,4 @@
-import { LucideAppWindow, LucideEllipsisVertical, LucideKeyRound, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideTextCursorInput, LucideType } from '@lucide/angular';
+import { LucideAppWindow, LucideEllipsisVertical, LucideKeyRound, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideTable, LucideTextCursorInput, LucideType } from '@lucide/angular';
 import { DocLib } from '../docs/types';
 import { KitStartPage } from './_start-page/kit-start-page';
 import { AuthPage } from './auth/auth.page';
@@ -8,6 +8,7 @@ import { LoadingPage } from './loading/loading.page';
 import { MenuPage } from './menu/menu.page';
 import { PageHeaderPage } from './page-header/page-header.page';
 import { ShellPage } from './shell/shell.page';
+import { TablePage } from './table/table.page';
 import { TypographyPage } from './typography/typography.page';
 
 export const KIT_LIB: DocLib = {
@@ -56,6 +57,14 @@ export const KIT_LIB: DocLib = {
       icon: LucideAppWindow,
       desc: 'Dialog look, alert and confirm with Promises, labels',
       component: DialogsPage
+    },
+    {
+      fullName: 'Data tables',
+      menuName: 'Tables',
+      path: 'table',
+      icon: LucideTable,
+      desc: 'Frame, search, filters, sortable headers, paginator and column conventions',
+      component: TablePage
     },
     {
       fullName: 'Auth views',

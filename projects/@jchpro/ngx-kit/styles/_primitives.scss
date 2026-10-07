@@ -1,8 +1,10 @@
 @use 'auth';
+@use 'badge';
 @use 'button';
 @use 'field';
 @use 'card';
 @use 'status-dot';
+@use 'table';
 @use 'breadcrumb';
 @use 'check';
 @use 'dialog';
@@ -30,5 +32,7 @@
   @include field.classes();
   @include card.classes();
   @include status-dot.classes();
+  @include badge.classes();
+  @include table.classes();
   @include breadcrumb.classes();
 }

@@ -1,0 +1,287 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  Data tables for list views, the usual admin-app case: rows from an API with a search, filters, sorting and
+  paging. The rows are a plain <code>&lt;table class="kit-table"&gt;</code> with an <code>&#64;for</code> in your own
+  template, so every cell is typed and there is no column definition to learn. The kit supplies the look, the frame
+  around it (<code>kit-data-table</code>: toolbar, loading, empty and error states), the sortable header and the
+  paginator.
+</p>
+<p>
+  This is the design pass: the parts look and behave right, but nothing is wired together yet.
+  The search, filter, sort and page signals below live in this page, and a demo "backend" filters a local array.
+  A <code>kitTableState()</code> that bundles them and builds the request parameters comes next.
+</p>
+
+<h2>Try it</h2>
+<div class="flex row wrap x-center gap-sm">
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="loading.set(!loading())">
+    Loading: {{ loading() ? 'on' : 'off' }}
+  </button>
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="failed.set(!failed())">
+    Error: {{ failed() ? 'on' : 'off' }}
+  </button>
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="noUsers.set(!noUsers())">
+    No data: {{ noUsers() ? 'on' : 'off' }}
+  </button>
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="compact.set(!compact())">
+    Compact: {{ compact() ? 'on' : 'off' }}
+  </button>
+  <span>Last action: {{ lastAction() }}</span>
+</div>
+
+<kit-data-table
+  label="Users"
+  [sort]="sort()"
+  (sortChange)="sortChange($event)"
+  [loading]="loading()"
+  [error]="failed()"
+  [empty]="!matching().length"
+  [filtered]="filtering()"
+  (retry)="failed.set(false)"
+  (clearFilters)="clearFilters()">
+
+  <div kitTableSearch class="kit-data-table__search">
+    <svg lucideSearch></svg>
+    <input
+      #searchInput
+      class="kit-field__control"
+      type="search"
+      placeholder="Search users…"
+      aria-label="Search users"
+      [value]="query()"
+      (input)="search(searchInput.value)">
+  </div>
+
+  <div kitTableFilters class="kit-data-table__filters">
+    <select
+      #roleSelect
+      class="kit-field__control"
+      aria-label="Role"
+      [value]="role()"
+      (change)="filterRole(roleSelect.value)">
+      <option value="">All roles</option>
+      @for (item of roles; track item) {
+        <option [value]="item">{{ item }}</option>
+      }
+    </select>
+  </div>
+
+  <button kitTableActions type="button" class="kit-btn kit-btn--primary" (click)="lastAction.set('add user')">
+    <svg lucidePlus size="16"></svg> Add user
+  </button>
+
+  @if (role()) {
+    <div kitTableChips>
+      <button type="button" class="kit-data-table__chip" (click)="filterRole('')">
+        Role: {{ role() }} <svg lucideX aria-label="Remove filter"></svg>
+      </button>
+      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="clearFilters()">
+        Clear all
+      </button>
+    </div>
+  }
+
+  <table class="kit-table" [class.kit-table--compact]="compact()">
+    <thead>
+      <tr>
+        <th kitSort="name">User</th>
+        <th kitSort="role">Role</th>
+        <th kitSort="status">Status</th>
+        <th>2FA</th>
+        <th kitSort="seats" class="kit-cell--num">Seats</th>
+        <th kitSort="lastSeen">Last seen</th>
+        <th class="kit-cell--mono">ID</th>
+        <th class="kit-cell--actions"><span class="kit-table__sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of rows(); track user.id) {
+        <tr>
+          <td>
+            <a class="kit-table__link" href="javascript:void(0)" (click)="lastAction.set('open ' + user.name)">{{ user.name }}</a>
+            <span class="kit-table__secondary">{{ user.email }}</span>
+          </td>
+          <td>{{ user.role }}</td>
+          <td><span class="kit-badge" [class]="badgeClass[user.status]">{{ user.status | titlecase }}</span></td>
+          <td>
+            @if (user.mfa) {
+              <span class="kit-table__bool"><svg lucideCheck></svg> On</span>
+            } @else {
+              <span class="kit-table__bool kit-table__bool--off"><svg lucideMinus></svg> Off</span>
+            }
+          </td>
+          <td class="kit-cell--num">
+            @if (user.seats) {
+              {{ user.seats | number }}
+            } @else {
+              <span class="kit-table__empty" role="img" aria-label="No value">—</span>
+            }
+          </td>
+          <td class="kit-cell--nowrap">
+            @if (user.lastSeen; as seen) {
+              {{ seen | date: 'd MMM y' }} <span class="kit-cell--muted">{{ seen | date: 'HH:mm' }}</span>
+            } @else {
+              <span class="kit-table__empty" role="img" aria-label="Never">—</span>
+            }
+          </td>
+          <td class="kit-cell--mono kit-cell--muted">{{ user.id }}</td>
+          <td class="kit-cell--actions">
+            <button
+              type="button"
+              class="kit-btn kit-btn--ghost kit-btn--icon"
+              [attr.aria-label]="'Actions for ' + user.name"
+              [kitMenuTriggerFor]="rowMenu"
+              [kitMenuTriggerData]="{ $implicit: user }">
+              <svg lucideEllipsisVertical size="18"></svg>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <kit-paginator [total]="matching().length" [(page)]="page" [(pageSize)]="pageSize" />
+</kit-data-table>
+
+<ng-template #rowMenu let-user>
+  <div kitMenu>
+    <button type="button" kitMenuItem (click)="lastAction.set('edit ' + user.name)"><svg lucidePencil size="16"></svg> Edit</button>
+    <hr class="kit-menu__separator">
+    <button type="button" kitMenuItem danger (click)="lastAction.set('delete ' + user.name)"><svg lucideTrash size="16"></svg> Delete</button>
+  </div>
+</ng-template>
+
+<h2>Usage</h2>
+<p>
+  Put the table inside <code>kit-data-table</code> and fill the slots you need, each marked by an attribute:
+  <code>kitTableSearch</code> and <code>kitTableFilters</code> on the left of the toolbar,
+  <code>kitTableActions</code> on the right, <code>kitTableChips</code> for the applied filters. A
+  <code>kit-paginator</code> goes to the footer on its own. Every part is optional, and a toolbar with
+  nothing in it is not drawn.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-table/table.example.html">
+</app-code-example>
+
+<h3>Why not column templates</h3>
+<p>
+  Material-style tables define each cell in an <code>&lt;ng-template&gt;</code>, whose context Angular can't type
+  without a guard directive that is told the row type. With a plain <code>&#64;for</code> the row variable is typed for free.
+  Always <code>track</code> by a stable id: a re-sort then moves the existing rows instead of rebuilding them.
+  A page of 25 to 100 rows costs nothing either way, and server paging means you never render more.
+</p>
+
+<h2>Sorting</h2>
+<p>
+  <code>&lt;th kitSort="name"&gt;</code> turns the header label into a button and sets <code>aria-sort</code>.
+  A click sorts ascending, then descending; add <code>cycle</code> for a third click that clears the sort.
+  The choice lands in the table's <code>sort</code> model (<code>&#123; field, direction &#125;</code>), which
+  is what your API's sort parameter is built from. One column at a time.
+</p>
+
+<h2>Column conventions</h2>
+<p>
+  Modifier classes go on the <code>&lt;th&gt;</code> and its <code>&lt;td&gt;</code>s alike, so a header lines up with its column.
+</p>
+<div class="kit-table-frame">
+  <table>
+    <tr>
+      <th>Data</th>
+      <th>Convention</th>
+    </tr>
+    <tr>
+      <td>Identity (name, title)</td>
+      <td>
+        <code>kit-table__link</code> on the link that opens the row, and <code>kit-table__secondary</code> for the
+        second line. The link is the way into the row; the row itself is not clickable
+      </td>
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>Left-aligned. <code>kit-cell--truncate</code> cuts it with an ellipsis (width from <code>--kit-cell-max-width</code>), add a <code>title</code> with the full text</td>
+    </tr>
+    <tr>
+      <td>Numbers</td>
+      <td><code>kit-cell--num</code>: right-aligned, tabular figures, the header too</td>
+    </tr>
+    <tr>
+      <td>Dates</td>
+      <td><code>kit-cell--nowrap</code>, with the time (or relative part) in <code>kit-cell--muted</code>. Format in the app, the kit has no date logic</td>
+    </tr>
+    <tr>
+      <td>Status, category</td>
+      <td><code>kit-badge</code> with <code>--success</code>, <code>--warning</code>, <code>--danger</code> or <code>--info</code> (a colored dot before the text); plain is neutral</td>
+    </tr>
+    <tr>
+      <td>Yes / no</td>
+      <td><code>kit-table__bool</code>: an icon and a word, never color alone. <code>--off</code> mutes the "no"</td>
+    </tr>
+    <tr>
+      <td>IDs, codes</td>
+      <td><code>kit-cell--mono</code>, usually with <code>kit-cell--muted</code></td>
+    </tr>
+    <tr>
+      <td>No value</td>
+      <td><code>kit-table__empty</code>, an em dash with <code>role="img"</code> and an <code>aria-label</code></td>
+    </tr>
+    <tr>
+      <td>Row actions</td>
+      <td>
+        Last column, <code>kit-cell--actions</code>. One icon button that opens a menu (or at most one inline action next to it),
+        always with an <code>aria-label</code> that names the row
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  Row height is <code>kit-table--compact</code> for dense lists. Set <code>--kit-data-table-max-height</code> on the
+  frame for a table that scrolls under its sticky header.
+</p>
+
+<h2>Components and classes</h2>
+<div class="kit-table-frame">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>KitDataTable</code></td>
+      <td>
+        The frame. Inputs <code>loading</code>, <code>error</code> (a message or <code>true</code>), <code>empty</code>,
+        <code>filtered</code>, <code>label</code>; the <code>sort</code> model; outputs <code>retry</code> and
+        <code>clearFilters</code>. An empty result with <code>filtered</code> offers to clear the filters; otherwise
+        <code>kitTableEmpty</code> can replace the default message
+      </td>
+    </tr>
+    <tr>
+      <td><code>KitSort</code></td>
+      <td><code>th[kitSort]</code> with <code>cycle</code>, inside a <code>KitDataTable</code></td>
+    </tr>
+    <tr>
+      <td><code>KitPaginator</code></td>
+      <td>
+        <code>[(page)]</code> (1-based), <code>[(pageSize)]</code>, <code>[total]</code>, <code>[pageSizes]</code>.
+        Without a total (cursor paging) bind <code>[hasNext]</code>: the range becomes "Page 3" and first / last go away.
+        Its strings are in <code>KIT_TABLE_LABELS</code>, with the table's states
+      </td>
+    </tr>
+    <tr>
+      <td><code>.kit-table</code>, <code>.kit-cell--*</code>, <code>.kit-table__*</code></td>
+      <td>The table and its cell conventions, from <code>@jchpro/ngx-kit/styles/table</code> (part of <code>primitives</code>)</td>
+    </tr>
+    <tr>
+      <td><code>.kit-badge</code></td>
+      <td>The status pill, from <code>@jchpro/ngx-kit/styles/badge</code> (part of <code>primitives</code>)</td>
+    </tr>
+    <tr>
+      <td><code>.kit-data-table__*</code></td>
+      <td>
+        <code>__search</code>, <code>__filters</code> and <code>__chip</code> (<code>--clear</code>) for what you put in the slots
+      </td>
+    </tr>
+  </table>
+</div>
