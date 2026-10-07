@@ -25,7 +25,7 @@
 }
 
 // Doc page typography: body from the design system's App type scale, headings from the
-// (provisional) prose scale. Scoped to the shell's content
+// prose scale. Scoped to the shell's content
 // area (the menu and header style themselves) and written with :where/:not([class]) so it
 // stays below any kit class: only plain, unclassed elements get it.
 :where(.kit-shell__content) {

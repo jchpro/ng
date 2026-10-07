@@ -112,15 +112,15 @@
     --kit-app-caption-line-height: 14px;
     --kit-app-caption-weight: 500;
 
-    // Type — prose. Headings for long-form, documentation-style content, where the App scale's
-    // h2/h3 (18px / 15px against 14px body) are too close to the text to separate sections.
-    // NOT in the design system artifact yet — these values are provisional, to be backfilled
-    // there (and possibly adjusted): https://github.com/jchpro/ng/issues/10
-    --kit-prose-h2-size: 22px;
+    // Type — prose. Maps the design system's "Prose / Display" styles (prose-h2, prose-h3):
+    // headings for long-form, documentation-style content, where the App scale's h2/h3
+    // (18px / 15px against 14px body) are too close to the text to separate sections.
+    // Family stays --kit-font-display. Don't use inside panels/cards with their own app-h2/h3 title.
+    --kit-prose-h2-size: 21px;
     --kit-prose-h2-line-height: 28px;
     --kit-prose-h2-weight: 600;
 
-    --kit-prose-h3-size: 17px;
+    --kit-prose-h3-size: 18px;
     --kit-prose-h3-line-height: 24px;
     --kit-prose-h3-weight: 600;
 

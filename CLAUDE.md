@@ -156,7 +156,8 @@ header (classes), dialogs (`KitDialogService`, Promise-based `alert`/`confirm`/`
 Notes that aren't obvious from the code:
 - CDK overlays (menus, dialogs) need `@jchpro/ngx-kit/styles/overlay` included once in the app's
   global styles — nothing else provides the overlay container CSS now that Material is gone.
-- `--kit-prose-*` type tokens (doc-style headings) are provisional, not in the design system
-  artifact yet — tracked in https://github.com/jchpro/ng/issues/10.
+- `--kit-prose-*` type tokens (doc-style headings) map the design system's `prose-h2`/`prose-h3`
+  styles; use them only directly under the page title, never inside a panel/card that has its own
+  `app-h2`/`app-h3` title.
 - docs-app's `.claude/launch.json` serves on 4200; if another project's dev server holds that
   port, preview on a different one with a temporary launch config rather than reusing it.

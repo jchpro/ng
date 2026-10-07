@@ -99,9 +99,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   selected states, vertically centered), `<textarea>` (as tall as its `rows`, vertical resize), `<select>` (the kit's
   chevron instead of the browser's arrow; a `multiple`/`size` list box shows selected options in the violet fill) and
   `<input type="color">` (a small rounded swatch). The control now sets `box-sizing: border-box`
-- Provisional prose type tokens (`--kit-prose-h2-*`, `--kit-prose-h3-*`) for long-form, documentation-style content,
-  where the App scale's h2/h3 are too close to the body text. Not in the design system yet, see
-  https://github.com/jchpro/ng/issues/10
+- Prose type tokens (`--kit-prose-h2-*` 21/28/600, `--kit-prose-h3-*` 18/24/600) for long-form, documentation-style
+  content, where the App scale's h2/h3 are too close to the body text. Mirror the design system's `prose-h2` /
+  `prose-h3` styles (family stays Dosis via `--kit-font-display`)
 - Top navigation: `KitShellNavItem`s projected into `kit-shell-header` render as horizontal nav, inline while the
   sidenav is docked and moved to a second row below the header once it collapses to overlay — the same
   breakpoint as the sidenav itself. The nav row renders right after whatever's marked
