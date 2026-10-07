@@ -47,6 +47,35 @@
       font-weight: var(--kit-prose-h3-weight);
     }
 
+    // h4–h6 keep to the App scale in the body font: a step above the text, then body size, then
+    // a small uppercase label. Not in the design system yet, see issue #10.
+    :is(h4, h5, h6) {
+      font-family: var(--kit-font-body);
+      font-weight: 600;
+    }
+
+    h4 {
+      margin: var(--kit-space-4) 0 var(--kit-space-2);
+      font-size: var(--kit-app-h3-size);
+      line-height: var(--kit-app-h3-line-height);
+    }
+
+    h5 {
+      margin: var(--kit-space-3) 0 var(--kit-space-1);
+      font-weight: 500;
+      font-size: var(--kit-app-body-size);
+      line-height: var(--kit-app-body-line-height);
+    }
+
+    h6 {
+      margin: var(--kit-space-3) 0 var(--kit-space-1);
+      color: var(--kit-ink-muted);
+      font-size: var(--kit-app-label-size);
+      line-height: var(--kit-app-label-line-height);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
     :is(p, ul, ol):not([class]) {
       margin: 0 0 var(--kit-space-3);
     }
@@ -91,6 +120,56 @@
       border-radius: 0.2rem;
       background-color: var(--kit-surface-raised);
       color: var(--kit-accent-peach-muted);
+    }
+
+    // Inline text. `em`, `sub` and `sup` keep the browser's look (sub/sup only stop widening
+    // the line), `ins` and `abbr` are left alone.
+    strong:not([class]) {
+      font-weight: 600;
+    }
+
+    small:not([class]) {
+      font-size: var(--kit-app-body-sm-size);
+    }
+
+    mark:not([class]) {
+      padding: 0 0.2em;
+      border-radius: 0.2rem;
+      background-color: color-mix(in srgb, var(--kit-accent-peach) 35%, transparent);
+      color: inherit;
+    }
+
+    del:not([class]) {
+      color: var(--kit-ink-muted);
+    }
+
+    :is(sub, sup):not([class]) {
+      line-height: 0;
+    }
+
+    // A key cap, drawn with a thicker bottom edge.
+    kbd:not([class]) {
+      padding: 0.1rem 0.4rem;
+      border: 1px solid var(--kit-border-subtle);
+      border-bottom-width: 2px;
+      border-radius: 0.25rem;
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+
+    // Program output: the code chip in the text color.
+    samp:not([class]) {
+      padding: 0.2rem;
+      border-radius: 0.2rem;
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+    }
+
+    var:not([class]) {
+      font-family: monospace;
+      font-size: 0.9em;
     }
   }
 

@@ -36,13 +36,19 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 |---|---|
 | `h1` | Display font, `--kit-prose-h1-*` (28/36, bold) |
 | `h2`, `h3` | Display font, `--kit-prose-h2-*` and `--kit-prose-h3-*` |
+| `h4`, `h5`, `h6` | Body font, semibold: a step above the text (15/20), body size, and a small uppercase muted label. Provisional |
 | `p`, `ul`, `ol` | Body text, spacing below, indented lists |
 | `a` | Text color with a brand pink underline, thicker on hover, focus ring |
 | `blockquote` | Pink rule at the start, muted text |
-| `code` | Inline chip |
+| `code`, `samp` | Inline chip (`samp` in the text color, for program output) |
+| `strong`, `small`, `del` | Semibold, the small body size, muted with the line-through |
+| `mark` | A peach highlight behind the text |
+| `kbd` | A key cap with a thicker bottom edge |
+| `var` | Monospace |
+| `sub`, `sup` | The browser's look, without widening the line |
 | `table` | Padded cells, tinted header row, hairlines between rows, row hover |
 
-Elements not listed here are the browser's default for now. The prose headings are provisional
+Elements not listed here (`em`, `ins`, `abbr`, `dl`, `hr`, `pre`, `figure`) are the browser's default for now. The prose headings are provisional
 tokens, see [issue #10](https://github.com/jchpro/ng/issues/10).
 
 ## Rules
