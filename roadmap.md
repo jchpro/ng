@@ -36,6 +36,29 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
 
 ## ngx-kit
 
+- **Data tables** (server-driven lists, the common admin-app view). Approach: native `<table>` +
+  `@for` (typed rows for free, always `track row.id`), not Material-style `ng-template` column
+  defs. `kit-data-table` is a layout-only wrapper: framed card with slots (`kitTableSearch`,
+  `kitTableFilter`, `kitTableActions`, the table itself, the paginator) and loading / empty / error
+  states. Decisions: search top-left (debounce in the state, not the input); up to 3 inline filters
+  with applied-filter chips and "Clear all" (overlay filter panel later, with combobox); header cell
+  is a `<button>` sort toggle (asc ↔ desc, opt-in `cycle` for a "none" state, single column, `aria-sort`);
+  no zebra, sticky header, `kit-table--compact`, horizontal scroll on narrow screens. Column
+  conventions as classes: `kit-cell--num` (right, tabular), `--truncate`, `--mono`, `--actions` (one
+  inline icon button + CDK-menu kebab), `--select`; booleans as icon + text; status as a new
+  `.kit-badge`; empty value as an em dash. `KitPaginator` (`page`/`pageSize` as `model()`, `total`,
+  `pageSizes`, `total = null` + `hasNext` for cursor APIs, labels via `KIT_TABLE_LABELS` EN/PL; no
+  numbered page buttons). Phases:
+  1. **Design shells**: `_table.scss`, `.kit-badge`, `KitSort`, `KitPaginator`, `KitDataTable`
+     (no wiring), labels, `docs/table.md`, changelog, and the docs-app Table page built
+     *incrementally* alongside, with a static dataset showing every column convention, so
+     misalignments with the design show up early.
+  2. **Wiring**: `kitTableState()` (signals for query / filters / sort / page / pageSize + computed
+     `params`; the sort header, search and paginator inject it from the nearest `kit-data-table`,
+     explicit bindings still work), page resets to 1 on query/filter/sort change, **opt-in** URL
+     query-param sync, `httpResource` example.
+  3. **Later**: selection + bulk-action bar, filters overlay, column visibility, density toggle,
+     client-side helper (sort/filter/page a local array; deferred).
 - **Implement the `kitIcon` content-projection override pattern** (see [CLAUDE.md](CLAUDE.md))
   somewhere real — the shell header's mobile toggle (`LucideMenu`) is the obvious first
   candidate, since it's the only built-in icon in the library today.
