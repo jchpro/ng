@@ -89,9 +89,10 @@ A **switch** is a checkbox with `role="switch"`: the ARIA role picks the look, s
 technology announces and what the user sees can't drift apart. Indeterminate checkboxes
 (`input.indeterminate = true`) get a dash. Without a wrapping label, give the input an `aria-label`.
 
-Unchecked controls have a `--kit-ink-muted` outline rather than the Field's faint
-`--kit-border-subtle`, which keeps them at 3:1 against the surface; selected ones fill with
-`--kit-brand-violet-muted` and a white mark. In forced-colors (Windows high contrast) the native
+Unchecked controls have a `--kit-border-control` outline, the same edge as a Field, which keeps them at 3:1
+against the surface; selected ones fill with `--kit-brand-violet-muted` and a white mark, and keep the
+outline (the fill alone is only 2.4:1 on the dark raised surface). A control marked `aria-invalid="true"`
+turns its outline `--kit-status-danger`; put the message under the group (see Invalid fields). In forced-colors (Windows high contrast) the native
 control is restored. Include `./styles/check` on its own, or via `primitives`.
 
 
@@ -120,6 +121,28 @@ Classes on the native elements, so `min`, `max`, `value`, `disabled` and forms b
 Include `./styles/range` and `./styles/progress` (progress and meter) on their own, or via
 `primitives`. Each browser engine styles these through its own pseudo-elements, so both WebKit/Blink
 and Firefox are covered.
+
+## Invalid fields
+
+Mark a control invalid with `aria-invalid="true"` and explain it under the control. Native validation
+shows the same look once the person has interacted with the field (`:user-invalid`); the kit never keys
+off `:invalid`, which matches an untouched required field.
+
+```html
+<div class="kit-field">
+  <label class="kit-field__label" for="email">Email</label>
+  <input class="kit-field__control" id="email" type="email"
+         aria-invalid="true" aria-describedby="email-error">
+  <p class="kit-field__error" id="email-error"><svg lucideCircleAlert></svg>Enter a valid email address.</p>
+</div>
+```
+
+The border becomes `--kit-status-danger` at 2px (the field doesn't shift), and a focused invalid field
+rings in danger too, since the pink focus ring is only about 1.3:1 from the danger color. The message line
+is `kit-field__error` (an icon and the text in `--kit-status-danger-ink`, both required so the error is
+never only a color), or `kit-field__hint` (muted text) while there is nothing to report. Text inputs,
+textarea, select, file and color take the whole treatment; checkbox, radio and switch swap their outline
+to danger, with the message under the group or fieldset. Range, progress and meter have no invalid state.
 
 ## Fieldset and legend
 

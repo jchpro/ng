@@ -102,6 +102,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prose type tokens (`--kit-prose-h2-*` 21/28/600, `--kit-prose-h3-*` 18/24/600) for long-form, documentation-style
   content, where the App scale's h2/h3 are too close to the body text. Mirror the design system's `prose-h2` /
   `prose-h3` styles (family stays Dosis via `--kit-font-display`)
+- Contrast fixes, from the design system's contrast review. New tokens `--kit-ink-on-primary`, `--kit-border-control` and
+  `--kit-status-{success,warning,danger,info}-ink`; dark `--kit-brand-pink` is `#b24cb2` (focus ring 3.4:1 on the raised
+  surface, was 3.0). The primary button's label is `--kit-ink-on-primary` (was white, 2.2:1 in light); fields, the file
+  button, and the unchecked outline of checkbox, radio and switch use `--kit-border-control` (was `--kit-border-subtle`
+  at 1.2:1 and `--kit-ink-muted`); a selected checkbox, radio or switch keeps its outline; the destructive menu item uses
+  `--kit-status-danger-ink`. `npm run check:contrast` prints the ratio of every pairing from the tokens
+- Invalid state for form controls — see `docs/primitives.md`. `aria-invalid="true"` (and `:user-invalid`, never `:invalid`)
+  gives a field a 2px danger border that doesn't shift the layout, danger-ringed focus, and a danger outline on checkbox,
+  radio and switch. New `kit-field__error` (icon and message, text in `--kit-status-danger-ink`) and `kit-field__hint`
+  classes for the line under a control
 - Prose styling — see `docs/prose.md`. `kit-prose` on a container styles its plain elements (`h2`/`h3` from the
   prose tokens, `p`, lists, links with a pink underline, `blockquote`, inline `code`,
   `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `ins`, `abbr`, `var`, `dl`, `hr`, `pre`, `figure`, `details`, `img`,

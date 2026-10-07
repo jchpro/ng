@@ -85,10 +85,11 @@
     // `color` alone: the hover and press fills derive from the first, and the busy spinner (see
     // loading) needs the second after the label itself is hidden.
 
-    // The one primary action per view.
+    // The one primary action per view. Its label is `--kit-ink-on-primary`: white in dark, near-black
+    // in light, since neither fixed ink passes on this fill in both schemes.
     &--primary {
       --kit-btn-bg: var(--kit-accent-peach-muted);
-      --kit-btn-fg: var(--kit-ink-on-accent);
+      --kit-btn-fg: var(--kit-ink-on-primary);
       background-color: var(--kit-btn-bg);
       color: var(--kit-btn-fg);
     }

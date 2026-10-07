@@ -25,7 +25,7 @@
     height: var(--kit-control-height);
     padding: 0 var(--kit-space-3);
     border-radius: var(--kit-radius-md);
-    border: 1px solid var(--kit-border-subtle);
+    border: 1px solid var(--kit-border-control);
     background-color: var(--kit-surface-raised);
     color: var(--kit-ink-primary);
     font-family: var(--kit-font-body);
@@ -50,6 +50,24 @@
       cursor: not-allowed;
     }
 
+    // Invalid: a danger border at 2px (the 1px border plus a 1px inset ring, so the field doesn't
+    // move), set with `aria-invalid`, or by the browser's own validation once the person has
+    // interacted (`:user-invalid`, never `:invalid`, which matches an untouched required field).
+    // The fill stays. Color alone is not enough: pair it with `.kit-field__error`.
+    &[aria-invalid='true'],
+    &:user-invalid {
+      border-color: var(--kit-status-danger);
+      box-shadow: inset 0 0 0 1px var(--kit-status-danger);
+    }
+
+    // Focus on an invalid field keeps the danger border and rings it in danger too: the pink
+    // focus ring is only ~1.3:1 from the danger color, so pink never shows on an invalid field.
+    &[aria-invalid='true']:focus-visible,
+    &:user-invalid:focus-visible {
+      border-color: var(--kit-status-danger);
+      box-shadow: inset 0 0 0 1px var(--kit-status-danger), 0 0 0 3px color-mix(in srgb, var(--kit-status-danger) 40%, transparent);
+    }
+
     // File input: the browser's own button gets the kit's look, inset by the same 4px on every
     // side so its corners run concentric with the field's. The tint (not a brand color as text)
     // follows the "selected" fill used elsewhere in the kit.
@@ -68,7 +86,7 @@
       height: calc(var(--kit-control-height) - 2 * var(--kit-space-1) - 2px);
       margin: 0 var(--kit-space-3) 0 0;
       padding: 0 var(--kit-space-3);
-      border: 1px solid var(--kit-border-subtle);
+      border: 1px solid var(--kit-border-control);
       // Concentric with the field: its radius, less the border and the inset.
       border-radius: calc(var(--kit-radius-md) - var(--kit-space-1) - 1px);
       background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
@@ -108,6 +126,41 @@
         border: none;
         border-radius: calc(var(--kit-radius-md) - var(--kit-space-1) - 1px);
       }
+    }
+  }
+
+  // The line under a control, for a hint or, in its place, an error. An error is an icon and the
+  // message, both required so it is never only a color: link it to the control with
+  // `aria-describedby`.
+  //   <p class="kit-field__hint" id="h">Shown on the invoice.</p>
+  //   <p class="kit-field__error" id="e"><svg lucideCircleAlert></svg>Enter a valid email.</p>
+  .kit-field__hint,
+  .kit-field__error {
+    margin: 0;
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+    font-weight: var(--kit-app-body-sm-weight);
+  }
+
+  .kit-field__hint {
+    color: var(--kit-ink-muted);
+  }
+
+  .kit-field__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kit-space-2);
+    color: var(--kit-status-danger-ink);
+
+    // The icon keeps the plain danger color: a graphic needs only 3:1. 14px, centered on the
+    // first line of text.
+    > svg {
+      flex: 0 0 auto;
+      width: 14px;
+      height: 14px;
+      margin-top: 2px;
+      color: var(--kit-status-danger);
     }
   }
 

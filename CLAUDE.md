@@ -163,5 +163,10 @@ Notes that aren't obvious from the code:
   elements of a container, plus links, blockquote, inline code and tables; `.kit-table-frame` is the optional
   table wrapper (frame + horizontal scroll). docs-app's content area uses it (`@extend`ed onto
   `.kit-shell__content`). Elements not styled yet are listed on the docs-app Typography page. See `docs/prose.md`.
+- Contrast: use `--kit-border-control` (never `--kit-border-subtle`) for the edge of a control,
+  `--kit-status-*-ink` for status as text (the plain `--kit-status-*` are fills/icons), and
+  `--kit-ink-on-primary` for the primary button label. `npm run check:contrast` (part of `npm test`) prints the
+  ratio of every pairing from `_tokens.scss` and fails on one under its threshold, minus documented exceptions.
+  Invalid state: `aria-invalid="true"` / `:user-invalid` (never `:invalid`), message line `kit-field__error`.
 - docs-app's `.claude/launch.json` serves on 4200; if another project's dev server holds that
   port, preview on a different one with a temporary launch config rather than reusing it.

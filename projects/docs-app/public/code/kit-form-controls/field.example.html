@@ -22,10 +22,13 @@
 <input class="kit-field__control" value="Selectable, not editable" readonly>
 <input class="kit-field__control" required>
 
-<!-- An invalid value is described with ARIA. The kit has no invalid styling yet, so the message
-     and its look are yours -->
-<input class="kit-field__control" id="email2" type="email" aria-invalid="true" aria-describedby="email2-hint">
-<span id="email2-hint">Enter a valid email</span>
+<!-- A hint sits under the field in muted text. An invalid field is marked with aria-invalid and
+     explained with kit-field__error, see the next example -->
+<div class="kit-field">
+  <label class="kit-field__label" for="name">Display name</label>
+  <input class="kit-field__control" id="name" aria-describedby="name-hint">
+  <p class="kit-field__hint" id="name-hint">Shown on the invoice.</p>
+</div>
 
 <!-- Angular forms need nothing extra, it is a plain input -->
 <input class="kit-field__control" [formControl]="email">

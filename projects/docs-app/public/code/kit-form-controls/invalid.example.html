@@ -1,0 +1,32 @@
+<!-- Mark the control invalid, and say why under it. The error is an icon and the text, never only a color -->
+<div class="kit-field">
+  <label class="kit-field__label" for="email">Email</label>
+  <input class="kit-field__control" id="email" type="email" value="jakub@"
+         aria-invalid="true" aria-describedby="email-error">
+  <p class="kit-field__error" id="email-error">
+    <svg lucideCircleAlert></svg>Enter a valid email address.
+  </p>
+</div>
+
+<!-- Angular: bind aria-invalid, and swap the hint for the error. null removes the attribute -->
+<input class="kit-field__control" id="email" type="email" [formControl]="email"
+       [attr.aria-invalid]="email.invalid && email.touched ? 'true' : null"
+       [attr.aria-describedby]="email.invalid && email.touched ? 'email-error' : 'email-hint'">
+@if (email.invalid && email.touched) {
+  <p class="kit-field__error" id="email-error"><svg lucideCircleAlert></svg>Enter a valid email address.</p>
+} @else {
+  <p class="kit-field__hint" id="email-hint">We only use it to send the invoice.</p>
+}
+
+<!-- Checkboxes, radios and switches: mark each control, the message goes under the group -->
+<fieldset class="kit-fieldset" aria-describedby="notify-error">
+  <legend class="kit-fieldset__legend">Notifications</legend>
+  <div class="kit-check-group">
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" aria-invalid="true"> Email</label>
+    <label class="kit-check"><input class="kit-check__input" type="checkbox" aria-invalid="true"> SMS</label>
+  </div>
+  <p class="kit-field__error" id="notify-error"><svg lucideCircleAlert></svg>Choose at least one.</p>
+</fieldset>
+
+<!-- Without aria-invalid, the browser's own validation (required, type=email, pattern...) shows the same
+     look once the person has interacted with the field (:user-invalid). It is never keyed off :invalid -->

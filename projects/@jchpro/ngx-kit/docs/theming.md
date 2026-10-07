@@ -28,6 +28,14 @@ theme.set('dark');
 theme.toggle(); // cycles system -> dark -> light -> system
 ```
 
+**Contrast tokens.** A few tokens exist so a pairing never has to be patched in a component:
+`--kit-ink-on-primary` (the primary button's label: white in dark, near-black in light),
+`--kit-border-control` (the edge of a control, at 3:1 or more on both surfaces; `--kit-border-subtle` is for
+decorative dividers and card edges only) and `--kit-status-{success,warning,danger,info}-ink` (status as
+text; the plain `--kit-status-*` colors are for fills and icons). `npm run check:contrast` in the repo reads
+the tokens and prints the ratio of every pairing the App surface uses, failing on any that drops under 4.5:1
+for text or 3:1 for controls, except the documented exceptions.
+
 **Prose headings.** The App type scale (`--kit-app-*`) suits dense UI, but its h2/h3 sit too close to 14px body text
 in long-form content. For documentation, help pages, changelogs and policy text use the prose tokens instead:
 `--kit-prose-h2-*` (21/28, weight 600) and `--kit-prose-h3-*` (18/24, weight 600), each with `-size`, `-line-height`

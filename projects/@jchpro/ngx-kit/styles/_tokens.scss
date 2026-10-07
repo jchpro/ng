@@ -14,7 +14,9 @@
   --kit-ink-muted: #6b6480;
   --kit-ink-on-accent: #ffffff;
   --kit-ink-on-peach: #241f33;
+  --kit-ink-on-primary: #241f33;
   --kit-border-subtle: #e6e1f0;
+  --kit-border-control: #8d889e;
   --kit-brand-pink: #93298f;
   --kit-brand-violet: #6c2a8c;
   --kit-brand-magenta: #8a2c93;
@@ -26,6 +28,11 @@
   --kit-status-warning: #b9743c;
   --kit-status-danger: #c81e4c;
   --kit-status-info: #6d4fc7;
+  // Status as text: the same hue, moved only where the plain color is under 4.5:1.
+  --kit-status-success-ink: #198055;
+  --kit-status-warning-ink: #9d6333;
+  --kit-status-danger-ink: #c81e4c;
+  --kit-status-info-ink: #6d4fc7;
 
   // Shadow — light
   --kit-shadow-sm: 0 1px 2px rgba(33, 28, 48, 0.08);
@@ -46,8 +53,10 @@
     --kit-ink-muted: #a89fc0;
     --kit-ink-on-accent: #ffffff;
     --kit-ink-on-peach: #241f33;
+    --kit-ink-on-primary: #ffffff;
     --kit-border-subtle: #302e42;
-    --kit-brand-pink: #ab41ab;
+    --kit-border-control: #746e88;
+    --kit-brand-pink: #b24cb2;
     --kit-brand-violet: #6c2a8c;
     --kit-brand-magenta: #a034a3;
     --kit-brand-indigo: #390f61;
@@ -58,6 +67,10 @@
     --kit-status-warning: #eab88f;
     --kit-status-danger: #ef4b6b;
     --kit-status-info: #8b6fd9;
+    --kit-status-success-ink: #3ecf8e;
+    --kit-status-warning-ink: #eab88f;
+    --kit-status-danger-ink: #f05473;
+    --kit-status-info-ink: #957cdc;
 
     // Shadow — dark
     --kit-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
