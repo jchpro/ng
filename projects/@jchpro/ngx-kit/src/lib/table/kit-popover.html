@@ -1,0 +1,33 @@
+<button
+  #button
+  #origin="cdkOverlayOrigin"
+  cdkOverlayOrigin
+  type="button"
+  class="kit-btn kit-btn--ghost"
+  aria-haspopup="dialog"
+  [attr.aria-expanded]="open()"
+  (click)="toggle()">
+  <ng-content select="[kitPopoverIcon]"></ng-content>
+  {{ label() }}
+  @if (badge()) {
+    <span class="kit-popover__badge">{{ badge() }}</span>
+  }
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayPositions]="positions"
+  (overlayOutsideClick)="onOutsideClick($event)"
+  (overlayKeydown)="onKeydown($event)"
+  (detach)="open.set(false)">
+  <div class="kit-popover__panel" role="dialog" [attr.aria-label]="title() ?? label()" cdkTrapFocus cdkTrapFocusAutoCapture>
+    <div class="kit-popover__body">
+      <ng-content></ng-content>
+    </div>
+    <div class="kit-popover__footer">
+      <ng-content select="[kitPopoverFooter]"></ng-content>
+    </div>
+  </div>
+</ng-template>

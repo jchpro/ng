@@ -1,0 +1,6 @@
+<kit-popover [label]="labels().toolbar.filters" [badge]="applied()" [(open)]="open">
+  <svg kitPopoverIcon lucideListFilter size="16"></svg>
+  <ng-content></ng-content>
+  <button kitPopoverFooter type="button" class="kit-btn kit-btn--ghost" [disabled]="!applied()" (click)="reset()">{{ labels().toolbar.resetFilters }}</button>
+  <button kitPopoverFooter type="button" class="kit-btn kit-btn--secondary" (click)="open.set(false)">{{ labels().toolbar.close }}</button>
+</kit-popover>

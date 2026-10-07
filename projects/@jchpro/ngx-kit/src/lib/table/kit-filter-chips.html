@@ -1,0 +1,11 @@
+@if (chips().length) {
+  @for (chip of chips(); track chip.key) {
+    <button type="button" class="kit-data-table__chip" [attr.aria-label]="chip.removeLabel" (click)="remove(chip.key)">
+      {{ chip.text }}
+      <svg lucideX aria-hidden="true"></svg>
+    </button>
+  }
+  <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="clearAll()">
+    {{ tableLabels().toolbar.clearAll }}
+  </button>
+}

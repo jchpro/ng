@@ -1,0 +1,56 @@
+<!-- import KitColumnPicker, KitDensityToggle, KitFilterPanel, KitCol into the component too -->
+<kit-data-table [state]="state" [columns]="columns" [selection]="selection" densityStorageKey="users-density"
+                [total]="view.total()" [empty]="!view.total()">
+
+  <div kitTableFilters class="kit-data-table__filters">…up to three inline selects…</div>
+
+  <!-- more filters than fit inline: behind a "Filters" button, with a count -->
+  <kit-filter-panel kitTableFilters [filters]="['status', 'plan']">
+    <div class="kit-field">
+      <label class="kit-field__label" for="status">Status</label>
+      <select id="status" kitFilter="status" class="kit-field__control">…</select>
+    </div>
+  </kit-filter-panel>
+
+  <ng-container kitTableActions>
+    <kit-density-toggle />
+    <kit-column-picker />
+    <button type="button" class="kit-btn kit-btn--primary">Add user</button>
+  </ng-container>
+
+  <!-- shown instead of the toolbar while rows are selected -->
+  <ng-container kitTableBulk>
+    <button type="button" class="kit-btn kit-btn--danger" (click)="deleteSelected()">Delete</button>
+  </ng-container>
+
+  @let rows = view.rows();
+  <table class="kit-table">
+    <thead>
+      <tr>
+        <th class="kit-cell--select">
+          <input type="checkbox" class="kit-check__input" aria-label="Select all on this page"
+                 [checked]="selection.allSelected(rows)" [indeterminate]="selection.someSelected(rows)"
+                 (change)="selection.toggleAll(rows)">
+        </th>
+        <th kitCol="name" kitSort="name">User</th>
+        <th kitCol="role">Role</th>
+        <th kitCol="id" class="kit-cell--mono">ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of rows; track user.id) {
+        <tr [class.kit-table__row--selected]="selection.isSelected(user)">
+          <td class="kit-cell--select">
+            <input type="checkbox" class="kit-check__input" [attr.aria-label]="'Select ' + user.name"
+                   [checked]="selection.isSelected(user)" (change)="selection.toggle(user)">
+          </td>
+          <td kitCol="name">{{ user.name }}</td>
+          <td kitCol="role">{{ user.role }}</td>
+          <td kitCol="id" class="kit-cell--mono">{{ user.id }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <kit-paginator />
+</kit-data-table>

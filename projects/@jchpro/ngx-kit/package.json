@@ -78,6 +78,9 @@
     "./styles/page-header": {
       "sass": "./styles/_page-header.scss"
     },
+    "./styles/popover": {
+      "sass": "./styles/_popover.scss"
+    },
     "./styles/progress": {
       "sass": "./styles/_progress.scss"
     },

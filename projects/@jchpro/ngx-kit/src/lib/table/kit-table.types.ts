@@ -7,6 +7,9 @@ export interface KitTableSort {
   direction: KitSortDirection;
 }
 
+/** Row height of a table. */
+export type KitTableDensity = 'default' | 'compact';
+
 /** What a filter can hold. From a native control it is a string; `null` (or `''`) means "not filtering". */
 export type KitTableFilterValue = string | number | boolean | null;
 
@@ -53,6 +56,11 @@ export interface KitTableStateOptions<F extends object = KitTableFilters> {
    * each filter under its own name); `{ prefix }` puts a prefix before every name, for a second
    * table on the same route. Opt-in: needs the router, and call `kitTableState` in a component
    * (or anything under a route) so it follows that route.
+   *
+   * `history: 'push'` makes a change of the page, sort, filters or page size a new history
+   * entry, so the back button steps back through them; typing in the search still replaces the
+   * entry (one per keystroke would bury the page). Default `'replace'`: the URL follows the
+   * state without adding to the history.
    */
-  urlSync?: boolean | { prefix?: string };
+  urlSync?: boolean | { prefix?: string; history?: 'replace' | 'push' };
 }

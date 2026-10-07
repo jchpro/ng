@@ -43,7 +43,7 @@ export class KitPaginator {
 
   readonly pageSizes = input<readonly number[]>([10, 25, 50, 100]);
 
-  /** Whether there is a page after this one, for when `total` is `null`. */
+  /** Whether there is a page after this one, for when `total` is `null`. Inside a table, the table's `hasNext` too. */
   readonly hasNext = input(false, { transform: booleanAttribute });
 
   /** The page, size and total in effect: the table's state if it has one, else this paginator's own. */
@@ -78,7 +78,7 @@ export class KitPaginator {
 
   protected readonly canNext = computed(() => {
     const pageCount = this.pageCount();
-    return pageCount === null ? this.hasNext() : this.currentPage() < pageCount;
+    return pageCount === null ? this.hasNext() || !!this.#table?.hasNext() : this.currentPage() < pageCount;
   });
 
   protected goTo(page: number) {

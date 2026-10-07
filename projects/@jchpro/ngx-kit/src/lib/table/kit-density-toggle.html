@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="kit-btn kit-btn--ghost kit-btn--icon"
+  [attr.aria-label]="labels().toolbar.compactRows"
+  [attr.aria-pressed]="compact()"
+  (click)="toggle()">
+  @if (compact()) {
+    <svg lucideRows4 size="18"></svg>
+  } @else {
+    <svg lucideRows3 size="18"></svg>
+  }
+</button>

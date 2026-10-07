@@ -13,7 +13,8 @@ page. What you load, and how the state's `params` map to your API, stays yours.
 
 The styles are part of `primitives` (or `./styles/table`, `./styles/badge`, `./styles/button`, `./styles/field`,
 `./styles/loading` on their own), and the row menu needs the [overlay styles](menu.md). Import `KitDataTable`,
-`KitSort`, `KitPaginator`, `KitSearchInput` and `KitFilter` where you use them.
+`KitSort`, `KitPaginator`, `KitSearchInput` and `KitFilter` where you use them (and `KitCol`, `KitFilterPanel`, `KitColumnPicker`,
+`KitDensityToggle`, `KitFilterChips` for the parts under [Selection, filters panel, columns, density](#selection-filters-panel-columns-density)).
 
 ## Usage
 
@@ -95,7 +96,7 @@ protected readonly page = linkedSignal<Page<User> | undefined, Page<User> | unde
 | `sort` | `{ field, direction }` at the start, default none |
 | `filters` | every filter the table has, with its starting value (`null` for "not filtering"). Its type is the type of `state.filters()` |
 | `searchDebounce` | ms the search waits after the last keystroke, default 300; 0 applies at once |
-| `urlSync` | `true` or `{ prefix }`, see below |
+| `urlSync` | `true` or `{ prefix, history }`, see below |
 
 | Member | |
 |---|---|
@@ -126,7 +127,9 @@ filter a number or boolean starting value and the URL sync reads it back as that
   start is written explicitly (`sort=none`, `role=`) so it survives a reload.
 - A reload or a shared link restores the view; a navigation from outside (a link with query params) is applied to the state.
   Other query params are left alone.
-- Uses `replaceUrl`, so typing and paging don't fill the history.
+- `history: 'replace'` (default) uses `replaceUrl`, so typing and paging don't fill the history. `history: 'push'` makes a change of the
+  page, sort, filters or page size a history entry, so the back button steps back through them; typing in the search still replaces the
+  entry (one per keystroke would bury the page), except the keystroke that also takes the table back to page 1.
 - Needs the router, and must be called where the route is injectable: a routed component, or anything under one.
 
 ## `KitDataTable`
@@ -139,7 +142,8 @@ Slots are marked by attribute; every part is optional and an empty toolbar, chip
 | `kitTableSearch` | toolbar, left. `.kit-data-table__search` is an icon over a native `type="search"` input |
 | `kitTableFilters` | toolbar, left, after the search. `.kit-data-table__filters` for a row of native `<select class="kit-field__control">` |
 | `kitTableActions` | toolbar, right: the view's actions, the primary one last |
-| `kitTableChips` | the applied filters, one `.kit-data-table__chip` button each (and a `--clear` one for "Clear all"); render it only while a filter is applied |
+| `kitTableBulk` | actions of the bulk bar (shown only while rows are selected) |
+| `kitTableChips` | the applied filters as chips: `<kit-filter-chips kitTableChips [labels]="{ role: 'Role' }" />`, see below. Your own chips use `.kit-data-table__chip` buttons (and a `--clear` one for "Clear all") |
 | *(default)* | the scroll region: your table |
 | `kitTableEmpty` | replaces the default empty message |
 | `<kit-paginator>`, `kitTableFooter` | the footer |
@@ -149,6 +153,11 @@ Slots are marked by attribute; every part is optional and an empty toolbar, chip
 | `[state]` | the `kitTableState()`: the search input, filters, sort headers and paginator inside bind to it |
 | `[resource]` | an `httpResource()` / `resource()` (anything with `isLoading()`, `error()`, `reload()`): the table is loading while it loads, shows the error when it fails, and "Try again" reloads it |
 | `[total]` | number of rows across all pages, for the paginator; `null` when unknown |
+| `[hasNext]` | for an API without a total: whether there is a next page, for the paginator (so you don't bind it on the paginator) |
+| `[selection]` | the `kitTableSelection()`: while it holds rows the toolbar gives way to the bulk-action bar |
+| `[columns]` | the `kitTableColumns()`: which `kitCol` headers and cells are shown |
+| `[(density)]` | `'default'` or `'compact'` rows; the `<kit-density-toggle>` sets it |
+| `[densityStorageKey]` | remember the density in `localStorage` under this key and restore it on load |
 | `[loading]` | the table is dimmed under a spinner and can't be reached by pointer or keyboard (`kitBusy`); also true while the `resource` loads |
 | `[empty]` | the request succeeded with no rows: shows the empty state under the header row. Ignored while loading |
 | `[filtered]` | the empty result comes from a search or filters: the message becomes "No results" with a clear button. Follows the `state` by itself |
@@ -173,6 +182,99 @@ and the default message never shows.
 applies the search at once on Enter. `[kitFilter="name"]` on a native `<select>` (or input) shows `state.filters()[name]` and
 sets it on change; an option with value `""` is "no filter".
 
+## Selection, filters panel, columns, density
+
+Each piece is optional and binds to the frame.
+
+### Selection and bulk actions
+
+`kitTableSelection(key, { state })` keeps the selected rows by their key (`user => user.id`), so a selection survives paging,
+sorting and a refresh of the rows.
+
+| Member | |
+|---|---|
+| `isSelected(row)`, `toggle(row, selected?)` | one row |
+| `select(rows)`, `deselect(rows)`, `clear()` | many rows, or none |
+| `toggleAll(rows)`, `allSelected(rows)`, `someSelected(rows)` | the header checkbox for the rows on the page (`someSelected` is its `indeterminate`) |
+| `count`, `keys` | signals: how many (across all pages), and which keys |
+
+The checkboxes are plain `kit-check__input`s bound by hand, which keeps the row type:
+
+```html
+<th class="kit-cell--select">
+  <input type="checkbox" class="kit-check__input" aria-label="Select all on this page"
+         [checked]="selection.allSelected(rows)" [indeterminate]="selection.someSelected(rows)" (change)="selection.toggleAll(rows)">
+</th>
+…
+<tr [class.kit-table__row--selected]="selection.isSelected(user)">
+  <td class="kit-cell--select">
+    <input type="checkbox" class="kit-check__input" [attr.aria-label]="'Select ' + user.name"
+           [checked]="selection.isSelected(user)" (change)="selection.toggle(user)">
+  </td>
+```
+
+With `[selection]` on the frame and a `kitTableBulk` slot, selecting rows swaps the toolbar for a bar: "N selected", the bulk actions, and "Clear selection".
+With `{ state }` the selection empties when the search or a filter changes (a bulk action never reaches rows the person can't see);
+paging, sorting and the page size keep it. Call `kitTableSelection` in an injection context when passing a state.
+
+### Applied filters as chips
+
+`<kit-filter-chips kitTableChips [labels]="{ role: 'Role', status: 'Status' }" />` draws a chip per applied filter of the state, each
+removing its filter, and a text-only "Clear all" (which resets the filters, not the search). `labels` gives each filter the name it
+shows (the filter's own name if missing); `[formatValue]="(name, value) => …"` turns a stored value into text (a code into its name).
+Nothing is drawn while no filter is applied, and the search text is not a filter, so it gets no chip.
+
+### More filters than fit inline
+
+Up to three simple filters sit inline as selects in `kitTableFilters`. For more, `<kit-filter-panel kitTableFilters>` puts
+the controls you project into a "Filters" popover, with the count of applied filters on the button and "Reset filters" /
+"Done" at the bottom. `[filters]="['status', 'plan']"` names the filters inside, so inline ones aren't counted or reset with them.
+It is built on `<kit-popover label [badge] [(open)]>`, a button that opens any content (kit `kitPopoverFooter` for its buttons)
+in an overlay anchored to it. Unlike a menu it stays open while you use what is inside; Escape (focus returns to the button)
+and a click outside close it. Needs the overlay styles.
+
+### Columns
+
+```ts
+protected readonly columns = kitTableColumns([
+  { id: 'name', label: 'User', locked: true },
+  { id: 'role', label: 'Role' },
+  { id: 'id', label: 'ID', hidden: true }
+], { storageKey: 'users-columns' });
+```
+
+Mark each header and its cells with `kitCol="role"` (a hidden column gets the `hidden` attribute), pass `[columns]`, and add
+`<kit-column-picker />` to `kitTableActions`: a "Columns" popover of checkboxes. `locked` columns can't be hidden, `hidden` ones
+start hidden, `storageKey` remembers the choice in `localStorage` (a column added later keeps its own default; unreadable or
+blocked storage is ignored). `columns.isVisible(id)`, `toggle(id)`, `setVisible(id, visible)` and `reset()` are there for your own controls.
+
+### Density
+
+`<kit-density-toggle />` in `kitTableActions` switches the frame's `[(density)]` between `'default'` and `'compact'`; compact
+rows use the same height as `kit-table--compact`. `densityStorageKey` on the frame remembers the choice in `localStorage` (unreadable
+or blocked storage is ignored).
+
+## Data in memory
+
+For a table without a server, `kitClientTable(rows, state, options)` returns `{ rows, total }` signals: the rows of the current
+page and the number matching across all pages, from a list you already have.
+
+```ts
+protected readonly view = kitClientTable(this.users, this.state, {
+  search: user => [user.name, user.email],
+  filters: { status: (user, status) => user.status === status },
+  sort: { name: user => user.lastName }
+});
+```
+
+`applyKitTableParams(rows, params, options)` is the same as a plain function, e.g. for the loader of a `resource()` or a test.
+
+- **Search**: `search` returns the text of a row to look in; a row matches when every word of the query is found in it, ignoring case and
+  accents (where Unicode decomposes them). Without `search` the query is ignored.
+- **Filters**: called only for a filter that has a value. Without a function for a filter, `String(row[name]) === String(value)`.
+- **Sort**: accessor per column (default `row[field]`). Numbers, dates and booleans compare as such, text in natural order ignoring case
+  (`Item 9` before `Item 10`), empty values last whichever way it sorts; equal values keep their order.
+
 ## Sorting
 
 `<th kitSort="name">` turns the header label into a button and keeps `aria-sort` up to date. A click sorts ascending,
@@ -189,7 +291,7 @@ from the frame's `[total]`. On its own: `[(page)]` (1-based), `[(pageSize)]`, `[
 first / previous / next / last buttons. Changing the page size goes back to page 1. It doesn't clamp the page when the total
 shrinks: that is yours.
 
-For an API without a total (cursor paging) leave the total out and bind `[hasNext]`: the range becomes "Page 3" and
+For an API without a total (cursor paging) leave the total out and bind `[hasNext]` (on the frame, or on the paginator): the range becomes "Page 3" and
 first / last are hidden. Its strings come from `KIT_TABLE_LABELS`.
 
 ## Column conventions

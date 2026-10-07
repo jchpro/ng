@@ -1,0 +1,79 @@
+// A button that opens a panel of arbitrary content in an overlay (`KitPopover`): the filters
+// panel and the column picker of a table. The panel is drawn like a menu, with a footer for its
+// buttons. Needs the overlay styles too (`styles/overlay`).
+@mixin classes() {
+
+  @keyframes kit-popover-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  .kit-popover {
+    display: inline-flex;
+  }
+
+  // A count on the button: the "selected" fill with its white text, the pairing the secondary
+  // button uses.
+  .kit-popover__badge {
+    display: inline-grid;
+    place-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 var(--kit-space-1);
+    box-sizing: border-box;
+    border-radius: var(--kit-radius-full);
+    background-color: var(--kit-brand-violet-muted);
+    color: var(--kit-ink-on-accent);
+    font-size: var(--kit-app-caption-size);
+    line-height: 1;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kit-popover__panel {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    min-width: 220px;
+    max-width: min(360px, 90vw);
+    max-height: min(32rem, 80dvh);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-overlay);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    animation: kit-popover-in 0.12s ease-out;
+
+    &:focus {
+      outline: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  .kit-popover__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-3);
+    overflow-y: auto;
+    padding: var(--kit-space-4);
+  }
+
+  .kit-popover__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--kit-space-2);
+    padding: var(--kit-space-3) var(--kit-space-4);
+    border-top: 1px solid var(--kit-border-subtle);
+
+    &:not(:has(*)) {
+      display: none;
+    }
+  }
+
+}

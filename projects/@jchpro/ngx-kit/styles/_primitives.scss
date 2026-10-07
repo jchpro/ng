@@ -12,6 +12,7 @@
 @use 'loading';
 @use 'menu';
 @use 'page-header';
+@use 'popover';
 @use 'progress';
 @use 'prose';
 @use 'range';
@@ -20,6 +21,7 @@
 @mixin classes() {
   @include auth.classes();
   @include page-header.classes();
+  @include popover.classes();
   @include progress.classes();
   @include prose.classes();
   @include range.classes();
