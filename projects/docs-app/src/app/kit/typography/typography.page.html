@@ -14,19 +14,13 @@
   components such as the page header and the card title. Prose appears where a page has a block of written
   content: help text, terms, release notes, documentation.
 </p>
-<p class="note">
-  Prose styling is applied to the whole content area of these pages, to plain unclassed elements only, so a kit
-  class always wins. The prose heading sizes are provisional tokens, see
-  <a href="https://github.com/jchpro/ng/issues/10">#10</a>. How the kit offers prose (probably an opt-in
-  container class) is not decided yet, it waits until the missing elements below are styled.
-</p>
 
 <h2>Interface scale</h2>
 <p>
   The App type scale from the design system, as tokens. Each sample is drawn from its own tokens.
   Components apply them, there are no general text classes yet.
 </p>
-<div class="table-fit">
+<div class="kit-table-frame">
   <table class="scale">
     <tr>
       <th>Tokens</th>
@@ -72,10 +66,25 @@
 
 <h2>Prose</h2>
 <p>
-  Every element a block of written content can contain, rendered as the doc pages render it.
+  The kit styles prose with <code>kit-prose</code> on a container: its plain elements get the look, and elements with a
+  class are left alone, so components inside it keep theirs. These pages use it on the whole content area. The heading
+  sizes are provisional tokens, see <a href="https://github.com/jchpro/ng/issues/10">#10</a>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-typography/prose.example.html">
+</app-code-example>
+<app-code-example
+  lang="scss"
+  source="/code/kit-typography/styles.example.scss">
+</app-code-example>
+
+<h3>What is styled</h3>
+<p>
+  Every element a block of written content can contain, rendered as it is styled now.
   The table lists what is styled and what is left to the browser for now, the specimens below follow it.
 </p>
-<div class="table-fit">
+<div class="kit-table-frame">
   <table>
     <tr>
       <th>Elements</th>
@@ -150,7 +159,7 @@
 </div>
 
 <h3>Tables</h3>
-<div class="table-fit">
+<div class="kit-table-frame">
   <table>
     <tr>
       <th>Name</th>

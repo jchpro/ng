@@ -116,6 +116,11 @@
     // headings for long-form, documentation-style content, where the App scale's h2/h3
     // (18px / 15px against 14px body) are too close to the text to separate sections.
     // Family stays --kit-font-display. Don't use inside panels/cards with their own app-h2/h3 title.
+    // h1 is not in the design system yet (provisional, see issue #10): for a heading inside the content.
+    --kit-prose-h1-size: 28px;
+    --kit-prose-h1-line-height: 36px;
+    --kit-prose-h1-weight: 700;
+
     --kit-prose-h2-size: 21px;
     --kit-prose-h2-line-height: 28px;
     --kit-prose-h2-weight: 600;

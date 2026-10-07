@@ -75,6 +75,9 @@
     "./styles/progress": {
       "sass": "./styles/_progress.scss"
     },
+    "./styles/prose": {
+      "sass": "./styles/_prose.scss"
+    },
     "./styles/range": {
       "sass": "./styles/_range.scss"
     },

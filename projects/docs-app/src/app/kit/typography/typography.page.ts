@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CodeExample } from '../../docs/code-example/code-example';
 import { LibPageTitle } from '../../docs/page-title/lib-page-title';
 
 @Component({
   selector: 'app-typography',
   imports: [
-    LibPageTitle
+    LibPageTitle,
+    CodeExample
   ],
   templateUrl: './typography.page.html',
   styleUrl: './typography.page.scss'
@@ -24,11 +26,11 @@ export class TypographyPage {
 
   /** What the doc pages' prose styling covers, element by element. */
   protected readonly coverage = [
-    { element: 'h1', styled: true, note: 'Display font, 28/36 bold. Local to docs-app: the prose scale has no h1 yet' },
+    { element: 'h1', styled: true, note: 'Display font, 28/36 bold (provisional token, the design system has no prose h1 yet)' },
     { element: 'h2, h3', styled: true, note: 'Prose scale, display font' },
     { element: 'p', styled: true, note: 'Body text, spacing below' },
     { element: 'ul, ol', styled: true, note: 'Indent and spacing; nested lists are not looked at yet' },
-    { element: 'table', styled: true, note: 'Inside a .table-fit frame, tinted header, row lines' },
+    { element: 'table', styled: true, note: 'Tinted header, row lines; wrap in .kit-table-frame for the frame and scroll' },
     { element: 'code', styled: true, note: 'Inline chip' },
     { element: 'a', styled: true, note: 'Text color, pink underline, thicker on hover, focus ring' },
     { element: 'blockquote', styled: true, note: 'Pink rule at the start, muted text' },

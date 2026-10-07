@@ -1,0 +1,135 @@
+// jchPRO App prose — long-form, documentation-style content: help pages, release notes, terms,
+// docs. Put `.kit-prose` on the container; its plain elements are styled and nothing else,
+// so components inside it keep their own look.
+//
+// Every element rule is wrapped in :where() and, for the inline and text elements, limited to
+// unclassed elements (`:not([class])`): the container adds no specificity, and any kit class
+// or your own class on an element wins over it. Tables are the exception, they take the
+// styling with or without a class, since a class on a table is common.
+//
+// `.kit-table-frame` is the optional wrapper that gives a table its rounded frame and
+// horizontal scroll on narrow screens; it works inside prose or on its own.
+//
+// Headings use the prose tokens (`--kit-prose-*`), not the App scale: inside a card or a panel
+// that has its own title, don't use prose.
+@mixin classes() {
+
+  .kit-prose {
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+  }
+
+  :where(.kit-prose) {
+
+    h1, h2, h3 {
+      font-family: var(--kit-font-display);
+    }
+
+    h1 {
+      margin: var(--kit-space-6) 0 var(--kit-space-3);
+      font-size: var(--kit-prose-h1-size);
+      line-height: var(--kit-prose-h1-line-height);
+      font-weight: var(--kit-prose-h1-weight);
+    }
+
+    h2 {
+      margin: var(--kit-space-6) 0 var(--kit-space-2);
+      font-size: var(--kit-prose-h2-size);
+      line-height: var(--kit-prose-h2-line-height);
+      font-weight: var(--kit-prose-h2-weight);
+    }
+
+    h3 {
+      margin: var(--kit-space-4) 0 var(--kit-space-2);
+      font-size: var(--kit-prose-h3-size);
+      line-height: var(--kit-prose-h3-line-height);
+      font-weight: var(--kit-prose-h3-weight);
+    }
+
+    :is(p, ul, ol):not([class]) {
+      margin: 0 0 var(--kit-space-3);
+    }
+
+    :is(ul, ol):not([class]) {
+      padding-left: var(--kit-space-5);
+    }
+
+    // Links keep the text color and are told apart by the underline, in the brand pink: brand
+    // colors are fills, not text colors, so they are kept for the line only.
+    a:not([class]) {
+      color: var(--kit-ink-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--kit-brand-pink);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+
+      &:hover {
+        text-decoration-thickness: 2px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid color-mix(in srgb, var(--kit-brand-pink) 60%, transparent);
+        outline-offset: 2px;
+        border-radius: var(--kit-radius-sm);
+      }
+    }
+
+    blockquote:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+      padding-left: var(--kit-space-4);
+      border-left: 3px solid var(--kit-brand-pink);
+      color: var(--kit-ink-muted);
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    code:not([class]) {
+      padding: 0.2rem;
+      border-radius: 0.2rem;
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-accent-peach-muted);
+    }
+  }
+
+  .kit-table-frame {
+    overflow-x: auto;
+    max-width: 100%;
+    margin: var(--kit-space-3) 0 var(--kit-space-4);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+  }
+
+  :where(.kit-prose, .kit-table-frame) table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: var(--kit-space-2) var(--kit-space-4);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: var(--kit-surface-raised);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    tr + tr > :is(th, td) {
+      border-top: 1px solid var(--kit-border-subtle);
+    }
+
+    tbody tr:hover {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, transparent);
+    }
+
+    // Rows are tight, so code chips don't need the vertical padding that makes them tall
+    code:not([class]) {
+      padding: 0.1rem 0.3rem;
+    }
+  }
+
+}
