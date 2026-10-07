@@ -7,7 +7,37 @@ a PR that bumps the version, then a tag that makes GitHub Actions publish to npm
 The docs-app is not part of this: every push to `main` deploys it
 ([example_app.yaml](.github/workflows/example_app.yaml)).
 
-## Steps
+## The quick way (needs `gh`)
+
+With the [GitHub CLI](https://cli.github.com/) installed and logged in, one command does steps 2 to 7
+below, after you have picked the version and written its `## [X.Y.Z] - Unreleased` changelog
+heading (step 1):
+
+```bash
+npm run release -- ship <common|kit> <X.Y.Z>
+```
+
+It prepares the release on a `release/<lib>-X.Y.Z` branch, pushes it and opens the PR with the
+changelog entry as its description, waits for the PR's checks, squash-merges it, tags the merge
+commit, **asks before pushing the tag**, and then watches the publish run until it finishes.
+Nothing is merged unless the checks pass, and it never uses the `main` bypass.
+
+It is also available in two halves, and `finish` can be re-run any time after an interruption, a
+failed check (fix it on the branch, push, run it again) or a "no" at the prompt:
+
+```bash
+npm run release -- start  <lib> <X.Y.Z>   # branch, prepare, push, open the PR
+npm run release -- finish <lib> [X.Y.Z]   # wait for checks, merge, tag, push the tag, watch the publish
+```
+
+`finish` takes the version from the release branch you are on, or from `package.json` on `main`
+after the merge. Flags: `--yes` skips the prompt before pushing the tag, `--dry-run` checks the
+preconditions and prints what would happen. Releasing both libraries: `ship common`, then
+`ship kit` ([see below](#releasing-both)).
+
+## Manual steps
+
+The same flow by hand, without `gh`:
 
 1. **Pick the version** and make sure the library's changelog
    (`projects/@jchpro/<lib>/changelog.md`) has a `## [X.Y.Z] - Unreleased` heading on top,
@@ -74,5 +104,5 @@ Publisher): GitHub Actions, repository `jchpro/ng`, and the workflow **file name
   renamed file stops working until the trusted publisher is updated on npmjs.com.
 - A new package needs the same setup. A trusted publisher is configured on an existing package,
   so its very first publish likely has to be done by hand.
-- The old `NPM_TOKEN` repo secret is no longer used and can be deleted once a tag-triggered
-  publish has worked for real (it hasn't run yet; see the [roadmap](roadmap.md)).
+- The old `NPM_TOKEN` repo secret is no longer used by any workflow and can be deleted: the
+  tag-triggered publish has worked (kit 0.2.0).
