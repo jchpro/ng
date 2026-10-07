@@ -122,7 +122,11 @@ Documented in `docs/labels.md`.
   don't bump the version number or add a new dated entry per work session. Bump only at an
   actual release.
 - **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump —
-  there are no real external consumers yet.
+  there are no real external consumers yet. Libraries version independently (tags `common-vX.Y.Z` /
+  `kit-vX.Y.Z`). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, run
+  `npm run release -- prepare <common|kit> <X.Y.Z>`, merge that via a PR, then
+  `npm run release -- tag <lib>` on an up-to-date `main` and push the tag. `npm run check:versions`
+  (in `npm test`) guards drift, including kit's peer range on common.
 - **Readme size**: once a package readme grows large, split feature-specific content into
   `docs/*.md` files (see `ngx-kit/docs/`) and link back — verify the split files are actually
   included in the packaged output and that relative links between them still resolve.
@@ -136,6 +140,11 @@ Documented in `docs/labels.md`.
 - **docs-app polish**: its current look is a deliberate placeholder (post-Material, pre-ngx-kit
   styling in spots not yet migrated) — don't proactively "fix" visual rough edges there unless
   asked; it'll be revisited once more of `ngx-kit` exists.
+- **`main` and force pushes**: `main` is protected, but Jakub can bypass it and force-push. Don't use
+  that for code or CI changes — they go through a PR, so the PR check runs and the docs-app
+  auto-deploy (every push to `main`) never ships untested code. Pushing straight to `main` is
+  acceptable only for docs-only changes (readmes, roadmap, changelogs, CLAUDE.md). Releases never
+  need it. Never force-push `main` yourself; ask first.
 - **npm publish workflow**: the staged-publish step in `.github/workflows/publish-common.yaml`
   using a restricted token is intentional, not a bug — don't "simplify" it.
 
