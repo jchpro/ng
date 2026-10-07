@@ -9,13 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Data tables, the design pass — see `docs/table.md`. `KitDataTable` (`<kit-data-table>`) frames your own typed
+- Data tables — see `docs/table.md`. `KitDataTable` (`<kit-data-table>`) frames your own typed
   `<table class="kit-table">` and `@for` with a toolbar (`kitTableSearch`, `kitTableFilters`, `kitTableActions`), an
   applied-filters row (`kitTableChips`), a sticky-header scroll region and a footer, and renders the loading
   (`kitBusy`), empty (also "filtered", with a clear button), custom empty (`kitTableEmpty`) and error (with retry) states.
-  `KitSort` (`<th kitSort="field">`) is a sortable header over the frame's `sort` model: a button, `aria-sort`,
-  ascending / descending, optional `cycle`. `KitPaginator` has `[(page)]`, `[(pageSize)]`, `total`, `pageSizes`, and
-  `hasNext` for APIs without a total. Nothing is wired together yet: the request, sorting of rows and paging are the app's
+  `KitSort` (`<th kitSort="field">`) is a sortable header: a button, `aria-sort`, ascending / descending, optional `cycle`.
+  `KitPaginator` has `[(page)]`, `[(pageSize)]`, `total`, `pageSizes`, and `hasNext` for APIs without a total
+- `kitTableState()` (`KitTableState`): the search text (debounced into `query`), filters, sort, page and page size as
+  signals, with `params` (what a request depends on, for a `resource()` / `httpResource()`), `offset`, `activeFilters` and
+  `filtered`. Anything that narrows or reorders the rows takes the table back to page 1. Passed to `<kit-data-table [state]>`,
+  `input[kitSearch]`, `[kitFilter="name"]`, `th[kitSort]` and `<kit-paginator />` bind to it by themselves; `[resource]`
+  makes the frame follow a resource's loading and error (retry reloads it) and `[total]` feeds the paginator. Without a state
+  every part still works on its own bindings
+- Opt-in URL sync: `kitTableState({ urlSync: true | { prefix } })` keeps the state in the route's query string
+  (`?q=ada&sort=-seats&page=2&role=Admin`), restores it on load and on navigation, and leaves values equal to the starting
+  state out. Written with `replaceUrl`, other query params are left alone
 - `.kit-table` and its cell conventions (`kit-cell--num | truncate | nowrap | mono | muted | actions | select`,
   `kit-table--compact`, `kit-table__link | secondary | bool | empty | sr-only`), `.kit-data-table__*` and `.kit-paginator__*`
   classes, via `@jchpro/ngx-kit/styles/table` (also part of `primitives`)

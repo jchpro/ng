@@ -49,14 +49,14 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
   `.kit-badge`; empty value as an em dash. `KitPaginator` (`page`/`pageSize` as `model()`, `total`,
   `pageSizes`, `total = null` + `hasNext` for cursor APIs, labels via `KIT_TABLE_LABELS` EN/PL; no
   numbered page buttons). Phases:
-  1. **Design shells** (done on `feat/kit-table`, kit 0.3.0 unreleased): `_table.scss`, `.kit-badge`, `KitSort`, `KitPaginator`, `KitDataTable`
-     (no wiring), labels, `docs/table.md`, changelog, and the docs-app Table page built
-     *incrementally* alongside, with a static dataset showing every column convention, so
-     misalignments with the design show up early.
-  2. **Wiring**: `kitTableState()` (signals for query / filters / sort / page / pageSize + computed
-     `params`; the sort header, search and paginator inject it from the nearest `kit-data-table`,
-     explicit bindings still work), page resets to 1 on query/filter/sort change, **opt-in** URL
-     query-param sync, `httpResource` example.
+  1. **Design shells** (done, kit 0.3.0 unreleased): `_table.scss`, `.kit-badge`, `KitSort` (a `th[kitSort]`
+     component, not a directive: it renders the button), `KitPaginator`, `KitDataTable`, labels, `docs/table.md`, changelog,
+     and the docs-app Table page.
+  2. **Wiring** (done, kit 0.3.0 unreleased): `kitTableState()` (signals for query / filters / sort / page / pageSize +
+     computed `params`), bound by `[state]` to `kitSearch` / `kitFilter` / `kitSort` / `kit-paginator`; `[resource]` and
+     `[total]` on the frame; page resets to 1 on query/filter/sort/page-size change; **opt-in** URL query-param sync;
+     `resource()` example in docs-app. Possible follow-ups: push (not replace) history for paging, a chips helper that
+     renders `activeFilters` with labels, `hasNext` from the frame for cursor APIs.
   3. **Later**: selection + bulk-action bar, filters overlay, column visibility, density toggle,
      client-side helper (sort/filter/page a local array; deferred).
 - **Implement the `kitIcon` content-projection override pattern** (see [CLAUDE.md](CLAUDE.md))
