@@ -2,8 +2,8 @@ import { InjectionToken, Provider, signal, Signal } from '@angular/core';
 import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
 
 /**
- * Every user-facing string of the data table and its paginator. `{from}`, `{to}`, `{total}`
- * and `{page}` are placeholders, replaced by `KitPaginator`.
+ * Every user-facing string of the data table, its paginator and toolbar parts. `{from}`, `{to}`,
+ * `{total}`, `{page}` and `{count}` are placeholders, replaced by the component that shows them.
  */
 export interface KitTableLabels {
   states: {
@@ -26,6 +26,23 @@ export interface KitTableLabels {
     previous: string;
     next: string;
     last: string;
+  };
+  /** The bar that replaces the toolbar while rows are selected. */
+  bulk: {
+    selected: string;
+    clear: string;
+  };
+  /** The toolbar's popovers and toggles. */
+  toolbar: {
+    filters: string;
+    /** Empties the filters inside the filters popover. */
+    resetFilters: string;
+    /** Closes a popover. */
+    close: string;
+    columns: string;
+    /** Shows the columns the table started with. */
+    resetColumns: string;
+    compactRows: string;
   };
 }
 
@@ -50,6 +67,18 @@ export const KIT_TABLE_LABELS_EN: KitTableLabels = {
     previous: 'Previous page',
     next: 'Next page',
     last: 'Last page'
+  },
+  bulk: {
+    selected: '{count} selected',
+    clear: 'Clear selection'
+  },
+  toolbar: {
+    filters: 'Filters',
+    resetFilters: 'Reset filters',
+    close: 'Done',
+    columns: 'Columns',
+    resetColumns: 'Reset columns',
+    compactRows: 'Compact rows'
   }
 };
 
@@ -71,6 +100,18 @@ export const KIT_TABLE_LABELS_PL: KitTableLabels = {
     previous: 'Poprzednia strona',
     next: 'Następna strona',
     last: 'Ostatnia strona'
+  },
+  bulk: {
+    selected: 'Zaznaczono: {count}',
+    clear: 'Wyczyść zaznaczenie'
+  },
+  toolbar: {
+    filters: 'Filtry',
+    resetFilters: 'Resetuj filtry',
+    close: 'Gotowe',
+    columns: 'Kolumny',
+    resetColumns: 'Resetuj kolumny',
+    compactRows: 'Zagęszczone wiersze'
   }
 };
 

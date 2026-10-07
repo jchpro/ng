@@ -1,9 +1,12 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input, model, output } from '@angular/core';
 import { LucideCircleAlert, LucideInbox } from '@lucide/angular';
+import { formatKitLabel } from '../labels/kit-labels';
 import { KitBusy } from '../loading/kit-busy.directive';
+import { KitTableColumns } from './kit-columns';
+import { KitTableSelectionLike } from './kit-table-selection';
 import { KitTableState } from './kit-table-state';
 import { KIT_TABLE_LABELS } from './kit-table-labels';
-import { KitTableResource, KitTableSort } from './kit-table.types';
+import { KitTableDensity, KitTableResource, KitTableSort } from './kit-table.types';
 
 /**
  * The frame around a data table: a toolbar, the scroll region for your own `<table class="kit-table">`,
@@ -29,8 +32,9 @@ import { KitTableResource, KitTableSort } from './kit-table.types';
  * bindings: `[(sort)]` here, `[(page)]` on the paginator.
  *
  * Slots, by attribute: `kitTableSearch`, `kitTableFilters` (toolbar, left), `kitTableActions`
- * (toolbar, right), `kitTableChips` (the applied filters), `kitTableEmpty` (replaces the default
- * empty state, must not be inside an `@if`). A `<kit-paginator>` goes to the footer by itself.
+ * (toolbar, right), `kitTableBulk` (actions of the bar shown while rows are selected),
+ * `kitTableChips` (the applied filters), `kitTableEmpty` (replaces the default empty state, must
+ * not be inside an `@if`). A `<kit-paginator>` goes to the footer by itself.
  */
 @Component({
   selector: 'kit-data-table',
@@ -38,7 +42,9 @@ import { KitTableResource, KitTableSort } from './kit-table.types';
   templateUrl: './kit-data-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'kit-data-table'
+    'class': 'kit-data-table',
+    '[class.kit-data-table--compact]': 'density() === "compact"',
+    '[class.kit-data-table--selecting]': 'selecting()'
   }
 })
 export class KitDataTable {
@@ -78,6 +84,18 @@ export class KitDataTable {
    */
   readonly filtered = input(false, { transform: booleanAttribute });
 
+  /**
+   * The table's `kitTableSelection()`. While it holds rows the toolbar gives way to a bar with
+   * the count, a "Clear selection" button and your `kitTableBulk` actions.
+   */
+  readonly selection = input<KitTableSelectionLike>();
+
+  /** The table's `kitTableColumns()`: which columns the `kitCol` headers and cells show. */
+  readonly columns = input<KitTableColumns>();
+
+  /** Row height: `compact` for dense lists. The `<kit-density-toggle>` sets it. */
+  readonly density = model<KitTableDensity>('default');
+
   /** Accessible name of the scroll region. */
   readonly label = input<string>();
 
@@ -92,6 +110,12 @@ export class KitDataTable {
     const state = this.state();
     return state ? state.sort() : this.sort();
   });
+
+  protected readonly selecting = computed(() => (this.selection()?.count() ?? 0) > 0);
+
+  protected readonly selectedLabel = computed(() =>
+    formatKitLabel(this.labels().bulk.selected, { count: this.selection()?.count() ?? 0 })
+  );
 
   protected readonly isLoading = computed(() => this.loading() || !!this.resource()?.isLoading());
 
@@ -118,6 +142,10 @@ export class KitDataTable {
       return;
     }
     this.sort.set(sort);
+  }
+
+  protected onClearSelection() {
+    this.selection()?.clear();
   }
 
   protected onRetry() {

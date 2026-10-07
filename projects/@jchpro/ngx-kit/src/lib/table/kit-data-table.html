@@ -8,6 +8,16 @@
   </div>
 </div>
 
+@if (selecting()) {
+  <div class="kit-data-table__bulk">
+    <span class="kit-data-table__bulk-count" role="status">{{ selectedLabel() }}</span>
+    <div class="kit-data-table__bulk-actions">
+      <ng-content select="[kitTableBulk]"></ng-content>
+    </div>
+    <button type="button" class="kit-btn kit-btn--ghost" (click)="onClearSelection()">{{ labels().bulk.clear }}</button>
+  </div>
+}
+
 <div class="kit-data-table__chips">
   <ng-content select="[kitTableChips]"></ng-content>
 </div>

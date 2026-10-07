@@ -7,6 +7,9 @@ export interface KitTableSort {
   direction: KitSortDirection;
 }
 
+/** Row height of a table. */
+export type KitTableDensity = 'default' | 'compact';
+
 /** What a filter can hold. From a native control it is a string; `null` (or `''`) means "not filtering". */
 export type KitTableFilterValue = string | number | boolean | null;
 

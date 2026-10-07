@@ -24,6 +24,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Opt-in URL sync: `kitTableState({ urlSync: true | { prefix } })` keeps the state in the route's query string
   (`?q=ada&sort=-seats&page=2&role=Admin`), restores it on load and on navigation, and leaves values equal to the starting
   state out. Written with `replaceUrl`, other query params are left alone
+- Table selection: `kitTableSelection(key, { state })` (`KitTableSelection`) keeps selected rows by key across pages and
+  sorting (`toggle`, `toggleAll`, `allSelected`, `someSelected`, `clear`, `count`, `keys`), emptied when the state's search or a
+  filter changes. `<kit-data-table [selection]>` swaps the toolbar for a bulk-action bar (count, `kitTableBulk` actions,
+  "Clear selection") while rows are selected; `kit-table__row--selected` styles a selected row, `kit-cell--select` its column
+- `KitPopover` (`<kit-popover>`), a button opening arbitrary content in a CDK overlay that stays open while used (Escape, click
+  outside), via `@jchpro/ngx-kit/styles/popover` (also part of `primitives`); `KitFilterPanel` (a "Filters" popover with a count of
+  applied filters and reset) and `KitColumnPicker` are built on it
+- Column visibility: `kitTableColumns(defs, { storageKey })` (`locked` and `hidden` columns, optional `localStorage`),
+  `th|td[kitCol]` and `<kit-column-picker />`, via `<kit-data-table [columns]>`
+- Density: `[(density)]` (`'default' | 'compact'`) on `KitDataTable` and `<kit-density-toggle />`
+- In-memory data: `kitClientTable(rows, state, options)` and the pure `applyKitTableParams(rows, params, options)` filter, sort and
+  page a local list by a table's state (word search ignoring case and accents, natural-order sort, empty values last)
+- `KitTableState.resetFilters()` (filters but not the search) and `clearFilter(name)`
+- Table labels for the bulk bar and the toolbar parts: `bulk` and `toolbar` groups of `KIT_TABLE_LABELS` (EN and PL)
 - `.kit-table` and its cell conventions (`kit-cell--num | truncate | nowrap | mono | muted | actions | select`,
   `kit-table--compact`, `kit-table__link | secondary | bool | empty | sr-only`), `.kit-data-table__*` and `.kit-paginator__*`
   classes, via `@jchpro/ngx-kit/styles/table` (also part of `primitives`)

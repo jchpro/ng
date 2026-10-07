@@ -1,0 +1,20 @@
+@if (columns(); as columns) {
+  <kit-popover [label]="labels().toolbar.columns" [(open)]="open">
+    <svg kitPopoverIcon lucideColumns3 size="16"></svg>
+    <div class="kit-check-group">
+      @for (column of columns.columns; track column.id) {
+        <label class="kit-check">
+          <input
+            type="checkbox"
+            class="kit-check__input"
+            [checked]="columns.isVisible(column.id)"
+            [disabled]="column.locked"
+            (change)="toggle(column.id)">
+          {{ column.label }}
+        </label>
+      }
+    </div>
+    <button kitPopoverFooter type="button" class="kit-btn kit-btn--ghost" (click)="columns.reset()">{{ labels().toolbar.resetColumns }}</button>
+    <button kitPopoverFooter type="button" class="kit-btn kit-btn--secondary" (click)="open.set(false)">{{ labels().toolbar.close }}</button>
+  </kit-popover>
+}

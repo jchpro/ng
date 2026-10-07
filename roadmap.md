@@ -57,8 +57,11 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
      `[total]` on the frame; page resets to 1 on query/filter/sort/page-size change; **opt-in** URL query-param sync;
      `resource()` example in docs-app. Possible follow-ups: push (not replace) history for paging, a chips helper that
      renders `activeFilters` with labels, `hasNext` from the frame for cursor APIs.
-  3. **Later**: selection + bulk-action bar, filters overlay, column visibility, density toggle,
-     client-side helper (sort/filter/page a local array; deferred).
+  3. **Extras** (done, kit 0.3.0 unreleased): selection + bulk-action bar (`kitTableSelection`), `KitPopover` + filters panel,
+     column visibility (`kitTableColumns`, `kitCol`, `KitColumnPicker`), density toggle, client-side helper
+     (`kitClientTable`, `applyKitTableParams`). Still open: row expansion, a chips helper that renders `activeFilters` with labels,
+     push (not replace) history for paging in `urlSync`, `hasNext` from the frame for cursor APIs, persisting density, a "select all N
+     matching rows" for server-side bulk actions.
 - **Implement the `kitIcon` content-projection override pattern** (see [CLAUDE.md](CLAUDE.md))
   somewhere real — the shell header's mobile toggle (`LucideMenu`) is the obvious first
   candidate, since it's the only built-in icon in the library today.

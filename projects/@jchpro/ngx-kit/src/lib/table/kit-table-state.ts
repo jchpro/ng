@@ -115,7 +115,17 @@ export class KitTableState<F extends object = KitTableFilters> {
     this.#clearSearchTimer();
     this.searchText.set('');
     this.query.set('');
+    this.resetFilters();
+  }
+
+  /** Empties every filter but not the search, e.g. for a "Reset" inside a filters popover. */
+  resetFilters() {
     this.filters.update(filters => Object.fromEntries(Object.keys(filters).map(key => [key, null])) as F);
+  }
+
+  /** Empties one filter by name, e.g. from the chip of an applied filter (`activeFilters` keys are plain strings). */
+  clearFilter(key: string) {
+    this.filters.update(filters => key in filters ? { ...filters, [key]: null } : filters);
   }
 
   /** The query-string names this state uses under `prefix`, in a fixed order. */

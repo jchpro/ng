@@ -1,8 +1,13 @@
 import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
 import { Component, linkedSignal, resource, signal } from '@angular/core';
 import {
+  applyKitTableParams,
+  KitCol,
+  KitColumnPicker,
   KitDataTable,
+  KitDensityToggle,
   KitFilter,
+  KitFilterPanel,
   KitMenu,
   KitMenuItem,
   KitMenuTrigger,
@@ -10,6 +15,8 @@ import {
   KitSearchInput,
   KitSort,
   KitTableParams,
+  kitTableColumns,
+  kitTableSelection,
   kitTableState
 } from '@jchpro/ngx-kit';
 import {
@@ -18,6 +25,7 @@ import {
   LucideMinus,
   LucidePencil,
   LucidePlus,
+  LucideDownload,
   LucideSearch,
   LucideTrash,
   LucideX
@@ -69,24 +77,20 @@ const USERS: DemoUser[] = NAMES.map((name, index) => ({
   lastSeen: index % 8 === 5 ? null : new Date(Date.UTC(2026, 9, 7, 8, 30) - index * 1.7 * DAY)
 }));
 
+type DemoFilters = { role: string | null; status: string | null; mfa: string | null };
+
 /** What the demo "API" does with a request: filter, sort and page the local array. */
-function queryUsers(params: KitTableParams<{ role: string | null }>, noUsers: boolean): UserPage {
+function queryUsers(params: KitTableParams<DemoFilters>, noUsers: boolean): UserPage {
   if (noUsers) {
     return { items: [], total: 0 };
   }
-  const query = params.query.toLowerCase();
-  const sort = params.sort;
-  const matching = USERS.filter(user =>
-    (!params.filters.role || user.role === params.filters.role)
-    && (!query || user.name.toLowerCase().includes(query) || user.email.includes(query))
-  );
-  if (sort) {
-    const factor = sort.direction === 'asc' ? 1 : -1;
-    const key = (user: DemoUser) => user[sort.field as keyof DemoUser] ?? '';
-    matching.sort((a, b) => factor * (key(a) > key(b) ? 1 : key(a) < key(b) ? -1 : 0));
-  }
-  const start = (params.page - 1) * params.pageSize;
-  return { items: matching.slice(start, start + params.pageSize), total: matching.length };
+  const { rows, total } = applyKitTableParams(USERS, params, {
+    search: user => [user.name, user.email],
+    filters: {
+      mfa: (user, value) => user.mfa === (value === 'on')
+    }
+  });
+  return { items: rows, total };
 }
 
 @Component({
@@ -97,8 +101,12 @@ function queryUsers(params: KitTableParams<{ role: string | null }>, noUsers: bo
     TitleCasePipe,
     LibPageTitle,
     CodeExample,
+    KitCol,
+    KitColumnPicker,
     KitDataTable,
+    KitDensityToggle,
     KitFilter,
+    KitFilterPanel,
     KitSearchInput,
     KitSort,
     KitPaginator,
@@ -110,6 +118,7 @@ function queryUsers(params: KitTableParams<{ role: string | null }>, noUsers: bo
     LucideMinus,
     LucidePencil,
     LucidePlus,
+    LucideDownload,
     LucideSearch,
     LucideTrash,
     LucideX
@@ -130,13 +139,28 @@ export class TablePage {
   protected readonly state = kitTableState({
     pageSize: 10,
     sort: { field: 'name', direction: 'asc' },
-    filters: { role: null as string | null },
+    filters: { role: null, status: null, mfa: null } as DemoFilters,
     urlSync: true
   });
 
+  // Which columns are shown, remembered in the browser.
+  protected readonly columns = kitTableColumns([
+    { id: 'user', label: 'User', locked: true },
+    { id: 'role', label: 'Role' },
+    { id: 'status', label: 'Status' },
+    { id: 'mfa', label: '2FA' },
+    { id: 'seats', label: 'Seats' },
+    { id: 'lastSeen', label: 'Last seen' },
+    { id: 'id', label: 'ID', hidden: true }
+  ], { storageKey: 'docs-app.kit-table.columns' });
+
+  // The selected rows, by id; emptied when the search or a filter changes.
+  protected readonly selection = kitTableSelection((user: DemoUser) => user.id, { state: this.state });
+
+  protected readonly filterLabels: Record<string, string> = { role: 'Role', status: 'Status', mfa: '2FA' };
+
   // Switches for looking at the states and densities.
   protected readonly failing = signal(false);
-  protected readonly compact = signal(false);
   protected readonly noUsers = signal(false);
 
   protected readonly lastAction = signal('none yet');
@@ -159,6 +183,11 @@ export class TablePage {
     source: () => this.users.hasValue() ? this.users.value() : undefined,
     computation: (value, previous) => value ?? previous?.value
   });
+
+  protected bulk(action: string) {
+    this.lastAction.set(`${action} ${this.selection.count()} users`);
+    this.selection.clear();
+  }
 
   protected toggleFailing() {
     this.failing.update(failing => !failing);

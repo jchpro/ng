@@ -91,6 +91,37 @@
     }
   }
 
+  // While rows are selected, the toolbar gives way to this bar: the count, the bulk actions, and
+  // "Clear selection". The "selected" tint with primary ink on it.
+  .kit-data-table--selecting > .kit-data-table__toolbar {
+    display: none;
+  }
+
+  .kit-data-table__bulk {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-3);
+    padding: var(--kit-space-3) var(--kit-space-4);
+    border-bottom: 1px solid var(--kit-border-subtle);
+    background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, var(--kit-surface-raised));
+  }
+
+  .kit-data-table__bulk-count {
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kit-data-table__bulk-actions {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--kit-space-2);
+  }
+
   // The applied filters, one chip each. A chip is a button that removes its filter. The fill is
   // the "selected" tint used elsewhere in the kit, with primary ink on it.
   .kit-data-table__chips {
@@ -255,9 +286,24 @@
       background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, var(--kit-surface-raised));
     }
 
-    // Row height. `kit-table--compact` for dense lists.
+    // Row height. `kit-table--compact` for dense lists; the frame's `density` does the same for the
+    // table inside it (see below).
     &--compact {
       --kit-table-cell-py: var(--kit-space-2);
+    }
+
+    // A selected row: the "selected" tint, a little stronger when also hovered.
+    tbody tr.kit-table__row--selected > :is(th, td) {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 12%, var(--kit-surface-raised));
+    }
+
+    tbody tr.kit-table__row--selected:hover > :is(th, td) {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 20%, var(--kit-surface-raised));
+    }
+
+    // A column hidden through `kitCol` and the table's `columns`.
+    [hidden] {
+      display: none;
     }
 
     // Cell modifiers, on `<th>` and `<td>` alike so a header lines up with its column.
@@ -371,6 +417,10 @@
     .kit-table__empty {
       color: var(--kit-ink-muted);
     }
+  }
+
+  .kit-data-table--compact .kit-table {
+    --kit-table-cell-py: var(--kit-space-2);
   }
 
   // Sort header --------------------------------------------------------------------------------

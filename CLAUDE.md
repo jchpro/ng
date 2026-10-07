@@ -189,7 +189,9 @@ Notes that aren't obvious from the code:
   signals (`page` is a `linkedSignal` that resets to 1 when the others change) with `params` for a `resource()`; given to
   `<kit-data-table [state]>`, `input[kitSearch]`, `[kitFilter]`, `th[kitSort]` and `kit-paginator` bind to it by DI on the frame.
   `urlSync` (opt-in) mirrors it in the query string via `Router`; it tells its own navigation echoes from outside ones
-  (`kit-table-url-sync.ts`). A projected `@if` suppresses a slot's fallback content, so `kitTableEmpty` must be unconditional.
+  (`kit-table-url-sync.ts`). Phase 3 extras: `kitTableSelection` (keys, cleared by search/filter changes), `KitPopover` (CDK
+  connected overlay; the filters panel and column picker use it because a menu closes after every item), `kitTableColumns` + `kitCol`
+  (the `hidden` attribute), `kit-density-toggle`, `kitClientTable` / `applyKitTableParams`. A projected `@if` suppresses a slot's fallback content, so `kitTableEmpty` must be unconditional.
   Reading `resource.value()` throws in the error state: use `hasValue()`. `.kit-badge` is primary ink on a tint with a
   status-colored dot, since `status-*-ink` text on its own tint fails 4.5:1 (the contrast script checks tinted pairs with
   `status-x@10>surface-raised` backgrounds).

@@ -17,7 +17,7 @@
 <h2>Try it</h2>
 <p>
   A simulated API answers after a short delay. The state is kept in the URL: search, filter, sort and page, then reload
-  the page or use a link to this one with its query string.
+  the page or use a link to this one with its query string. Select rows to swap the toolbar for the bulk actions.
 </p>
 <div class="flex row wrap x-center gap-sm">
   <button type="button" class="kit-btn kit-btn--ghost" (click)="toggleFailing()">
@@ -26,9 +26,6 @@
   <button type="button" class="kit-btn kit-btn--ghost" (click)="noUsers.set(!noUsers())">
     No data: {{ noUsers() ? 'on' : 'off' }}
   </button>
-  <button type="button" class="kit-btn kit-btn--ghost" (click)="compact.set(!compact())">
-    Compact: {{ compact() ? 'on' : 'off' }}
-  </button>
   <span>Last action: {{ lastAction() }}</span>
 </div>
 
@@ -36,6 +33,8 @@
   label="Users"
   [state]="state"
   [resource]="users"
+  [columns]="columns"
+  [selection]="selection"
   [total]="page()?.total"
   [empty]="!page()?.items?.length">
 
@@ -53,65 +52,118 @@
     </select>
   </div>
 
-  <button kitTableActions type="button" class="kit-btn kit-btn--primary" (click)="lastAction.set('add user')">
-    <svg lucidePlus size="16"></svg> Add user
-  </button>
+  <kit-filter-panel kitTableFilters [filters]="['status', 'mfa']">
+    <div class="kit-field">
+      <label class="kit-field__label" for="filter-status">Status</label>
+      <select id="filter-status" kitFilter="status" class="kit-field__control">
+        <option value="">Any</option>
+        <option value="active">Active</option>
+        <option value="invited">Invited</option>
+        <option value="suspended">Suspended</option>
+      </select>
+    </div>
+    <div class="kit-field">
+      <label class="kit-field__label" for="filter-mfa">2FA</label>
+      <select id="filter-mfa" kitFilter="mfa" class="kit-field__control">
+        <option value="">Any</option>
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select>
+    </div>
+  </kit-filter-panel>
 
-  @if (state.filters().role; as role) {
+  <ng-container kitTableActions>
+    <kit-density-toggle />
+    <kit-column-picker />
+    <button type="button" class="kit-btn kit-btn--primary" (click)="lastAction.set('add user')">
+      <svg lucidePlus size="16"></svg> Add user
+    </button>
+  </ng-container>
+
+  <ng-container kitTableBulk>
+    <button type="button" class="kit-btn kit-btn--secondary" (click)="bulk('export')">
+      <svg lucideDownload size="16"></svg> Export
+    </button>
+    <button type="button" class="kit-btn kit-btn--danger" (click)="bulk('delete')">
+      <svg lucideTrash size="16"></svg> Delete
+    </button>
+  </ng-container>
+
+  @if (state.activeFilters().length) {
     <div kitTableChips>
-      <button type="button" class="kit-data-table__chip" (click)="state.setFilter('role', '')">
-        Role: {{ role }} <svg lucideX aria-label="Remove filter"></svg>
-      </button>
-      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="state.clearFilters()">
+      @for (filter of state.activeFilters(); track filter.key) {
+        <button type="button" class="kit-data-table__chip" (click)="state.clearFilter(filter.key)">
+          {{ filterLabels[filter.key] }}: {{ filter.value }} <svg lucideX aria-label="Remove filter"></svg>
+        </button>
+      }
+      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="state.resetFilters()">
         Clear all
       </button>
     </div>
   }
 
-  <table class="kit-table" [class.kit-table--compact]="compact()">
+  @let rows = page()?.items ?? [];
+  <table class="kit-table">
     <thead>
       <tr>
-        <th kitSort="name">User</th>
-        <th kitSort="role">Role</th>
-        <th kitSort="status">Status</th>
-        <th>2FA</th>
-        <th kitSort="seats" class="kit-cell--num">Seats</th>
-        <th kitSort="lastSeen">Last seen</th>
-        <th class="kit-cell--mono">ID</th>
+        <th class="kit-cell--select">
+          <input
+            type="checkbox"
+            class="kit-check__input"
+            aria-label="Select all users on this page"
+            [checked]="selection.allSelected(rows)"
+            [indeterminate]="selection.someSelected(rows)"
+            (change)="selection.toggleAll(rows)">
+        </th>
+        <th kitCol="user" kitSort="name">User</th>
+        <th kitCol="role" kitSort="role">Role</th>
+        <th kitCol="status" kitSort="status">Status</th>
+        <th kitCol="mfa">2FA</th>
+        <th kitCol="seats" kitSort="seats" class="kit-cell--num">Seats</th>
+        <th kitCol="lastSeen" kitSort="lastSeen">Last seen</th>
+        <th kitCol="id" class="kit-cell--mono">ID</th>
         <th class="kit-cell--actions"><span class="kit-table__sr-only">Actions</span></th>
       </tr>
     </thead>
     <tbody>
-      @for (user of page()?.items; track user.id) {
-        <tr>
-          <td>
+      @for (user of rows; track user.id) {
+        <tr [class.kit-table__row--selected]="selection.isSelected(user)">
+          <td class="kit-cell--select">
+            <input
+              type="checkbox"
+              class="kit-check__input"
+              [attr.aria-label]="'Select ' + user.name"
+              [checked]="selection.isSelected(user)"
+              (change)="selection.toggle(user)">
+          </td>
+          <td kitCol="user">
             <a class="kit-table__link" href="javascript:void(0)" (click)="lastAction.set('open ' + user.name)">{{ user.name }}</a>
             <span class="kit-table__secondary">{{ user.email }}</span>
           </td>
-          <td>{{ user.role }}</td>
-          <td><span class="kit-badge" [class]="badgeClass[user.status]">{{ user.status | titlecase }}</span></td>
-          <td>
+          <td kitCol="role">{{ user.role }}</td>
+          <td kitCol="status"><span class="kit-badge" [class]="badgeClass[user.status]">{{ user.status | titlecase }}</span></td>
+          <td kitCol="mfa">
             @if (user.mfa) {
               <span class="kit-table__bool"><svg lucideCheck></svg> On</span>
             } @else {
               <span class="kit-table__bool kit-table__bool--off"><svg lucideMinus></svg> Off</span>
             }
           </td>
-          <td class="kit-cell--num">
+          <td kitCol="seats" class="kit-cell--num">
             @if (user.seats) {
               {{ user.seats | number }}
             } @else {
               <span class="kit-table__empty" role="img" aria-label="No value">—</span>
             }
           </td>
-          <td class="kit-cell--nowrap">
+          <td kitCol="lastSeen" class="kit-cell--nowrap">
             @if (user.lastSeen; as seen) {
               {{ seen | date: 'd MMM y' }} <span class="kit-cell--muted">{{ seen | date: 'HH:mm' }}</span>
             } @else {
               <span class="kit-table__empty" role="img" aria-label="Never">—</span>
             }
           </td>
-          <td class="kit-cell--mono kit-cell--muted">{{ user.id }}</td>
+          <td kitCol="id" class="kit-cell--mono kit-cell--muted">{{ user.id }}</td>
           <td class="kit-cell--actions">
             <button
               type="button"
@@ -182,6 +234,50 @@
   without a guard directive that is told the row type. With a plain <code>&#64;for</code> the row variable is typed for free.
   Always <code>track</code> by a stable id: a re-sort then moves the existing rows instead of rebuilding them.
   A page of 25 to 100 rows costs nothing either way, and server paging means you never render more.
+</p>
+
+<h2>Selection, filters, columns, density</h2>
+<p>
+  The rest of an admin list, each piece optional and bound by the same frame. All of them are in the demo above.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-table/extras.example.html">
+</app-code-example>
+<app-code-example
+  lang="ts"
+  source="/code/kit-table/extras.example.ts">
+</app-code-example>
+<h3>Selection and bulk actions</h3>
+<p>
+  <code>kitTableSelection(key, &#123; state &#125;)</code> keeps the selected rows by their key, so a selection survives paging and
+  sorting. The checkboxes are plain <code>kit-check__input</code>s bound by hand (<code>isSelected</code>,
+  <code>toggle</code>, and <code>allSelected</code> / <code>someSelected</code> / <code>toggleAll</code> for the header), which keeps the
+  row type. Give it to the frame as <code>[selection]</code> and, while rows are selected, the toolbar gives way to a bar with
+  the count, your <code>kitTableBulk</code> actions and "Clear selection"; add <code>kit-table__row--selected</code> to the
+  selected rows. With a <code>state</code> the selection empties when the search or a filter changes, so a bulk action never
+  reaches rows the person can no longer see.
+</p>
+<h3>More filters than fit</h3>
+<p>
+  Up to three simple filters sit inline as selects. Beyond that, <code>&lt;kit-filter-panel&gt;</code> puts them behind a
+  "Filters" button that shows how many are applied; <code>[filters]</code> names the ones inside it, so inline filters
+  aren't counted or reset with them. It is built on <code>&lt;kit-popover&gt;</code>, a button that opens any content in an
+  overlay and stays open while you use it (Escape or a click outside closes it).
+</p>
+<h3>Columns and density</h3>
+<p>
+  <code>kitTableColumns()</code> lists the columns the person may hide. Mark each header and its cells with
+  <code>kitCol="id"</code>, pass it as <code>[columns]</code> and add <code>&lt;kit-column-picker /&gt;</code>; a <code>locked</code> column
+  can't be hidden and <code>storageKey</code> remembers the choice in the browser.
+  <code>&lt;kit-density-toggle /&gt;</code> switches the frame's <code>[(density)]</code> between default and compact rows.
+</p>
+<h3>Data in memory</h3>
+<p>
+  <code>kitClientTable(rows, state, options)</code> filters, sorts and pages a list you already have by the same state, for a table
+  without a server: <code>view.rows()</code> and <code>view.total()</code>. This demo's "API" is
+  <code>applyKitTableParams()</code>, the same logic as a plain function. Search matches every word, ignoring case and accents;
+  sorting handles numbers, dates, booleans and natural-order text, with empty values last.
 </p>
 
 <h2>Sorting</h2>
@@ -271,15 +367,34 @@
     <tr>
       <td><code>KitDataTable</code></td>
       <td>
-        The frame. Inputs <code>state</code>, <code>resource</code>, <code>total</code>, <code>loading</code>,
-        <code>error</code> (a message or <code>true</code>), <code>empty</code>, <code>filtered</code>, <code>label</code>;
+        The frame. Inputs <code>state</code>, <code>resource</code>, <code>total</code>, <code>selection</code>, <code>columns</code>,
+        <code>loading</code>, <code>error</code> (a message or <code>true</code>), <code>empty</code>, <code>filtered</code>, <code>label</code>; model <code>density</code>;
         outputs <code>retry</code> and <code>clearFilters</code>. An empty result with <code>filtered</code> (or a filtering
         state) offers to clear the filters; otherwise <code>kitTableEmpty</code> can replace the default message
       </td>
     </tr>
     <tr>
-      <td><code>KitSearchInput</code>, <code>KitFilter</code></td>
-      <td><code>input[kitSearch]</code> and <code>select[kitFilter="name"]</code>, bound to the frame's state</td>
+      <td><code>KitSearchInput</code>, <code>KitFilter</code>, <code>KitCol</code></td>
+      <td><code>input[kitSearch]</code>, <code>select[kitFilter="name"]</code> and <code>th|td[kitCol="id"]</code>, bound to the frame's state and columns</td>
+    </tr>
+    <tr>
+      <td><code>kitTableSelection()</code></td>
+      <td>
+        <code>isSelected</code>, <code>toggle</code>, <code>select</code>, <code>deselect</code>, <code>toggleAll</code>,
+        <code>allSelected</code>, <code>someSelected</code>, <code>clear</code>; signals <code>count</code> and <code>keys</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>kitTableColumns()</code></td>
+      <td><code>isVisible</code>, <code>toggle</code>, <code>setVisible</code>, <code>reset</code>; definitions with <code>locked</code> and <code>hidden</code>; <code>storageKey</code></td>
+    </tr>
+    <tr>
+      <td><code>KitFilterPanel</code>, <code>KitColumnPicker</code>, <code>KitDensityToggle</code>, <code>KitPopover</code></td>
+      <td>The "Filters" and "Columns" buttons with their popovers, the density icon button, and the popover they share</td>
+    </tr>
+    <tr>
+      <td><code>kitClientTable()</code>, <code>applyKitTableParams()</code></td>
+      <td>Filter, sort and page an in-memory list by a state, as signals or as a plain function</td>
     </tr>
     <tr>
       <td><code>KitSort</code></td>

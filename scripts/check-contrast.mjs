@@ -89,6 +89,9 @@ pairs.splice(pairs.length - 2, 0,
   ['ink-muted', 'ink-primary@4>surface-raised', TEXT],
   ['ink-primary', 'brand-violet-muted@8>surface-raised', TEXT],
   ['ink-muted', 'brand-violet-muted@8>surface-raised', TEXT],
+  ['ink-primary', 'brand-violet-muted@12>surface-raised', TEXT],
+  ['ink-primary', 'brand-violet-muted@15>surface-raised', TEXT],
+  ['ink-primary', 'brand-violet-muted@20>surface-raised', TEXT],
   ['ink-primary', 'brand-violet-muted@28>surface-raised', TEXT],
 );
 
