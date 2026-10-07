@@ -19,13 +19,12 @@ docs-app. Done in this order:
 2. **Deploy on merge** — `example_app.yaml` is `workflow_dispatch` only today; add `push` to `main`
    plus a non-cancelling concurrency group. Optional: swap the bundle in with a `mv` instead of
    `rm -rf` + `cp`, which leaves a brief empty-site window.
-3. **Version tooling** — keep independent per-library versions and `<lib>-vX.Y.Z` tags. Add
-   `scripts/release.mjs <common|kit> <X.Y.Z>`: sets `version`, turns the changelog's `Unreleased`
-   heading into a dated one, rewrites kit's `@jchpro/ngx-common` peer range when releasing common
-   (on `0.x` a caret pins the minor, so every common minor bump would otherwise break kit's peer),
-   then commits and tags. Plus a `check:versions` script in `npm test` that catches drift between
-   the peer range, `package.json` and the changelog headings. Release-please (needs conventional
-   commits), Changesets and Nx/Lerna were judged overkill or a poor fit.
+3. **Version tooling** ✅ — independent per-library versions and `<lib>-vX.Y.Z` tags, handled by
+   `scripts/release.mjs` (`prepare` sets the version, dates the `Unreleased` changelog heading and moves
+   kit's `@jchpro/ngx-common` peer range when releasing common — on `0.x` a caret pins the minor;
+   `tag` tags an up-to-date `main`) and `npm run check:versions` (in `npm test`; also verifies a tag with
+   `--tag <lib>-vX.Y.Z`, for the publish guard in step 5). Release-please (needs conventional commits),
+   Changesets and Nx/Lerna were judged overkill or a poor fit.
 4. **First manual publish of `@jchpro/ngx-kit` 0.1.0**, then link both packages as trusted publishers
    on npmjs.com (repo `jchpro/ng`, workflow `publish-common.yaml` / `publish-kit.yaml`).
 5. **Publish workflows → OIDC, real publish** — model: `garden-pda/.github/workflows/publish-core.yml`
