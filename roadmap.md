@@ -11,30 +11,15 @@ work when there's time; delete or rewrite anything that stops being true.
 
 ## CI & releases
 
-Target flow: PR → CI; a `<lib>-v*` tag → publish that library; every merge into `main` → redeploy
-docs-app. Done in this order:
+The flow itself is done (PR → CI, `<lib>-v*` tag → OIDC publish, merge to `main` → docs-app deploy; how
+to release is in [CLAUDE.md](CLAUDE.md)). What's left:
 
-1. **Actions refresh** — `checkout`/`setup-node` v6 (v3 is a Node 16-era generation), `ubuntu-24.04`,
-   `cache: npm`, `permissions: contents: read`, PR-workflow concurrency. Node is already 24 everywhere.
-2. **Deploy on merge** — `example_app.yaml` is `workflow_dispatch` only today; add `push` to `main`
-   plus a non-cancelling concurrency group. Optional: swap the bundle in with a `mv` instead of
-   `rm -rf` + `cp`, which leaves a brief empty-site window.
-3. **Version tooling** ✅ — independent per-library versions and `<lib>-vX.Y.Z` tags, handled by
-   `scripts/release.mjs` (`prepare` sets the version, dates the `Unreleased` changelog heading and moves
-   kit's `@jchpro/ngx-common` peer range when releasing common — on `0.x` a caret pins the minor;
-   `tag` tags an up-to-date `main`) and `npm run check:versions` (in `npm test`; also verifies a tag with
-   `--tag <lib>-vX.Y.Z`, for the publish guard in step 5). Release-please (needs conventional commits),
-   Changesets and Nx/Lerna were judged overkill or a poor fit.
-4. **First manual publish of `@jchpro/ngx-kit` 0.1.0** ✅ and trusted publishers linked on npmjs.com
-   for both packages (repo `jchpro/ng`, workflow `publish-common.yaml` / `publish-kit.yaml`).
-5. **Publish workflows → OIDC, real publish** ✅ — modelled on `garden-pda/.github/workflows/publish-core.yml`
-   (`id-token: write`, `npm install -g npm@latest` for ≥ 11.5.1). Runs on `common-v*` / `kit-v*` tags only
-   (no `workflow_dispatch`, so a branch can't publish; retry by re-running the job). Guard
-   (`check-versions --tag`), tests, build, `npm publish --access public` from `dist/`; kit builds common
-   first. No `NPM_TOKEN`, no `--provenance` (public repo, automatic) — delete the secret once a release
-   went through. Not yet exercised: the first tag-triggered publish is the real test. Optional extra
-   gate if wanted: a protected GitHub Environment with a required reviewer.
-6. **Docs upkeep** ✅ — stage-publish notes removed from CLAUDE.md and memory.
+- **Exercise the tag-triggered publish for real** with the next actual release (kit 0.1.1 or common
+  0.9.0) — it has never run. Afterwards delete the `NPM_TOKEN` repo secret.
+- **Atomic docs-app deploy** (optional): swap the bundle in with a `mv` instead of `rm -rf` + `cp`,
+  which leaves a brief empty-site window.
+- **Drop `@angular/platform-browser-dynamic`** (direct dependency, deprecated in favour of
+  `@angular/platform-browser`).
 
 ## ngx-kit
 
