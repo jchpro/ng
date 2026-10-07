@@ -82,6 +82,37 @@
 
     :is(ul, ol):not([class]) {
       padding-left: var(--kit-space-5);
+
+      > li + li {
+        margin-top: var(--kit-space-1);
+      }
+
+      // A nested list belongs to its item: no gap below, a small one above
+      > li > :is(ul, ol):not([class]) {
+        margin: var(--kit-space-1) 0 0;
+      }
+    }
+
+    dl:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+
+      dt {
+        font-weight: 600;
+      }
+
+      dt:not(:first-child) {
+        margin-top: var(--kit-space-3);
+      }
+
+      dd {
+        margin: var(--kit-space-1) 0 0 var(--kit-space-4);
+      }
+    }
+
+    hr:not([class]) {
+      margin: var(--kit-space-6) 0;
+      border: none;
+      border-top: 1px solid var(--kit-border-subtle);
     }
 
     // Links keep the text color and are told apart by the underline, in the brand pink: brand
@@ -147,6 +178,20 @@
       line-height: 0;
     }
 
+    ins:not([class]) {
+      padding: 0 0.2em;
+      border-radius: 0.2rem;
+      background-color: color-mix(in srgb, var(--kit-status-success) 18%, transparent);
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+    }
+
+    abbr[title]:not([class]) {
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+      cursor: help;
+    }
+
     // A key cap, drawn with a thicker bottom edge.
     kbd:not([class]) {
       padding: 0.1rem 0.4rem;
@@ -170,6 +215,69 @@
     var:not([class]) {
       font-family: monospace;
       font-size: 0.9em;
+    }
+
+    // Preformatted text and figures. Code examples with their own highlighter have their own look,
+    // a `<pre>` with a class is left alone like every other element.
+    pre:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+      padding: var(--kit-space-3) var(--kit-space-4);
+      overflow-x: auto;
+      border: 1px solid var(--kit-border-subtle);
+      border-radius: var(--kit-radius-md);
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+      font-family: monospace;
+      font-size: 0.9em;
+      line-height: var(--kit-app-body-line-height);
+
+      code:not([class]) {
+        padding: 0;
+        background: none;
+        color: inherit;
+      }
+    }
+
+    figure:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+
+      > :is(pre, p, blockquote, table):not([class]) {
+        margin-bottom: 0;
+      }
+    }
+
+    figcaption:not([class]) {
+      margin-top: var(--kit-space-2);
+      color: var(--kit-ink-muted);
+      font-size: var(--kit-app-body-sm-size);
+      line-height: var(--kit-app-body-sm-line-height);
+    }
+
+    // A disclosure box: the summary is the always-visible line.
+    details:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+      padding: var(--kit-space-2) var(--kit-space-4);
+      border: 1px solid var(--kit-border-subtle);
+      border-radius: var(--kit-radius-md);
+
+      > summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      &[open] > summary {
+        margin-bottom: var(--kit-space-2);
+      }
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    img:not([class]) {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--kit-radius-md);
     }
   }
 

@@ -104,7 +104,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `prose-h3` styles (family stays Dosis via `--kit-font-display`)
 - Prose styling — see `docs/prose.md`. `kit-prose` on a container styles its plain elements (`h1`–`h3` from the
   prose tokens, `h4`–`h6` from the App scale, `p`, lists, links with a pink underline, `blockquote`, inline `code`,
-  `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `var`, tables); everything sits in
+  `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `ins`, `abbr`, `var`, `dl`, `hr`, `pre`, `figure`, `details`, `img`,
+  nested lists, tables); everything sits in
   `:where()`/`:not([class])` so kit classes and your own always win. `kit-table-frame` is the optional wrapper that
   gives a table its rounded frame and horizontal scroll. New provisional tokens `--kit-prose-h1-*` (28/36/700). Part
   of `primitives`, or `@jchpro/ngx-kit/styles/prose` on its own

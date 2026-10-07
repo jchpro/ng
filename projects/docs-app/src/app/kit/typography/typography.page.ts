@@ -24,26 +24,31 @@ export class TypographyPage {
     { name: 'caption', label: 'Caption', usedBy: 'No class yet' },
   ] as const;
 
-  /** What the doc pages' prose styling covers, element by element. */
+  /**
+   * What the kit's prose styling covers, element by element. `html` is the preview, our own literal
+   * markup rendered into the table cell.
+   */
   protected readonly coverage = [
-    { element: 'h1', styled: true, note: 'Display font, 28/36 bold (provisional token, the design system has no prose h1 yet)' },
-    { element: 'h2, h3', styled: true, note: 'Prose scale, display font' },
-    { element: 'p', styled: true, note: 'Body text, spacing below' },
-    { element: 'ul, ol', styled: true, note: 'Indent and spacing; nested lists are not looked at yet' },
-    { element: 'table', styled: true, note: 'Tinted header, row lines; wrap in .kit-table-frame for the frame and scroll' },
-    { element: 'code', styled: true, note: 'Inline chip' },
-    { element: 'a', styled: true, note: 'Text color, pink underline, thicker on hover, focus ring' },
-    { element: 'blockquote', styled: true, note: 'Pink rule at the start, muted text' },
-    { element: 'h4, h5, h6', styled: true, note: 'Body font semibold: 15/20, body size, small uppercase muted label (provisional)' },
-    { element: 'strong, small, del', styled: true, note: 'Semibold, small body size, muted line-through' },
-    { element: 'mark', styled: true, note: 'Peach highlight' },
-    { element: 'kbd, samp, var', styled: true, note: 'Key cap, code chip in the text color, monospace' },
-    { element: 'sub, sup', styled: true, note: 'Browser look, without widening the line' },
-    { element: 'em, ins, abbr', styled: false, note: 'Browser default' },
-    { element: 'dl', styled: false, note: 'Browser default' },
-    { element: 'hr', styled: false, note: 'Browser default' },
-    { element: 'pre', styled: false, note: 'Browser default; code examples use app-code-example' },
-    { element: 'figure, figcaption', styled: false, note: 'Browser default' },
+    { element: 'h1', styled: true, note: 'Display font, 28/36 bold (provisional token, the design system has no prose h1 yet)', html: '<h1>Heading</h1>' },
+    { element: 'h2, h3', styled: true, note: 'Prose scale, display font', html: '<h2>Heading</h2><h3>Heading</h3>' },
+    { element: 'h4, h5, h6', styled: true, note: 'Body font: 15/20 semibold, body size medium, small uppercase muted label (provisional)', html: '<h4>Heading</h4><h5>Heading</h5><h6>Heading</h6>' },
+    { element: 'p', styled: true, note: 'Body text, spacing below', html: '<p>A paragraph of text.</p><p>Another one.</p>' },
+    { element: 'ul, ol', styled: true, note: 'Indent, items spaced apart, a nested list sits tight under its item', html: '<ul><li>One<ul><li>Nested</li></ul></li><li>Two</li></ul><ol><li>One</li><li>Two</li></ol>' },
+    { element: 'dl', styled: true, note: 'Semibold term, indented description', html: '<dl><dt>Term</dt><dd>Its description.</dd><dt>Another</dt><dd>Its description.</dd></dl>' },
+    { element: 'a', styled: true, note: 'Text color, pink underline, thicker on hover, focus ring', html: '<a href="#typography-links">A link</a>' },
+    { element: 'blockquote', styled: true, note: 'Pink rule at the start, muted text', html: '<blockquote><p>A quotation.</p></blockquote>' },
+    { element: 'code, samp', styled: true, note: 'Inline chip, samp in the text color for program output', html: '<code>inline code</code> <samp>exit code 0</samp>' },
+    { element: 'strong, em, small', styled: true, note: 'Semibold, the browser italic, the small body size', html: '<strong>strong</strong> <em>emphasis</em> <small>small print</small>' },
+    { element: 'mark, ins, del', styled: true, note: 'Peach highlight, faint green with a dotted underline, muted line-through', html: '<mark>marked</mark> <ins>added</ins> <del>removed</del>' },
+    { element: 'kbd, var', styled: true, note: 'Key cap, monospace', html: '<kbd>Ctrl</kbd> + <kbd>K</kbd> <var>x</var>' },
+    { element: 'abbr', styled: true, note: 'Dotted underline, help cursor', html: '<abbr title="Application programming interface">API</abbr>' },
+    { element: 'sub, sup', styled: true, note: 'Browser look, without widening the line', html: 'H<sub>2</sub>O and x<sup>2</sup>' },
+    { element: 'hr', styled: true, note: 'A hairline', html: '<hr>' },
+    { element: 'pre', styled: true, note: 'Raised box, monospace, scrolls sideways', html: '<pre>A preformatted block&#10;  keeps its spacing</pre>' },
+    { element: 'figure, figcaption', styled: true, note: 'Muted small caption below', html: '<figure><pre>const answer = 42;</pre><figcaption>A figure with a caption</figcaption></figure>' },
+    { element: 'details', styled: true, note: 'Bordered disclosure box, bold summary', html: '<details open><summary>Summary</summary><p>Hidden until opened.</p></details>' },
+    { element: 'table', styled: true, note: 'Tinted header, row lines; wrap in .kit-table-frame for the frame and scroll', html: '<div class="kit-table-frame"><table><tr><th>Name</th><th>Role</th></tr><tr><td>kit-btn</td><td>Button</td></tr></table></div>' },
+    { element: 'img', styled: true, note: 'Fits the width, rounded corners', html: 'Not previewed here' },
   ] as const;
 
 }

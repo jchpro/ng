@@ -82,19 +82,21 @@
 <h3>What is styled</h3>
 <p>
   Every element a block of written content can contain, rendered as it is styled now.
-  The table lists what is styled and what is left to the browser for now, the specimens below follow it.
+  The table lists each element with a preview of its look, the specimens below show them in running text.
 </p>
 <div class="kit-table-frame">
   <table>
     <tr>
       <th>Elements</th>
       <th>Status</th>
+      <th>Preview</th>
       <th>Notes</th>
     </tr>
     @for (row of coverage; track row.element) {
       <tr>
         <td><code>{{ row.element }}</code></td>
         <td class="status">{{ row.styled ? 'Styled' : 'Not styled yet' }}</td>
+        <td class="preview" [innerHTML]="row.html"></td>
         <td [class.note]="!row.styled">{{ row.note }}</td>
       </tr>
     }
@@ -176,7 +178,7 @@
   </table>
 </div>
 
-<h3>Quotes, rules and preformatted text</h3>
+<h3>Quotes, rules, preformatted text and disclosure</h3>
 <div class="frame">
   <blockquote>
     <p>A quotation, set apart from the text around it.</p>
@@ -188,4 +190,8 @@
     <pre>const answer = 42;</pre>
     <figcaption>A figure with a caption</figcaption>
   </figure>
+  <details>
+    <summary>A disclosure box</summary>
+    <p>Content that stays hidden until the summary is opened.</p>
+  </details>
 </div>

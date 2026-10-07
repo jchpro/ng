@@ -54,3 +54,16 @@
 .note {
   color: var(--kit-ink-muted);
 }
+
+// The previews are rendered markup, so Angular's style encapsulation doesn't reach into them.
+.preview {
+  min-width: 10rem;
+
+  ::ng-deep > :first-child {
+    margin-top: 0;
+  }
+
+  ::ng-deep > :last-child {
+    margin-bottom: 0;
+  }
+}
