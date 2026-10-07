@@ -122,7 +122,11 @@ Documented in `docs/labels.md`.
   don't bump the version number or add a new dated entry per work session. Bump only at an
   actual release.
 - **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump —
-  there are no real external consumers yet.
+  there are no real external consumers yet. Libraries version independently (tags `common-vX.Y.Z` /
+  `kit-vX.Y.Z`). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, run
+  `npm run release -- prepare <common|kit> <X.Y.Z>`, merge that via a PR, then
+  `npm run release -- tag <lib>` on an up-to-date `main` and push the tag. `npm run check:versions`
+  (in `npm test`) guards drift, including kit's peer range on common.
 - **Readme size**: once a package readme grows large, split feature-specific content into
   `docs/*.md` files (see `ngx-kit/docs/`) and link back — verify the split files are actually
   included in the packaged output and that relative links between them still resolve.
