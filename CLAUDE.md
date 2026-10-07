@@ -84,8 +84,8 @@ looking icons up by string name. `size` is a raw CSS length (not Font Awesome's 
 and defaults to a fixed 24px; `docs-app` sets `provideLucideConfig({ size: '1em' })` so icons
 scale with surrounding text.
 
-**Planned override pattern (not yet implemented anywhere)**: a content-projection slot, working
-name `kitIcon`, for components that render a built-in icon but should let a consumer swap it for
+**Override pattern** (`KitIcon`, the `[kitIcon="slot"]` marker; implemented in `KitPasswordToggle`
+only so far, the shell header's mobile toggle is the next candidate): a content-projection slot for components that render a built-in icon but should let a consumer swap it for
 literally anything (a different icon library, inline SVG, emoji) — not a plain token swap, which
 is enough when the only need is picking a different icon from Lucide itself:
 ```html
@@ -95,8 +95,9 @@ is enough when the only need is picking a different icon from Lucide itself:
   <svg lucideDefaultIcon></svg>
 }
 ```
-with `customIcon = contentChild(KitIcon, { descendants: false })` detecting whether anything was
-projected. Reserve this for spots where a different icon *source* is plausible, not every icon.
+with `contentChildren(KitIcon, { descendants: false })` checked for the slot name (`icon.slot()`)
+detecting whether anything was projected. A projected `@if` block only matches `select` when it
+has a single root element. Reserve this for spots where a different icon *source* is plausible, not every icon.
 
 ## i18n
 
@@ -151,11 +152,11 @@ Documented in `docs/labels.md`.
   deliberately no `workflow_dispatch`, so a branch can't publish. The trusted publisher is bound to
   the workflow *file name* on npmjs.com, so renaming either file breaks publishing.
 
-## Current state (as of 2026-10-06)
+## Current state (as of 2026-10-07)
 
-Phases: 0 scaffold ✅, 1 tokens/theme ✅, 2 primitives ✅, 3 layout shell ✅, 5 (applied to
-docs-app) ✅, Font Awesome → Lucide migration ✅. **Phase 4 (auth views, local auth only) is in
-progress on `feat/kit-auth`**: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (`flow="reset" | "invite"`)
+Phases: 0 scaffold ✅, 1 tokens/theme ✅, 2 primitives ✅, 3 layout shell ✅, 4 auth views ✅
+(merged in #17, kit 0.2.0 still unreleased), 5 (applied to docs-app) ✅, Font Awesome → Lucide
+migration ✅. **Phase 4 (auth views, local auth only)**: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (`flow="reset" | "invite"`)
 built on `KitAuthCard`, `KitPasswordToggle` and `KitIcon` (the first real use of the `kitIcon` slot pattern
 above, implemented as an attribute-marker directive), documented in `docs/auth.md` and the docs-app Auth
 page. The kit does no auth itself: views emit `submitted`/`requested`, the app makes the request and feeds
