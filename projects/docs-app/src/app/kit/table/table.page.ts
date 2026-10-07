@@ -7,6 +7,7 @@ import {
   KitDataTable,
   KitDensityToggle,
   KitFilter,
+  KitFilterChips,
   KitFilterPanel,
   KitMenu,
   KitMenuItem,
@@ -27,8 +28,7 @@ import {
   LucidePlus,
   LucideDownload,
   LucideSearch,
-  LucideTrash,
-  LucideX
+  LucideTrash
 } from '@lucide/angular';
 import { CodeExample } from '../../docs/code-example/code-example';
 import { LibPageTitle } from '../../docs/page-title/lib-page-title';
@@ -106,6 +106,7 @@ function queryUsers(params: KitTableParams<DemoFilters>, noUsers: boolean): User
     KitDataTable,
     KitDensityToggle,
     KitFilter,
+    KitFilterChips,
     KitFilterPanel,
     KitSearchInput,
     KitSort,
@@ -120,8 +121,7 @@ function queryUsers(params: KitTableParams<DemoFilters>, noUsers: boolean): User
     LucidePlus,
     LucideDownload,
     LucideSearch,
-    LucideTrash,
-    LucideX
+    LucideTrash
   ],
   templateUrl: './table.page.html'
 })
@@ -140,7 +140,8 @@ export class TablePage {
     pageSize: 10,
     sort: { field: 'name', direction: 'asc' },
     filters: { role: null, status: null, mfa: null } as DemoFilters,
-    urlSync: true
+    // The back button steps through pages, sorts and filters (typing in the search still replaces the entry).
+    urlSync: { history: 'push' }
   });
 
   // Which columns are shown, remembered in the browser.

@@ -4,6 +4,7 @@ protected readonly state = kitTableState({
   sort: { field: 'name', direction: 'asc' },
   filters: { role: null as string | null },   // every filter, with its starting value
   urlSync: true                               // opt-in: the state lives in the query string
+                                              // ({ history: 'push' }: the back button steps through pages, sorts, filters)
 });
 
 // `params` changes whenever the query, a filter, the sort or the page does: the resource reloads.

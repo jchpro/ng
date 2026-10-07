@@ -39,6 +39,10 @@ export interface KitTableLabels {
     resetFilters: string;
     /** Closes a popover. */
     close: string;
+    /** The text-only button of the applied-filter chips that empties them all. */
+    clearAll: string;
+    /** Accessible name of a chip's remove button; `{filter}` is the chip's text, e.g. "Role: Admin". */
+    removeFilter: string;
     columns: string;
     /** Shows the columns the table started with. */
     resetColumns: string;
@@ -76,6 +80,8 @@ export const KIT_TABLE_LABELS_EN: KitTableLabels = {
     filters: 'Filters',
     resetFilters: 'Reset filters',
     close: 'Done',
+    clearAll: 'Clear all',
+    removeFilter: 'Remove filter {filter}',
     columns: 'Columns',
     resetColumns: 'Reset columns',
     compactRows: 'Compact rows'
@@ -109,6 +115,8 @@ export const KIT_TABLE_LABELS_PL: KitTableLabels = {
     filters: 'Filtry',
     resetFilters: 'Resetuj filtry',
     close: 'Gotowe',
+    clearAll: 'Wyczyść wszystko',
+    removeFilter: 'Usuń filtr {filter}',
     columns: 'Kolumny',
     resetColumns: 'Resetuj kolumny',
     compactRows: 'Zagęszczone wiersze'

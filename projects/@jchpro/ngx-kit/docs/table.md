@@ -14,7 +14,7 @@ page. What you load, and how the state's `params` map to your API, stays yours.
 The styles are part of `primitives` (or `./styles/table`, `./styles/badge`, `./styles/button`, `./styles/field`,
 `./styles/loading` on their own), and the row menu needs the [overlay styles](menu.md). Import `KitDataTable`,
 `KitSort`, `KitPaginator`, `KitSearchInput` and `KitFilter` where you use them (and `KitCol`, `KitFilterPanel`, `KitColumnPicker`,
-`KitDensityToggle` for the parts under [Selection, filters panel, columns, density](#selection-filters-panel-columns-density)).
+`KitDensityToggle`, `KitFilterChips` for the parts under [Selection, filters panel, columns, density](#selection-filters-panel-columns-density)).
 
 ## Usage
 
@@ -96,7 +96,7 @@ protected readonly page = linkedSignal<Page<User> | undefined, Page<User> | unde
 | `sort` | `{ field, direction }` at the start, default none |
 | `filters` | every filter the table has, with its starting value (`null` for "not filtering"). Its type is the type of `state.filters()` |
 | `searchDebounce` | ms the search waits after the last keystroke, default 300; 0 applies at once |
-| `urlSync` | `true` or `{ prefix }`, see below |
+| `urlSync` | `true` or `{ prefix, history }`, see below |
 
 | Member | |
 |---|---|
@@ -127,7 +127,9 @@ filter a number or boolean starting value and the URL sync reads it back as that
   start is written explicitly (`sort=none`, `role=`) so it survives a reload.
 - A reload or a shared link restores the view; a navigation from outside (a link with query params) is applied to the state.
   Other query params are left alone.
-- Uses `replaceUrl`, so typing and paging don't fill the history.
+- `history: 'replace'` (default) uses `replaceUrl`, so typing and paging don't fill the history. `history: 'push'` makes a change of the
+  page, sort, filters or page size a history entry, so the back button steps back through them; typing in the search still replaces the
+  entry (one per keystroke would bury the page), except the keystroke that also takes the table back to page 1.
 - Needs the router, and must be called where the route is injectable: a routed component, or anything under one.
 
 ## `KitDataTable`
@@ -141,7 +143,7 @@ Slots are marked by attribute; every part is optional and an empty toolbar, chip
 | `kitTableFilters` | toolbar, left, after the search. `.kit-data-table__filters` for a row of native `<select class="kit-field__control">` |
 | `kitTableActions` | toolbar, right: the view's actions, the primary one last |
 | `kitTableBulk` | actions of the bulk bar (shown only while rows are selected) |
-| `kitTableChips` | the applied filters, one `.kit-data-table__chip` button each (and a `--clear` one for "Clear all"); render it only while a filter is applied |
+| `kitTableChips` | the applied filters as chips: `<kit-filter-chips kitTableChips [labels]="{ role: 'Role' }" />`, see below. Your own chips use `.kit-data-table__chip` buttons (and a `--clear` one for "Clear all") |
 | *(default)* | the scroll region: your table |
 | `kitTableEmpty` | replaces the default empty message |
 | `<kit-paginator>`, `kitTableFooter` | the footer |
@@ -151,9 +153,11 @@ Slots are marked by attribute; every part is optional and an empty toolbar, chip
 | `[state]` | the `kitTableState()`: the search input, filters, sort headers and paginator inside bind to it |
 | `[resource]` | an `httpResource()` / `resource()` (anything with `isLoading()`, `error()`, `reload()`): the table is loading while it loads, shows the error when it fails, and "Try again" reloads it |
 | `[total]` | number of rows across all pages, for the paginator; `null` when unknown |
+| `[hasNext]` | for an API without a total: whether there is a next page, for the paginator (so you don't bind it on the paginator) |
 | `[selection]` | the `kitTableSelection()`: while it holds rows the toolbar gives way to the bulk-action bar |
 | `[columns]` | the `kitTableColumns()`: which `kitCol` headers and cells are shown |
 | `[(density)]` | `'default'` or `'compact'` rows; the `<kit-density-toggle>` sets it |
+| `[densityStorageKey]` | remember the density in `localStorage` under this key and restore it on load |
 | `[loading]` | the table is dimmed under a spinner and can't be reached by pointer or keyboard (`kitBusy`); also true while the `resource` loads |
 | `[empty]` | the request succeeded with no rows: shows the empty state under the header row. Ignored while loading |
 | `[filtered]` | the empty result comes from a search or filters: the message becomes "No results" with a clear button. Follows the `state` by itself |
@@ -213,6 +217,13 @@ With `[selection]` on the frame and a `kitTableBulk` slot, selecting rows swaps 
 With `{ state }` the selection empties when the search or a filter changes (a bulk action never reaches rows the person can't see);
 paging, sorting and the page size keep it. Call `kitTableSelection` in an injection context when passing a state.
 
+### Applied filters as chips
+
+`<kit-filter-chips kitTableChips [labels]="{ role: 'Role', status: 'Status' }" />` draws a chip per applied filter of the state, each
+removing its filter, and a text-only "Clear all" (which resets the filters, not the search). `labels` gives each filter the name it
+shows (the filter's own name if missing); `[formatValue]="(name, value) => …"` turns a stored value into text (a code into its name).
+Nothing is drawn while no filter is applied, and the search text is not a filter, so it gets no chip.
+
 ### More filters than fit inline
 
 Up to three simple filters sit inline as selects in `kitTableFilters`. For more, `<kit-filter-panel kitTableFilters>` puts
@@ -240,7 +251,8 @@ blocked storage is ignored). `columns.isVisible(id)`, `toggle(id)`, `setVisible(
 ### Density
 
 `<kit-density-toggle />` in `kitTableActions` switches the frame's `[(density)]` between `'default'` and `'compact'`; compact
-rows use the same height as `kit-table--compact`.
+rows use the same height as `kit-table--compact`. `densityStorageKey` on the frame remembers the choice in `localStorage` (unreadable
+or blocked storage is ignored).
 
 ## Data in memory
 
@@ -279,7 +291,7 @@ from the frame's `[total]`. On its own: `[(page)]` (1-based), `[(pageSize)]`, `[
 first / previous / next / last buttons. Changing the page size goes back to page 1. It doesn't clamp the page when the total
 shrinks: that is yours.
 
-For an API without a total (cursor paging) leave the total out and bind `[hasNext]`: the range becomes "Page 3" and
+For an API without a total (cursor paging) leave the total out and bind `[hasNext]` (on the frame, or on the paginator): the range becomes "Page 3" and
 first / last are hidden. Its strings come from `KIT_TABLE_LABELS`.
 
 ## Column conventions

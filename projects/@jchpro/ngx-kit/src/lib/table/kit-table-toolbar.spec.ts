@@ -7,6 +7,7 @@ import { KitDataTable } from './kit-data-table';
 import { KitDensityToggle } from './kit-density-toggle';
 import { KitFilter } from './kit-filter.directive';
 import { KitFilterPanel } from './kit-filter-panel';
+import { KitPaginator } from './kit-paginator';
 import { KitPopover } from './kit-popover';
 import { KIT_TABLE_LABELS_PL, provideKitTableLabels } from './kit-table-labels';
 import { kitTableSelection } from './kit-table-selection';
@@ -286,6 +287,115 @@ describe('data table toolbar parts', () => {
       expect(panel()).toBeNull();
     });
 
+  });
+
+});
+
+@Component({
+  imports: [KitDataTable, KitPaginator],
+  template: `
+    <kit-data-table [hasNext]="hasNext()" [densityStorageKey]="key" [(density)]="density">
+      <kit-paginator />
+    </kit-data-table>`
+})
+class CursorHost {
+  readonly hasNext = signal(false);
+  readonly density = signal<'default' | 'compact'>('default');
+  key: string | undefined = undefined;
+}
+
+describe('KitDataTable cursor paging and density storage', () => {
+
+  const key = 'kit-density-spec';
+
+  beforeEach(() => localStorage.removeItem(key));
+  afterEach(() => localStorage.removeItem(key));
+
+  function create(storageKey?: string) {
+    const fixture = TestBed.createComponent(CursorHost);
+    fixture.componentInstance.key = storageKey;
+    fixture.detectChanges();
+    TestBed.tick();
+    fixture.detectChanges();
+    return { fixture, host: fixture.componentInstance, element: fixture.nativeElement as HTMLElement };
+  }
+
+  it('should enable next through the frame\'s hasNext when the total is unknown', () => {
+    // Given
+    const { fixture, host, element } = create();
+    const next = () => element.querySelector('button[aria-label="Next page"]') as HTMLButtonElement;
+
+    // Then
+    expect(element.querySelector('.kit-paginator__range')!.textContent!.trim()).toBe('Page 1');
+    expect(next().disabled).toBe(true);
+
+    // When
+    host.hasNext.set(true);
+    fixture.detectChanges();
+
+    // Then
+    expect(next().disabled).toBe(false);
+  });
+
+  it('should write the density to storage as it changes', () => {
+    // Given
+    const { fixture, host } = create(key);
+
+    // When
+    host.density.set('compact');
+    fixture.detectChanges();
+    TestBed.tick();
+
+    // Then
+    expect(localStorage.getItem(key)).toBe('compact');
+  });
+
+  it('should restore the stored density on load', () => {
+    // Given
+    localStorage.setItem(key, 'compact');
+
+    // When
+    const { host, element } = create(key);
+
+    // Then
+    expect(host.density()).toBe('compact');
+    expect(element.querySelector('kit-data-table')!.classList).toContain('kit-data-table--compact');
+  });
+
+  it('should keep the stored density when the model starts at the default', () => {
+    // Given
+    localStorage.setItem(key, 'compact');
+
+    // When
+    create(key);
+
+    // Then
+    expect(localStorage.getItem(key)).toBe('compact');
+  });
+
+  it('should ignore a stored value that is not a density', () => {
+    // Given
+    localStorage.setItem(key, 'huge');
+
+    // When
+    const { host } = create(key);
+
+    // Then
+    expect(host.density()).toBe('default');
+  });
+
+  it('should not touch storage without a key', () => {
+    // Given
+    const setItem = spyOn(Storage.prototype, 'setItem');
+    const { fixture, host } = create();
+
+    // When
+    host.density.set('compact');
+    fixture.detectChanges();
+    TestBed.tick();
+
+    // Then
+    expect(setItem).not.toHaveBeenCalled();
   });
 
 });

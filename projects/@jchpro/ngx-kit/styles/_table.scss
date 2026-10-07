@@ -132,9 +132,15 @@
     padding: var(--kit-space-2) var(--kit-space-4);
     border-bottom: 1px solid var(--kit-border-subtle);
 
-    &:not(:has(*)) {
+    // No chip drawn (a `kit-filter-chips` with no filter applied leaves an empty host behind).
+    &:not(:has(.kit-data-table__chip)) {
       display: none;
     }
+  }
+
+  // The chips component adds no box of its own: its chips are laid out by the row.
+  .kit-filter-chips {
+    display: contents;
   }
 
   .kit-data-table__chip {

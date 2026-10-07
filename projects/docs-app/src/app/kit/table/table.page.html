@@ -35,6 +35,7 @@
   [resource]="users"
   [columns]="columns"
   [selection]="selection"
+  densityStorageKey="docs-app.kit-table.density"
   [total]="page()?.total"
   [empty]="!page()?.items?.length">
 
@@ -89,18 +90,7 @@
     </button>
   </ng-container>
 
-  @if (state.activeFilters().length) {
-    <div kitTableChips>
-      @for (filter of state.activeFilters(); track filter.key) {
-        <button type="button" class="kit-data-table__chip" (click)="state.clearFilter(filter.key)">
-          {{ filterLabels[filter.key] }}: {{ filter.value }} <svg lucideX aria-label="Remove filter"></svg>
-        </button>
-      }
-      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="state.resetFilters()">
-        Clear all
-      </button>
-    </div>
-  }
+  <kit-filter-chips kitTableChips [labels]="filterLabels" />
 
   @let rows = page()?.items ?? [];
   <table class="kit-table">
@@ -224,7 +214,7 @@
 <p>
   <code>urlSync</code> (opt-in) keeps the state in the query string: <code>?q=ada&amp;sort=-seats&amp;page=2&amp;role=Admin</code>.
   Values equal to the starting state are left out, a reload or a shared link restores the view, and a navigation from
-  outside is applied to the state. It uses <code>replaceUrl</code>, so typing and paging don't fill the history.
+  outside is applied to the state. By default it uses <code>replaceUrl</code>, so typing and paging don't fill the history; <code>history: 'push'</code> makes a change of the page, sort, filters or page size a history entry, so the back button steps through them (typing in the search still replaces the entry).
   <code>&#123; prefix: 'users.' &#125;</code> namespaces the names for a second table on the same route.
 </p>
 
@@ -258,6 +248,12 @@
   selected rows. With a <code>state</code> the selection empties when the search or a filter changes, so a bulk action never
   reaches rows the person can no longer see.
 </p>
+<h3>Applied filters as chips</h3>
+<p>
+  <code>&lt;kit-filter-chips kitTableChips [labels]="&#123; role: 'Role' &#125;" /&gt;</code> draws a chip for each applied filter (the name from
+  <code>labels</code>, the value as stored, or through <code>[formatValue]</code>), each removing its filter, and a "Clear all".
+  It draws nothing while no filter is applied. The search text isn't a filter and gets no chip.
+</p>
 <h3>More filters than fit</h3>
 <p>
   Up to three simple filters sit inline as selects. Beyond that, <code>&lt;kit-filter-panel&gt;</code> puts them behind a
@@ -270,7 +266,7 @@
   <code>kitTableColumns()</code> lists the columns the person may hide. Mark each header and its cells with
   <code>kitCol="id"</code>, pass it as <code>[columns]</code> and add <code>&lt;kit-column-picker /&gt;</code>; a <code>locked</code> column
   can't be hidden and <code>storageKey</code> remembers the choice in the browser.
-  <code>&lt;kit-density-toggle /&gt;</code> switches the frame's <code>[(density)]</code> between default and compact rows.
+  <code>&lt;kit-density-toggle /&gt;</code> switches the frame's <code>[(density)]</code> between default and compact rows; <code>densityStorageKey</code> on the frame remembers it in the browser.
 </p>
 <h3>Data in memory</h3>
 <p>
@@ -367,7 +363,7 @@
     <tr>
       <td><code>KitDataTable</code></td>
       <td>
-        The frame. Inputs <code>state</code>, <code>resource</code>, <code>total</code>, <code>selection</code>, <code>columns</code>,
+        The frame. Inputs <code>state</code>, <code>resource</code>, <code>total</code>, <code>hasNext</code>, <code>selection</code>, <code>columns</code>, <code>densityStorageKey</code>,
         <code>loading</code>, <code>error</code> (a message or <code>true</code>), <code>empty</code>, <code>filtered</code>, <code>label</code>; model <code>density</code>;
         outputs <code>retry</code> and <code>clearFilters</code>. An empty result with <code>filtered</code> (or a filtering
         state) offers to clear the filters; otherwise <code>kitTableEmpty</code> can replace the default message
@@ -387,6 +383,10 @@
     <tr>
       <td><code>kitTableColumns()</code></td>
       <td><code>isVisible</code>, <code>toggle</code>, <code>setVisible</code>, <code>reset</code>; definitions with <code>locked</code> and <code>hidden</code>; <code>storageKey</code></td>
+    </tr>
+    <tr>
+      <td><code>KitFilterChips</code></td>
+      <td><code>&lt;kit-filter-chips kitTableChips [labels] [formatValue] /&gt;</code>: the applied filters as removable chips with "Clear all"</td>
     </tr>
     <tr>
       <td><code>KitFilterPanel</code>, <code>KitColumnPicker</code>, <code>KitDensityToggle</code>, <code>KitPopover</code></td>

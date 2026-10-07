@@ -4,6 +4,7 @@ export * from './kit-column-picker';
 export * from './kit-columns';
 export * from './kit-data-table';
 export * from './kit-density-toggle';
+export * from './kit-filter-chips';
 export * from './kit-filter-panel';
 export * from './kit-filter.directive';
 export * from './kit-paginator';

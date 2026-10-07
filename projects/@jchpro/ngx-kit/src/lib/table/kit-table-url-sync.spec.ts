@@ -19,6 +19,11 @@ class PrefixedTable {
   readonly state = kitTableState({ searchDebounce: 0, urlSync: { prefix: 'users.' } });
 }
 
+@Component({ template: '' })
+class PushTable {
+  readonly state = kitTableState({ pageSize: 10, searchDebounce: 0, urlSync: { history: 'push' } });
+}
+
 describe('kitTableState with urlSync', () => {
 
   async function open<T extends { state: ReturnType<typeof kitTableState> }>(component: new () => T, url: string) {
@@ -126,6 +131,73 @@ describe('kitTableState with urlSync', () => {
     // Then
     expect(instance.state.query()).toBe('ada');
     expect(router.url).toBe('/?q=ada');
+  });
+
+  describe('history', () => {
+
+    function replaced(navigate: jasmine.Spy) {
+      return navigate.calls.allArgs().map(args => (args[1] as { replaceUrl: boolean }).replaceUrl);
+    }
+
+    it('should replace the history entry by default', async () => {
+      // Given
+      const { instance, router, settle } = await open(PlainTable, '/');
+      const navigate = spyOn(router, 'navigate').and.callThrough();
+
+      // When
+      instance.state.page.set(2);
+      await settle();
+
+      // Then
+      expect(replaced(navigate)).toEqual([true]);
+    });
+
+    it('should push an entry for a change of the page, sort, filters or page size', async () => {
+      // Given
+      const { instance, router, settle } = await open(PushTable, '/');
+      const navigate = spyOn(router, 'navigate').and.callThrough();
+
+      // When
+      instance.state.page.set(2);
+      await settle();
+      instance.state.sort.set({ field: 'name', direction: 'asc' });
+      await settle();
+
+      // Then
+      expect(replaced(navigate)).toEqual([false, false]);
+    });
+
+    it('should still replace the entry while typing in the search', async () => {
+      // Given
+      const { instance, router, settle } = await open(PushTable, '/');
+      const navigate = spyOn(router, 'navigate').and.callThrough();
+
+      // When
+      instance.state.search('a');
+      await settle();
+      instance.state.search('ad');
+      await settle();
+
+      // Then
+      expect(replaced(navigate)).toEqual([true, true]);
+    });
+
+    it('should apply the URL of an earlier history entry to the state', async () => {
+      // Given
+      const { instance, router, settle } = await open(PushTable, '/');
+      instance.state.page.set(3);
+      await settle();
+      expect(router.url).toBe('/?page=3');
+
+      // When
+      await router.navigateByUrl('/');
+      await settle();
+
+      // Then
+      expect(instance.state.page()).toBe(1);
+      expect(router.url).toBe('/');
+    });
+
   });
 
   it('should only use the prefixed names', async () => {

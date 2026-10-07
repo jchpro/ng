@@ -1,4 +1,4 @@
-<!-- import KitDataTable, KitSearchInput, KitFilter, KitSort and KitPaginator into the component -->
+<!-- import KitDataTable, KitSearchInput, KitFilter, KitFilterChips, KitSort and KitPaginator into the component -->
 <kit-data-table
   [state]="state"
   [resource]="users"
@@ -20,17 +20,8 @@
 
   <button kitTableActions type="button" class="kit-btn kit-btn--primary">Add user</button>
 
-  <!-- one chip per applied filter, only while there is one -->
-  @if (state.filters().role; as role) {
-    <div kitTableChips>
-      <button type="button" class="kit-data-table__chip" (click)="state.setFilter('role', '')">
-        Role: {{ role }} <svg lucideX aria-label="Remove filter"></svg>
-      </button>
-      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="state.clearFilters()">
-        Clear all
-      </button>
-    </div>
-  }
+  <!-- one chip per applied filter, and "Clear all"; nothing while no filter is applied -->
+  <kit-filter-chips kitTableChips [labels]="{ role: 'Role' }" />
 
   <table class="kit-table">
     <thead>

@@ -36,6 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Density: `[(density)]` (`'default' | 'compact'`) on `KitDataTable` and `<kit-density-toggle />`
 - In-memory data: `kitClientTable(rows, state, options)` and the pure `applyKitTableParams(rows, params, options)` filter, sort and
   page a local list by a table's state (word search ignoring case and accents, natural-order sort, empty values last)
+- `<kit-filter-chips kitTableChips [labels] [formatValue] />`: the applied filters as removable chips with "Clear all", drawn
+  only while a filter is applied (labels `toolbar.clearAll`, `toolbar.removeFilter`)
+- `urlSync: { history: 'push' }`: a change of the page, sort, filters or page size becomes a history entry, so the back button steps
+  through them; typing in the search still replaces the entry
+- `[hasNext]` on `KitDataTable` for cursor-paged APIs (the paginator inside reads it), and `[densityStorageKey]` to remember the
+  density in `localStorage`
 - `KitTableState.resetFilters()` (filters but not the search) and `clearFilter(name)`
 - Table labels for the bulk bar and the toolbar parts: `bulk` and `toolbar` groups of `KIT_TABLE_LABELS` (EN and PL)
 - `.kit-table` and its cell conventions (`kit-cell--num | truncate | nowrap | mono | muted | actions | select`,

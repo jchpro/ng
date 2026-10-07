@@ -256,8 +256,10 @@ function parseLike(raw: string, initial: unknown): unknown {
  */
 export function kitTableState<F extends object = KitTableFilters>(options: KitTableStateOptions<F> = {}): KitTableState<F> {
   const state = new KitTableState<F>(options, inject(DestroyRef));
-  if (options.urlSync) {
-    syncKitTableWithUrl(state, typeof options.urlSync === 'object' ? options.urlSync.prefix ?? '' : '');
+  const urlSync = options.urlSync;
+  if (urlSync) {
+    const settings = typeof urlSync === 'object' ? urlSync : {};
+    syncKitTableWithUrl(state, settings.prefix ?? '', settings.history ?? 'replace');
   }
   return state;
 }

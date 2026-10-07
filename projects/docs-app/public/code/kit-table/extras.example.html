@@ -1,5 +1,6 @@
 <!-- import KitColumnPicker, KitDensityToggle, KitFilterPanel, KitCol into the component too -->
-<kit-data-table [state]="state" [columns]="columns" [selection]="selection" [total]="view.total()" [empty]="!view.total()">
+<kit-data-table [state]="state" [columns]="columns" [selection]="selection" densityStorageKey="users-density"
+                [total]="view.total()" [empty]="!view.total()">
 
   <div kitTableFilters class="kit-data-table__filters">…up to three inline selects…</div>
 

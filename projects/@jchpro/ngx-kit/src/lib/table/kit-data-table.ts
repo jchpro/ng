@@ -1,4 +1,4 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input, model, output } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, computed, effect, inject, input, model, output, untracked } from '@angular/core';
 import { LucideCircleAlert, LucideInbox } from '@lucide/angular';
 import { formatKitLabel } from '../labels/kit-labels';
 import { KitBusy } from '../loading/kit-busy.directive';
@@ -96,6 +96,15 @@ export class KitDataTable {
   /** Row height: `compact` for dense lists. The `<kit-density-toggle>` sets it. */
   readonly density = model<KitTableDensity>('default');
 
+  /** Remember the density in `localStorage` under this key, and restore it on load. */
+  readonly densityStorageKey = input<string>();
+
+  /**
+   * For an API without a total (cursor paging): whether there is a page after this one, for the
+   * paginator inside. See `KitPaginator.hasNext`.
+   */
+  readonly hasNext = input(false, { transform: booleanAttribute });
+
   /** Accessible name of the scroll region. */
   readonly label = input<string>();
 
@@ -104,6 +113,31 @@ export class KitDataTable {
 
   /** The "Clear filters" button of the filtered empty state was pressed (the `state`'s are cleared too). */
   readonly clearFilters = output<void>();
+
+  constructor() {
+    // Restore first, then (once restored) keep the storage in step; effects run in this order.
+    let restored = false;
+    effect(() => {
+      const key = this.densityStorageKey();
+      if (!key) {
+        return;
+      }
+      untracked(() => {
+        const stored = readStored(key);
+        if (stored === 'default' || stored === 'compact') {
+          this.density.set(stored);
+        }
+        restored = true;
+      });
+    });
+    effect(() => {
+      const key = this.densityStorageKey();
+      const density = this.density();
+      if (key && restored) {
+        writeStored(key, density);
+      }
+    });
+  }
 
   /** The sort in effect: the `state`'s, or this table's own `sort`. */
   readonly activeSort = computed(() => {
@@ -164,4 +198,20 @@ export class KitDataTable {
     return !!resource && !resource.isLoading() && !!resource.error();
   }
 
+}
+
+function readStored(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStored(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // No storage (private mode, blocked): the choice just lasts until the page is closed.
+  }
 }
