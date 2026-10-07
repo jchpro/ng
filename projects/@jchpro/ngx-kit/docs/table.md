@@ -6,26 +6,43 @@ The usual admin-app list view: rows from an API, with a search, filters, sorting
 
 The rows are a plain `<table class="kit-table">` with an `@for` in **your** template, so every cell is typed
 (`user` below is the row type) and there are no column definitions to learn. The kit supplies the look, the frame
-around it, the sortable header and the paginator.
-
-> This is the design pass. The parts look and behave right on their own, but nothing is wired together yet: you hold the
-> search, filter, sort and page state and make the request. A `kitTableState()` that bundles them and builds the request
-> parameters is planned (see the roadmap).
+around it, the sortable header, the paginator, and `kitTableState()`, the signals behind search, filters, sort and
+page. What you load, and how the state's `params` map to your API, stays yours.
 
 ## Setup
 
 The styles are part of `primitives` (or `./styles/table`, `./styles/badge`, `./styles/button`, `./styles/field`,
-`./styles/loading` on their own), and the row menu needs the [overlay styles](menu.md). Import `KitDataTable`, `KitSort`
-and `KitPaginator` where you use them.
+`./styles/loading` on their own), and the row menu needs the [overlay styles](menu.md). Import `KitDataTable`,
+`KitSort`, `KitPaginator`, `KitSearchInput` and `KitFilter` where you use them.
 
 ## Usage
 
+```ts
+protected readonly state = kitTableState({
+  pageSize: 25,
+  sort: { field: 'name', direction: 'asc' },
+  filters: { role: null as string | null },
+  urlSync: true
+});
+
+protected readonly users = httpResource<Page<User>>(() => {
+  const { query, filters, sort, page, pageSize } = this.state.params();
+  return { url: '/api/users', params: { q: query, role: filters.role ?? '', sort: sort ? `${sort.field}:${sort.direction}` : '', page, size: pageSize } };
+});
+```
+
 ```html
-<kit-data-table [(sort)]="sort" [loading]="users.isLoading()" [empty]="!users.value()?.items.length">
+<kit-data-table [state]="state" [resource]="users" [total]="users.value()?.total" [empty]="!users.value()?.items.length">
   <div kitTableSearch class="kit-data-table__search">
     <svg lucideSearch></svg>
-    <input #search class="kit-field__control" type="search" aria-label="Search users"
-           [value]="query()" (input)="query.set(search.value)">
+    <input kitSearch class="kit-field__control" type="search" aria-label="Search users">
+  </div>
+
+  <div kitTableFilters class="kit-data-table__filters">
+    <select kitFilter="role" class="kit-field__control" aria-label="Role">
+      <option value="">All roles</option>
+      <option value="Admin">Admin</option>
+    </select>
   </div>
 
   <button kitTableActions type="button" class="kit-btn kit-btn--primary">Add user</button>
@@ -49,7 +66,7 @@ and `KitPaginator` where you use them.
     </tbody>
   </table>
 
-  <kit-paginator [total]="users.value()?.total ?? 0" [(page)]="page" [(pageSize)]="pageSize" />
+  <kit-paginator />
 </kit-data-table>
 ```
 
@@ -57,6 +74,60 @@ Always `track` by a stable id: when a re-sort returns the same rows in another o
 instead of rebuilding them. A page of 25 to 100 rows costs nothing either way, and with server-side paging you never
 render more. Why not Material-style column templates: the context of an `<ng-template>` is untyped unless a guard directive
 is told the row type, with `@for` it just is.
+
+Reading `resource.value()` while the resource is in its error state throws; use `hasValue()` first. To keep the previous
+page on screen while the next one loads (a resource's value is `undefined` meanwhile), put it in a `linkedSignal`:
+
+```ts
+protected readonly page = linkedSignal<Page<User> | undefined, Page<User> | undefined>({
+  source: () => this.users.hasValue() ? this.users.value() : undefined,
+  computation: (value, previous) => value ?? previous?.value
+});
+```
+
+## State
+
+`kitTableState(options)` returns a `KitTableState`. Call it in an injection context (a field of a component).
+
+| Option | |
+|---|---|
+| `pageSize` | rows per page at the start, default 25 |
+| `sort` | `{ field, direction }` at the start, default none |
+| `filters` | every filter the table has, with its starting value (`null` for "not filtering"). Its type is the type of `state.filters()` |
+| `searchDebounce` | ms the search waits after the last keystroke, default 300; 0 applies at once |
+| `urlSync` | `true` or `{ prefix }`, see below |
+
+| Member | |
+|---|---|
+| `searchText` | what the search box shows, updates with every keystroke |
+| `query` | the search that counts: trimmed, after the debounce. Use this one in requests |
+| `filters`, `sort`, `pageSize`, `page` | writable signals. `page` is 1-based |
+| `params` | `{ query, filters, sort, page, pageSize }`, changes when any of them does: feed it to a `resource()` / `httpResource()` |
+| `offset` | rows to skip for the current page |
+| `activeFilters` | `{ key, value }` for each filter that isn't empty, e.g. to render a chip each |
+| `filtered` | the search or a filter is narrowing the rows |
+| `search(text)`, `flushSearch()` | what `kitSearch` calls: set the text (debounced), apply it now |
+| `setFilter(key, value)` | `''` and `null` both mean "not filtering" |
+| `clearFilters()` | empties the search and every filter; the sort and page size stay |
+
+Whatever narrows or reorders the rows (the search, a filter, the sort, the page size) takes the table back to page 1; changing
+`page` itself doesn't.
+
+Filter values from a native control are strings; keep filters as `string | null` and convert in the request, or give a
+filter a number or boolean starting value and the URL sync reads it back as that type.
+
+### Keeping the state in the URL
+
+`urlSync: true` (opt-in) writes the state to the route's query string and reads it back: `?q=ada&sort=-seats&page=2&size=50&role=Admin`.
+
+- Names: `q`, `sort` (`-` prefix for descending, `none` for explicitly unsorted), `page`, `size`, and each filter under its own name.
+  `{ prefix: 'users.' }` puts a prefix before every name, for a second table on the same route.
+- A value equal to the starting state is left out, so a fresh table has a clean URL. A sort or filter cleared from a non-empty
+  start is written explicitly (`sort=none`, `role=`) so it survives a reload.
+- A reload or a shared link restores the view; a navigation from outside (a link with query params) is applied to the state.
+  Other query params are left alone.
+- Uses `replaceUrl`, so typing and paging don't fill the history.
+- Needs the router, and must be called where the route is injectable: a routed component, or anything under one.
 
 ## `KitDataTable`
 
@@ -75,14 +146,20 @@ Slots are marked by attribute; every part is optional and an empty toolbar, chip
 
 | Input / output | |
 |---|---|
-| `[loading]` | the table is dimmed under a spinner and can't be reached by pointer or keyboard (`kitBusy`) |
+| `[state]` | the `kitTableState()`: the search input, filters, sort headers and paginator inside bind to it |
+| `[resource]` | an `httpResource()` / `resource()` (anything with `isLoading()`, `error()`, `reload()`): the table is loading while it loads, shows the error when it fails, and "Try again" reloads it |
+| `[total]` | number of rows across all pages, for the paginator; `null` when unknown |
+| `[loading]` | the table is dimmed under a spinner and can't be reached by pointer or keyboard (`kitBusy`); also true while the `resource` loads |
 | `[empty]` | the request succeeded with no rows: shows the empty state under the header row. Ignored while loading |
-| `[filtered]` | the empty result comes from a search or filters: the message becomes "No results" with a clear button |
-| `(clearFilters)` | the clear button of the filtered empty state |
-| `[error]` | a message, or `true` for the default one: replaces the table with the error and a retry button |
-| `(retry)` | the retry button |
-| `[(sort)]` | the sorted column, `{ field, direction } \| null`, set by the `kitSort` headers |
+| `[filtered]` | the empty result comes from a search or filters: the message becomes "No results" with a clear button. Follows the `state` by itself |
+| `(clearFilters)` | the clear button of the filtered empty state (the state is cleared too) |
+| `[error]` | a message, or `true` for the default one: replaces the table with the error and a retry button. A failed `resource` does this by itself |
+| `(retry)` | the retry button (the `resource` is reloaded too) |
+| `[(sort)]` | the sorted column, `{ field, direction } \| null`. Only used without a `state`, which holds the sort itself |
 | `[label]` | accessible name of the scroll region (also makes it a `region` landmark) |
+
+Without a `[state]` every part works on its own bindings (`[(sort)]` here, `[(page)]` on the paginator): use that for a
+table whose state lives somewhere else.
 
 The scroll region is focusable so a keyboard can scroll a wide table. For a table that scrolls under its sticky header
 instead of growing with its rows, set `--kit-data-table-max-height` on the frame.
@@ -90,21 +167,29 @@ instead of growing with its rows, set `--kit-data-table-max-height` on the frame
 A custom `kitTableEmpty` must be an unconditional element: wrapped in an `@if` it counts as present even when hidden,
 and the default message never shows.
 
+### Search and filters
+
+`input[kitSearch]` shows `state.searchText`, calls `state.search()` as the person types (debounced into `state.query`) and
+applies the search at once on Enter. `[kitFilter="name"]` on a native `<select>` (or input) shows `state.filters()[name]` and
+sets it on change; an option with value `""` is "no filter".
+
 ## Sorting
 
 `<th kitSort="name">` turns the header label into a button and keeps `aria-sort` up to date. A click sorts ascending,
 then descending, then ascending again; add `cycle` (`<th kitSort="name" cycle>`) for a third click that clears the sort.
-One column at a time. `field` is the name your API's sort parameter expects. `KitSort` only records the choice in the
-frame's `sort`; sorting rows (or asking the API to) is yours. Numeric headers (`kit-cell--num`) put the arrow before
-the label so the label stays flush right.
+One column at a time. `field` is the name your API's sort parameter expects. `KitSort` only records the choice, in the
+state's `sort` (or the frame's `[(sort)]` without one); sorting rows (or asking the API to) is yours. Numeric headers
+(`kit-cell--num`) put the arrow before the label so the label stays flush right.
 
 ## `KitPaginator`
 
-`[(page)]` (1-based), `[(pageSize)]`, `[total]`, `[pageSizes]` (default `10, 25, 50, 100`; the current size is added if
-it isn't among them). It shows a page-size select, "1–25 of 340" and first / previous / next / last buttons. Changing the
-page size goes back to page 1. It holds no data and doesn't clamp the page when the total shrinks: that is yours.
+Inside a frame with a state it needs nothing: `<kit-paginator />` takes the page and page size from the state and the total
+from the frame's `[total]`. On its own: `[(page)]` (1-based), `[(pageSize)]`, `[total]`. `[pageSizes]` (default
+`10, 25, 50, 100`; the current size is added if it isn't among them). It shows a page-size select, "1–25 of 340" and
+first / previous / next / last buttons. Changing the page size goes back to page 1. It doesn't clamp the page when the total
+shrinks: that is yours.
 
-For an API without a total (cursor paging) leave `total` out and bind `[hasNext]`: the range becomes "Page 3" and
+For an API without a total (cursor paging) leave the total out and bind `[hasNext]`: the range becomes "Page 3" and
 first / last are hidden. Its strings come from `KIT_TABLE_LABELS`.
 
 ## Column conventions

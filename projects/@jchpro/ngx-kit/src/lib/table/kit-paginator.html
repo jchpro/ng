@@ -2,7 +2,7 @@
   <span>{{ labels().paginator.rowsPerPage }}</span>
   <select class="kit-field__control" (change)="setPageSize($event)">
     @for (size of sizes(); track size) {
-      <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
+      <option [value]="size" [selected]="size === currentSize()">{{ size }}</option>
     }
   </select>
 </label>
@@ -25,7 +25,7 @@
     class="kit-btn kit-btn--ghost kit-btn--icon"
     [attr.aria-label]="labels().paginator.previous"
     [disabled]="!canPrevious()"
-    (click)="goTo(page() - 1)">
+    (click)="goTo(currentPage() - 1)">
     <svg lucideChevronLeft size="18"></svg>
   </button>
   <button
@@ -33,7 +33,7 @@
     class="kit-btn kit-btn--ghost kit-btn--icon"
     [attr.aria-label]="labels().paginator.next"
     [disabled]="!canNext()"
-    (click)="goTo(page() + 1)">
+    (click)="goTo(currentPage() + 1)">
     <svg lucideChevronRight size="18"></svg>
   </button>
   @if (pageCount(); as pageCount) {

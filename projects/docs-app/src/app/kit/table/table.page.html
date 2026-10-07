@@ -9,18 +9,19 @@
   paginator.
 </p>
 <p>
-  This is the design pass: the parts look and behave right, but nothing is wired together yet.
-  The search, filter, sort and page signals below live in this page, and a demo "backend" filters a local array.
-  A <code>kitTableState()</code> that bundles them and builds the request parameters comes next.
+  The search, filters, sort and page are the signals of a <code>kitTableState()</code>, which also builds the
+  <code>params</code> of the request. Give it to the frame and the parts inside bind themselves; what you load and how
+  you map <code>params</code> to your API stays yours.
 </p>
 
 <h2>Try it</h2>
+<p>
+  A simulated API answers after a short delay. The state is kept in the URL: search, filter, sort and page, then reload
+  the page or use a link to this one with its query string.
+</p>
 <div class="flex row wrap x-center gap-sm">
-  <button type="button" class="kit-btn kit-btn--ghost" (click)="loading.set(!loading())">
-    Loading: {{ loading() ? 'on' : 'off' }}
-  </button>
-  <button type="button" class="kit-btn kit-btn--ghost" (click)="failed.set(!failed())">
-    Error: {{ failed() ? 'on' : 'off' }}
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="toggleFailing()">
+    Server error: {{ failing() ? 'on' : 'off' }}
   </button>
   <button type="button" class="kit-btn kit-btn--ghost" (click)="noUsers.set(!noUsers())">
     No data: {{ noUsers() ? 'on' : 'off' }}
@@ -33,34 +34,18 @@
 
 <kit-data-table
   label="Users"
-  [sort]="sort()"
-  (sortChange)="sortChange($event)"
-  [loading]="loading()"
-  [error]="failed()"
-  [empty]="!matching().length"
-  [filtered]="filtering()"
-  (retry)="failed.set(false)"
-  (clearFilters)="clearFilters()">
+  [state]="state"
+  [resource]="users"
+  [total]="page()?.total"
+  [empty]="!page()?.items?.length">
 
   <div kitTableSearch class="kit-data-table__search">
     <svg lucideSearch></svg>
-    <input
-      #searchInput
-      class="kit-field__control"
-      type="search"
-      placeholder="Search users…"
-      aria-label="Search users"
-      [value]="query()"
-      (input)="search(searchInput.value)">
+    <input kitSearch class="kit-field__control" type="search" placeholder="Search users…" aria-label="Search users">
   </div>
 
   <div kitTableFilters class="kit-data-table__filters">
-    <select
-      #roleSelect
-      class="kit-field__control"
-      aria-label="Role"
-      [value]="role()"
-      (change)="filterRole(roleSelect.value)">
+    <select kitFilter="role" class="kit-field__control" aria-label="Role">
       <option value="">All roles</option>
       @for (item of roles; track item) {
         <option [value]="item">{{ item }}</option>
@@ -72,12 +57,12 @@
     <svg lucidePlus size="16"></svg> Add user
   </button>
 
-  @if (role()) {
+  @if (state.filters().role; as role) {
     <div kitTableChips>
-      <button type="button" class="kit-data-table__chip" (click)="filterRole('')">
-        Role: {{ role() }} <svg lucideX aria-label="Remove filter"></svg>
+      <button type="button" class="kit-data-table__chip" (click)="state.setFilter('role', '')">
+        Role: {{ role }} <svg lucideX aria-label="Remove filter"></svg>
       </button>
-      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="clearFilters()">
+      <button type="button" class="kit-data-table__chip kit-data-table__chip--clear" (click)="state.clearFilters()">
         Clear all
       </button>
     </div>
@@ -97,7 +82,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (user of rows(); track user.id) {
+      @for (user of page()?.items; track user.id) {
         <tr>
           <td>
             <a class="kit-table__link" href="javascript:void(0)" (click)="lastAction.set('open ' + user.name)">{{ user.name }}</a>
@@ -142,7 +127,7 @@
     </tbody>
   </table>
 
-  <kit-paginator [total]="matching().length" [(page)]="page" [(pageSize)]="pageSize" />
+  <kit-paginator />
 </kit-data-table>
 
 <ng-template #rowMenu let-user>
@@ -166,6 +151,31 @@
   source="/code/kit-table/table.example.html">
 </app-code-example>
 
+<h2>State</h2>
+<p>
+  <code>kitTableState()</code> holds the search, filters, sort and page as signals, and <code>params</code>, everything
+  a request depends on. Anything that narrows or reorders the rows (search, a filter, the sort, the page size) sends the
+  table back to page 1. Build the request from <code>params</code> in a <code>resource()</code> or
+  <code>httpResource()</code>, which reloads by itself:
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-table/state.example.ts">
+</app-code-example>
+<p>
+  Handed to <code>kit-data-table [state]</code>, the parts inside bind to it: <code>input[kitSearch]</code> (typing is
+  debounced into <code>state.query</code>, Enter applies it at once), <code>[kitFilter="name"]</code> on a native
+  select, <code>th[kitSort]</code> and <code>kit-paginator</code> (its total comes from the frame's <code>[total]</code>).
+  <code>[resource]</code> makes the frame follow the resource's loading and error, and "Try again" reloads it.
+  Without a state every part still works on its own bindings.
+</p>
+<p>
+  <code>urlSync</code> (opt-in) keeps the state in the query string: <code>?q=ada&amp;sort=-seats&amp;page=2&amp;role=Admin</code>.
+  Values equal to the starting state are left out, a reload or a shared link restores the view, and a navigation from
+  outside is applied to the state. It uses <code>replaceUrl</code>, so typing and paging don't fill the history.
+  <code>&#123; prefix: 'users.' &#125;</code> namespaces the names for a second table on the same route.
+</p>
+
 <h3>Why not column templates</h3>
 <p>
   Material-style tables define each cell in an <code>&lt;ng-template&gt;</code>, whose context Angular can't type
@@ -178,8 +188,8 @@
 <p>
   <code>&lt;th kitSort="name"&gt;</code> turns the header label into a button and sets <code>aria-sort</code>.
   A click sorts ascending, then descending; add <code>cycle</code> for a third click that clears the sort.
-  The choice lands in the table's <code>sort</code> model (<code>&#123; field, direction &#125;</code>), which
-  is what your API's sort parameter is built from. One column at a time.
+  The choice lands in the state's <code>sort</code> (<code>&#123; field, direction &#125;</code>; the frame's own
+  <code>[(sort)]</code> model without a state), which is what your API's sort parameter is built from. One column at a time.
 </p>
 
 <h2>Column conventions</h2>
@@ -249,13 +259,27 @@
       <th>Description</th>
     </tr>
     <tr>
+      <td><code>kitTableState()</code></td>
+      <td>
+        The signals <code>searchText</code>, <code>query</code>, <code>filters</code>, <code>sort</code>,
+        <code>page</code>, <code>pageSize</code>; <code>params</code>, <code>offset</code>, <code>activeFilters</code>,
+        <code>filtered</code>; <code>search()</code>, <code>setFilter()</code>, <code>clearFilters()</code>.
+        Options: <code>pageSize</code>, <code>sort</code>, <code>filters</code>, <code>searchDebounce</code> (300ms),
+        <code>urlSync</code>
+      </td>
+    </tr>
+    <tr>
       <td><code>KitDataTable</code></td>
       <td>
-        The frame. Inputs <code>loading</code>, <code>error</code> (a message or <code>true</code>), <code>empty</code>,
-        <code>filtered</code>, <code>label</code>; the <code>sort</code> model; outputs <code>retry</code> and
-        <code>clearFilters</code>. An empty result with <code>filtered</code> offers to clear the filters; otherwise
-        <code>kitTableEmpty</code> can replace the default message
+        The frame. Inputs <code>state</code>, <code>resource</code>, <code>total</code>, <code>loading</code>,
+        <code>error</code> (a message or <code>true</code>), <code>empty</code>, <code>filtered</code>, <code>label</code>;
+        outputs <code>retry</code> and <code>clearFilters</code>. An empty result with <code>filtered</code> (or a filtering
+        state) offers to clear the filters; otherwise <code>kitTableEmpty</code> can replace the default message
       </td>
+    </tr>
+    <tr>
+      <td><code>KitSearchInput</code>, <code>KitFilter</code></td>
+      <td><code>input[kitSearch]</code> and <code>select[kitFilter="name"]</code>, bound to the frame's state</td>
     </tr>
     <tr>
       <td><code>KitSort</code></td>
@@ -264,7 +288,7 @@
     <tr>
       <td><code>KitPaginator</code></td>
       <td>
-        <code>[(page)]</code> (1-based), <code>[(pageSize)]</code>, <code>[total]</code>, <code>[pageSizes]</code>.
+        Inside a frame with a state, no inputs but optionally <code>[pageSizes]</code>. On its own: <code>[(page)]</code> (1-based), <code>[(pageSize)]</code>, <code>[total]</code>.
         Without a total (cursor paging) bind <code>[hasNext]</code>: the range becomes "Page 3" and first / last go away.
         Its strings are in <code>KIT_TABLE_LABELS</code>, with the table's states
       </td>

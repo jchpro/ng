@@ -8,8 +8,8 @@ import { KitSortDirection } from './kit-table.types';
  * label becomes a button, and `aria-sort` follows the table's `sort`. Clicking sorts by this
  * column ascending, then descending, then (with `cycle`) not at all.
  *
- * It only records the choice in `KitDataTable.sort`; sorting the rows, locally or by asking the
- * API, is yours.
+ * It only records the choice, in the table's `state` (or its `sort` without one); sorting the rows,
+ * locally or by asking the API, is yours.
  */
 @Component({
   selector: 'th[kitSort]',
@@ -31,7 +31,7 @@ export class KitSort {
   readonly cycle = input(false, { transform: booleanAttribute });
 
   protected readonly direction = computed<KitSortDirection | null>(() => {
-    const sort = this.#table.sort();
+    const sort = this.#table.activeSort();
     return sort?.field === this.field() ? sort.direction : null;
   });
 
@@ -47,14 +47,14 @@ export class KitSort {
     const field = this.field();
     const direction = this.direction();
     if (direction === null) {
-      this.#table.sort.set({ field, direction: 'asc' });
+      this.#table.setSort({ field, direction: 'asc' });
       return;
     }
     if (direction === 'asc') {
-      this.#table.sort.set({ field, direction: 'desc' });
+      this.#table.setSort({ field, direction: 'desc' });
       return;
     }
-    this.#table.sort.set(this.cycle() ? null : { field, direction: 'asc' });
+    this.#table.setSort(this.cycle() ? null : { field, direction: 'asc' });
   }
 
 }

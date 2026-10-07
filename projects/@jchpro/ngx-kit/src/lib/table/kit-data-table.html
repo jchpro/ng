@@ -17,12 +17,12 @@
   tabindex="0"
   [attr.role]="label() ? 'region' : null"
   [attr.aria-label]="label() ?? null"
-  [kitBusy]="loading()">
-  @if (state() !== 'error') {
+  [kitBusy]="isLoading()">
+  @if (viewState() !== 'error') {
     <ng-content></ng-content>
   }
 
-  @switch (state()) {
+  @switch (viewState()) {
     @case ('error') {
       <div class="kit-data-table__state" role="alert">
         <svg lucideCircleAlert></svg>
@@ -30,7 +30,7 @@
         @if (errorMessage()) {
           <p class="kit-data-table__state-text">{{ errorMessage() }}</p>
         }
-        <button type="button" class="kit-btn kit-btn--ghost" (click)="retry.emit()">{{ labels().states.retry }}</button>
+        <button type="button" class="kit-btn kit-btn--ghost" (click)="onRetry()">{{ labels().states.retry }}</button>
       </div>
     }
     @case ('filtered') {
@@ -38,7 +38,7 @@
         <svg lucideInbox></svg>
         <h3 class="kit-data-table__state-title">{{ labels().states.emptyFilteredTitle }}</h3>
         <p class="kit-data-table__state-text">{{ labels().states.emptyFilteredMessage }}</p>
-        <button type="button" class="kit-btn kit-btn--ghost" (click)="clearFilters.emit()">{{ labels().states.clearFilters }}</button>
+        <button type="button" class="kit-btn kit-btn--ghost" (click)="onClearFilters()">{{ labels().states.clearFilters }}</button>
       </div>
     }
     @case ('empty') {

@@ -1,13 +1,16 @@
 import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, linkedSignal, resource, signal } from '@angular/core';
 import {
   KitDataTable,
+  KitFilter,
   KitMenu,
   KitMenuItem,
   KitMenuTrigger,
   KitPaginator,
+  KitSearchInput,
   KitSort,
-  KitTableSort
+  KitTableParams,
+  kitTableState
 } from '@jchpro/ngx-kit';
 import {
   LucideCheck,
@@ -36,6 +39,11 @@ interface DemoUser {
   lastSeen: Date | null;
 }
 
+interface UserPage {
+  items: DemoUser[];
+  total: number;
+}
+
 const NAMES = [
   'Ada Lovelace', 'Alan Turing', 'Grace Hopper', 'Linus Torvalds', 'Margaret Hamilton', 'Dennis Ritchie',
   'Barbara Liskov', 'Ken Thompson', 'Radia Perlman', 'Tim Berners-Lee', 'Katherine Johnson', 'Donald Knuth',
@@ -61,6 +69,26 @@ const USERS: DemoUser[] = NAMES.map((name, index) => ({
   lastSeen: index % 8 === 5 ? null : new Date(Date.UTC(2026, 9, 7, 8, 30) - index * 1.7 * DAY)
 }));
 
+/** What the demo "API" does with a request: filter, sort and page the local array. */
+function queryUsers(params: KitTableParams<{ role: string | null }>, noUsers: boolean): UserPage {
+  if (noUsers) {
+    return { items: [], total: 0 };
+  }
+  const query = params.query.toLowerCase();
+  const sort = params.sort;
+  const matching = USERS.filter(user =>
+    (!params.filters.role || user.role === params.filters.role)
+    && (!query || user.name.toLowerCase().includes(query) || user.email.includes(query))
+  );
+  if (sort) {
+    const factor = sort.direction === 'asc' ? 1 : -1;
+    const key = (user: DemoUser) => user[sort.field as keyof DemoUser] ?? '';
+    matching.sort((a, b) => factor * (key(a) > key(b) ? 1 : key(a) < key(b) ? -1 : 0));
+  }
+  const start = (params.page - 1) * params.pageSize;
+  return { items: matching.slice(start, start + params.pageSize), total: matching.length };
+}
+
 @Component({
   selector: 'app-table',
   imports: [
@@ -70,6 +98,8 @@ const USERS: DemoUser[] = NAMES.map((name, index) => ({
     LibPageTitle,
     CodeExample,
     KitDataTable,
+    KitFilter,
+    KitSearchInput,
     KitSort,
     KitPaginator,
     KitMenuTrigger,
@@ -95,67 +125,44 @@ export class TablePage {
     suspended: 'kit-badge--danger'
   };
 
-  // The demo's own "backend": filter, sort and page a local array. In a real view this is the
-  // request your API gets, and `rows` / `total` are what it returns.
-  protected readonly query = signal('');
-  protected readonly role = signal<Role | ''>('');
-  protected readonly sort = signal<KitTableSort | null>({ field: 'name', direction: 'asc' });
-  protected readonly page = signal(1);
-  protected readonly pageSize = signal(10);
+  // The table's state: search, filters, sort and page as signals, kept in the URL (try reloading the
+  // page after paging or searching). `state.params()` is what a real request is built from.
+  protected readonly state = kitTableState({
+    pageSize: 10,
+    sort: { field: 'name', direction: 'asc' },
+    filters: { role: null as string | null },
+    urlSync: true
+  });
 
   // Switches for looking at the states and densities.
-  protected readonly loading = signal(false);
-  protected readonly failed = signal(false);
+  protected readonly failing = signal(false);
   protected readonly compact = signal(false);
   protected readonly noUsers = signal(false);
 
   protected readonly lastAction = signal('none yet');
 
-  protected readonly filtering = computed(() => this.query().trim() !== '' || this.role() !== '');
-
-  protected readonly matching = computed(() => {
-    if (this.noUsers()) {
-      return [];
+  // The demo's own "backend": a resource that answers after a short delay. In a real view this is
+  // an `httpResource` whose request is built from `state.params()`.
+  protected readonly users = resource({
+    params: () => ({ ...this.state.params(), noUsers: this.noUsers() }),
+    loader: async ({ params }) => {
+      await new Promise(resolve => setTimeout(resolve, 450));
+      if (this.failing()) {
+        throw new Error('The demo server is down');
+      }
+      return queryUsers(params, params.noUsers);
     }
-    const query = this.query().trim().toLowerCase();
-    const role = this.role();
-    const sort = this.sort();
-    const rows = USERS.filter(user =>
-      (!role || user.role === role)
-      && (!query || user.name.toLowerCase().includes(query) || user.email.includes(query))
-    );
-    if (!sort) {
-      return rows;
-    }
-    const factor = sort.direction === 'asc' ? 1 : -1;
-    const key = (user: DemoUser) => user[sort.field as keyof DemoUser] ?? '';
-    return rows.sort((a, b) => factor * (key(a) > key(b) ? 1 : key(a) < key(b) ? -1 : 0));
   });
 
-  protected readonly rows = computed(() => {
-    const start = (this.page() - 1) * this.pageSize();
-    return this.matching().slice(start, start + this.pageSize());
+  // The previous page stays on screen while the next one loads, instead of an empty table.
+  protected readonly page = linkedSignal<UserPage | undefined, UserPage | undefined>({
+    source: () => this.users.hasValue() ? this.users.value() : undefined,
+    computation: (value, previous) => value ?? previous?.value
   });
 
-  protected search(value: string) {
-    this.query.set(value);
-    this.page.set(1);
-  }
-
-  protected filterRole(value: string) {
-    this.role.set(value as Role | '');
-    this.page.set(1);
-  }
-
-  protected clearFilters() {
-    this.query.set('');
-    this.role.set('');
-    this.page.set(1);
-  }
-
-  protected sortChange(sort: KitTableSort | null) {
-    this.sort.set(sort);
-    this.page.set(1);
+  protected toggleFailing() {
+    this.failing.update(failing => !failing);
+    this.users.reload();
   }
 
 }
