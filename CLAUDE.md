@@ -145,8 +145,10 @@ Documented in `docs/labels.md`.
   auto-deploy (every push to `main`) never ships untested code. Pushing straight to `main` is
   acceptable only for docs-only changes (readmes, roadmap, changelogs, CLAUDE.md). Releases never
   need it. Never force-push `main` yourself; ask first.
-- **npm publish workflow**: the staged-publish step in `.github/workflows/publish-common.yaml`
-  using a restricted token is intentional, not a bug — don't "simplify" it.
+- **npm publish workflows**: `publish-common.yaml` / `publish-kit.yaml` publish with npm OIDC
+  trusted publishing (`id-token: write`, no `NPM_TOKEN`) on a `common-v*` / `kit-v*` tag only —
+  deliberately no `workflow_dispatch`, so a branch can't publish. The trusted publisher is bound to
+  the workflow *file name* on npmjs.com, so renaming either file breaks publishing.
 
 ## Current state (as of 2026-10-06)
 

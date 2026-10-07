@@ -1,15 +1,26 @@
 name: Publish @jchpro/ngx-kit to NPM
+
+# Publishes with OIDC trusted publishing: no NPM_TOKEN involved, npm exchanges this workflow's GitHub-issued
+# OIDC token for a short-lived publish token. The trusted publisher (repo jchpro/ng, workflow file
+# publish-kit.yaml) is configured on npmjs.com for the package. Provenance is attached automatically
+# (public repo), so there is no --provenance flag.
+#
+# Runs only on a `kit-vX.Y.Z` tag, created by `npm run release -- tag kit` after the release PR merged.
+# If a release needs a new common too, publish common first (its tag, then this one). To retry a failed
+# publish, re-run the job from the Actions tab (a workflow_dispatch trigger would let a branch publish
+# without a tag).
 on:
   push:
     tags:
-      - 'kit-*'
+      - 'kit-v*'
 
 permissions:
   contents: read
+  id-token: write # required for npm's OIDC trusted publishing
 
 jobs:
   publish:
-    name: Build and stage publish @jchpro/ngx-kit
+    name: Test, build and publish @jchpro/ngx-kit
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -17,15 +28,24 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
-          node-version: '24'
+          node-version: 24.19.0
           cache: npm
           registry-url: 'https://registry.npmjs.org'
+      # npm >= 11.5.1 is required for OIDC trusted publishing; the repo pins a newer version via
+      # packageManager, but actions/setup-node doesn't honor that field, so upgrade explicitly.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
       - name: Install dependencies
         run: npm ci
+      - name: Check the tag against package.json and the changelog
+        run: node scripts/check-versions.mjs --tag "$GITHUB_REF_NAME"
+      # The kit resolves @jchpro/ngx-common from dist/ (tsconfig paths), so build it first
+      - name: Build common library
+        run: npm run build:common:prod
+      - name: Test kit library
+        run: npm run test:kit
       - name: Build kit library
         run: npm run build:kit:prod
-      - name: Stage publish kit library
+      - name: Publish kit library
         working-directory: ./dist/@jchpro/ngx-kit
-        run: npm stage publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
