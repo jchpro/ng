@@ -33,8 +33,17 @@
   line-height: var(--kit-app-body-line-height);
   font-weight: var(--kit-app-body-weight);
 
-  h2, h3 {
+  h1, h2, h3 {
     font-family: var(--kit-font-display);
+  }
+
+  // A bare h1 inside content (the page's own title is the page header's). The design system's
+  // prose scale has no h1 yet, so this size is local to docs-app, see issue #10.
+  h1 {
+    margin: var(--kit-space-6) 0 var(--kit-space-3);
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 700;
   }
 
   h2 {
@@ -57,6 +66,37 @@
 
   :is(ul, ol):not([class]) {
     padding-left: var(--kit-space-5);
+  }
+
+  // Links keep the text color and are told apart by the underline, in the brand pink: brand
+  // colors are fills, not text colors (see CLAUDE.md), so they are kept for the line only.
+  a:not([class]) {
+    color: var(--kit-ink-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--kit-brand-pink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--kit-brand-pink) 60%, transparent);
+      outline-offset: 2px;
+      border-radius: var(--kit-radius-sm);
+    }
+  }
+
+  blockquote:not([class]) {
+    margin: 0 0 var(--kit-space-3);
+    padding-left: var(--kit-space-4);
+    border-left: 3px solid var(--kit-brand-pink);
+    color: var(--kit-ink-muted);
+
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 }
 

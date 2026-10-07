@@ -24,17 +24,18 @@ export class TypographyPage {
 
   /** What the doc pages' prose styling covers, element by element. */
   protected readonly coverage = [
+    { element: 'h1', styled: true, note: 'Display font, 28/36 bold. Local to docs-app: the prose scale has no h1 yet' },
     { element: 'h2, h3', styled: true, note: 'Prose scale, display font' },
     { element: 'p', styled: true, note: 'Body text, spacing below' },
     { element: 'ul, ol', styled: true, note: 'Indent and spacing; nested lists are not looked at yet' },
     { element: 'table', styled: true, note: 'Inside a .table-fit frame, tinted header, row lines' },
     { element: 'code', styled: true, note: 'Inline chip' },
-    { element: 'h1, h4, h5, h6', styled: false, note: 'Browser default' },
-    { element: 'a', styled: false, note: 'Browser default' },
+    { element: 'a', styled: true, note: 'Text color, pink underline, thicker on hover, focus ring' },
+    { element: 'blockquote', styled: true, note: 'Pink rule at the start, muted text' },
+    { element: 'h4, h5, h6', styled: false, note: 'Browser default' },
     { element: 'strong, em, small, mark, del, sub, sup', styled: false, note: 'Browser default' },
     { element: 'kbd, samp, var', styled: false, note: 'Browser default' },
     { element: 'dl', styled: false, note: 'Browser default' },
-    { element: 'blockquote', styled: false, note: 'Browser default' },
     { element: 'hr', styled: false, note: 'Browser default' },
     { element: 'pre', styled: false, note: 'Browser default; code examples use app-code-example' },
     { element: 'figure, figcaption', styled: false, note: 'Browser default' },
