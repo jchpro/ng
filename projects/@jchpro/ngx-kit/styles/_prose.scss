@@ -45,6 +45,12 @@
       margin: 0 0 var(--kit-space-3);
     }
 
+    // Running text stops at the measure (about 72 characters) so a wide screen doesn't stretch a
+    // line past comfortable reading. Tables, code blocks, figures and images are left full width.
+    :is(p, ul, ol, dl, blockquote, details):not([class]) {
+      max-width: var(--kit-prose-measure);
+    }
+
     :is(ul, ol):not([class]) {
       padding-left: var(--kit-space-5);
 
@@ -118,6 +124,8 @@
       border-radius: 0.25rem;
       background-color: var(--kit-surface-raised);
       color: var(--kit-ink-primary);
+      font-family: var(--kit-font-mono);
+      font-size: 0.9em;
     }
 
     // Inline text. `em`, `sub` and `sup` keep the browser's look (sub/sup only stop widening
@@ -167,13 +175,13 @@
       border-radius: 0.25rem;
       background-color: var(--kit-surface-raised);
       color: var(--kit-ink-primary);
-      font-family: monospace;
+      font-family: var(--kit-font-mono);
       font-size: 0.9em;
     }
 
     // Program output and variables: monospace, without the chip.
     :is(samp, var):not([class]) {
-      font-family: monospace;
+      font-family: var(--kit-font-mono);
       font-size: 0.9em;
     }
 
@@ -187,7 +195,7 @@
       border-radius: var(--kit-radius-md);
       background-color: var(--kit-surface-raised);
       color: var(--kit-ink-primary);
-      font-family: monospace;
+      font-family: var(--kit-font-mono);
       font-size: 0.9em;
       line-height: var(--kit-app-body-line-height);
 
@@ -220,13 +228,47 @@
       border: 1px solid var(--kit-border-subtle);
       border-radius: var(--kit-radius-md);
 
+      // The browser's marker is replaced by a chevron at the end that flips up when open. A drawn SVG
+      // like the select's chevron (one mid-tone serves both schemes), kept out of the markup.
       > summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--kit-space-2);
+        border-radius: var(--kit-radius-sm);
         cursor: pointer;
         font-weight: 600;
+        list-style: none;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+
+        &::after {
+          content: '';
+          flex: 0 0 auto;
+          width: 16px;
+          height: 16px;
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%238f88a3' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+          transition: transform 0.15s ease-out;
+
+          @media (prefers-reduced-motion: reduce) {
+            transition: none;
+          }
+        }
+
+        &:focus-visible {
+          outline: 2px solid color-mix(in srgb, var(--kit-brand-pink) 60%, transparent);
+          outline-offset: 2px;
+        }
       }
 
       &[open] > summary {
         margin-bottom: var(--kit-space-2);
+
+        &::after {
+          transform: rotate(180deg);
+        }
       }
 
       > :last-child {

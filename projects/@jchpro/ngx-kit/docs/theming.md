@@ -42,7 +42,8 @@ in long-form content. For documentation, help pages, changelogs and policy text 
 `--kit-prose-h2-*` (21/28, weight 600) and `--kit-prose-h3-*` (18/24, weight 600), each with `-size`, `-line-height`
 and `-weight`, set in `--kit-font-display`. Body text stays `--kit-app-body-*`. Use them directly under the page
 title; inside a panel or card that has its own `app-h2`/`app-h3` title, keep the App scale. The `kit-prose`
-class applies them to plain elements, see [Prose](prose.md).
+class applies them to plain elements, see [Prose](prose.md). `--kit-prose-measure` (72ch) is the longest line of running
+text there, and `--kit-font-mono` the system monospace stack for code.
 
 The two required Google Fonts (Dosis for headings, Inter for body/UI text) aren't bundled — add them to your
 `index.html`:

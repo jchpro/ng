@@ -118,7 +118,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `ins`, `abbr`, `var`, `dl`, `hr`, `pre`, `figure`, `details`, `img`,
   nested lists, tables); everything sits in
   `:where()`/`:not([class])` so kit classes and your own always win. `kit-table-frame` is the optional wrapper that
-  gives a table its rounded frame and horizontal scroll. Prose stops at h3, as in the design system. Part
+  gives a table its rounded frame and horizontal scroll. Prose stops at h3, as in the design system. Text blocks stop at `--kit-prose-measure` (72ch), code uses the
+  `--kit-font-mono` system stack at 0.9em, and `details` gets a chevron at the end that flips up when open. Part
   of `primitives`, or `@jchpro/ngx-kit/styles/prose` on its own
 - Top navigation: `KitShellNavItem`s projected into `kit-shell-header` render as horizontal nav, inline while the
   sidenav is docked and moved to a second row below the header once it collapses to overlay — the same

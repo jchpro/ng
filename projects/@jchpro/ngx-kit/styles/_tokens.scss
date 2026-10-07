@@ -99,6 +99,8 @@
     // Type — shared across both schemes. Google Fonts "Dosis" (headings) and "Inter" (body) load separately.
     --kit-font-display: "Dosis", sans-serif;
     --kit-font-body: "Inter", sans-serif;
+    // System monospace stack, no font to load. Used by code, kbd, samp, var and pre at 0.9em.
+    --kit-font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
 
     --kit-app-h1-size: 24px;
     --kit-app-h1-line-height: 30px;
@@ -132,6 +134,9 @@
     // headings for long-form, documentation-style content, where the App scale's h2/h3
     // (18px / 15px against 14px body) are too close to the text to separate sections.
     // Family stays --kit-font-display. Don't use inside panels/cards with their own app-h2/h3 title.
+    // Longest line of running text: about 72 characters, in the `ch` unit (the width of a "0").
+    --kit-prose-measure: 72ch;
+
     --kit-prose-h2-size: 21px;
     --kit-prose-h2-line-height: 28px;
     --kit-prose-h2-weight: 600;

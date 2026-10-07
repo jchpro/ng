@@ -35,21 +35,21 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 | Element | Look |
 |---|---|
 | `h2`, `h3` | Display font, `--kit-prose-h2-*` (21/28) and `--kit-prose-h3-*` (18/24) |
-| `p`, `ul`, `ol` | Body text, spacing below, indented lists |
+| `p`, `ul`, `ol` | Body text, spacing below, indented lists. With `dl`, `blockquote` and `details` they stop at `--kit-prose-measure` (72 characters); tables, code blocks, figures and images stay full width |
 | `ul`, `ol` (nested), `dl` | Items spaced a little apart; a nested list sits tight under its item; `dt` semibold, `dd` indented |
 | `a` | Text color with a brand pink underline, thicker on hover, focus ring |
 | `blockquote` | Pink rule at the start, muted text |
-| `code` | Inline chip: raised surface, border, text color |
+| `code` | Inline chip: raised surface, border, text color, in the system monospace stack at 0.9em |
 | `strong`, `small`, `del` | Semibold, the small body size, muted with the line-through |
 | `mark` | A peach highlight behind the text |
 | `kbd` | A key cap with a thicker bottom edge |
-| `samp`, `var` | Monospace, no chip |
+| `samp`, `var` | Monospace (`--kit-font-mono`) at 0.9em, no chip |
 | `ins`, `abbr[title]` | A faint green highlight with a dotted underline; a dotted underline with the help cursor |
 | `sub`, `sup` | The browser's look, without widening the line |
 | `hr` | A hairline in the subtle border color |
 | `pre` | Raised box with a border, monospace, scrolls sideways. Code inside it loses the chip |
 | `figure`, `figcaption` | A figure with a muted small caption below |
-| `details` | A bordered disclosure box, bold summary |
+| `details` | A bordered disclosure box, bold summary, with a chevron at the end that flips up when open (the browser marker is replaced) |
 | `img` | Fits the width, rounded corners |
 | `table` | Padded cells, tinted header row, hairlines between rows, row hover |
 
