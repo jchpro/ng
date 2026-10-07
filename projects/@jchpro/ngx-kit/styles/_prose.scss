@@ -11,7 +11,7 @@
 // horizontal scroll on narrow screens; it works inside prose or on its own.
 //
 // Headings use the prose tokens (`--kit-prose-*`), not the App scale: inside a card or a panel
-// that has its own title, don't use prose. Prose stops at h3, as in the design system: h1 is the
+// that has its own title, don't use prose. Prose stops at h3: h1 is the
 // page title and h4–h6 are left to the browser.
 @mixin classes() {
 

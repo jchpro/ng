@@ -1,6 +1,6 @@
 # jchPRO admin-app UI kit
 
-Layout shell, form primitives and a login view for admin-style Angular apps, styled with the **App** surface of the jchPRO design system. Built on Angular CDK — no Material, no bundled i18n library.
+Layout shell, form primitives and a login view for admin-style Angular apps, styled with the **App** surface of the jchPRO look. Built on Angular CDK — no Material, no bundled i18n library.
 
 ## Installation
 

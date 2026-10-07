@@ -53,7 +53,7 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 | `img` | Fits the width, rounded corners |
 | `table` | Padded cells, tinted header row, hairlines between rows, row hover |
 
-`em` keeps the browser's italic. **Prose stops at h3**, as in the design system: `h1` is the page title (`kit-page-header__title`) and `h4`–`h6` are the browser's default, a fourth level means the page should be split.
+`em` keeps the browser's italic. **Prose stops at h3**: `h1` is the page title (`kit-page-header__title`) and `h4`–`h6` are the browser's default, a fourth level means the page should be split.
 
 ## Rules
 

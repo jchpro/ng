@@ -1,7 +1,7 @@
 {
   "name": "@jchpro/ngx-kit",
   "version": "0.1.0",
-  "description": "Admin-app UI kit styled with the App surface of the jchPRO design system, built on Angular CDK",
+  "description": "Admin-app UI kit with the App surface of the jchPRO look, built on Angular CDK",
   "private": false,
   "keywords": [
     "angular",

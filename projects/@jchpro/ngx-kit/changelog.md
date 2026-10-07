@@ -100,9 +100,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   chevron instead of the browser's arrow; a `multiple`/`size` list box shows selected options in the violet fill) and
   `<input type="color">` (a small rounded swatch). The control now sets `box-sizing: border-box`
 - Prose type tokens (`--kit-prose-h2-*` 21/28/600, `--kit-prose-h3-*` 18/24/600) for long-form, documentation-style
-  content, where the App scale's h2/h3 are too close to the body text. Mirror the design system's `prose-h2` /
-  `prose-h3` styles (family stays Dosis via `--kit-font-display`)
-- Contrast fixes, from the design system's contrast review. New tokens `--kit-ink-on-primary`, `--kit-border-control` and
+  content, where the App scale's h2/h3 are too close to the body text. The `prose-h2` /
+  `prose-h3` heading styles (family stays Dosis via `--kit-font-display`)
+- Contrast fixes, from a review of every token pairing. New tokens `--kit-ink-on-primary`, `--kit-border-control` and
   `--kit-status-{success,warning,danger,info}-ink` and `--kit-status-danger-fill` (the danger button's fill, replacing its
   `color-mix` darkening); dark `--kit-brand-pink` is `#b24cb2` (focus ring 3.4:1 on the raised
   surface, was 3.0). The primary button's label is `--kit-ink-on-primary` (was white, 2.2:1 in light); fields, the file
@@ -118,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `ins`, `abbr`, `var`, `dl`, `hr`, `pre`, `figure`, `details`, `img`,
   nested lists, tables); everything sits in
   `:where()`/`:not([class])` so kit classes and your own always win. `kit-table-frame` is the optional wrapper that
-  gives a table its rounded frame and horizontal scroll. Prose stops at h3, as in the design system. Text blocks stop at `--kit-prose-measure` (72ch), code uses the
+  gives a table its rounded frame and horizontal scroll. Prose stops at h3. Text blocks stop at `--kit-prose-measure` (72ch), code uses the
   `--kit-font-mono` system stack at 0.9em, and `details` gets a chevron at the end that flips up when open. Part
   of `primitives`, or `@jchpro/ngx-kit/styles/prose` on its own
 - Top navigation: `KitShellNavItem`s projected into `kit-shell-header` render as horizontal nav, inline while the

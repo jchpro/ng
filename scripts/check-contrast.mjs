@@ -60,7 +60,7 @@ const pairs = [
   ['status-info', 'surface-raised', UI],
   ['brand-pink', 'surface-raised', UI],
   ['brand-pink', 'surface-canvas', UI],
-  // Known exceptions, each carried by something else (see the design system's Contrast notes):
+  // Known exceptions, each carried by something else:
   ['brand-violet-muted', 'surface-raised', UI, { dark: 'the selected outline (border-control) carries the shape' }],
   ['accent-peach-muted', 'surface-raised', UI, { light: 'the label identifies the button, not its fill' }],
 ];

@@ -14,7 +14,7 @@ no `standalone: true` needed), built with `ng-packagr`. TypeScript strict mode.
 - `projects/@jchpro/ngx-common` — framework-agnostic utility lib (i18n, storage, reactivity,
   routing, browser tokens). Stable, pre-dates the current rewrite.
 - `projects/@jchpro/ngx-kit` — **the active project.** Admin-app UI kit (layout shell, form
-  primitives, theming, soon a login view) styled with the jchPRO design system's "App" surface.
+  primitives, theming, soon a login view) styled with the jchPRO "App" surface.
   Replaces the old `@jchpro/ngx-admin`/`@jchpro/ngx-material` (dropped entirely in the 2026-09
   rewrite — no Material, no bundled i18n library, CDK-only for behavior).
 - `projects/docs-app` — consumer/demo app, served at `npm start`, deployed to
@@ -25,15 +25,10 @@ Root `package.json` has per-project `build:*`/`watch:*`/`test:*` scripts (see th
 `npm run watch:kit:dev` while iterating on the library so `dist/@jchpro/ngx-kit` stays fresh for
 `docs-app`'s TS `paths` mapping to pick up.
 
-## Design system
+## Visual language
 
-jchPRO design system — a Claude Artifact Jakub maintains — is the source of truth for
-`ngx-kit`'s visual language. It currently only specs Button/Card/Field in detail; layout shell
-and login were designed directly in code (informed by the token rules) and should be
-backfilled into the artifact later, not the other way around. Ask Jakub for the current URL if
-you need to check it — don't assume it's unchanged from an old memory note.
-
-Only the **App surface** matters here, never Marketing/skew styling.
+`ngx-kit` follows the jchPRO look, App surface only — never Marketing/skew styling. The layout
+shell and login are designed directly in code, informed by the token rules below.
 
 Tokens are CSS custom properties prefixed `--kit-*` (color, type, spacing, radius, shadow,
 control-height), shipped via `@jchpro/ngx-kit/styles/tokens` and consumed with
@@ -156,9 +151,9 @@ header (classes), dialogs (`KitDialogService`, Promise-based `alert`/`confirm`/`
 Notes that aren't obvious from the code:
 - CDK overlays (menus, dialogs) need `@jchpro/ngx-kit/styles/overlay` included once in the app's
   global styles — nothing else provides the overlay container CSS now that Material is gone.
-- `--kit-prose-*` type tokens (doc-style headings) map the design system's `prose-h2`/`prose-h3`
-  styles; use them only directly under the page title, never inside a panel/card that has its own
-  `app-h2`/`app-h3` title. The design system's Prose scale stops at h3, so there is no prose h1 or h4–h6.
+- `--kit-prose-*` type tokens (doc-style headings) are the `prose-h2`/`prose-h3`
+  heading styles; use them only directly under the page title, never inside a panel/card that has its own
+  `app-h2`/`app-h3` title. Prose stops at h3, so there is no prose h1 or h4–h6.
 - `.kit-prose` (`styles/_prose.scss`, in `primitives`) applies the prose tokens to the plain, unclassed
   elements of a container, plus links, blockquote, inline code and tables; `.kit-table-frame` is the optional
   table wrapper (frame + horizontal scroll). docs-app's content area uses it (`@extend`ed onto

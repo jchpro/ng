@@ -29,7 +29,7 @@ export class TypographyPage {
    * markup rendered into the table cell.
    */
   protected readonly coverage = [
-    { element: 'h1', styled: false, note: "The page title is the page header's, the design system's prose stops at h3", html: '<h1>Heading</h1>' },
+    { element: 'h1', styled: false, note: "The page title is the page header's, prose stops at h3", html: '<h1>Heading</h1>' },
     { element: 'h2, h3', styled: true, note: 'Prose scale, display font', html: '<h2>Heading</h2><h3>Heading</h3>' },
     { element: 'h4, h5, h6', styled: false, note: 'Prose stops at h3: a fourth level means the page should be split', html: '<h4>Heading</h4><h5>Heading</h5><h6>Heading</h6>' },
     { element: 'p', styled: true, note: 'Body text, spacing below, stops at 72 characters', html: '<p>A paragraph of text.</p><p>Another one.</p>' },
