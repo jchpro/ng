@@ -1,0 +1,16 @@
+<!-- Forgot password: set `sent` once the request is done -->
+<kit-forgot-password [busy]="busy()" [sent]="sent()" (requested)="send($event.identifier)">
+  <a kitAuthFooter routerLink="/login">Back to sign in</a>
+</kit-forgot-password>
+
+<!-- Reset: /reset-password?token=…, the app reads the token and sends it with the password -->
+<kit-set-password flow="reset" [minLength]="10" [busy]="busy()" [error]="error()"
+                  (submitted)="reset($event.password)" />
+
+<!-- Invitation: the same form, other wording, and room for more fields -->
+<kit-set-password flow="invite" [busy]="busy()" (submitted)="accept($event.password)">
+  <div kitAuthFields class="kit-field">
+    <label class="kit-field__label" for="name">Your name</label>
+    <input class="kit-field__control" id="name" autocomplete="name">
+  </div>
+</kit-set-password>

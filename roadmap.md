@@ -5,16 +5,26 @@ work when there's time; delete or rewrite anything that stops being true.
 
 ## Next up
 
-- **Phase 4 — login view.** The only remaining phase of the original `ngx-kit` plan. Paused
-  deliberately after phase 3 so docs-app could be wired up first; design it directly in code,
-  as the shell was, using the same labels-token i18n pattern.
+- **Phase 4 — auth views (local auth only).** The only remaining phase of the original `ngx-kit`
+  plan; in progress on `feat/kit-auth`. Two layers, the components built on the pieces:
+  - Pieces: `KitAuthCard` (shell: card, logo/title slot, `role="alert"` error, footer slot),
+    `KitPasswordToggle` (show/hide on a native input, no `@angular/forms` dependency, `kitIcon`
+    slots), `.kit-auth-notice` (confirmation views), plus the existing field and button classes —
+    so a signal-forms app composes its own form with the same look.
+  - Self-contained components: `KitLogin` (identifier, password, remember me), `KitForgotPassword`
+    (identifier), `KitSetPassword` (new password + confirmation; `flow="reset" | "invite"` picks
+    the default labels, a slot takes extra invite fields).
+  - No auth logic or routing in the kit: components emit `submitted`/`requested`, the app reads the
+    token from the URL and makes the request. `[busy]`/`[error]` inputs; `identifierType: 'email' |
+    'username'`; labels via the usual token (`KIT_AUTH_LABELS`, EN + PL).
+  - Later: per-field server errors on `KitSetPassword`, MFA, registration without an invite.
 
 ## CI & releases
 
 The flow itself is done (PR → CI, `<lib>-v*` tag → OIDC publish, merge to `main` → docs-app deploy; how
 to release is in [CLAUDE.md](CLAUDE.md)). What's left:
 
-- **Exercise the tag-triggered publish for real** with the next actual release (kit 0.1.1 or common
+- **Exercise the tag-triggered publish for real** with the next actual release (kit 0.2.0 or common
   0.9.0) — it has never run. Afterwards delete the `NPM_TOKEN` repo secret.
 - **Atomic docs-app deploy** (optional): swap the bundle in with a `mv` instead of `rm -rf` + `cp`,
   which leaves a brief empty-site window.

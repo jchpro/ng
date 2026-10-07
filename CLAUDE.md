@@ -111,8 +111,9 @@ field drift), plus one root-level `provideKitLabels('en' | 'pl')` convenience wi
 feature at once — add each new feature to it. Per-call/per-instance options layer on top of the
 injected default (closest wins: defaults < app-wide < call). V1 is flat strings only — no
 rich-content projection slots inside labels (add per component later if a real need comes up).
-Implemented for dialogs (`KIT_DIALOG_LABELS`) and the shell (`KIT_SHELL_LABELS`, the sidenav
-toggle's aria-label); the merge/provider logic is shared in `src/lib/labels/kit-labels.ts`
+Implemented for dialogs (`KIT_DIALOG_LABELS`), the shell (`KIT_SHELL_LABELS`, the sidenav
+toggle's aria-label) and the auth views (one `KIT_AUTH_LABELS` with nested groups; two messages use
+named `{min}`/`{identifier}` placeholders, so "flat strings" now means plain strings); the merge/provider logic is shared in `src/lib/labels/kit-labels.ts`
 (`provideKitLabelsFor`), so a new feature's labels are a token + defaults + one-line provider.
 Documented in `docs/labels.md`.
 
@@ -153,8 +154,14 @@ Documented in `docs/labels.md`.
 ## Current state (as of 2026-10-06)
 
 Phases: 0 scaffold ✅, 1 tokens/theme ✅, 2 primitives ✅, 3 layout shell ✅, 5 (applied to
-docs-app) ✅, Font Awesome → Lucide migration ✅. **Phase 4 (login view) is paused** — don't
-start it without Jakub re-initiating that work.
+docs-app) ✅, Font Awesome → Lucide migration ✅. **Phase 4 (auth views, local auth only) is in
+progress on `feat/kit-auth`**: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (`flow="reset" | "invite"`)
+built on `KitAuthCard`, `KitPasswordToggle` and `KitIcon` (the first real use of the `kitIcon` slot pattern
+above, implemented as an attribute-marker directive), documented in `docs/auth.md` and the docs-app Auth
+page. The kit does no auth itself: views emit `submitted`/`requested`, the app makes the request and feeds
+`busy`/`error` back; no router, no `@angular/forms`. While `busy` the submit button spins and fields turn
+read-only (not a card scrim, which would drop focus). Left for later: MFA, registration without an invite,
+per-field server errors on `KitSetPassword`.
 
 "Batch 1" of admin-app building blocks is done, each with docs (`ngx-kit/docs/*.md`) and a
 docs-app page: loading state (`kitBusy`, global shell bar), menus (CDK menu wrappers), page

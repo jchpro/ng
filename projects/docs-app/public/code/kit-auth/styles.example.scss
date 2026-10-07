@@ -1,0 +1,3 @@
+@use '@jchpro/ngx-kit/styles/auth';
+
+@include auth.classes();   // already included by `primitives.classes()`

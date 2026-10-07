@@ -36,6 +36,9 @@
     "./styles/tokens": {
       "sass": "./styles/_tokens.scss"
     },
+    "./styles/auth": {
+      "sass": "./styles/_auth.scss"
+    },
     "./styles/button": {
       "sass": "./styles/_button.scss"
     },

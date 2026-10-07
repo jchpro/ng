@@ -1,0 +1,61 @@
+<kit-auth-card [heading]="l().login.title" [error]="error()">
+  <ng-content select="[kitAuthLogo]" ngProjectAs="[kitAuthLogo]"></ng-content>
+
+  <form class="kit-auth-form" novalidate (submit)="submit($event)">
+    <div class="kit-field">
+      <label class="kit-field__label" [for]="identifierId">{{ identifierLabel() }}</label>
+      <input class="kit-field__control"
+             [id]="identifierId"
+             name="username"
+             [type]="identifierType() === 'email' ? 'email' : 'text'"
+             [attr.inputmode]="identifierType() === 'email' ? 'email' : null"
+             autocomplete="username"
+             autocapitalize="off"
+             spellcheck="false"
+             aria-required="true"
+             [attr.aria-invalid]="identifier.shownError() ? 'true' : null"
+             [attr.aria-describedby]="identifier.shownError() ? identifierId + '-error' : null"
+             [readOnly]="busy()"
+             [value]="identifier.value()"
+             (input)="identifier.update($event)"
+             (blur)="identifier.touch()">
+      @if (identifier.shownError(); as message) {
+        <p class="kit-field__error" [id]="identifierId + '-error'"><svg lucideCircleAlert></svg>{{ message }}</p>
+      }
+    </div>
+
+    <div class="kit-field">
+      <label class="kit-field__label" [for]="passwordId">{{ l().login.password }}</label>
+      <kit-password-toggle>
+        <input class="kit-field__control"
+               [id]="passwordId"
+               name="password"
+               type="password"
+               autocomplete="current-password"
+               aria-required="true"
+               [attr.aria-invalid]="password.shownError() ? 'true' : null"
+               [attr.aria-describedby]="password.shownError() ? passwordId + '-error' : null"
+               [readOnly]="busy()"
+               [value]="password.value()"
+               (input)="password.update($event)"
+               (blur)="password.touch()">
+      </kit-password-toggle>
+      @if (password.shownError(); as message) {
+        <p class="kit-field__error" [id]="passwordId + '-error'"><svg lucideCircleAlert></svg>{{ message }}</p>
+      }
+    </div>
+
+    @if (showRememberMe()) {
+      <label class="kit-check">
+        <input class="kit-check__input" type="checkbox" name="remember" [disabled]="busy()">
+        {{ l().login.rememberMe }}
+      </label>
+    }
+
+    <button type="submit" class="kit-btn kit-btn--primary kit-btn--lg" [kitBusy]="busy()">{{ l().login.submit }}</button>
+
+    <div class="kit-auth-form__actions"><ng-content select="[kitAuthActions]"></ng-content></div>
+  </form>
+
+  <ng-content select="[kitAuthFooter]" ngProjectAs="[kitAuthFooter]"></ng-content>
+</kit-auth-card>

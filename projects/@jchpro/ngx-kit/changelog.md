@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - Unreleased
+
+### Added
+
+- Auth views for local sign-in — see `docs/auth.md`. `KitLogin`, `KitForgotPassword` and `KitSetPassword`
+  (`flow="reset" | "invite"`: the same form, worded for a reset or for accepting an invitation) are complete forms that
+  validate natively (required fields, email shape, minimum length, matching confirmation) and emit
+  `submitted` / `requested`; the app makes the request and reports back through `busy` and `error`. No auth logic,
+  routing or `@angular/forms` dependency in the kit. `identifierType: 'email' | 'username'` picks the label, input
+  type and autofill hint; values are read from the form on submit, so autofill that fires no `input` event works.
+  Built on pieces that can be used on their own, e.g. for a form on signal forms: `KitAuthCard` (heading, description,
+  `role="alert"` error region, `kitAuthLogo` / `kitAuthFooter` slots), `KitPasswordToggle` (show/hide button for the
+  native password input inside it) and the `.kit-auth-page`, `.kit-auth-form` and `.kit-auth-notice` classes, via
+  `@jchpro/ngx-kit/styles/auth` (also part of `primitives`)
+- `KitIcon` (`[kitIcon="slot"]`), the kit's pattern for replacing a built-in icon with an element of your own
+  (another icon library, inline SVG, emoji): first used by `KitPasswordToggle` (`show` and `hide` slots)
+- Auth labels: `KIT_AUTH_LABELS`, `provideKitAuthLabels()` and `KIT_AUTH_LABELS_EN|PL`, covered by
+  `provideKitLabels()`, plus a per-view `labels` input. Two messages carry a named placeholder, `{min}` and
+  `{identifier}`
+
 ## [0.1.0] - 2026-10-07
 
 ### Added

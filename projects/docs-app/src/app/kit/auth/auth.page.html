@@ -1,0 +1,147 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  The views for an app with local sign-in: <code>KitLogin</code>, <code>KitForgotPassword</code> and
+  <code>KitSetPassword</code>, which serves both a password reset and accepting an invitation.
+  They render and validate the form and emit what was entered.
+  Making the request, reading the token from the URL and navigating stay in your app, the kit has no auth logic,
+  no router and no <code>@angular/forms</code> dependency.
+</p>
+<p>
+  Under them are the pieces they are built from, <code>KitAuthCard</code>, <code>KitPasswordToggle</code>
+  and a few classes, so a form on your own model, say signal forms, gets the same look.
+</p>
+
+<h2>Setup</h2>
+<p>
+  The look is part of <code>primitives</code>.
+  <code>.kit-auth-page</code> centers the card in the viewport.
+</p>
+<app-code-example
+  lang="scss"
+  source="/code/kit-auth/styles.example.scss">
+</app-code-example>
+
+<h2>Sign in</h2>
+<p>
+  <code>identifierType</code> is <code>'email'</code> (default) or <code>'username'</code>.
+  While <code>busy</code> the button shows a spinner and the fields turn read-only,
+  and <code>error</code> appears above the form in a live region.
+  Empty fields are caught by the kit and focus goes to the first invalid one.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-auth/login.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<kit-login showRememberMe [busy]="loginBusy()" [error]="loginError()" (submitted)="signIn($event)">
+  <a kitAuthActions href="javascript:void(0)">Forgot your password?</a>
+</kit-login>
+
+<h2>Forgot password and set password</h2>
+<p>
+  <code>KitForgotPassword</code> emits <code>requested</code>, then you set <code>sent</code> to swap the form for a
+  confirmation that does not reveal whether the account exists.
+  <code>KitSetPassword</code> asks for the password twice and takes <code>flow="reset"</code> or <code>flow="invite"</code>,
+  which only changes the wording.
+  <code>minLength</code> is announced under the field, and fields projected as <code>kitAuthFields</code> join the form.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-auth/views.example.html">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap gap">
+  <kit-forgot-password [busy]="forgotBusy()" [sent]="forgotSent()" (requested)="requestReset()">
+    <a kitAuthFooter href="javascript:void(0)" (click)="forgotSent.set(false)">Start over</a>
+  </kit-forgot-password>
+  <kit-set-password flow="reset" [minLength]="10" [busy]="setBusy()" (submitted)="setPassword('reset')"></kit-set-password>
+  <kit-set-password flow="invite" [busy]="setBusy()" (submitted)="setPassword('invite')">
+    <div kitAuthFields class="kit-field">
+      <label class="kit-field__label" for="invite-name">Your name</label>
+      <input class="kit-field__control" id="invite-name" autocomplete="name">
+    </div>
+  </kit-set-password>
+</div>
+<p>Last result: {{ setResult() }}</p>
+
+<h2>Your own form</h2>
+<p>
+  <code>KitPasswordToggle</code> adds the show/hide button to the native input inside it by flipping its type,
+  so it works with any way of binding that input.
+  Either icon can be replaced by projecting an element marked <code>kitIcon="show"</code> or <code>kitIcon="hide"</code>.
+  Put <code>[kitBusy]</code> on the card to cover it while a request is out.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-auth/pieces.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<kit-auth-card heading="Sign in" [error]="ownError()" [kitBusy]="own().submitting()">
+  <form class="kit-auth-form" [formRoot]="own">
+    <div class="kit-field">
+      <label class="kit-field__label" for="own-email">Email</label>
+      <input class="kit-field__control" id="own-email" type="email" autocomplete="username"
+             [formField]="own.email"
+             [attr.aria-invalid]="own.email().touched() && own.email().invalid() ? 'true' : null">
+    </div>
+    <div class="kit-field">
+      <label class="kit-field__label" for="own-password">Password</label>
+      <kit-password-toggle>
+        <input class="kit-field__control" id="own-password" type="password" autocomplete="current-password"
+               [formField]="own.password"
+               [attr.aria-invalid]="own.password().touched() && own.password().invalid() ? 'true' : null">
+      </kit-password-toggle>
+    </div>
+    <button class="kit-btn kit-btn--primary kit-btn--lg">Sign in</button>
+  </form>
+</kit-auth-card>
+
+<h2>Labels</h2>
+<p>
+  Every string, the show/hide button's accessible name included, is in <code>KIT_AUTH_LABELS</code>,
+  set with <code>provideKitAuthLabels()</code>, <code>provideKitLabels('pl')</code> or a view's own <code>labels</code> input.
+  Two messages have a placeholder the view fills in, <code>{{ '{min}' }}</code> and <code>{{ '{identifier}' }}</code>.
+</p>
+
+<h2>API</h2>
+<div class="kit-table-frame">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>KitLogin</code></td>
+      <td>Sign-in form. Inputs <code>identifierType</code>, <code>showRememberMe</code>, <code>busy</code>, <code>error</code>, <code>labels</code>; output <code>submitted</code> with <code>KitLoginCredentials</code></td>
+    </tr>
+    <tr>
+      <td><code>KitForgotPassword</code></td>
+      <td>Asks for the account to send reset instructions to. Inputs <code>identifierType</code>, <code>busy</code>, <code>sent</code>, <code>error</code>, <code>labels</code>; output <code>requested</code></td>
+    </tr>
+    <tr>
+      <td><code>KitSetPassword</code></td>
+      <td>New password twice, for <code>flow</code> <code>'reset'</code> or <code>'invite'</code>. Inputs <code>minLength</code>, <code>busy</code>, <code>error</code>, <code>labels</code>; output <code>submitted</code></td>
+    </tr>
+    <tr>
+      <td><code>KitAuthCard</code></td>
+      <td>The shell of every view: <code>heading</code>, <code>description</code>, <code>error</code>, slots <code>kitAuthLogo</code> and <code>kitAuthFooter</code></td>
+    </tr>
+    <tr>
+      <td><code>KitPasswordToggle</code></td>
+      <td>Show/hide button for the password input inside it, with <code>kitIcon</code> slots <code>show</code> and <code>hide</code></td>
+    </tr>
+    <tr>
+      <td><code>KitIcon</code></td>
+      <td>The <code>[kitIcon]</code> marker for an element that replaces a built-in icon</td>
+    </tr>
+    <tr>
+      <td><code>KIT_AUTH_LABELS</code></td>
+      <td>Injection token for every string of the views, with <code>provideKitAuthLabels()</code> and the <code>_EN</code> / <code>_PL</code> sets</td>
+    </tr>
+  </table>
+</div>
