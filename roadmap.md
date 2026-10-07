@@ -26,9 +26,10 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
 
 - **Delete the `NPM_TOKEN` repo secret.** The tag-triggered publish has worked (kit 0.2.0), and no
   workflow reads it any more.
-- **Try `npm run release -- ship` on the next real release** (see [releasing.md](releasing.md)); it
-  has only been checked against a finished release (`--dry-run`, and `finish` on 0.2.0, which
-  correctly found the tag already on origin), not run end to end.
+- **`release -- ship` is proven** (kit 0.3.0 went out through it: PR, checks, squash-merge, tag, publish with
+  provenance). One gap: with no terminal (an agent, a script) it stops before pushing the tag with "not a terminal: pass
+  `--yes`"; finish the release with `npm run release -- finish <lib> <X.Y.Z> --yes` after confirming. Worth deciding whether
+  `ship` should say so up front, or detect a non-interactive run before opening the PR.
 - **Atomic docs-app deploy** (optional): swap the bundle in with a `mv` instead of `rm -rf` + `cp`,
   which leaves a brief empty-site window.
 - **Drop `@angular/platform-browser-dynamic`** (direct dependency, deprecated in favour of
