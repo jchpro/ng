@@ -24,8 +24,11 @@ work when there's time; delete or rewrite anything that stops being true.
 The flow itself is done (PR → CI, `<lib>-v*` tag → OIDC publish, merge to `main` → docs-app deploy; how
 to release is in [CLAUDE.md](CLAUDE.md)). What's left:
 
-- **Exercise the tag-triggered publish for real** with the next actual release (kit 0.2.0 or common
-  0.9.0) — it has never run. Afterwards delete the `NPM_TOKEN` repo secret.
+- **Delete the `NPM_TOKEN` repo secret.** The tag-triggered publish has worked (kit 0.2.0), and no
+  workflow reads it any more.
+- **Try `npm run release -- ship` on the next real release** (see [releasing.md](releasing.md)); it
+  has only been checked against a finished release (`--dry-run`, and `finish` on 0.2.0, which
+  correctly found the tag already on origin), not run end to end.
 - **Atomic docs-app deploy** (optional): swap the bundle in with a `mv` instead of `rm -rf` + `cp`,
   which leaves a brief empty-site window.
 - **Drop `@angular/platform-browser-dynamic`** (direct dependency, deprecated in favour of

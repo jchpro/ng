@@ -231,7 +231,10 @@ async function finish(lib, version) {
   if (!succeeds('git', 'merge-base', '--is-ancestor', merge, 'HEAD')) die(`main does not contain the merge commit ${merge}`);
   assertReleased(lib, version);
 
-  if (git('ls-remote', '--tags', 'origin', name)) die(`tag ${name} is already on origin; nothing left to do`);
+  if (git('ls-remote', '--tags', 'origin', name)) {
+    console.log(`Tag ${name} is already on origin; nothing left to do.`);
+    return;
+  }
   if (!git('tag', '--list', name)) createTag(lib, version, merge);
   if (git('rev-list', '-n', '1', name) !== merge) die(`local tag ${name} is not on the merge commit; delete it and run finish again`);
 

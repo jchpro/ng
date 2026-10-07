@@ -125,9 +125,10 @@ Documented in `docs/labels.md`.
   actual release.
 - **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump —
   there are no real external consumers yet. Libraries version independently (tags `common-vX.Y.Z` /
-  `kit-vX.Y.Z`; full guide in [releasing.md](releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, run
-  `npm run release -- prepare <common|kit> <X.Y.Z>`, merge that via a PR, then
-  `npm run release -- tag <lib>` on an up-to-date `main` and push the tag. `npm run check:versions`
+  `kit-vX.Y.Z`; full guide in [releasing.md](releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
+  `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
+  tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
+  up-to-date `main` → push the tag. `npm run check:versions`
   (in `npm test`) guards drift, including kit's peer range on common.
 - **Readme size**: once a package readme grows large, split feature-specific content into
   `docs/*.md` files (see `ngx-kit/docs/`) and link back — verify the split files are actually
