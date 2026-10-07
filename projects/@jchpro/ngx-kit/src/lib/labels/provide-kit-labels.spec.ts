@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { KIT_DIALOG_LABELS, KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL, provideKitDialogLabels } from '../dialog/kit-dialog-labels';
+import { KIT_AUTH_LABELS, KIT_AUTH_LABELS_EN, KIT_AUTH_LABELS_PL } from '../auth/kit-auth-labels';
+import { KIT_DIALOG_LABELS,KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL, provideKitDialogLabels } from '../dialog/kit-dialog-labels';
 import { KIT_SHELL_LABELS, KIT_SHELL_LABELS_EN, KIT_SHELL_LABELS_PL } from '../shell/kit-shell-labels';
 import { provideKitLabels } from './provide-kit-labels';
 
@@ -20,6 +21,22 @@ describe('provideKitLabels', () => {
     // Then
     expect(TestBed.inject(KIT_DIALOG_LABELS)()).toEqual(KIT_DIALOG_LABELS_EN);
     expect(TestBed.inject(KIT_SHELL_LABELS)()).toEqual(KIT_SHELL_LABELS_EN);
+  });
+
+  it('should wire the auth labels in either language', () => {
+    // Given
+    TestBed.configureTestingModule({ providers: [provideKitLabels('pl')] });
+
+    // Then
+    expect(TestBed.inject(KIT_AUTH_LABELS)()).toEqual(KIT_AUTH_LABELS_PL);
+  });
+
+  it('should wire the English auth labels for en', () => {
+    // Given
+    TestBed.configureTestingModule({ providers: [provideKitLabels('en')] });
+
+    // Then
+    expect(TestBed.inject(KIT_AUTH_LABELS)()).toEqual(KIT_AUTH_LABELS_EN);
   });
 
   it('should wire the shell labels too', () => {

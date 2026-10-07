@@ -9,6 +9,7 @@ bring the translations.
 
 | Feature | Token | Provider | Sets |
 |---|---|---|---|
+| [Auth views](auth.md) | `KIT_AUTH_LABELS` | `provideKitAuthLabels()` | `KIT_AUTH_LABELS_EN`, `KIT_AUTH_LABELS_PL` |
 | [Dialogs](dialogs.md) | `KIT_DIALOG_LABELS` | `provideKitDialogLabels()` | `KIT_DIALOG_LABELS_EN`, `KIT_DIALOG_LABELS_PL` |
 | [Layout shell](layout.md) | `KIT_SHELL_LABELS` | `provideKitShellLabels()` | `KIT_SHELL_LABELS_EN`, `KIT_SHELL_LABELS_PL` |
 
@@ -22,7 +23,7 @@ The closest one wins:
 1. the English **defaults**;
 2. the **app-wide** labels, from `provideKitLabels()` or a per-feature provider;
 3. the **call or instance**'s own option — `title`/`confirmLabel`/… on a dialog call,
-   `toggleNavigationLabel` on `<kit-shell-header>`.
+   `toggleNavigationLabel` on `<kit-shell-header>`, `[labels]` on an auth view.
 
 ## App-wide
 
@@ -70,4 +71,5 @@ const SHELL_DE: KitShellLabels = { toggleNavigation: 'Navigation umschalten' };
 providers: [provideKitDialogLabels(DIALOGS_DE), provideKitShellLabels(SHELL_DE)]
 ```
 
-V1 is flat strings only — no rich content or placeholders inside labels.
+V1 is plain strings only — no rich content inside labels. The few that carry a value have a
+named placeholder (`{min}`, `{identifier}`), documented where the labels are.

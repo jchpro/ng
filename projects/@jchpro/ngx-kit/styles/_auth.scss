@@ -1,0 +1,183 @@
+// jchPRO App auth views — the look of `kit-auth-card` and everything inside the sign-in, forgot-
+// password and set-password views, plus the plain classes to compose your own form:
+//   <div class="kit-auth-page">
+//     <kit-auth-card heading="Sign in">
+//       <form class="kit-auth-form">
+//         <div class="kit-field">…</div>
+//         <button class="kit-btn kit-btn--primary kit-btn--lg">Sign in</button>
+//       </form>
+//     </kit-auth-card>
+//   </div>
+// Needs the field, button and check classes too (`styles/primitives` has them all).
+@mixin classes() {
+
+  // Centers one card in the viewport; put it on the routed component's host or a wrapper.
+  .kit-auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 100dvh;
+    padding: var(--kit-space-4);
+    background-color: var(--kit-surface-canvas);
+  }
+
+  .kit-auth-card {
+    // The positioning context of the busy scrim and of the empty alert region below.
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-4);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    padding: var(--kit-space-6);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-lg);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-md);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+  }
+
+  .kit-auth-card__logo {
+    display: flex;
+    justify-content: center;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .kit-auth-card__title {
+    margin: 0;
+    font-family: var(--kit-font-display);
+    font-size: var(--kit-app-h2-size);
+    line-height: var(--kit-app-h2-line-height);
+    font-weight: var(--kit-app-h2-weight);
+  }
+
+  .kit-auth-card__description {
+    margin: calc(-1 * var(--kit-space-2)) 0 0;
+    color: var(--kit-ink-muted);
+  }
+
+  // A live region has to exist before its content does, so while empty it is taken out of the
+  // flow (it would still add a gap) rather than hidden, which would drop it from the
+  // accessibility tree.
+  .kit-auth-card__alert:empty {
+    position: absolute;
+  }
+
+  .kit-auth-card__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-2);
+    text-align: center;
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .kit-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-4);
+  }
+
+  // Under the submit button: a link, single-sign-on buttons.
+  .kit-auth-form__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-2);
+    text-align: center;
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  // Links in the card are ink with an underline: a brand color is a fill, not a text color.
+  .kit-auth-card__footer a:not(.kit-btn),
+  .kit-auth-form__actions a:not(.kit-btn) {
+    color: var(--kit-ink-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    border-radius: var(--kit-radius-sm);
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+  }
+
+  // A message that replaces the form, e.g. "we sent you an email".
+  .kit-auth-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kit-space-3);
+    margin: 0;
+    padding: var(--kit-space-3);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+
+    > svg {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+    }
+
+    // The icon carries the tone, the text stays ink.
+    &--success > svg {
+      color: var(--kit-status-success);
+    }
+  }
+
+  // The password toggle: the input fills the host and keeps room for the button at its end.
+  .kit-password-toggle {
+    position: relative;
+    display: block;
+
+    .kit-field__control {
+      width: 100%;
+      padding-right: var(--kit-control-height);
+    }
+  }
+
+  .kit-password-toggle__button {
+    appearance: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--kit-control-height);
+    height: var(--kit-control-height);
+    padding: 0;
+    border: none;
+    border-radius: var(--kit-radius-md);
+    background: transparent;
+    color: var(--kit-ink-muted);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--kit-ink-primary);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+      color: var(--kit-ink-primary);
+    }
+  }
+
+}

@@ -1,3 +1,4 @@
+@use 'auth';
 @use 'button';
 @use 'field';
 @use 'card';
@@ -15,6 +16,7 @@
 
 // Convenience aggregate — includes every primitive's classes in one call.
 @mixin classes() {
+  @include auth.classes();
   @include page-header.classes();
   @include progress.classes();
   @include prose.classes();

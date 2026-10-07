@@ -1,0 +1,12 @@
+<div class="kit-auth-card__logo"><ng-content select="[kitAuthLogo]"></ng-content></div>
+<h1 class="kit-auth-card__title">{{ heading() }}</h1>
+@if (description(); as text) {
+  <p class="kit-auth-card__description">{{ text }}</p>
+}
+<div class="kit-auth-card__alert" role="alert">
+  @if (error(); as message) {
+    <p class="kit-field__error"><svg lucideCircleAlert></svg>{{ message }}</p>
+  }
+</div>
+<ng-content></ng-content>
+<div class="kit-auth-card__footer"><ng-content select="[kitAuthFooter]"></ng-content></div>
