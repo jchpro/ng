@@ -17,7 +17,7 @@
 // `tag` never pushes: `git push origin <tag>` is what starts the publish workflow.
 //
 // `finish` can be run again after an interruption or a failed check: it works out where things stand from
-// the pull request (the release branch is `release/<lib>-vX.Y.Z`; without a version it takes it from the
+// the pull request (the release branch is `release/<lib>-X.Y.Z`; without a version it takes it from the
 // branch you are on, or from package.json on main after the merge). It never uses `--admin`. Pushing the
 // tag is the one step that can't be undone (npm doesn't allow reusing a version), so it asks first.
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -50,7 +50,7 @@ const [command, lib, versionArg] = args.filter((arg) => !arg.startsWith('--'));
 const yes = flags.has('--yes');
 const dryRun = flags.has('--dry-run');
 
-const releaseBranch = (lib, version) => `release/${lib}-v${version}`;
+const releaseBranch = (lib, version) => `release/${lib}-${version}`;
 const tagName = (lib, version) => `${lib}-v${version}`;
 
 function replaceOnce(path, pattern, replacement, what) {
@@ -246,7 +246,7 @@ async function finish(lib, version) {
 /** The version to finish: given, else from the release branch checked out, else main's after the merge. */
 function inferVersion(lib) {
   if (versionArg) return versionArg;
-  const onBranch = new RegExp(`^release/${lib}-v(\\d+\\.\\d+\\.\\d+)$`).exec(git('branch', '--show-current'));
+  const onBranch = new RegExp(`^release/${lib}-(\\d+\\.\\d+\\.\\d+)$`).exec(git('branch', '--show-current'));
   return onBranch ? onBranch[1] : readPackage(lib).version;
 }
 
