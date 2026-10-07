@@ -1,6 +1,6 @@
 # jchPRO admin-app UI kit
 
-Layout shell, form primitives and a login view for admin-style Angular apps, styled with the **App** surface of the jchPRO design system. Built on Angular CDK — no Material, no bundled i18n library.
+Layout shell, form primitives and a login view for admin-style Angular apps, styled with the **App** surface of the jchPRO look. Built on Angular CDK — no Material, no bundled i18n library.
 
 ## Installation
 
@@ -22,6 +22,7 @@ npm i @jchpro/ngx-kit
 - [Primitives](docs/primitives.md) — Button, Field, Card and status-dot CSS classes
 - [Layout shell](docs/layout.md) — `KitShell`, the responsive header/sidenav/footer composition
 - [Page header](docs/page-header.md) — breadcrumb, title and the page's main actions
+- [Prose](docs/prose.md) — `kit-prose` for long-form content: headings, links, quotes, code, tables
 - [Dialogs](docs/dialogs.md) — one dialog look, `KitDialogService` with Promise-based `alert`/`confirm`
 - [Labels and translations](docs/labels.md) — every built-in string is overridable: defaults, app-wide, per call; `provideKitLabels('pl')`
 - [Menus](docs/menu.md) — contextual menus on CDK overlays: `kitMenuTriggerFor`, `kitMenu`, `kitMenuItem`

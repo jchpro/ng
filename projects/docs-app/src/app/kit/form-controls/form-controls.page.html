@@ -21,7 +21,7 @@
 </app-code-example>
 
 <h3>Which class for what</h3>
-<div class="table-fit">
+<div class="kit-table-frame">
   <table class="reference">
     <tr>
       <th>Element</th>
@@ -30,7 +30,7 @@
     </tr>
     <tr>
       <td>Text, email, password, search, tel, url, number, date and time inputs, <code>textarea</code>, <code>select</code>, <code>file</code>, <code>color</code></td>
-      <td><code>kit-field</code> around <code>kit-field__label</code> and <code>kit-field__control</code></td>
+      <td><code>kit-field</code> around <code>kit-field__label</code> and <code>kit-field__control</code>, then <code>kit-field__hint</code> or <code>kit-field__error</code> under it</td>
       <td><code>field</code></td>
     </tr>
     <tr>
@@ -70,7 +70,8 @@
 <p>
   A <code>kit-field</code> wraps a label and its control, the label's <code>for</code> matching the control's
   <code>id</code>. The same markup serves every text-like type, the date and time ones below, and the states, which
-  are the native attributes. An invalid value is described with ARIA, there is no invalid styling yet.
+  are the native attributes. An invalid value is marked with <code>aria-invalid</code> and explained under the field
+  with <code>kit-field__error</code>.
 </p>
 <app-code-example
   lang="html"
@@ -108,11 +109,78 @@
     <label class="kit-field__label" for="state-required">Required</label>
     <input class="kit-field__control" id="state-required" placeholder="Required" required>
   </div>
+</div>
+
+<h3>Invalid</h3>
+<p>
+  An invalid field gets a 2px danger border, and a message under it: an icon and the text, never only a color.
+  Mark it with <code>aria-invalid="true"</code> and point <code>aria-describedby</code> at the message.
+  The browser's own validation shows the same look once the person has interacted with the field
+  (<code>:user-invalid</code>, not <code>:invalid</code>, which would flag an untouched required field).
+  A focused invalid field keeps the danger border and rings it in danger too, the pink ring would be too close to it.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/invalid.example.html">
+</app-code-example>
+
+<div class="specimens">
   <div class="kit-field">
-    <label class="kit-field__label" for="state-invalid">Invalid (aria-invalid)</label>
-    <input class="kit-field__control" id="state-invalid" value="not an email" aria-invalid="true" aria-describedby="state-invalid-hint">
-    <span id="state-invalid-hint" class="note">Hint text under a field</span>
+    <label class="kit-field__label" for="invalid-static">Email</label>
+    <input class="kit-field__control" id="invalid-static" type="email" value="jakub@"
+           aria-invalid="true" aria-describedby="invalid-static-error">
+    <p class="kit-field__error" id="invalid-static-error">
+      <svg lucideCircleAlert></svg>Enter a valid email address.
+    </p>
   </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="invalid-hint">Display name</label>
+    <input class="kit-field__control" id="invalid-hint" value="Jakub" aria-describedby="invalid-hint-text">
+    <p class="kit-field__hint" id="invalid-hint-text">Shown on the invoice.</p>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="invalid-live">Live: type a wrong email, then leave the field</label>
+    <input class="kit-field__control" id="invalid-live" type="email"
+           [value]="email()" (input)="email.set($any($event.target).value)" (blur)="emailTouched.set(true)"
+           [attr.aria-invalid]="emailInvalid() ? 'true' : null"
+           [attr.aria-describedby]="emailInvalid() ? 'invalid-live-error' : 'invalid-live-hint'">
+    @if (emailInvalid()) {
+      <p class="kit-field__error" id="invalid-live-error">
+        <svg lucideCircleAlert></svg>Enter a valid email address.
+      </p>
+    } @else {
+      <p class="kit-field__hint" id="invalid-live-hint">We only use it to send the invoice.</p>
+    }
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="invalid-textarea">Bio</label>
+    <textarea class="kit-field__control" id="invalid-textarea" rows="3" aria-invalid="true"
+              aria-describedby="invalid-textarea-error"></textarea>
+    <p class="kit-field__error" id="invalid-textarea-error">
+      <svg lucideCircleAlert></svg>Tell us a little about yourself.
+    </p>
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="invalid-select">Country</label>
+    <select class="kit-field__control" id="invalid-select" aria-invalid="true" aria-describedby="invalid-select-error">
+      <option value="">Choose one</option>
+      <option>Poland</option>
+      <option>Germany</option>
+    </select>
+    <p class="kit-field__error" id="invalid-select-error">
+      <svg lucideCircleAlert></svg>Pick a country.
+    </p>
+  </div>
+  <fieldset class="kit-fieldset" aria-describedby="invalid-group-error">
+    <legend class="kit-fieldset__legend">Notifications</legend>
+    <div class="kit-check-group">
+      <label class="kit-check"><input class="kit-check__input" type="checkbox" aria-invalid="true"> Email</label>
+      <label class="kit-check"><input class="kit-check__input" type="checkbox" aria-invalid="true"> SMS</label>
+    </div>
+    <p class="kit-field__error" id="invalid-group-error">
+      <svg lucideCircleAlert></svg>Choose at least one way to be notified.
+    </p>
+  </fieldset>
 </div>
 
 <h2>Date and time <em>kit</em></h2>

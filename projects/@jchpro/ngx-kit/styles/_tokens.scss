@@ -1,5 +1,4 @@
 // jchPRO App-surface tokens only — Marketing tokens and skew transforms are out of scope for this library.
-// Values are mirrored from the jchPRO design system (https://claude.ai/artifact/E5g8nwVTun2rBodT6nvynp).
 
 // Shared by the explicit `.kit-light` override and the OS-driven `.kit-system` one, so the
 // light values are written once.
@@ -14,7 +13,9 @@
   --kit-ink-muted: #6b6480;
   --kit-ink-on-accent: #ffffff;
   --kit-ink-on-peach: #241f33;
+  --kit-ink-on-primary: #241f33;
   --kit-border-subtle: #e6e1f0;
+  --kit-border-control: #8d889e;
   --kit-brand-pink: #93298f;
   --kit-brand-violet: #6c2a8c;
   --kit-brand-magenta: #8a2c93;
@@ -26,6 +27,13 @@
   --kit-status-warning: #b9743c;
   --kit-status-danger: #c81e4c;
   --kit-status-info: #6d4fc7;
+  // Status as text: the same hue, moved only where the plain color is under 4.5:1.
+  --kit-status-success-ink: #198055;
+  --kit-status-warning-ink: #9d6333;
+  --kit-status-danger-ink: #c81e4c;
+  --kit-status-info-ink: #6d4fc7;
+  // The destructive button's fill: status-danger darkened 25% toward black, so a white label passes.
+  --kit-status-danger-fill: #961739;
 
   // Shadow — light
   --kit-shadow-sm: 0 1px 2px rgba(33, 28, 48, 0.08);
@@ -46,8 +54,10 @@
     --kit-ink-muted: #a89fc0;
     --kit-ink-on-accent: #ffffff;
     --kit-ink-on-peach: #241f33;
+    --kit-ink-on-primary: #ffffff;
     --kit-border-subtle: #302e42;
-    --kit-brand-pink: #ab41ab;
+    --kit-border-control: #746e88;
+    --kit-brand-pink: #b24cb2;
     --kit-brand-violet: #6c2a8c;
     --kit-brand-magenta: #a034a3;
     --kit-brand-indigo: #390f61;
@@ -58,6 +68,11 @@
     --kit-status-warning: #eab88f;
     --kit-status-danger: #ef4b6b;
     --kit-status-info: #8b6fd9;
+    --kit-status-success-ink: #3ecf8e;
+    --kit-status-warning-ink: #eab88f;
+    --kit-status-danger-ink: #f05473;
+    --kit-status-info-ink: #957cdc;
+    --kit-status-danger-fill: #b33850;
 
     // Shadow — dark
     --kit-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -83,6 +98,8 @@
     // Type — shared across both schemes. Google Fonts "Dosis" (headings) and "Inter" (body) load separately.
     --kit-font-display: "Dosis", sans-serif;
     --kit-font-body: "Inter", sans-serif;
+    // System monospace stack, no font to load. Used by code, kbd, samp, var and pre at 0.9em.
+    --kit-font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
 
     --kit-app-h1-size: 24px;
     --kit-app-h1-line-height: 30px;
@@ -112,10 +129,13 @@
     --kit-app-caption-line-height: 14px;
     --kit-app-caption-weight: 500;
 
-    // Type — prose. Maps the design system's "Prose / Display" styles (prose-h2, prose-h3):
+    // Type — prose (prose-h2, prose-h3):
     // headings for long-form, documentation-style content, where the App scale's h2/h3
     // (18px / 15px against 14px body) are too close to the text to separate sections.
     // Family stays --kit-font-display. Don't use inside panels/cards with their own app-h2/h3 title.
+    // Longest line of running text: about 72 characters, in the `ch` unit (the width of a "0").
+    --kit-prose-measure: 72ch;
+
     --kit-prose-h2-size: 21px;
     --kit-prose-h2-line-height: 28px;
     --kit-prose-h2-weight: 600;
@@ -138,9 +158,8 @@
     --kit-radius-lg: 20px;
     --kit-radius-full: 9999px;
 
-    // Component sizing — not a named token family in the design system, but both the App
-    // Button and App Field are specced at this same height, so it's shared rather than
-    // duplicated per component.
+    // Component sizing — the App Button and App Field share this height, so it's one token
+    // rather than duplicated per component.
     --kit-control-height: 36px;
   }
 

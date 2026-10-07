@@ -69,10 +69,9 @@
       box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
     }
 
-    // Destructive action. The status color is mixed toward the ink color rather than used
-    // as is: `--kit-status-danger` alone is just under AA contrast on the dark raised surface.
+    // Destructive action, in the text-safe danger color.
     &--danger {
-      color: color-mix(in srgb, var(--kit-status-danger) 70%, var(--kit-ink-primary));
+      color: var(--kit-status-danger-ink);
 
       &:hover,
       &:focus-visible {

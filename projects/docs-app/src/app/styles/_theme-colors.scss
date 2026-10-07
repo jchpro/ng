@@ -1,6 +1,6 @@
 // docs-app-only hue overrides layered on top of the jchPRO tokens, demonstrating that
 // everything in @jchpro/ngx-kit is overridable via plain CSS custom properties. Not part
-// of the jchPRO design system itself — "jchPRO" (no class here) is the real default.
+// of the jchPRO look itself — "jchPRO" (no class here) is the real default.
 @mixin root-styles() {
 
   .azure-color {

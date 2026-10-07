@@ -6,10 +6,11 @@
 // tech announces and what the user sees can't drift apart. The wrapping `<label>` is optional
 // (`.kit-check` only lays out the box and its text); a standalone input needs an `aria-label`.
 //
-// Resting state: a `--kit-ink-muted` outline, which keeps the box at 3:1 against the surface in
-// both schemes (the Field's `--kit-border-subtle` is too faint for a control with no other
-// outline). Selected: filled `--kit-brand-violet-muted` with white mark, the same fill pairing
-// as the secondary button.
+// Resting state: a `--kit-border-control` outline, the same edge as a field, at 3:1 against the
+// surface in both schemes. Selected: filled `--kit-brand-violet-muted` with white mark, the same
+// fill pairing as the secondary button, and the outline stays: on the dark raised surface the fill
+// alone is only 2.4:1, so the outline carries the shape. Invalid: the outline turns
+// `--kit-status-danger` (see the Field for the message line).
 // Inline SVG marks, white because they only ever sit on the violet fill (`--kit-ink-on-accent`
 // is white in both schemes).
 $_check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -45,7 +46,7 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
     height: 18px;
     // Centers the 18px box on the first line of text (20px line height).
     margin: 1px 0 0;
-    border: 1.5px solid var(--kit-ink-muted);
+    border: 1.5px solid var(--kit-border-control);
     border-radius: calc(var(--kit-radius-sm) / 2);
     background-color: var(--kit-surface-raised);
     background-repeat: no-repeat;
@@ -55,7 +56,7 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
     cursor: pointer;
     transition: background-color 0.12s, border-color 0.12s;
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not([aria-invalid='true']) {
       border-color: var(--kit-ink-primary);
     }
 
@@ -83,7 +84,6 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
     // nothing selected.
     &[type='checkbox']:checked,
     &[type='checkbox']:indeterminate {
-      border-color: var(--kit-brand-violet-muted);
       background-color: var(--kit-brand-violet-muted);
     }
 
@@ -102,7 +102,6 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
     }
 
     &[type='radio']:checked {
-      border-color: var(--kit-brand-violet-muted);
       background-color: var(--kit-brand-violet-muted);
     }
 
@@ -138,7 +137,6 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
     }
 
     &[role='switch']:checked {
-      border-color: var(--kit-brand-violet-muted);
       background-color: var(--kit-brand-violet-muted);
       // The thumb is the mark: drop the checkbox's tick.
       background-image: none;
@@ -147,6 +145,20 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
     &[role='switch']:checked::before {
       background-color: var(--kit-ink-on-accent);
       transform: translateX(9px);
+    }
+
+    // Invalid: the outline takes the danger color, selected or not. Set with `aria-invalid`, or by
+    // the browser's own validation once the person has interacted (`:user-invalid`, never
+    // `:invalid`, which matches an untouched required field). The message goes under the group.
+    &[aria-invalid='true'],
+    &:user-invalid {
+      border-color: var(--kit-status-danger);
+    }
+
+    &[aria-invalid='true']:focus-visible,
+    &:user-invalid:focus-visible {
+      border-color: var(--kit-status-danger);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-status-danger) 40%, transparent);
     }
 
     // Forced colors (Windows high contrast) drop backgrounds, which would erase every mark

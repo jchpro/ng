@@ -1,0 +1,69 @@
+// Specimens only: the scale rows draw the kit's type tokens directly, the frames show plain
+// elements the way the doc pages render them.
+@mixin scale($name) {
+  font-size: var(--kit-app-#{$name}-size);
+  line-height: var(--kit-app-#{$name}-line-height);
+  font-weight: var(--kit-app-#{$name}-weight);
+}
+
+.sample-h1 { @include scale(h1); }
+.sample-h2 { @include scale(h2); }
+.sample-h3 { @include scale(h3); }
+.sample-body { @include scale(body); }
+.sample-body-sm { @include scale(body-sm); }
+.sample-label { @include scale(label); }
+.sample-caption { @include scale(caption); }
+
+.sample-h1, .sample-h2, .sample-h3 {
+  font-family: var(--kit-font-display);
+}
+
+.scale {
+  td:first-child {
+    white-space: nowrap;
+  }
+}
+
+.frame {
+  margin: var(--kit-space-3) 0 var(--kit-space-4);
+  padding: var(--kit-space-4) var(--kit-space-5);
+  border: 1px solid var(--kit-border-subtle);
+  border-radius: var(--kit-radius-md);
+
+  // The frame's first heading is not preceded by a section
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--kit-space-4);
+  align-items: start;
+}
+
+.status {
+  white-space: nowrap;
+}
+
+.note {
+  color: var(--kit-ink-muted);
+}
+
+// The previews are rendered markup, so Angular's style encapsulation doesn't reach into them.
+.preview {
+  min-width: 10rem;
+
+  ::ng-deep > :first-child {
+    margin-top: 0;
+  }
+
+  ::ng-deep > :last-child {
+    margin-bottom: 0;
+  }
+}

@@ -6,9 +6,8 @@ work when there's time; delete or rewrite anything that stops being true.
 ## Next up
 
 - **Phase 4 — login view.** The only remaining phase of the original `ngx-kit` plan. Paused
-  deliberately after phase 3 so docs-app could be wired up first; design it directly in code
-  (no jchPRO artifact spec exists yet for it either, same as the shell was handled), using the
-  same labels-token i18n pattern as the shell.
+  deliberately after phase 3 so docs-app could be wired up first; design it directly in code,
+  as the shell was, using the same labels-token i18n pattern.
 
 ## ngx-kit
 
@@ -22,16 +21,12 @@ work when there's time; delete or rewrite anything that stops being true.
   there's no actual multi-language app exercising a `computed()` signal consumer yet — docs-app
   only ever passes English. Worth either building a small toggle in docs-app or deciding this
   isn't worth proving out before a real consumer needs it.
-- **Backfill the jchPRO design-system artifact** with the shell/login specs once they're stable,
-  so the artifact stops lagging behind the code (it currently only specs Button/Card/Field).
 
 ## Accessibility
 
-- **Contrast audit.** The `--kit-brand-violet-muted`-as-text bug (fixed 2026-10-04 in docs-app)
-  was a one-off catch, not a systematic check — worth a quick pass over every place a
-  brand/accent token is used as text color (vs. its intended use as a fill) in both themes,
-  before it ships to a real consumer who won't have a design-system author in the room to catch
-  it.
+- **Keep the contrast check honest.** `npm run check:contrast` covers the token pairings the kit
+  relies on, but not a component that starts using a token in a new place (a brand/accent token
+  as text, say). Add the pairing to the script whenever a new color use appears.
 - **Keyboard/focus-trap testing for the sidenav overlay** beyond what's covered by unit tests —
   a manual pass (or Playwright) through open/close/Escape/Tab-wrap on an actual mobile viewport
   wouldn't hurt once login (which will add another focus-trapped surface) exists.

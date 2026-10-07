@@ -100,8 +100,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   chevron instead of the browser's arrow; a `multiple`/`size` list box shows selected options in the violet fill) and
   `<input type="color">` (a small rounded swatch). The control now sets `box-sizing: border-box`
 - Prose type tokens (`--kit-prose-h2-*` 21/28/600, `--kit-prose-h3-*` 18/24/600) for long-form, documentation-style
-  content, where the App scale's h2/h3 are too close to the body text. Mirror the design system's `prose-h2` /
-  `prose-h3` styles (family stays Dosis via `--kit-font-display`)
+  content, where the App scale's h2/h3 are too close to the body text. The `prose-h2` /
+  `prose-h3` heading styles (family stays Dosis via `--kit-font-display`)
+- Contrast fixes, from a review of every token pairing. New tokens `--kit-ink-on-primary`, `--kit-border-control` and
+  `--kit-status-{success,warning,danger,info}-ink` and `--kit-status-danger-fill` (the danger button's fill, replacing its
+  `color-mix` darkening); dark `--kit-brand-pink` is `#b24cb2` (focus ring 3.4:1 on the raised
+  surface, was 3.0). The primary button's label is `--kit-ink-on-primary` (was white, 2.2:1 in light); fields, the file
+  button, and the unchecked outline of checkbox, radio and switch use `--kit-border-control` (was `--kit-border-subtle`
+  at 1.2:1 and `--kit-ink-muted`); a selected checkbox, radio or switch keeps its outline; the destructive menu item uses
+  `--kit-status-danger-ink`. `npm run check:contrast` prints the ratio of every pairing from the tokens
+- Invalid state for form controls — see `docs/primitives.md`. `aria-invalid="true"` (and `:user-invalid`, never `:invalid`)
+  gives a field a 2px danger border that doesn't shift the layout, danger-ringed focus, and a danger outline on checkbox,
+  radio and switch. New `kit-field__error` (icon and message, text in `--kit-status-danger-ink`) and `kit-field__hint`
+  classes for the line under a control
+- Prose styling — see `docs/prose.md`. `kit-prose` on a container styles its plain elements (`h2`/`h3` from the
+  prose tokens, `p`, lists, links with a pink underline, `blockquote`, inline `code`,
+  `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `ins`, `abbr`, `var`, `dl`, `hr`, `pre`, `figure`, `details`, `img`,
+  nested lists, tables); everything sits in
+  `:where()`/`:not([class])` so kit classes and your own always win. `kit-table-frame` is the optional wrapper that
+  gives a table its rounded frame and horizontal scroll. Prose stops at h3. Text blocks stop at `--kit-prose-measure` (72ch), code uses the
+  `--kit-font-mono` system stack at 0.9em, and `details` gets a chevron at the end that flips up when open. Part
+  of `primitives`, or `@jchpro/ngx-kit/styles/prose` on its own
 - Top navigation: `KitShellNavItem`s projected into `kit-shell-header` render as horizontal nav, inline while the
   sidenav is docked and moved to a second row below the header once it collapses to overlay — the same
   breakpoint as the sidenav itself. The nav row renders right after whatever's marked

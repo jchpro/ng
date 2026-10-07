@@ -24,40 +24,10 @@
   box-sizing: border-box;
 }
 
-// Doc page typography: body from the design system's App type scale, headings from the
-// prose scale. Scoped to the shell's content
-// area (the menu and header style themselves) and written with :where/:not([class]) so it
-// stays below any kit class: only plain, unclassed elements get it.
-:where(.kit-shell__content) {
-  font-size: var(--kit-app-body-size);
-  line-height: var(--kit-app-body-line-height);
-  font-weight: var(--kit-app-body-weight);
-
-  h2, h3 {
-    font-family: var(--kit-font-display);
-  }
-
-  h2 {
-    margin: var(--kit-space-6) 0 var(--kit-space-2);
-    font-size: var(--kit-prose-h2-size);
-    line-height: var(--kit-prose-h2-line-height);
-    font-weight: var(--kit-prose-h2-weight);
-  }
-
-  h3 {
-    margin: var(--kit-space-4) 0 var(--kit-space-2);
-    font-size: var(--kit-prose-h3-size);
-    line-height: var(--kit-prose-h3-line-height);
-    font-weight: var(--kit-prose-h3-weight);
-  }
-
-  :is(p, ul, ol):not([class]) {
-    margin: 0 0 var(--kit-space-3);
-  }
-
-  :is(ul, ol):not([class]) {
-    padding-left: var(--kit-space-5);
-  }
+// Doc pages are prose: the kit's long-form styling on the shell's content area (the menu and
+// header style themselves).
+.kit-shell__content {
+  @extend .kit-prose;
 }
 
 body {
@@ -73,56 +43,9 @@ body {
     }
   }
 
-  code {
-    background-color: var(--kit-surface-raised);
-    color: var(--kit-accent-peach-muted);
-    padding: 0.2rem;
-    border-radius: 0.2rem;
-
-    &[copy] {
-      white-space: nowrap;
-      cursor: pointer;
-    }
-  }
-
-  // Doc tables: a rounded frame (the .table-fit wrapper, which also scrolls on narrow screens),
-  // a tinted header row and hairlines between rows.
-  .table-fit {
-    overflow-x: auto;
-    max-width: 100%;
-    margin: var(--kit-space-3) 0 var(--kit-space-4);
-    border: 1px solid var(--kit-border-subtle);
-    border-radius: var(--kit-radius-md);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-
-    th, td {
-      padding: var(--kit-space-2) var(--kit-space-4);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background-color: var(--kit-surface-raised);
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    tr + tr > :is(th, td) {
-      border-top: 1px solid var(--kit-border-subtle);
-    }
-
-    tbody tr:hover {
-      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, transparent);
-    }
-
-    // Rows are tight, so code chips don't need the vertical padding that makes them tall
-    code {
-      padding: 0.1rem 0.3rem;
-    }
+  code[copy] {
+    white-space: nowrap;
+    cursor: pointer;
   }
 
   .gap-sm { gap: 0.5rem; }

@@ -1,0 +1,324 @@
+// jchPRO App prose — long-form, documentation-style content: help pages, release notes, terms,
+// docs. Put `.kit-prose` on the container; its plain elements are styled and nothing else,
+// so components inside it keep their own look.
+//
+// Every element rule is wrapped in :where() and, for the inline and text elements, limited to
+// unclassed elements (`:not([class])`): the container adds no specificity, and any kit class
+// or your own class on an element wins over it. Tables are the exception, they take the
+// styling with or without a class, since a class on a table is common.
+//
+// `.kit-table-frame` is the optional wrapper that gives a table its rounded frame and
+// horizontal scroll on narrow screens; it works inside prose or on its own.
+//
+// Headings use the prose tokens (`--kit-prose-*`), not the App scale: inside a card or a panel
+// that has its own title, don't use prose. Prose stops at h3: h1 is the
+// page title and h4–h6 are left to the browser.
+@mixin classes() {
+
+  .kit-prose {
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+  }
+
+  :where(.kit-prose) {
+
+    h2, h3 {
+      font-family: var(--kit-font-display);
+    }
+
+    h2 {
+      margin: var(--kit-space-6) 0 var(--kit-space-2);
+      font-size: var(--kit-prose-h2-size);
+      line-height: var(--kit-prose-h2-line-height);
+      font-weight: var(--kit-prose-h2-weight);
+    }
+
+    h3 {
+      margin: var(--kit-space-4) 0 var(--kit-space-2);
+      font-size: var(--kit-prose-h3-size);
+      line-height: var(--kit-prose-h3-line-height);
+      font-weight: var(--kit-prose-h3-weight);
+    }
+
+    :is(p, ul, ol):not([class]) {
+      margin: 0 0 var(--kit-space-3);
+    }
+
+    // Running text stops at the measure (about 72 characters) so a wide screen doesn't stretch a
+    // line past comfortable reading. Tables, code blocks, figures and images are left full width.
+    :is(p, ul, ol, dl, blockquote, details):not([class]) {
+      max-width: var(--kit-prose-measure);
+    }
+
+    :is(ul, ol):not([class]) {
+      padding-left: var(--kit-space-5);
+
+      > li + li {
+        margin-top: var(--kit-space-1);
+      }
+
+      // A nested list belongs to its item: no gap below, a small one above
+      > li > :is(ul, ol):not([class]) {
+        margin: var(--kit-space-1) 0 0;
+      }
+    }
+
+    dl:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+
+      dt {
+        font-weight: 600;
+      }
+
+      dt:not(:first-child) {
+        margin-top: var(--kit-space-3);
+      }
+
+      dd {
+        margin: var(--kit-space-1) 0 0 var(--kit-space-4);
+      }
+    }
+
+    hr:not([class]) {
+      margin: var(--kit-space-6) 0;
+      border: none;
+      border-top: 1px solid var(--kit-border-subtle);
+    }
+
+    // Links keep the text color and are told apart by the underline, in the brand pink: brand
+    // colors are fills, not text colors, so they are kept for the line only.
+    a:not([class]) {
+      color: var(--kit-ink-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--kit-brand-pink);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+
+      &:hover {
+        text-decoration-thickness: 2px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid color-mix(in srgb, var(--kit-brand-pink) 60%, transparent);
+        outline-offset: 2px;
+        border-radius: var(--kit-radius-sm);
+      }
+    }
+
+    blockquote:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+      padding-left: var(--kit-space-4);
+      border-left: 3px solid var(--kit-brand-pink);
+      color: var(--kit-ink-muted);
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Text color on the raised surface: `accent-peach-muted` as text fails AA in both schemes.
+    code:not([class]) {
+      padding: 0.2rem;
+      border: 1px solid var(--kit-border-subtle);
+      border-radius: 0.25rem;
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+      font-family: var(--kit-font-mono);
+      font-size: 0.9em;
+    }
+
+    // Inline text. `em`, `sub` and `sup` keep the browser's look (sub/sup only stop widening
+    // the line), `ins` and `abbr` are left alone.
+    strong:not([class]) {
+      font-weight: 600;
+    }
+
+    small:not([class]) {
+      font-size: var(--kit-app-body-sm-size);
+    }
+
+    mark:not([class]) {
+      padding: 0 0.2em;
+      border-radius: 0.2rem;
+      background-color: color-mix(in srgb, var(--kit-accent-peach) 35%, transparent);
+      color: inherit;
+    }
+
+    del:not([class]) {
+      color: var(--kit-ink-muted);
+    }
+
+    :is(sub, sup):not([class]) {
+      line-height: 0;
+    }
+
+    ins:not([class]) {
+      padding: 0 0.2em;
+      border-radius: 0.2rem;
+      background-color: color-mix(in srgb, var(--kit-status-success) 18%, transparent);
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+    }
+
+    abbr[title]:not([class]) {
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+      cursor: help;
+    }
+
+    // A key cap, drawn with a thicker bottom edge.
+    kbd:not([class]) {
+      padding: 0.1rem 0.4rem;
+      border: 1px solid var(--kit-border-subtle);
+      border-bottom-width: 2px;
+      border-radius: 0.25rem;
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+      font-family: var(--kit-font-mono);
+      font-size: 0.9em;
+    }
+
+    // Program output and variables: monospace, without the chip.
+    :is(samp, var):not([class]) {
+      font-family: var(--kit-font-mono);
+      font-size: 0.9em;
+    }
+
+    // Preformatted text and figures. Code examples with their own highlighter have their own look,
+    // a `<pre>` with a class is left alone like every other element.
+    pre:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+      padding: var(--kit-space-3) var(--kit-space-4);
+      overflow-x: auto;
+      border: 1px solid var(--kit-border-subtle);
+      border-radius: var(--kit-radius-md);
+      background-color: var(--kit-surface-raised);
+      color: var(--kit-ink-primary);
+      font-family: var(--kit-font-mono);
+      font-size: 0.9em;
+      line-height: var(--kit-app-body-line-height);
+
+      code:not([class]) {
+        padding: 0;
+        border: none;
+        background: none;
+      }
+    }
+
+    figure:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+
+      > :is(pre, p, blockquote, table):not([class]) {
+        margin-bottom: 0;
+      }
+    }
+
+    figcaption:not([class]) {
+      margin-top: var(--kit-space-2);
+      color: var(--kit-ink-muted);
+      font-size: var(--kit-app-body-sm-size);
+      line-height: var(--kit-app-body-sm-line-height);
+    }
+
+    // A disclosure box: the summary is the always-visible line.
+    details:not([class]) {
+      margin: 0 0 var(--kit-space-3);
+      padding: var(--kit-space-2) var(--kit-space-4);
+      border: 1px solid var(--kit-border-subtle);
+      border-radius: var(--kit-radius-md);
+
+      // The browser's marker is replaced by a chevron at the end that flips up when open. A drawn SVG
+      // like the select's chevron (one mid-tone serves both schemes), kept out of the markup.
+      > summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--kit-space-2);
+        border-radius: var(--kit-radius-sm);
+        cursor: pointer;
+        font-weight: 600;
+        list-style: none;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+
+        &::after {
+          content: '';
+          flex: 0 0 auto;
+          width: 16px;
+          height: 16px;
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%238f88a3' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+          transition: transform 0.15s ease-out;
+
+          @media (prefers-reduced-motion: reduce) {
+            transition: none;
+          }
+        }
+
+        &:focus-visible {
+          outline: 2px solid color-mix(in srgb, var(--kit-brand-pink) 60%, transparent);
+          outline-offset: 2px;
+        }
+      }
+
+      &[open] > summary {
+        margin-bottom: var(--kit-space-2);
+
+        &::after {
+          transform: rotate(180deg);
+        }
+      }
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    img:not([class]) {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--kit-radius-md);
+    }
+  }
+
+  .kit-table-frame {
+    overflow-x: auto;
+    max-width: 100%;
+    margin: var(--kit-space-3) 0 var(--kit-space-4);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+  }
+
+  :where(.kit-prose, .kit-table-frame) table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: var(--kit-space-2) var(--kit-space-4);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: var(--kit-surface-raised);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    tr + tr > :is(th, td) {
+      border-top: 1px solid var(--kit-border-subtle);
+    }
+
+    tbody tr:hover {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, transparent);
+    }
+
+    // Rows are tight, so code chips don't need the vertical padding that makes them tall
+    code:not([class]) {
+      padding: 0.1rem 0.3rem;
+    }
+  }
+
+}

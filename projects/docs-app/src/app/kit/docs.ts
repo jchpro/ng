@@ -1,4 +1,4 @@
-import { LucideAppWindow, LucideEllipsisVertical, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideTextCursorInput } from '@lucide/angular';
+import { LucideAppWindow, LucideEllipsisVertical, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideTextCursorInput, LucideType } from '@lucide/angular';
 import { DocLib } from '../docs/types';
 import { KitStartPage } from './_start-page/kit-start-page';
 import { DialogsPage } from './dialogs/dialogs.page';
@@ -7,6 +7,7 @@ import { LoadingPage } from './loading/loading.page';
 import { MenuPage } from './menu/menu.page';
 import { PageHeaderPage } from './page-header/page-header.page';
 import { ShellPage } from './shell/shell.page';
+import { TypographyPage } from './typography/typography.page';
 
 export const KIT_LIB: DocLib = {
   name: 'Kit',
@@ -62,6 +63,14 @@ export const KIT_LIB: DocLib = {
       icon: LucideTextCursorInput,
       desc: 'Every native form control, as styled so far',
       component: FormControlsPage
+    },
+    {
+      fullName: 'Typography',
+      menuName: 'Typography',
+      path: 'typography',
+      icon: LucideType,
+      desc: 'Interface scale and prose, element by element',
+      component: TypographyPage
     }
   ]
 };
