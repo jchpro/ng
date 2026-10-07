@@ -68,7 +68,7 @@
 <p>
   The kit styles prose with <code>kit-prose</code> on a container: its plain elements get the look, and elements with a
   class are left alone, so components inside it keep theirs. These pages use it on the whole content area. The heading
-  sizes are provisional tokens, see <a href="https://github.com/jchpro/ng/issues/10">#10</a>.
+  sizes come from the design system's <code>prose-h2</code> and <code>prose-h3</code>, and prose stops at h3.
 </p>
 <app-code-example
   lang="html"
@@ -82,7 +82,7 @@
 <h3>What is styled</h3>
 <p>
   Every element a block of written content can contain, rendered as it is styled now.
-  The table lists each element with a preview of its look, the specimens below show them in running text.
+  The table lists each element with a preview of its look. h1 and h4–h6 are left to the browser on purpose: the page title is the page header's and prose stops at h3. The specimens below show the rest in running text.
 </p>
 <div class="kit-table-frame">
   <table>
@@ -95,9 +95,9 @@
     @for (row of coverage; track row.element) {
       <tr>
         <td><code>{{ row.element }}</code></td>
-        <td class="status">{{ row.styled ? 'Styled' : 'Not styled yet' }}</td>
+        <td class="status">{{ row.styled ? 'Styled' : 'Browser default' }}</td>
         <td class="preview" [innerHTML]="row.html"></td>
-        <td [class.note]="!row.styled">{{ row.note }}</td>
+        <td>{{ row.note }}</td>
       </tr>
     }
   </table>

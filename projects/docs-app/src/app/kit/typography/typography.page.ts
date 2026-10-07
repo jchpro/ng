@@ -29,15 +29,15 @@ export class TypographyPage {
    * markup rendered into the table cell.
    */
   protected readonly coverage = [
-    { element: 'h1', styled: true, note: 'Display font, 28/36 bold (provisional token, the design system has no prose h1 yet)', html: '<h1>Heading</h1>' },
+    { element: 'h1', styled: false, note: "The page title is the page header's, the design system's prose stops at h3", html: '<h1>Heading</h1>' },
     { element: 'h2, h3', styled: true, note: 'Prose scale, display font', html: '<h2>Heading</h2><h3>Heading</h3>' },
-    { element: 'h4, h5, h6', styled: true, note: 'Body font: 15/20 semibold, body size medium, small uppercase muted label (provisional)', html: '<h4>Heading</h4><h5>Heading</h5><h6>Heading</h6>' },
+    { element: 'h4, h5, h6', styled: false, note: 'Prose stops at h3: a fourth level means the page should be split', html: '<h4>Heading</h4><h5>Heading</h5><h6>Heading</h6>' },
     { element: 'p', styled: true, note: 'Body text, spacing below', html: '<p>A paragraph of text.</p><p>Another one.</p>' },
     { element: 'ul, ol', styled: true, note: 'Indent, items spaced apart, a nested list sits tight under its item', html: '<ul><li>One<ul><li>Nested</li></ul></li><li>Two</li></ul><ol><li>One</li><li>Two</li></ol>' },
     { element: 'dl', styled: true, note: 'Semibold term, indented description', html: '<dl><dt>Term</dt><dd>Its description.</dd><dt>Another</dt><dd>Its description.</dd></dl>' },
     { element: 'a', styled: true, note: 'Text color, pink underline, thicker on hover, focus ring', html: '<a href="#typography-links">A link</a>' },
     { element: 'blockquote', styled: true, note: 'Pink rule at the start, muted text', html: '<blockquote><p>A quotation.</p></blockquote>' },
-    { element: 'code, samp', styled: true, note: 'Inline chip, samp in the text color for program output', html: '<code>inline code</code> <samp>exit code 0</samp>' },
+    { element: 'code, samp', styled: true, note: 'Inline chip in the text color; samp is monospace without the chip', html: '<code>inline code</code> <samp>exit code 0</samp>' },
     { element: 'strong, em, small', styled: true, note: 'Semibold, the browser italic, the small body size', html: '<strong>strong</strong> <em>emphasis</em> <small>small print</small>' },
     { element: 'mark, ins, del', styled: true, note: 'Peach highlight, faint green with a dotted underline, muted line-through', html: '<mark>marked</mark> <ins>added</ins> <del>removed</del>' },
     { element: 'kbd, var', styled: true, note: 'Key cap, monospace', html: '<kbd>Ctrl</kbd> + <kbd>K</kbd> <var>x</var>' },

@@ -102,12 +102,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prose type tokens (`--kit-prose-h2-*` 21/28/600, `--kit-prose-h3-*` 18/24/600) for long-form, documentation-style
   content, where the App scale's h2/h3 are too close to the body text. Mirror the design system's `prose-h2` /
   `prose-h3` styles (family stays Dosis via `--kit-font-display`)
-- Prose styling — see `docs/prose.md`. `kit-prose` on a container styles its plain elements (`h1`–`h3` from the
-  prose tokens, `h4`–`h6` from the App scale, `p`, lists, links with a pink underline, `blockquote`, inline `code`,
+- Prose styling — see `docs/prose.md`. `kit-prose` on a container styles its plain elements (`h2`/`h3` from the
+  prose tokens, `p`, lists, links with a pink underline, `blockquote`, inline `code`,
   `samp`, `kbd`, `mark`, `strong`, `small`, `del`, `ins`, `abbr`, `var`, `dl`, `hr`, `pre`, `figure`, `details`, `img`,
   nested lists, tables); everything sits in
   `:where()`/`:not([class])` so kit classes and your own always win. `kit-table-frame` is the optional wrapper that
-  gives a table its rounded frame and horizontal scroll. New provisional tokens `--kit-prose-h1-*` (28/36/700). Part
+  gives a table its rounded frame and horizontal scroll. Prose stops at h3, as in the design system. Part
   of `primitives`, or `@jchpro/ngx-kit/styles/prose` on its own
 - Top navigation: `KitShellNavItem`s projected into `kit-shell-header` render as horizontal nav, inline while the
   sidenav is docked and moved to a second row below the header once it collapses to overlay — the same

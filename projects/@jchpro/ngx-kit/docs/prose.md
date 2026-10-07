@@ -34,18 +34,16 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 
 | Element | Look |
 |---|---|
-| `h1` | Display font, `--kit-prose-h1-*` (28/36, bold) |
-| `h2`, `h3` | Display font, `--kit-prose-h2-*` and `--kit-prose-h3-*` |
-| `h4`, `h5`, `h6` | Body font, semibold: a step above the text (15/20), body size, and a small uppercase muted label. Provisional |
+| `h2`, `h3` | Display font, `--kit-prose-h2-*` (21/28) and `--kit-prose-h3-*` (18/24) |
 | `p`, `ul`, `ol` | Body text, spacing below, indented lists |
 | `ul`, `ol` (nested), `dl` | Items spaced a little apart; a nested list sits tight under its item; `dt` semibold, `dd` indented |
 | `a` | Text color with a brand pink underline, thicker on hover, focus ring |
 | `blockquote` | Pink rule at the start, muted text |
-| `code`, `samp` | Inline chip (`samp` in the text color, for program output) |
+| `code` | Inline chip: raised surface, border, text color |
 | `strong`, `small`, `del` | Semibold, the small body size, muted with the line-through |
 | `mark` | A peach highlight behind the text |
 | `kbd` | A key cap with a thicker bottom edge |
-| `var` | Monospace |
+| `samp`, `var` | Monospace, no chip |
 | `ins`, `abbr[title]` | A faint green highlight with a dotted underline; a dotted underline with the help cursor |
 | `sub`, `sup` | The browser's look, without widening the line |
 | `hr` | A hairline in the subtle border color |
@@ -55,8 +53,7 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 | `img` | Fits the width, rounded corners |
 | `table` | Padded cells, tinted header row, hairlines between rows, row hover |
 
-`em` keeps the browser's italic. Elements not listed are the browser's default. The prose headings are provisional
-tokens, see [issue #10](https://github.com/jchpro/ng/issues/10).
+`em` keeps the browser's italic. **Prose stops at h3**, as in the design system: `h1` is the page title (`kit-page-header__title`) and `h4`–`h6` are the browser's default, a fourth level means the page should be split.
 
 ## Rules
 

@@ -11,7 +11,8 @@
 // horizontal scroll on narrow screens; it works inside prose or on its own.
 //
 // Headings use the prose tokens (`--kit-prose-*`), not the App scale: inside a card or a panel
-// that has its own title, don't use prose.
+// that has its own title, don't use prose. Prose stops at h3, as in the design system: h1 is the
+// page title and h4–h6 are left to the browser.
 @mixin classes() {
 
   .kit-prose {
@@ -22,15 +23,8 @@
 
   :where(.kit-prose) {
 
-    h1, h2, h3 {
+    h2, h3 {
       font-family: var(--kit-font-display);
-    }
-
-    h1 {
-      margin: var(--kit-space-6) 0 var(--kit-space-3);
-      font-size: var(--kit-prose-h1-size);
-      line-height: var(--kit-prose-h1-line-height);
-      font-weight: var(--kit-prose-h1-weight);
     }
 
     h2 {
@@ -45,35 +39,6 @@
       font-size: var(--kit-prose-h3-size);
       line-height: var(--kit-prose-h3-line-height);
       font-weight: var(--kit-prose-h3-weight);
-    }
-
-    // h4–h6 keep to the App scale in the body font: a step above the text, then body size, then
-    // a small uppercase label. Not in the design system yet, see issue #10.
-    :is(h4, h5, h6) {
-      font-family: var(--kit-font-body);
-      font-weight: 600;
-    }
-
-    h4 {
-      margin: var(--kit-space-4) 0 var(--kit-space-2);
-      font-size: var(--kit-app-h3-size);
-      line-height: var(--kit-app-h3-line-height);
-    }
-
-    h5 {
-      margin: var(--kit-space-3) 0 var(--kit-space-1);
-      font-weight: 500;
-      font-size: var(--kit-app-body-size);
-      line-height: var(--kit-app-body-line-height);
-    }
-
-    h6 {
-      margin: var(--kit-space-3) 0 var(--kit-space-1);
-      color: var(--kit-ink-muted);
-      font-size: var(--kit-app-label-size);
-      line-height: var(--kit-app-label-line-height);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
     }
 
     :is(p, ul, ol):not([class]) {
@@ -146,11 +111,13 @@
       }
     }
 
+    // Text color on the raised surface: `accent-peach-muted` as text fails AA in both schemes.
     code:not([class]) {
       padding: 0.2rem;
-      border-radius: 0.2rem;
+      border: 1px solid var(--kit-border-subtle);
+      border-radius: 0.25rem;
       background-color: var(--kit-surface-raised);
-      color: var(--kit-accent-peach-muted);
+      color: var(--kit-ink-primary);
     }
 
     // Inline text. `em`, `sub` and `sup` keep the browser's look (sub/sup only stop widening
@@ -204,15 +171,8 @@
       font-size: 0.9em;
     }
 
-    // Program output: the code chip in the text color.
-    samp:not([class]) {
-      padding: 0.2rem;
-      border-radius: 0.2rem;
-      background-color: var(--kit-surface-raised);
-      color: var(--kit-ink-primary);
-    }
-
-    var:not([class]) {
+    // Program output and variables: monospace, without the chip.
+    :is(samp, var):not([class]) {
       font-family: monospace;
       font-size: 0.9em;
     }
@@ -233,8 +193,8 @@
 
       code:not([class]) {
         padding: 0;
+        border: none;
         background: none;
-        color: inherit;
       }
     }
 

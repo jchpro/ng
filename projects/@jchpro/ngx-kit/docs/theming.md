@@ -30,7 +30,7 @@ theme.toggle(); // cycles system -> dark -> light -> system
 
 **Prose headings.** The App type scale (`--kit-app-*`) suits dense UI, but its h2/h3 sit too close to 14px body text
 in long-form content. For documentation, help pages, changelogs and policy text use the prose tokens instead:
-`--kit-prose-h1-*` (28/36, weight 700), `--kit-prose-h2-*` (21/28, weight 600) and `--kit-prose-h3-*` (18/24, weight 600), each with `-size`, `-line-height`
+`--kit-prose-h2-*` (21/28, weight 600) and `--kit-prose-h3-*` (18/24, weight 600), each with `-size`, `-line-height`
 and `-weight`, set in `--kit-font-display`. Body text stays `--kit-app-body-*`. Use them directly under the page
 title; inside a panel or card that has its own `app-h2`/`app-h3` title, keep the App scale. The `kit-prose`
 class applies them to plain elements, see [Prose](prose.md).

@@ -158,7 +158,7 @@ Notes that aren't obvious from the code:
   global styles — nothing else provides the overlay container CSS now that Material is gone.
 - `--kit-prose-*` type tokens (doc-style headings) map the design system's `prose-h2`/`prose-h3`
   styles; use them only directly under the page title, never inside a panel/card that has its own
-  `app-h2`/`app-h3` title. `--kit-prose-h1-*` is provisional, not in the design system yet (issue #10).
+  `app-h2`/`app-h3` title. The design system's Prose scale stops at h3, so there is no prose h1 or h4–h6.
 - `.kit-prose` (`styles/_prose.scss`, in `primitives`) applies the prose tokens to the plain, unclassed
   elements of a container, plus links, blockquote, inline code and tables; `.kit-table-frame` is the optional
   table wrapper (frame + horizontal scroll). docs-app's content area uses it (`@extend`ed onto
