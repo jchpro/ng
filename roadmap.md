@@ -25,17 +25,16 @@ docs-app. Done in this order:
    `tag` tags an up-to-date `main`) and `npm run check:versions` (in `npm test`; also verifies a tag with
    `--tag <lib>-vX.Y.Z`, for the publish guard in step 5). Release-please (needs conventional commits),
    Changesets and Nx/Lerna were judged overkill or a poor fit.
-4. **First manual publish of `@jchpro/ngx-kit` 0.1.0**, then link both packages as trusted publishers
-   on npmjs.com (repo `jchpro/ng`, workflow `publish-common.yaml` / `publish-kit.yaml`).
-5. **Publish workflows → OIDC, real publish** — model: `garden-pda/.github/workflows/publish-core.yml`
-   (tag + `workflow_dispatch`, `id-token: write`, `npm install -g npm@latest` for ≥ 11.5.1, test →
-   build → `npm publish --access public` from `dist/`). Replaces `npm stage publish` and the
-   `NPM_TOKEN` secret (delete it afterwards). No `--provenance` flag needed (public repo, automatic).
-   Keep a guard step: tag version must equal `package.json` version and have a changelog heading.
-   Kit's workflow builds common first (it resolves it from `dist/`). Optional extra gate: a protected
-   GitHub Environment with a required reviewer, replacing the 2FA approval staging gave.
-6. **Docs upkeep** — drop the "stage publish is intentional" note from CLAUDE.md and the matching
-   memory once step 5 lands.
+4. **First manual publish of `@jchpro/ngx-kit` 0.1.0** ✅ and trusted publishers linked on npmjs.com
+   for both packages (repo `jchpro/ng`, workflow `publish-common.yaml` / `publish-kit.yaml`).
+5. **Publish workflows → OIDC, real publish** ✅ — modelled on `garden-pda/.github/workflows/publish-core.yml`
+   (`id-token: write`, `npm install -g npm@latest` for ≥ 11.5.1). Runs on `common-v*` / `kit-v*` tags only
+   (no `workflow_dispatch`, so a branch can't publish; retry by re-running the job). Guard
+   (`check-versions --tag`), tests, build, `npm publish --access public` from `dist/`; kit builds common
+   first. No `NPM_TOKEN`, no `--provenance` (public repo, automatic) — delete the secret once a release
+   went through. Not yet exercised: the first tag-triggered publish is the real test. Optional extra
+   gate if wanted: a protected GitHub Environment with a required reviewer.
+6. **Docs upkeep** ✅ — stage-publish notes removed from CLAUDE.md and memory.
 
 ## ngx-kit
 
