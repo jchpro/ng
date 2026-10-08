@@ -156,7 +156,7 @@ Documented in `docs/labels.md`.
 ## Current state (as of 2026-10-07)
 
 Phases: 0 scaffold ✅, 1 tokens/theme ✅, 2 primitives ✅, 3 layout shell ✅, 4 auth views ✅
-(merged in #17, kit 0.2.0 still unreleased), 5 (applied to docs-app) ✅, Font Awesome → Lucide
+(merged in #17, kit 0.2.0 released), 5 (applied to docs-app) ✅, Font Awesome → Lucide
 migration ✅. **Phase 4 (auth views, local auth only)**: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (`flow="reset" | "invite"`)
 built on `KitAuthCard`, `KitPasswordToggle` and `KitIcon` (the first real use of the `kitIcon` slot pattern
 above, implemented as an attribute-marker directive), documented in `docs/auth.md` and the docs-app Auth
@@ -191,7 +191,8 @@ Notes that aren't obvious from the code:
   `urlSync` (opt-in) mirrors it in the query string via `Router`; it tells its own navigation echoes from outside ones
   (`kit-table-url-sync.ts`). Phase 3 extras: `kitTableSelection` (keys, cleared by search/filter changes), `KitPopover` (CDK
   connected overlay; the filters panel and column picker use it because a menu closes after every item), `kitTableColumns` + `kitCol`
-  (the `hidden` attribute), `kit-density-toggle`, `kitClientTable` / `applyKitTableParams`. A projected `@if` suppresses a slot's fallback content, so `kitTableEmpty` must be unconditional.
+  (the `hidden` attribute), `kit-density-toggle`, `kitClientTable` / `applyKitTableParams`, row expansion (`kitTableExpansion`, `kit-expand-toggle`, and `td[kitDetail]`, which
+  sets its `colSpan` from the shown header cells and re-runs when `columns` changes). A projected `@if` suppresses a slot's fallback content, so `kitTableEmpty` must be unconditional.
   Reading `resource.value()` throws in the error state: use `hasValue()`. `.kit-badge` is primary ink on a tint with a
   status-colored dot, since `status-*-ink` text on its own tint fails 4.5:1 (the contrast script checks tinted pairs with
   `status-x@10>surface-raised` backgrounds).

@@ -96,6 +96,7 @@
   <table class="kit-table">
     <thead>
       <tr>
+        <th class="kit-cell--expand"><span class="kit-table__sr-only">Details</span></th>
         <th class="kit-cell--select">
           <input
             type="checkbox"
@@ -117,7 +118,10 @@
     </thead>
     <tbody>
       @for (user of rows; track user.id) {
-        <tr [class.kit-table__row--selected]="selection.isSelected(user)">
+        <tr [class.kit-table__row--selected]="selection.isSelected(user)" [class.kit-table__row--expanded]="expansion.isExpanded(user)">
+          <td class="kit-cell--expand">
+            <kit-expand-toggle [row]="user.name" [expanded]="expansion.isExpanded(user)" (toggle)="expansion.toggle(user)" />
+          </td>
           <td class="kit-cell--select">
             <input
               type="checkbox"
@@ -165,6 +169,19 @@
             </button>
           </td>
         </tr>
+        @if (expansion.isExpanded(user)) {
+          <tr class="kit-table__detail">
+            <td kitDetail>
+              <dl class="kit-table__facts">
+                <div><dt>Email</dt><dd>{{ user.email }}</dd></div>
+                <div><dt>ID</dt><dd class="kit-cell--mono">{{ user.id }}</dd></div>
+                <div><dt>Role</dt><dd>{{ user.role }}</dd></div>
+                <div><dt>Seats</dt><dd>{{ user.seats | number }}</dd></div>
+                <div><dt>Last seen</dt><dd>{{ user.lastSeen ? (user.lastSeen | date: 'd MMM y, HH:mm') : 'Never' }}</dd></div>
+              </dl>
+            </td>
+          </tr>
+        }
       }
     </tbody>
   </table>
@@ -267,6 +284,13 @@
   <code>kitCol="id"</code>, pass it as <code>[columns]</code> and add <code>&lt;kit-column-picker /&gt;</code>; a <code>locked</code> column
   can't be hidden and <code>storageKey</code> remembers the choice in the browser.
   <code>&lt;kit-density-toggle /&gt;</code> switches the frame's <code>[(density)]</code> between default and compact rows; <code>densityStorageKey</code> on the frame remembers it in the browser.
+</p>
+<h3>Row expansion</h3>
+<p>
+  A detail row is an ordinary <code>&lt;tr&gt;</code> you render under the row while it is open, so it has the row's type and can hold
+  anything. <code>kitTableExpansion(key, &#123; single, state &#125;)</code> holds which rows are open; <code>&lt;kit-expand-toggle&gt;</code>
+  is the button (<code>aria-expanded</code>, a name that includes the row); <code>&lt;td kitDetail&gt;</code> spans every column that is
+  shown, also as columns are hidden. With a <code>state</code> everything collapses when the page, sort, search or filters change.
 </p>
 <h3>Data in memory</h3>
 <p>
@@ -378,6 +402,14 @@
       <td>
         <code>isSelected</code>, <code>toggle</code>, <code>select</code>, <code>deselect</code>, <code>toggleAll</code>,
         <code>allSelected</code>, <code>someSelected</code>, <code>clear</code>; signals <code>count</code> and <code>keys</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>kitTableExpansion()</code>, <code>KitExpandToggle</code>, <code>KitDetailCell</code></td>
+      <td>
+        <code>isExpanded</code>, <code>toggle</code>, <code>collapseAll</code>, <code>single</code>; the chevron button
+        <code>&lt;kit-expand-toggle [row] [expanded] (toggle)&gt;</code>; the detail cell <code>td[kitDetail]</code>. Classes
+        <code>kit-cell--expand</code>, <code>kit-table__row--expanded</code>, <code>kit-table__detail</code>, <code>kit-table__facts</code>
       </td>
     </tr>
     <tr>

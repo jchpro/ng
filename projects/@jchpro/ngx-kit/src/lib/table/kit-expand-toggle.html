@@ -1,0 +1,8 @@
+<button
+  type="button"
+  class="kit-btn kit-btn--ghost kit-btn--icon kit-expand-toggle__button"
+  [attr.aria-label]="label()"
+  [attr.aria-expanded]="expanded()"
+  (click)="toggle.emit()">
+  <svg lucideChevronRight size="18" aria-hidden="true"></svg>
+</button>

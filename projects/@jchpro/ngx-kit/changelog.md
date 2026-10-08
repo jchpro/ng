@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - Unreleased
+
+### Added
+
+- Row expansion: `kitTableExpansion(key, { single, state })` (`KitTableExpansion`) holds which rows are open (by key; `single`
+  keeps one open; with a `state` everything collapses when the page, sort, search, filters or page size change), `<kit-expand-toggle>`
+  is the chevron button (`aria-expanded`, a name that includes the row), `<td kitDetail>` is the detail row's cell and spans the
+  columns that are shown. Classes `kit-cell--expand`, `kit-table__row--expanded`, `kit-table__detail`, `kit-table__facts`; labels
+  `expansion.expand` and `expansion.collapse` (EN and PL)
+
 ## [0.3.0] - 2026-10-07
 
 ### Added

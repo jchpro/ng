@@ -23,10 +23,12 @@
     <button type="button" class="kit-btn kit-btn--danger" (click)="deleteSelected()">Delete</button>
   </ng-container>
 
+  <!-- inside the table below, per row: a toggle cell and, under the row, its detail row -->
   @let rows = view.rows();
   <table class="kit-table">
     <thead>
       <tr>
+        <th class="kit-cell--expand"><span class="kit-table__sr-only">Details</span></th>
         <th class="kit-cell--select">
           <input type="checkbox" class="kit-check__input" aria-label="Select all on this page"
                  [checked]="selection.allSelected(rows)" [indeterminate]="selection.someSelected(rows)"
@@ -39,7 +41,10 @@
     </thead>
     <tbody>
       @for (user of rows; track user.id) {
-        <tr [class.kit-table__row--selected]="selection.isSelected(user)">
+        <tr [class.kit-table__row--selected]="selection.isSelected(user)" [class.kit-table__row--expanded]="expansion.isExpanded(user)">
+          <td class="kit-cell--expand">
+            <kit-expand-toggle [row]="user.name" [expanded]="expansion.isExpanded(user)" (toggle)="expansion.toggle(user)" />
+          </td>
           <td class="kit-cell--select">
             <input type="checkbox" class="kit-check__input" [attr.aria-label]="'Select ' + user.name"
                    [checked]="selection.isSelected(user)" (change)="selection.toggle(user)">
@@ -48,6 +53,9 @@
           <td kitCol="role">{{ user.role }}</td>
           <td kitCol="id" class="kit-cell--mono">{{ user.id }}</td>
         </tr>
+        @if (expansion.isExpanded(user)) {
+          <tr class="kit-table__detail"><td kitDetail>…anything: facts, a nested table, a request of its own…</td></tr>
+        }
       }
     </tbody>
   </table>
