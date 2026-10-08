@@ -50,18 +50,19 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
   `.kit-badge`; empty value as an em dash. `KitPaginator` (`page`/`pageSize` as `model()`, `total`,
   `pageSizes`, `total = null` + `hasNext` for cursor APIs, labels via `KIT_TABLE_LABELS` EN/PL; no
   numbered page buttons). Phases:
-  1. **Design shells** (done, kit 0.3.0 unreleased): `_table.scss`, `.kit-badge`, `KitSort` (a `th[kitSort]`
+  1. **Design shells** (done, kit 0.3.0): `_table.scss`, `.kit-badge`, `KitSort` (a `th[kitSort]`
      component, not a directive: it renders the button), `KitPaginator`, `KitDataTable`, labels, `docs/table.md`, changelog,
      and the docs-app Table page.
-  2. **Wiring** (done, kit 0.3.0 unreleased): `kitTableState()` (signals for query / filters / sort / page / pageSize +
+  2. **Wiring** (done, kit 0.3.0): `kitTableState()` (signals for query / filters / sort / page / pageSize +
      computed `params`), bound by `[state]` to `kitSearch` / `kitFilter` / `kitSort` / `kit-paginator`; `[resource]` and
      `[total]` on the frame; page resets to 1 on query/filter/sort/page-size change; **opt-in** URL query-param sync;
      `resource()` example in docs-app. Possible follow-ups: push (not replace) history for paging, a chips helper that
      renders `activeFilters` with labels, `hasNext` from the frame for cursor APIs.
-  3. **Extras** (done, kit 0.3.0 unreleased): selection + bulk-action bar (`kitTableSelection`), `KitPopover` + filters panel,
+  3. **Extras** (done, kit 0.3.0): selection + bulk-action bar (`kitTableSelection`), `KitPopover` + filters panel,
      column visibility (`kitTableColumns`, `kitCol`, `KitColumnPicker`), density toggle, client-side helper
      (`kitClientTable`, `applyKitTableParams`). Also done: `kit-filter-chips`, `urlSync` `history: 'push'`, `hasNext` on the frame, `densityStorageKey`.
-     Still open: row expansion, a "select all N matching rows" for server-side bulk actions.
+     Row expansion is done too (`kitTableExpansion`, `kit-expand-toggle`, `td[kitDetail]`).
+     Still open: a "select all N matching rows" for server-side bulk actions.
 - **Implement the `kitIcon` content-projection override pattern** (see [CLAUDE.md](CLAUDE.md))
   somewhere real — the shell header's mobile toggle (`LucideMenu`) is the obvious first
   candidate, since it's the only built-in icon in the library today.

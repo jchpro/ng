@@ -14,7 +14,7 @@ page. What you load, and how the state's `params` map to your API, stays yours.
 The styles are part of `primitives` (or `./styles/table`, `./styles/badge`, `./styles/button`, `./styles/field`,
 `./styles/loading` on their own), and the row menu needs the [overlay styles](menu.md). Import `KitDataTable`,
 `KitSort`, `KitPaginator`, `KitSearchInput` and `KitFilter` where you use them (and `KitCol`, `KitFilterPanel`, `KitColumnPicker`,
-`KitDensityToggle`, `KitFilterChips` for the parts under [Selection, filters panel, columns, density](#selection-filters-panel-columns-density)).
+`KitDensityToggle`, `KitFilterChips`, `KitExpandToggle`, `KitDetailCell` for the parts under [Selection, filters panel, columns, density](#selection-filters-panel-columns-density)).
 
 ## Usage
 
@@ -247,6 +247,42 @@ Mark each header and its cells with `kitCol="role"` (a hidden column gets the `h
 `<kit-column-picker />` to `kitTableActions`: a "Columns" popover of checkboxes. `locked` columns can't be hidden, `hidden` ones
 start hidden, `storageKey` remembers the choice in `localStorage` (a column added later keeps its own default; unreadable or
 blocked storage is ignored). `columns.isVisible(id)`, `toggle(id)`, `setVisible(id, visible)` and `reset()` are there for your own controls.
+
+### Row expansion
+
+A row can open a detail row under it. There is no special markup: the detail is an ordinary `<tr>` you render under the row
+while it is open, so it has the row's type and can hold anything, including a request of its own.
+
+```ts
+protected readonly expansion = kitTableExpansion((user: User) => user.id, { state: this.state });
+```
+
+```html
+@for (user of rows; track user.id) {
+  <tr [class.kit-table__row--expanded]="expansion.isExpanded(user)">
+    <td class="kit-cell--expand">
+      <kit-expand-toggle [row]="user.name" [expanded]="expansion.isExpanded(user)" (toggle)="expansion.toggle(user)" />
+    </td>
+    …
+  </tr>
+  @if (expansion.isExpanded(user)) {
+    <tr class="kit-table__detail">
+      <td kitDetail>
+        <dl class="kit-table__facts"><div><dt>Email</dt><dd>{{ user.email }}</dd></div>…</dl>
+      </td>
+    </tr>
+  }
+}
+```
+
+- `kitTableExpansion(key, { single, state })`: `isExpanded`, `toggle(row, expanded?)`, `collapseAll()`, signals `count` and `keys`. Rows are told apart by key, so a
+  refreshed row stays open. `single` keeps one row open at a time; with a `state`, everything collapses when the page, sort, search, a filter or
+  the page size changes (the rows are different ones then). Call it in an injection context when passing a state.
+- `<kit-expand-toggle [row] [expanded] (toggle)>` is the button: a chevron that turns when open, `aria-expanded`, and a name that includes the row
+  (`row` is required, "Show details of Ada Lovelace"). It holds no state. Put it in a `kit-cell--expand` cell, the first column.
+- `<td kitDetail>` spans every column that is shown, and follows the table's `columns` when one is hidden or shown.
+- `kit-table__row--expanded` removes the line between the row and its detail; `kit-table__detail` gives the detail row the header's tint and no hover;
+  `kit-table__facts` lays out a `<dl>` of label-over-value pairs.
 
 ### Density
 

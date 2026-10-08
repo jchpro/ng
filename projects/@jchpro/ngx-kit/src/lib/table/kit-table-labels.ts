@@ -32,6 +32,11 @@ export interface KitTableLabels {
     selected: string;
     clear: string;
   };
+  /** The button that expands a row. `{row}` is the name of the row, e.g. "Ada Lovelace". */
+  expansion: {
+    expand: string;
+    collapse: string;
+  };
   /** The toolbar's popovers and toggles. */
   toolbar: {
     filters: string;
@@ -76,6 +81,10 @@ export const KIT_TABLE_LABELS_EN: KitTableLabels = {
     selected: '{count} selected',
     clear: 'Clear selection'
   },
+  expansion: {
+    expand: 'Show details of {row}',
+    collapse: 'Hide details of {row}'
+  },
   toolbar: {
     filters: 'Filters',
     resetFilters: 'Reset filters',
@@ -110,6 +119,10 @@ export const KIT_TABLE_LABELS_PL: KitTableLabels = {
   bulk: {
     selected: 'Zaznaczono: {count}',
     clear: 'Wyczyść zaznaczenie'
+  },
+  expansion: {
+    expand: 'Pokaż szczegóły: {row}',
+    collapse: 'Ukryj szczegóły: {row}'
   },
   toolbar: {
     filters: 'Filtry',

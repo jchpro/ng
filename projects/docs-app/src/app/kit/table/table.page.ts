@@ -6,6 +6,8 @@ import {
   KitColumnPicker,
   KitDataTable,
   KitDensityToggle,
+  KitDetailCell,
+  KitExpandToggle,
   KitFilter,
   KitFilterChips,
   KitFilterPanel,
@@ -17,6 +19,7 @@ import {
   KitSort,
   KitTableParams,
   kitTableColumns,
+  kitTableExpansion,
   kitTableSelection,
   kitTableState
 } from '@jchpro/ngx-kit';
@@ -105,6 +108,8 @@ function queryUsers(params: KitTableParams<DemoFilters>, noUsers: boolean): User
     KitColumnPicker,
     KitDataTable,
     KitDensityToggle,
+    KitDetailCell,
+    KitExpandToggle,
     KitFilter,
     KitFilterChips,
     KitFilterPanel,
@@ -157,6 +162,9 @@ export class TablePage {
 
   // The selected rows, by id; emptied when the search or a filter changes.
   protected readonly selection = kitTableSelection((user: DemoUser) => user.id, { state: this.state });
+
+  // The rows showing their detail row; collapsed when the page, sort or filters change.
+  protected readonly expansion = kitTableExpansion((user: DemoUser) => user.id, { state: this.state });
 
   protected readonly filterLabels: Record<string, string> = { role: 'Role', status: 'Status', mfa: '2FA' };
 

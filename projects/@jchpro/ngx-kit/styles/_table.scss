@@ -307,6 +307,48 @@
       background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 20%, var(--kit-surface-raised));
     }
 
+    // An expanded row and its detail row read as one: no line between them. The detail row is a
+    // `<tr class="kit-table__detail">` with a `<td kitDetail>`, on the header's tint; it doesn't react to hover.
+    tbody tr.kit-table__row--expanded > :is(th, td) {
+      border-bottom-color: transparent;
+    }
+
+    tbody tr.kit-table__detail > td,
+    tbody tr.kit-table__detail:hover > td {
+      padding: var(--kit-space-4);
+      background-color: color-mix(in srgb, var(--kit-ink-primary) 4%, var(--kit-surface-raised));
+    }
+
+    // Facts in a detail row: label over value, as many columns as fit.
+    .kit-table__facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+      gap: var(--kit-space-3) var(--kit-space-4);
+      margin: 0;
+
+      > * {
+        min-width: 0;
+      }
+
+      dt {
+        color: var(--kit-ink-muted);
+        font-size: var(--kit-app-label-size);
+        line-height: var(--kit-app-label-line-height);
+        font-weight: var(--kit-app-label-weight);
+      }
+
+      dd {
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    // The column of the expand buttons, as narrow as they are.
+    .kit-cell--expand {
+      width: 1px;
+      padding-right: 0;
+    }
+
     // A column hidden through `kitCol` and the table's `columns`.
     [hidden] {
       display: none;
@@ -476,6 +518,21 @@
 
     .kit-sort__button > svg {
       opacity: 1;
+    }
+  }
+
+  // The chevron of `KitExpandToggle` turns down when its row is open.
+  .kit-expand-toggle__button > svg {
+    transition: transform 0.12s;
+  }
+
+  .kit-expand-toggle__button[aria-expanded='true'] > svg {
+    transform: rotate(90deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kit-expand-toggle__button > svg {
+      transition: none;
     }
   }
 

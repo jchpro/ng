@@ -17,6 +17,9 @@ protected deleteSelected() {
   this.selection.clear();
 }
 
+// The rows showing their detail row; collapsed when the page, sort or filters change.
+protected readonly expansion = kitTableExpansion((user: User) => user.id, { state: this.state });
+
 // No server? Filter, sort and page an in-memory list by the same state.
 protected readonly users = signal<readonly User[]>(ALL_USERS);
 protected readonly view = kitClientTable(this.users, this.state, {
