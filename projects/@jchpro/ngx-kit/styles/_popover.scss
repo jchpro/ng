@@ -33,6 +33,7 @@
   }
 
   .kit-popover__panel {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: max-content;

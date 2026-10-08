@@ -130,6 +130,10 @@ Documented in `docs/labels.md`.
   tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
   up-to-date `main` → push the tag. `npm run check:versions`
   (in `npm test`) guards drift, including kit's peer range on common.
+- **`box-sizing` in kit CSS**: a rule that sets a size (`width`, `max-height`…) together with padding or a border sets
+  `box-sizing: border-box` itself. The docs-app has a global reset, so a miss only shows in apps without one (menu items overflowed
+  their panel, #24). `npm run check:box-sizing` (part of `npm test`) compiles the styles and fails on a rule without it; the few
+  deliberate exceptions are listed in the script with their reason.
 - **Readme size**: once a package readme grows large, split feature-specific content into
   `docs/*.md` files (see `ngx-kit/docs/`) and link back — verify the split files are actually
   included in the packaged output and that relative links between them still resolve.

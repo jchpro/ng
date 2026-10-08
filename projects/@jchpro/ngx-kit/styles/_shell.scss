@@ -200,6 +200,7 @@
     }
 
     kit-shell-sidenav {
+      box-sizing: border-box;
       display: block;
       flex: 0 0 auto;
       width: 240px;
@@ -246,6 +247,7 @@
       }
 
       .kit-shell-nav-section__item {
+        box-sizing: border-box;
         display: flex;
         align-items: center;
         gap: var(--kit-space-2);

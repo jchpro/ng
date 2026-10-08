@@ -36,6 +36,7 @@
   }
 
   .kit-dialog {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: var(--kit-dialog-width, 520px);
