@@ -24,8 +24,6 @@ work when there's time; delete or rewrite anything that stops being true.
 The flow itself is done (PR → CI, `<lib>-v*` tag → OIDC publish, merge to `main` → docs-app deploy; how
 to release is in [CLAUDE.md](CLAUDE.md)). What's left:
 
-- **Delete the `NPM_TOKEN` repo secret.** The tag-triggered publish has worked (kit 0.2.0), and no
-  workflow reads it any more.
 - **`release -- ship` is proven** (kit 0.3.0 went out through it: PR, checks, squash-merge, tag, publish with
   provenance). One gap: with no terminal (an agent, a script) it stops before pushing the tag with "not a terminal: pass
   `--yes`"; finish the release with `npm run release -- finish <lib> <X.Y.Z> --yes` after confirming. Worth deciding whether

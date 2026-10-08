@@ -104,5 +104,5 @@ Publisher): GitHub Actions, repository `jchpro/ng`, and the workflow **file name
   renamed file stops working until the trusted publisher is updated on npmjs.com.
 - A new package needs the same setup. A trusted publisher is configured on an existing package,
   so its very first publish likely has to be done by hand.
-- The old `NPM_TOKEN` repo secret is no longer used by any workflow and can be deleted: the
-  tag-triggered publish has worked (kit 0.2.0).
+- There is no `NPM_TOKEN` repo secret any more: publishing is by OIDC alone (the old secret was deleted once the
+  tag-triggered publish had worked, kit 0.2.0).
