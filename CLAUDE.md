@@ -147,6 +147,10 @@ Documented in `docs/labels.md`.
 - **docs-app polish**: its current look is a deliberate placeholder (post-Material, pre-ngx-kit
   styling in spots not yet migrated) — don't proactively "fix" visual rough edges there unless
   asked; it'll be revisited once more of `ngx-kit` exists.
+- **docs-app code highlighting**: the highlight.js themes (`github`, `github-dark`) are SCSS partials in
+  `docs/code-example/hljs/` that wrap the package's CSS in a `theme` mixin, `@use`d by `code-example.scss` (the package files are
+  meant for `@import`, which Sass deprecates). They are generated: after upgrading `highlight.js` run
+  `npm run generate:hljs-themes` and commit; `npm run check:hljs-themes` (in `npm test`) fails when they have drifted.
 - **`main` and force pushes**: `main` is protected, but Jakub can bypass it and force-push. Don't use
   that for code or CI changes — they go through a PR, so the PR check runs and the docs-app
   auto-deploy (every push to `main`) never ships untested code. Pushing straight to `main` is
