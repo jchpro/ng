@@ -4,6 +4,7 @@
 // stylesheet instead, since the shell renders it.
 @mixin _ring($size) {
   content: '';
+  box-sizing: border-box;
   display: block;
   width: $size;
   height: $size;

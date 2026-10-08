@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.0] - Unreleased
 
+### Fixed
+
+- Menu items overflowed their panel (both scrollbars showing) in an app without a global `box-sizing: border-box`: `.kit-menu__item` is
+  `width: 100%` with padding and didn't set `box-sizing`. The same gap is closed on every class that gives an element a size and padding or
+  a border: `.kit-menu`, `.kit-popover__panel`, `.kit-dialog`, the shell's sidenav (240px plus its border) and nav-section items,
+  `.kit-table-frame`, the spinner ring, and truncated table cells. The kit no longer depends on the app's reset (#24)
+
 ### Added
 
 - Row expansion: `kitTableExpansion(key, { single, state })` (`KitTableExpansion`) holds which rows are open (by key; `single`
@@ -14,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   is the chevron button (`aria-expanded`, a name that includes the row), `<td kitDetail>` is the detail row's cell and spans the
   columns that are shown. Classes `kit-cell--expand`, `kit-table__row--expanded`, `kit-table__detail`, `kit-table__facts`; labels
   `expansion.expand` and `expansion.collapse` (EN and PL)
+- `npm run check:box-sizing` (part of `npm test`) compiles the kit's styles and fails on a rule that sets a size together with padding or a
+  border but no `box-sizing`, so a new class can't bring the problem back
 
 ## [0.3.0] - 2026-10-07
 

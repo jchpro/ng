@@ -284,6 +284,7 @@
   }
 
   .kit-table-frame {
+    box-sizing: border-box;
     overflow-x: auto;
     max-width: 100%;
     margin: var(--kit-space-3) 0 var(--kit-space-4);

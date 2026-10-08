@@ -365,6 +365,7 @@
     // One line, cut off with an ellipsis; give the cell a `title` with the full text.
     // Width: `--kit-cell-max-width`, 20rem by default.
     .kit-cell--truncate {
+      box-sizing: border-box;
       max-width: var(--kit-cell-max-width, 20rem);
       overflow: hidden;
       text-overflow: ellipsis;

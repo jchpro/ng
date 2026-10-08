@@ -34,7 +34,10 @@ spinner; an `<input>` can't draw one, so it keeps its label and is dimmed. An `<
 its image and is left alone. As with any native button, a `<button>` or `<input>` without a `type`
 inside a form submits it.
 
-Requires the [tokens](theming.md) to be included first.
+Requires the [tokens](theming.md) to be included first. The classes don't need a global `box-sizing: border-box` reset: every
+rule that gives an element a size together with padding or a border sets `box-sizing` itself.
+
+
 
 ```html
 <button type="button" class="kit-btn kit-btn--primary">Save</button>

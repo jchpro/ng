@@ -11,6 +11,7 @@
   }
 
   .kit-menu {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     min-width: 180px;
@@ -37,6 +38,7 @@
   }
 
   .kit-menu__item {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: var(--kit-space-2);
