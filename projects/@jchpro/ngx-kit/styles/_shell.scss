@@ -113,6 +113,12 @@
       min-width: 0;
       overflow-y: auto;
       padding: var(--kit-space-4);
+
+      // An auth page is as tall as the viewport on its own (`.kit-auth-page`) and brings its own padding, so the
+      // padding of this area would only push it past the viewport and make the area scroll
+      &:has(> .kit-auth-page) {
+        padding: 0;
+      }
     }
 
     kit-shell-header {

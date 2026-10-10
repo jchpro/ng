@@ -7,11 +7,11 @@ protected readonly state = kitTableState({
                                               // ({ history: 'push' }: the back button steps through pages, sorts, filters)
 });
 
-// `params` changes whenever the query, a filter, the sort or the page does: the resource reloads.
-protected readonly users = httpResource<Page<User>>(() => {
-  const { query, filters, sort, page, pageSize } = this.state.params();
-  return {
-    url: '/api/users',
+// The loader runs again whenever the query, a filter, the sort or the page changes. It answers with
+// { items, total }, whatever the API looks like. The rows of the previous page stay while the next one loads.
+private readonly http = inject(HttpClient);
+protected readonly users = kitPagedList(this.state, ({ query, filters, sort, page, pageSize }) =>
+  firstValueFrom(this.http.get<KitPage<User>>('/api/users', {
     params: {
       q: query,
       ...(filters.role && { role: filters.role }),
@@ -19,11 +19,11 @@ protected readonly users = httpResource<Page<User>>(() => {
       page,
       size: pageSize
     }
-  };
-});
+  }))
+);
 
-// Optional: keep the previous page on screen while the next one loads.
-protected readonly page = linkedSignal<Page<User> | undefined, Page<User> | undefined>({
-  source: () => this.users.hasValue() ? this.users.value() : undefined,
-  computation: (value, previous) => value ?? previous?.value
-});
+// After a delete: reload the page, or the one before it when the last row of the last page is gone.
+protected async remove(user: User) {
+  await firstValueFrom(this.http.delete(`/api/users/${user.id}`));
+  this.users.reloadAfterRemoval();
+}

@@ -11,6 +11,7 @@ bring the translations.
 |---|---|---|---|
 | [Auth views](auth.md) | `KIT_AUTH_LABELS` | `provideKitAuthLabels()` | `KIT_AUTH_LABELS_EN`, `KIT_AUTH_LABELS_PL` |
 | [Dialogs](dialogs.md) | `KIT_DIALOG_LABELS` | `provideKitDialogLabels()` | `KIT_DIALOG_LABELS_EN`, `KIT_DIALOG_LABELS_PL` |
+| [Forms](forms.md) | `KIT_FORM_LABELS` | `provideKitFormLabels()` | `KIT_FORM_LABELS_EN`, `KIT_FORM_LABELS_PL` |
 | [Layout shell](layout.md) | `KIT_SHELL_LABELS` | `provideKitShellLabels()` | `KIT_SHELL_LABELS_EN`, `KIT_SHELL_LABELS_PL` |
 | [Data tables](table.md) | `KIT_TABLE_LABELS` | `provideKitTableLabels()` | `KIT_TABLE_LABELS_EN`, `KIT_TABLE_LABELS_PL` |
 
@@ -40,7 +41,13 @@ providers: [
 ]
 ```
 
-`provideKitLabels(...)` applies in order, so put it before any per-feature override. The
+`provideKitLabels(...)` applies in order, so put it before any per-feature override.
+
+It also takes a **signal** of the language, so every feature follows a language that changes at runtime:
+
+```ts
+providers: [provideKitLabels(inject(LanguageService).language)]   // Signal<'en' | 'pl'>
+``` The
 `_EN`/`_PL` constants are complete sets, typed against the feature's labels interface (so
 TypeScript catches a missing field), and are accepted anywhere an override is.
 

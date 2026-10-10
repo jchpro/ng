@@ -1,0 +1,90 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  Two small helpers for forms built with Angular's Signal Forms. The kit doesn't wrap the controls: a native input
+  with <code>kit-field__control</code> is the control, and these cover the two things around it. <code>&#64;angular/forms</code>
+  is an optional peer dependency, only needed for them.
+</p>
+
+<h2>Field error</h2>
+<p>
+  <code>&lt;kit-field-error [field]="form.name" /&gt;</code> is the <code>kit-field__error</code> line under a control: the
+  first error of the field, with the icon, once the field has been touched (the person left it, or tried to submit). The text is
+  chosen by the <code>kind</code> of the error from <code>KIT_FORM_LABELS</code> (English and Polish, <code>provideKitLabels()</code>
+  wires both). <code>[messages]</code> adds the text of a custom kind, or rewords a built-in one; an error of an unknown kind
+  shows its own <code>message</code>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-forms/field-error.example.html">
+</app-code-example>
+<app-code-example
+  lang="ts"
+  source="/code/kit-forms/field-error.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<form #formElement (submit)="onSubmit($event)" novalidate>
+  <div class="kit-field">
+    <label class="kit-field__label" for="forms-name">Name</label>
+    <input class="kit-field__control" id="forms-name" autocomplete="off" [formField]="form.name"
+           [attr.aria-invalid]="form.name().touched() && form.name().invalid() ? 'true' : null" aria-describedby="forms-name-error">
+    <kit-field-error id="forms-name-error" [field]="form.name" />
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="forms-email">Email</label>
+    <input class="kit-field__control" id="forms-email" type="email" autocomplete="off" [formField]="form.email"
+           [attr.aria-invalid]="form.email().touched() && form.email().invalid() ? 'true' : null" aria-describedby="forms-email-error">
+    <kit-field-error id="forms-email-error" [field]="form.email" />
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="forms-nickname">Nickname (not "admin")</label>
+    <input class="kit-field__control" id="forms-nickname" autocomplete="off" [formField]="form.nickname"
+           [attr.aria-invalid]="form.nickname().touched() && form.nickname().invalid() ? 'true' : null" aria-describedby="forms-nickname-error">
+    <kit-field-error id="forms-nickname-error" [field]="form.nickname" [messages]="messages" />
+  </div>
+  <div class="flex row wrap x-center gap-sm">
+    <button type="submit" class="kit-btn kit-btn--primary">Save</button>
+    <button type="button" class="kit-btn kit-btn--ghost" (click)="reset()">Reset</button>
+    @if (saved()) {
+      <span role="status">Saved.</span>
+    }
+  </div>
+</form>
+
+<h2>Resetting a form</h2>
+<p>
+  <code>form().reset()</code> clears what Signal Forms knows, but not what the browser remembers about the fields a person has been
+  in: an emptied <code>required</code> field stays <code>:user-invalid</code> (red) until the native form is reset as well.
+  <code>resetKitForm(form, formElement, value?)</code> does both, native reset first so the form's values are written back.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-forms/reset.example.ts">
+</app-code-example>
+
+<h2>Components and functions</h2>
+<div class="kit-table-frame">
+  <table class="reference">
+    <tr>
+      <th>Name</th>
+      <th>What it does</th>
+    </tr>
+    <tr>
+      <td><code>KitFieldError</code></td>
+      <td><code>&lt;kit-field-error [field] [messages] /&gt;</code>: the first error of a touched field, as a <code>kit-field__error</code> line</td>
+    </tr>
+    <tr>
+      <td><code>KIT_FORM_LABELS</code>, <code>provideKitFormLabels()</code></td>
+      <td>
+        The messages by kind: <code>required</code>, <code>email</code>, <code>min</code>, <code>max</code>, <code>minLength</code>,
+        <code>maxLength</code>, <code>pattern</code>, with <code>&#123;min&#125;</code> and <code>&#123;max&#125;</code>, and a <code>fallback</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>resetKitForm()</code></td>
+      <td>Resets the Signal Forms form and the native <code>&lt;form&gt;</code></td>
+    </tr>
+  </table>
+</div>

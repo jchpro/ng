@@ -66,6 +66,8 @@ rule that gives an element a size together with padding or a border sets `box-si
 </nav>
 ```
 
+The status dot has one modifier per state: `--success`, `--warning`, `--danger`, `--info`, and `--neutral` for "not set" or "off".
+
 Breadcrumbs are deliberately not a component: deriving the trail from your routes is
 app-specific, so build the `<a>`/`<span>` list from whatever your app already has (route data, a
 context service, etc.) — this only standardizes how it looks. Mark the final, non-link segment

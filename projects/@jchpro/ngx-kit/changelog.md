@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - Unreleased
+
+### Added
+
+- `<kit-field-error [field] [messages] />`: the first Signal Forms error of a field as the `kit-field__error` line (icon and text)
+  once the field is touched. Texts by error kind (`required`, `email`, `min`, `max`, `minLength`, `maxLength`, `pattern`, with
+  `{min}` / `{max}`) come from the new `KIT_FORM_LABELS` (`provideKitFormLabels()`, EN and PL, wired into `provideKitLabels()`);
+  `[messages]` adds custom kinds; an unknown kind falls back to the error's own `message`, then to a generic text. See `docs/forms.md`
+- `resetKitForm(form, formElement, value?)`: resets a Signal Forms form and the native `<form>`, so an emptied `required` field
+  doesn't stay `:user-invalid`
+- `kitPagedList(state, loader)` next to `kitTableState`: the rows of a server that pages. The loader gets the table's `params` and answers
+  `{ items, total }` (`KitPage<T>`); gives `{ resource, rows, total, empty, reloadAfterRemoval() }`. `rows` keeps the previous page while
+  the next one loads and survives a failed load; `reloadAfterRemoval()` reloads, or steps back a page when the removed row was the only
+  one of the last page
+- `@jchpro/ngx-kit/testing` entry point: `settle`, `openMenu`, `type`, `pick`, `submit`. It needs no Jasmine and the main entry point
+  doesn't import it. See `docs/testing.md`
+- `provideKitLabels()` also takes a `Signal<'en' | 'pl'>`, so every feature follows a language that changes at runtime
+- `.kit-status-dot--neutral`, for "not set" and "off"
+- `@angular/forms` as an optional peer dependency (`KitFieldError` and `resetKitForm` take a `FieldTree`)
+
+### Fixed
+
+- Inside a shell, the content area no longer pads a `.kit-auth-page` (which is `min-height: 100dvh` itself), so it doesn't scroll
+
 ## [0.4.0] - 2026-10-08
 
 ### Fixed

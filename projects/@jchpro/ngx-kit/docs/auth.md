@@ -23,7 +23,8 @@ Two layers, the components built on the pieces:
 
 The views also need the field, button and check classes: `primitives.classes()` has them all.
 Centering the card in the viewport is `.kit-auth-page`, on a wrapper or on the routed
-component's host.
+component's host. Inside a [shell](layout.md) the content area drops its padding for a direct `.kit-auth-page` child, so
+the page isn't pushed past the viewport.
 
 ## Sign in
 
