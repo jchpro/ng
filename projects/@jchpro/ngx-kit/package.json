@@ -29,7 +29,7 @@
     "@angular/common": "^22.1.7",
     "@angular/core": "^22.1.7",
     "@angular/forms": "^22.1.7",
-    "@jchpro/ngx-common": "^0.8.0",
+    "@jchpro/ngx-common": "^0.9.0",
     "@lucide/angular": "^1.47.0"
   },
   "peerDependenciesMeta": {
