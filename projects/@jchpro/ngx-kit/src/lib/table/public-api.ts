@@ -9,6 +9,7 @@ export * from './kit-expand-toggle';
 export * from './kit-filter-chips';
 export * from './kit-filter-panel';
 export * from './kit-filter.directive';
+export * from './kit-paged-list';
 export * from './kit-paginator';
 export * from './kit-popover';
 export * from './kit-search-input.directive';

@@ -7,6 +7,9 @@
       "@jchpro/ngx-common": [
         "./dist/@jchpro/ngx-common"
       ],
+      "@jchpro/ngx-kit/testing": [
+        "./dist/@jchpro/ngx-kit/testing"
+      ],
       "@jchpro/ngx-kit": [
         "./dist/@jchpro/ngx-kit"
       ]

@@ -12,6 +12,8 @@ Required peer dependencies are:
 - `@jchpro/ngx-common`
 - `@lucide/angular` — the icon set the kit's components use for their built-in icons
 
+Optional: `@angular/forms`, for the [Signal Forms helpers](docs/forms.md) (`KitFieldError`, `resetKitForm`).
+
 ```shell
 npm i @jchpro/ngx-kit
 ```
@@ -27,5 +29,7 @@ npm i @jchpro/ngx-kit
 - [Dialogs](docs/dialogs.md) — one dialog look, `KitDialogService` with Promise-based `alert`/`confirm`
 - [Labels and translations](docs/labels.md) — every built-in string is overridable: defaults, app-wide, per call; `provideKitLabels('pl')`
 - [Data tables](docs/table.md) — `KitDataTable` frame, `KitSort` headers, `KitPaginator`, column conventions, `kit-badge`
+- [Forms](docs/forms.md) — `<kit-field-error>` for a Signal Forms field, `resetKitForm()`
+- [Testing helpers](docs/testing.md) — `@jchpro/ngx-kit/testing`: `settle`, `openMenu`, `type`, `pick`, `submit`
 - [Menus](docs/menu.md) — contextual menus on CDK overlays: `kitMenuTriggerFor`, `kitMenu`, `kitMenuItem`
 - [Loading state](docs/loading.md) — `kitBusy` for buttons and panels, the shell's global loading bar

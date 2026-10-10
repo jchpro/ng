@@ -54,6 +54,11 @@
       <td><code>progress</code></td>
     </tr>
     <tr>
+      <td>Status dot</td>
+      <td><code>kit-status-dot</code> with <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--info</code> or <code>--neutral</code></td>
+      <td><code>status-dot</code></td>
+    </tr>
+    <tr>
       <td><code>button</code>, a link, <code>input</code> button, submit and reset</td>
       <td><code>kit-btn</code> with <code>--primary</code>, <code>--secondary</code>, <code>--ghost</code> or <code>--danger</code>, and <code>--icon</code>, <code>--lg</code></td>
       <td><code>button</code></td>
@@ -71,7 +76,8 @@
   A <code>kit-field</code> wraps a label and its control, the label's <code>for</code> matching the control's
   <code>id</code>. The same markup serves every text-like type, the date and time ones below, and the states, which
   are the native attributes. An invalid value is marked with <code>aria-invalid</code> and explained under the field
-  with <code>kit-field__error</code>.
+  with <code>kit-field__error</code>. With Signal Forms, <code>&lt;kit-field-error&gt;</code> renders that line from the
+  field's first error (see Forms).
 </p>
 <app-code-example
   lang="html"
@@ -458,6 +464,20 @@
     <label for="meter-high">Meter, high is bad</label>
     <meter class="kit-meter" id="meter-high" min="0" max="100" low="30" high="80" optimum="10" value="92">92</meter>
   </div>
+</div>
+
+<h2>Status dot <em>kit</em></h2>
+<p>
+  A small state indicator, for the meta row of a card or next to a label. It has no color of its own, so pair
+  <code>kit-status-dot</code> with exactly one modifier. <code>--neutral</code> is for "not set" or "off". A dot is only a
+  color, so the state is always also written as text next to it.
+</p>
+<div class="row">
+  <span class="row"><span class="kit-status-dot kit-status-dot--success"></span> Published</span>
+  <span class="row"><span class="kit-status-dot kit-status-dot--warning"></span> Pending</span>
+  <span class="row"><span class="kit-status-dot kit-status-dot--danger"></span> Failed</span>
+  <span class="row"><span class="kit-status-dot kit-status-dot--info"></span> Draft</span>
+  <span class="row"><span class="kit-status-dot kit-status-dot--neutral"></span> Not set</span>
 </div>
 
 <h2>Output</h2>

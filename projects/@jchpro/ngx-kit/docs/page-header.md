@@ -33,7 +33,8 @@ and the menus are all app-specific, this only lays them out. Include it with `pr
 ```
 
 Every part is optional — without a subtitle or breadcrumb the rows just collapse. Actions sit
-in DOM order, so write the primary one **last**: it ends up at the far right.
+in DOM order, so write the primary one **last**: it ends up at the far right. The breadcrumb stays plain markup: the kit
+only styles it (see [Primitives](primitives.md)), the trail comes from your routes.
 
 ## Which actions go where
 

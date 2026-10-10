@@ -108,15 +108,21 @@ plus a `provideKitXLabels(labels | Signal<labels>)` override function. The overr
 *partial* merged over the English defaults (so overriding one string doesn't need the rest),
 and a complete set such as the PL one is just a full partial. Each feature also ships a
 `KIT_X_LABELS_EN`/`KIT_X_LABELS_PL` constant (typed against the same interface, so TS catches
-field drift), plus one root-level `provideKitLabels('en' | 'pl')` convenience wiring every
-feature at once — add each new feature to it. Per-call/per-instance options layer on top of the
+field drift), plus one root-level `provideKitLabels('en' | 'pl' | Signal<'en' | 'pl'>)` convenience wiring every
+feature at once (a signal follows a language that changes at runtime) — add each new feature to it. Per-call/per-instance options layer on top of the
 injected default (closest wins: defaults < app-wide < call). V1 is flat strings only — no
 rich-content projection slots inside labels (add per component later if a real need comes up).
-Implemented for dialogs (`KIT_DIALOG_LABELS`), the shell (`KIT_SHELL_LABELS`, the sidenav
+Implemented for dialogs (`KIT_DIALOG_LABELS`), the forms parts (`KIT_FORM_LABELS`, the messages of `KitFieldError`), the shell (`KIT_SHELL_LABELS`, the sidenav
 toggle's aria-label) and the auth views (one `KIT_AUTH_LABELS` with nested groups; two messages use
 named `{min}`/`{identifier}` placeholders, so "flat strings" now means plain strings); the merge/provider logic is shared in `src/lib/labels/kit-labels.ts`
 (`provideKitLabelsFor`), so a new feature's labels are a token + defaults + one-line provider.
 Documented in `docs/labels.md`.
+
+## Secondary entry points and optional peers
+
+`@jchpro/ngx-kit/testing` (`projects/@jchpro/ngx-kit/testing/`, specs run via the `include` in `angular.json`) holds the test helpers
+(`settle`, `openMenu`, `type`, `pick`, `submit`): no Jasmine types or APIs in it, and the main entry never imports it. The `@angular/forms`
+peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`FieldTree`), so keep them `import type`.
 
 ## Project conventions specific to this repo
 

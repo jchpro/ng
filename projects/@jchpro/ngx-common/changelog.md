@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-10-10
+
+### Added
+
+- `intlFileSize` pipe: a size in bytes as people read it (`1.5 MB`, `1,5 MB` in Polish), 1024 to a step, fixed units, the locale as an
+  argument like the other `intl*` pipes
+- `ClipboardService.copy(text): Promise<boolean>` over the `WINDOW` token; answers `false` instead of throwing when the page has no
+  clipboard permission or an insecure origin
+
 ## [0.8.0] - 2026-09-21
 
 ### Added

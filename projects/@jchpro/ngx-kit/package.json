@@ -1,6 +1,6 @@
 {
   "name": "@jchpro/ngx-kit",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Admin-app UI kit with the App surface of the jchPRO look, built on Angular CDK",
   "private": false,
   "keywords": [
@@ -28,8 +28,14 @@
     "@angular/cdk": "^22.1.7",
     "@angular/common": "^22.1.7",
     "@angular/core": "^22.1.7",
-    "@jchpro/ngx-common": "^0.8.0",
+    "@angular/forms": "^22.1.7",
+    "@jchpro/ngx-common": "^0.9.0",
     "@lucide/angular": "^1.47.0"
+  },
+  "peerDependenciesMeta": {
+    "@angular/forms": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "exports": {

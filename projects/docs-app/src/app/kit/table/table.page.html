@@ -23,7 +23,7 @@
   <button type="button" class="kit-btn kit-btn--ghost" (click)="toggleFailing()">
     Server error: {{ failing() ? 'on' : 'off' }}
   </button>
-  <button type="button" class="kit-btn kit-btn--ghost" (click)="noUsers.set(!noUsers())">
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="toggleNoUsers()">
     No data: {{ noUsers() ? 'on' : 'off' }}
   </button>
   <span>Last action: {{ lastAction() }}</span>
@@ -32,12 +32,12 @@
 <kit-data-table
   label="Users"
   [state]="state"
-  [resource]="users"
+  [resource]="users.resource"
   [columns]="columns"
   [selection]="selection"
   densityStorageKey="docs-app.kit-table.density"
-  [total]="page()?.total"
-  [empty]="!page()?.items?.length">
+  [total]="users.total()"
+  [empty]="users.empty()">
 
   <div kitTableSearch class="kit-data-table__search">
     <svg lucideSearch></svg>
@@ -92,7 +92,7 @@
 
   <kit-filter-chips kitTableChips [labels]="filterLabels" />
 
-  @let rows = page()?.items ?? [];
+  @let rows = users.rows();
   <table class="kit-table">
     <thead>
       <tr>
@@ -221,6 +221,14 @@
   lang="ts"
   source="/code/kit-table/state.example.ts">
 </app-code-example>
+<p>
+  <code>kitPagedList(state, loader)</code> does the loading for a server that pages: the loader is called with
+  <code>params</code> whenever the state changes and answers <code>&#123; items, total &#125;</code>, which fits any API. It gives back
+  the <code>resource</code> for the frame and the <code>rows</code>, <code>total</code> and <code>empty</code> signals;
+  <code>rows</code> keeps the previous page while the next one loads, and after a load fails (the error state covers it).
+  After a delete, <code>reloadAfterRemoval()</code> loads the page again, or the one before it when the removed row was
+  the only one of the last page.
+</p>
 <p>
   Handed to <code>kit-data-table [state]</code>, the parts inside bind to it: <code>input[kitSearch]</code> (typing is
   debounced into <code>state.query</code>, Enter applies it at once), <code>[kitFilter="name"]</code> on a native
@@ -425,8 +433,8 @@
       <td>The "Filters" and "Columns" buttons with their popovers, the density icon button, and the popover they share</td>
     </tr>
     <tr>
-      <td><code>kitClientTable()</code>, <code>applyKitTableParams()</code></td>
-      <td>Filter, sort and page an in-memory list by a state, as signals or as a plain function</td>
+      <td><code>kitPagedList()</code>, <code>kitClientTable()</code>, <code>applyKitTableParams()</code></td>
+      <td>The rows of a server that pages, loaded by a state (<code>kitPagedList</code>); filter, sort and page an in-memory list by a state, as signals or as a plain function</td>
     </tr>
     <tr>
       <td><code>KitSort</code></td>

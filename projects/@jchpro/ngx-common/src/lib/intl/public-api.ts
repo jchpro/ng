@@ -7,3 +7,4 @@ export * from './intl-datetime.pipe';
 export * from './intl-number.pipe';
 export * from './intl-time.pipe';
 export * from './split-locale';
+export * from './intl-file-size.pipe';

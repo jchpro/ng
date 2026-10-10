@@ -1,5 +1,5 @@
 import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
-import { Component, linkedSignal, resource, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   applyKitTableParams,
   KitCol,
@@ -14,6 +14,7 @@ import {
   KitMenu,
   KitMenuItem,
   KitMenuTrigger,
+  kitPagedList,
   KitPaginator,
   KitSearchInput,
   KitSort,
@@ -174,23 +175,14 @@ export class TablePage {
 
   protected readonly lastAction = signal('none yet');
 
-  // The demo's own "backend": a resource that answers after a short delay. In a real view this is
-  // an `httpResource` whose request is built from `state.params()`.
-  protected readonly users = resource({
-    params: () => ({ ...this.state.params(), noUsers: this.noUsers() }),
-    loader: async ({ params }) => {
-      await new Promise(resolve => setTimeout(resolve, 450));
-      if (this.failing()) {
-        throw new Error('The demo server is down');
-      }
-      return queryUsers(params, params.noUsers);
+  // The demo's own "backend": it answers after a short delay. In a real view the loader calls your API with
+  // what `state.params()` says. The rows of the previous page stay on screen while the next one loads.
+  protected readonly users = kitPagedList(this.state, async params => {
+    await new Promise(resolve => setTimeout(resolve, 450));
+    if (this.failing()) {
+      throw new Error('The demo server is down');
     }
-  });
-
-  // The previous page stays on screen while the next one loads, instead of an empty table.
-  protected readonly page = linkedSignal<UserPage | undefined, UserPage | undefined>({
-    source: () => this.users.hasValue() ? this.users.value() : undefined,
-    computation: (value, previous) => value ?? previous?.value
+    return queryUsers(params, this.noUsers());
   });
 
   protected bulk(action: string) {
@@ -198,9 +190,14 @@ export class TablePage {
     this.selection.clear();
   }
 
+  protected toggleNoUsers() {
+    this.noUsers.update(noUsers => !noUsers);
+    this.users.resource.reload();
+  }
+
   protected toggleFailing() {
     this.failing.update(failing => !failing);
-    this.users.reload();
+    this.users.resource.reload();
   }
 
 }

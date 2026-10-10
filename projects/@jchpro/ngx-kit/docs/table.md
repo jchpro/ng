@@ -76,15 +76,38 @@ instead of rebuilding them. A page of 25 to 100 rows costs nothing either way, a
 render more. Why not Material-style column templates: the context of an `<ng-template>` is untyped unless a guard directive
 is told the row type, with `@for` it just is.
 
-Reading `resource.value()` while the resource is in its error state throws; use `hasValue()` first. To keep the previous
-page on screen while the next one loads (a resource's value is `undefined` meanwhile), put it in a `linkedSignal`:
+Reading `resource.value()` while the resource is in its error state throws; use `hasValue()` first. And while the next page
+loads a resource's value is `undefined`, so a table built on it blinks empty. `kitPagedList()` below takes care of both.
+
+### `kitPagedList()`: the rows of a server that pages
 
 ```ts
-protected readonly page = linkedSignal<Page<User> | undefined, Page<User> | undefined>({
-  source: () => this.users.hasValue() ? this.users.value() : undefined,
-  computation: (value, previous) => value ?? previous?.value
+protected readonly state = kitTableState();
+protected readonly users = kitPagedList(this.state, async ({ query, sort, page, pageSize }, abortSignal) => {
+  const response = await fetch(`/api/users?q=${query}&page=${page}&size=${pageSize}`, { signal: abortSignal });
+  return { items: await response.json(), total: Number(response.headers.get('X-Total-Count')) };
 });
 ```
+
+```html
+<kit-data-table [state]="state" [resource]="users.resource" [total]="users.total()" [empty]="users.empty()">
+  … @for (user of users.rows(); track user.id) { … }
+```
+
+The loader gets the state's `params` (and the `AbortSignal` of a load that was superseded) whenever they change, and answers
+`{ items, total }` (`KitPage<T>`), which fits an API whatever way it reports the total. The frame stays layout-only: this is
+the loading around it, as a `resource()` with:
+
+| | |
+|---|---|
+| `resource` | the `ResourceRef` for `<kit-data-table [resource]>`: loading, error, "Try again" |
+| `rows` | the rows of the current page. They stay while the next page loads, and after a load fails (reading the value of a failed resource throws; this doesn't) |
+| `total` | rows across all pages, from the last page that loaded; `null` until one has |
+| `empty` | the last load succeeded and found no rows |
+| `reloadAfterRemoval()` | after a delete: loads the page again, or the one before it when the removed row was the only one of the last page (which no longer exists) |
+
+`rows` remembers the page it computed last, so read it in the template from the start, as above: a page nobody read has
+nothing to be kept. To do the same by hand, put the resource's value in a `linkedSignal`.
 
 ## State
 

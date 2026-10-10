@@ -1,9 +1,10 @@
-import { LucideAppWindow, LucideEllipsisVertical, LucideKeyRound, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideTable, LucideTextCursorInput, LucideType } from '@lucide/angular';
+import { LucideAppWindow, LucideEllipsisVertical, LucideKeyRound, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideSquarePen, LucideTable, LucideTextCursorInput, LucideType } from '@lucide/angular';
 import { DocLib } from '../docs/types';
 import { KitStartPage } from './_start-page/kit-start-page';
 import { AuthPage } from './auth/auth.page';
 import { DialogsPage } from './dialogs/dialogs.page';
 import { FormControlsPage } from './form-controls/form-controls.page';
+import { FormsPage } from './forms/forms.page';
 import { LoadingPage } from './loading/loading.page';
 import { MenuPage } from './menu/menu.page';
 import { PageHeaderPage } from './page-header/page-header.page';
@@ -73,6 +74,14 @@ export const KIT_LIB: DocLib = {
       icon: LucideKeyRound,
       desc: 'Sign in, forgot and set password, and the pieces to build your own',
       component: AuthPage
+    },
+    {
+      fullName: 'Forms',
+      menuName: 'Forms',
+      path: 'forms',
+      icon: LucideSquarePen,
+      desc: 'The error line of a Signal Forms field, resetting a form',
+      component: FormsPage
     },
     {
       fullName: 'Form controls',

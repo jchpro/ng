@@ -1,0 +1,9 @@
+<!-- import FormField from '@angular/forms/signals' and KitFieldError into the component -->
+<div class="kit-field">
+  <label class="kit-field__label" for="name">Name</label>
+  <input class="kit-field__control" id="name" [formField]="form.name" aria-describedby="name-error">
+  <kit-field-error id="name-error" [field]="form.name" />
+</div>
+
+<!-- the text of a custom kind -->
+<kit-field-error [field]="form.nickname" [messages]="{ reserved: 'This nickname is reserved.' }" />

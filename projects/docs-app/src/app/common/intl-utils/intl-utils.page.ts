@@ -7,6 +7,7 @@ import {
   IntlCurrencyPipe,
   IntlDatePipe,
   IntlDatetimePipe,
+  IntlFileSizePipe,
   IntlNumberPipe,
   IntlService,
   IntlTimePipe, NumberFormat,
@@ -27,7 +28,8 @@ import { LibPageTitle } from '../../docs/page-title/lib-page-title';
     IntlDatetimePipe,
     CodeCopyDirective,
     IntlNumberPipe,
-    IntlCurrencyPipe
+    IntlCurrencyPipe,
+    IntlFileSizePipe
   ],
   templateUrl: './intl-utils.page.html',
   changeDetection: ChangeDetectionStrategy.Eager,
