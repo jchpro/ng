@@ -64,7 +64,8 @@
 <p>
   Titles and button labels have three layers, the closest one wins:
   English defaults, then app-wide labels (<code>provideKitDialogLabels</code> or <code>provideKitLabels</code>),
-  then the call's own options. <code>provideKitLabels('pl')</code> switches every feature of the kit to Polish at once.
+  then the call's own options. <code>provideKitLabels('pl')</code> switches every feature of the kit to Polish at once,
+  and takes a signal of the language to follow one that changes at runtime.
   The kit has no i18n dependency, pass a signal to follow your own library.
 </p>
 <app-code-example

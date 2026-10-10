@@ -1,7 +1,8 @@
-import { LucideBroom, LucideGitBranch, LucideGlobe, LucideHardDrive, LucideHeading, LucideRoute, LucideWorkflow } from '@lucide/angular';
+import { LucideBroom, LucideClipboardCopy, LucideGitBranch, LucideGlobe, LucideHardDrive, LucideHeading, LucideRoute, LucideWorkflow } from '@lucide/angular';
 import { DocLib } from '../docs/types';
 import { CommonStartPage } from './_start-page/common-start-page';
 import { BaseIfPage } from './base-if/base-if.page';
+import { ClipboardPage } from './clipboard/clipboard.page';
 import { ContentPage } from './content/content.page';
 import { IntlUtilsPage } from './intl-utils/intl-utils.page';
 import { ReactivePage } from './reactive-directive/reactive.page';
@@ -63,6 +64,14 @@ export const COMMON_LIB: DocLib = {
       icon: LucideHeading,
       desc: 'Set the document title, optionally driven by route data.',
       component: TitleServicePage
+    },
+    {
+      fullName: 'Clipboard service',
+      menuName: 'Clipboard',
+      path: 'clipboard',
+      icon: LucideClipboardCopy,
+      desc: 'Copy text to the clipboard without throwing.',
+      component: ClipboardPage
     },
     {
       fullName: 'Custom structural directives',

@@ -1,0 +1,22 @@
+<header lib-page-title></header>
+
+<h2>Overview</h2>
+<p>
+  <code copy>ClipboardService.copy(text)</code> puts text on the clipboard and answers with a <code>Promise&lt;boolean&gt;</code>.
+  It reads the browser from the <code>WINDOW</code> token and never throws: a page without the clipboard permission, or on an
+  insecure origin, gets <code>false</code>, so the caller can show the text for the person to copy by hand.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/clipboard/clipboard.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap x-center gap-sm">
+  <code>{{ text }}</code>
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="copy()">Copy</button>
+  @switch (result()) {
+    @case ('copied') { <span role="status">Copied.</span> }
+    @case ('refused') { <span role="status">The browser refused, copy it by hand.</span> }
+  }
+</div>
