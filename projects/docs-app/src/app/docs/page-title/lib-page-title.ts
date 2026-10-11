@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocsContextService } from '../docs-context.service';
+import { LibVersion } from '../lib-version/lib-version';
 
 @Component({
   selector: 'header[lib-page-title]',
-  imports: [RouterLink],
+  imports: [RouterLink, LibVersion],
   templateUrl: './lib-page-title.html',
   host: {
     'class': 'kit-page-header'

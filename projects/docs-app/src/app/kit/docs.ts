@@ -1,5 +1,6 @@
 import { LucideAppWindow, LucideEllipsisVertical, LucideKeyRound, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideSquarePen, LucideTable, LucideTextCursorInput, LucideType } from '@lucide/angular';
 import { DocLib } from '../docs/types';
+import pkg from '../../../../@jchpro/ngx-kit/package.json';
 import { KitStartPage } from './_start-page/kit-start-page';
 import { AuthPage } from './auth/auth.page';
 import { DialogsPage } from './dialogs/dialogs.page';
@@ -16,6 +17,7 @@ export const KIT_LIB: DocLib = {
   name: 'Kit',
   path: 'kit',
   libName: '@jchpro/ngx-kit',
+  version: pkg.version,
   desc: 'Admin-app UI kit built on CDK',
   component: KitStartPage,
   pages: [

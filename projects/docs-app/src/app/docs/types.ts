@@ -5,6 +5,8 @@ export interface DocLib {
   name: string;
   path: string;
   libName: string;
+  /** `version` from the library's own package.json, baked in at build time. */
+  version?: string;
   desc: string;
   component: Type<any>;
   pages: DocPage[];

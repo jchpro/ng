@@ -22,4 +22,7 @@
 <h1 class="kit-page-header__title">{{ context().page?.fullName ?? context().lib?.name }}</h1>
 <div class="kit-page-header__actions">
   <code>{{ context().lib?.libName ?? '?' }}</code>
+  @if (context().lib; as lib) {
+    <app-lib-version [lib]="lib"></app-lib-version>
+  }
 </div>

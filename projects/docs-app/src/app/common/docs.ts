@@ -1,5 +1,6 @@
 import { LucideBroom, LucideClipboardCopy, LucideGitBranch, LucideGlobe, LucideHardDrive, LucideHeading, LucideRoute, LucideWorkflow } from '@lucide/angular';
 import { DocLib } from '../docs/types';
+import pkg from '../../../../@jchpro/ngx-common/package.json';
 import { CommonStartPage } from './_start-page/common-start-page';
 import { BaseIfPage } from './base-if/base-if.page';
 import { ClipboardPage } from './clipboard/clipboard.page';
@@ -14,6 +15,7 @@ export const COMMON_LIB: DocLib = {
   name: 'Common',
   path: 'common',
   libName: '@jchpro/ngx-common',
+  version: pkg.version,
   desc: 'Common Angular apps mechanisms',
   component: CommonStartPage,
   pages: [
