@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-prose`: inline `code` and `<pre>` blocks sit on the new `--kit-surface-sunken` instead of the raised surface, so they are set
   into a card or dialog instead of looking like another card
+- `KitFormLabels` has a new required `colorField` group (`notSet`, `clear`). A complete set built by hand needs it; a partial
+  override, `KIT_FORM_LABELS_EN` / `_PL` and `provideKitLabels()` are not affected
 
 ### Added
 
