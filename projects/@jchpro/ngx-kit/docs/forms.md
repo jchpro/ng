@@ -69,6 +69,25 @@ protected clear() {
 `resetKitForm(form, formElement, value?)` takes the `<form>` or its `ElementRef`, resets the native form first
 (which empties every control), then the Signal Forms one — so the values of the model, or `value`, are written back.
 
+## A group of checkboxes bound to an array: `kitCheckGroup`
+
+Signal Forms binds one checkbox to a boolean. A group of options bound to a `string[]` (roles, tags) took a
+`[checked]="roles().includes(role)" (change)="toggle(role)"` pair on every option. `kitCheckGroup` is that pair:
+
+```html
+@for (role of roles; track role.id) {
+  <label class="kit-check">
+    <input class="kit-check__input" type="checkbox" [kitCheckGroup]="form.roles().value" [kitCheckValue]="role.id">
+    <span>{{ role.name }} <span class="kit-check__note">{{ role.note }}</span></span>
+  </label>
+}
+```
+
+`[kitCheckGroup]` takes any writable signal of an array: a `signal<string[]>()`, or the `value` of a Signal Forms
+field. The input is checked while `[kitCheckValue]` is in the array; changing it adds the value (at the end) or removes it.
+The array is replaced, not changed in place, and values are compared with `===`. `kit-check__note` is the muted
+explanation after the option's text; keep both in one `<span>`, or the label's flex layout makes the note a column of its own.
+
 ## A native `<select>` with options from `@for`
 
 A `<select [formField]>` whose options come from `@for` or `[value]` shows its **first** option for a moment: the

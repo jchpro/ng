@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
   Styles only, no component. See `docs/tabs.md`
+- `.kit-check__note`: the muted explanation next to the text of a checkbox, radio or switch
+- `[kitCheckGroup]` / `[kitCheckValue]` on a checkbox: a group of options bound to an array. Checked while the value is in it, a
+  change adds or removes it. Takes any writable signal of an array, so also the `value` of a Signal Forms field. See `docs/forms.md`
 - `provideKitLabels()` and every per-feature `provideKitXLabels()` also take a factory returning a signal, run in an injection
   context: `provideKitLabels(() => inject(LanguageService).language)`. The factory runs once and every feature shares its signal.
   New type `KitLabelsSource<O>`. See `docs/labels.md`

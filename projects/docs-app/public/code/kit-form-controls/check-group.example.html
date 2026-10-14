@@ -1,0 +1,17 @@
+<!-- A note explains an option; keep it in one span with the text so they flow together -->
+<label class="kit-check">
+  <input class="kit-check__input" type="checkbox">
+  <span>Administrator <span class="kit-check__note">required to manage content</span></span>
+</label>
+
+<!-- A group bound to an array: checked while the value is in it, a change adds or removes it -->
+@for (role of roles; track role.id) {
+  <label class="kit-check">
+    <input class="kit-check__input" type="checkbox" [kitCheckGroup]="selected" [kitCheckValue]="role.id">
+    <span>{{ role.name }} <span class="kit-check__note">{{ role.note }}</span></span>
+  </label>
+}
+
+<!-- With Signal Forms: the value of the field is a writable signal -->
+<input class="kit-check__input" type="checkbox" aria-label="Administrator"
+       [kitCheckGroup]="form.roles().value" kitCheckValue="admin">

@@ -46,6 +46,27 @@
   <label class="kit-check"><input class="kit-check__input" type="radio" name="inline-demo"> Monthly</label>
 </div>
 
+<h3>Notes and groups bound to an array</h3>
+<p>
+  <code>kit-check__note</code> is the muted explanation next to an option. For a group of checkboxes bound to an array,
+  <code>[kitCheckGroup]</code> takes a writable signal of it and <code>[kitCheckValue]</code> the value of the option: the
+  input is checked while the value is in the array, and a change adds or removes it. A Signal Forms field works, as its
+  <code>value</code> is a writable signal.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/check-group.example.html">
+</app-code-example>
+<div class="kit-check-group">
+  @for (role of roles; track role.id) {
+    <label class="kit-check">
+      <input class="kit-check__input" type="checkbox" [kitCheckGroup]="selected" [kitCheckValue]="role.id">
+      <span>{{ role.name }} <span class="kit-check__note">{{ role.note }}</span></span>
+    </label>
+  }
+</div>
+<p>Selected: {{ selected().join(', ') || 'none' }}</p>
+
 <h2>Fieldset and legend <em>kit</em></h2>
 <p>
   <code>kit-fieldset</code> on the <code>&lt;fieldset&gt;</code> and <code>kit-fieldset__legend</code> on the

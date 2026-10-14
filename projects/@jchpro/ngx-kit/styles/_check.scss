@@ -2,6 +2,9 @@
 //   <label class="kit-check"><input class="kit-check__input" type="checkbox"> Label</label>
 //   <label class="kit-check"><input class="kit-check__input" type="radio" name="x"> Label</label>
 //   <label class="kit-check"><input class="kit-check__input" type="checkbox" role="switch"> Label</label>
+// A short explanation next to the text goes in `kit-check__note`, in one span with the text (else the
+// flex layout of the label would make the note a column of its own):
+//   <label class="kit-check"><input class="kit-check__input" type="checkbox"> <span>Administrator <span class="kit-check__note">manages content</span></span></label>
 // A switch is a checkbox with `role="switch"`: the ARIA role picks the look, so what assistive
 // tech announces and what the user sees can't drift apart. The wrapping `<label>` is optional
 // (`.kit-check` only lays out the box and its text); a standalone input needs an `aria-label`.
@@ -178,6 +181,11 @@ $_dash-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
   }
 
   // Lays several checks or radios out one under the other, or side by side with `--inline`.
+  // Muted ink on the raised surface (4.5:1 in both schemes); the disabled label is muted already.
+  .kit-check__note {
+    color: var(--kit-ink-muted);
+  }
+
   .kit-check-group {
     display: flex;
     flex-direction: column;

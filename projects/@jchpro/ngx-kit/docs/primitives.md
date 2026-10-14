@@ -92,7 +92,9 @@ Classes on the native inputs — no component, so forms, `name`, `checked`, `dis
 
 A **switch** is a checkbox with `role="switch"`: the ARIA role picks the look, so what assistive
 technology announces and what the user sees can't drift apart. Indeterminate checkboxes
-(`input.indeterminate = true`) get a dash. Without a wrapping label, give the input an `aria-label`.
+(`input.indeterminate = true`) get a dash. Without a wrapping label, give the input an `aria-label`. An option's short
+explanation is `kit-check__note` (muted ink), in one `<span>` with the text; a group bound to an array is `kitCheckGroup`, see
+[Forms](forms.md).
 
 Unchecked controls have a `--kit-border-control` outline, the same edge as a Field, which keeps them at 3:1
 against the surface; selected ones fill with `--kit-brand-violet-muted` and a white mark, and keep the
