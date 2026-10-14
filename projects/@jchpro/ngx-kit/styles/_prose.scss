@@ -117,12 +117,12 @@
       }
     }
 
-    // Text color on the raised surface: `accent-peach-muted` as text fails AA in both schemes.
+    // Text color on the sunken surface: `accent-peach-muted` as text fails AA in both schemes.
     code:not([class]) {
       padding: 0.2rem;
       border: 1px solid var(--kit-border-subtle);
       border-radius: 0.25rem;
-      background-color: var(--kit-surface-raised);
+      background-color: var(--kit-surface-sunken);
       color: var(--kit-ink-primary);
       font-family: var(--kit-font-mono);
       font-size: 0.9em;
@@ -193,7 +193,7 @@
       overflow-x: auto;
       border: 1px solid var(--kit-border-subtle);
       border-radius: var(--kit-radius-md);
-      background-color: var(--kit-surface-raised);
+      background-color: var(--kit-surface-sunken);
       color: var(--kit-ink-primary);
       font-family: var(--kit-font-mono);
       font-size: 0.9em;

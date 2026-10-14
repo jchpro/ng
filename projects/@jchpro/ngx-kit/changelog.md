@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0] - Unreleased
 
+### Changed
+
+- `.kit-prose`: inline `code` and `<pre>` blocks sit on the new `--kit-surface-sunken` instead of the raised surface, so they are set
+  into a card or dialog instead of looking like another card
+
 ### Added
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.

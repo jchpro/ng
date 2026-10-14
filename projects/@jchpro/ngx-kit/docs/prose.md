@@ -39,7 +39,7 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 | `ul`, `ol` (nested), `dl` | Items spaced a little apart; a nested list sits tight under its item; `dt` semibold, `dd` indented |
 | `a` | Text color with a brand pink underline, thicker on hover, focus ring |
 | `blockquote` | Pink rule at the start, muted text |
-| `code` | Inline chip: raised surface, border, text color, in the system monospace stack at 0.9em |
+| `code` | Inline chip: sunken surface, border, text color, in the system monospace stack at 0.9em |
 | `strong`, `small`, `del` | Semibold, the small body size, muted with the line-through |
 | `mark` | A peach highlight behind the text |
 | `kbd` | A key cap with a thicker bottom edge |
@@ -47,7 +47,7 @@ Part of `primitives`, or on its own as `@jchpro/ngx-kit/styles/prose`:
 | `ins`, `abbr[title]` | A faint green highlight with a dotted underline; a dotted underline with the help cursor |
 | `sub`, `sup` | The browser's look, without widening the line |
 | `hr` | A hairline in the subtle border color |
-| `pre` | Raised box with a border, monospace, scrolls sideways. Code inside it loses the chip |
+| `pre` | Sunken box with a border, monospace, scrolls sideways. Code inside it loses the chip |
 | `figure`, `figcaption` | A figure with a muted small caption below |
 | `details` | A bordered disclosure box, bold summary, with a chevron at the end that flips up when open (the browser marker is replaced) |
 | `img` | Fits the width, rounded corners |
