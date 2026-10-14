@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
   Styles only, no component. See `docs/tabs.md`
+- `<kit-color-field>`: an optional color. The swatch with the hex value or the "not set" text and, with `clearable`, a button that
+  unsets it. A Signal Forms control (`FormValueControl<string | null>`), `null` when unset; its texts are the new `colorField`
+  group of `KIT_FORM_LABELS` (EN and PL), styles in `./styles/color-field`. See `docs/forms.md`
 - `.kit-check__note`: the muted explanation next to the text of a checkbox, radio or switch
 - `[kitCheckGroup]` / `[kitCheckValue]` on a checkbox: a group of options bound to an array. Checked while the value is in it, a
   change adds or removes it. Takes any writable signal of an array, so also the `value` of a Signal Forms field. See `docs/forms.md`

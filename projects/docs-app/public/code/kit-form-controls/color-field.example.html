@@ -1,0 +1,8 @@
+<!-- A color that may be unset: null while nothing is chosen. [formField] works, so does [(value)] -->
+<div class="kit-field">
+  <label class="kit-field__label" for="accent">Accent color</label>
+  <kit-color-field inputId="accent" clearable [formField]="form.accent" />
+</div>
+
+<!-- Own text for the unset state, instead of "Not set" -->
+<kit-color-field ariaLabel="Link color" placeholder="Inherited from the theme" [(value)]="link" />

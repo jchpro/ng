@@ -278,6 +278,31 @@
 </div>
 
 
+<h2>Optional color <em>kit</em></h2>
+<p>
+  A native color input can't be empty, it shows black. <code>&lt;kit-color-field&gt;</code> tells "black" from "not set":
+  the swatch with the hex value, or the "not set" text, and with <code>clearable</code> a button that unsets it. The value is
+  <code>null</code> when unset. It is a Signal Forms control, <code>[formField]</code> binds a <code>string | null</code> field.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/color-field.example.html">
+</app-code-example>
+<div class="specimens">
+  <div class="kit-field">
+    <label class="kit-field__label" for="accent">Accent color, clearable</label>
+    <kit-color-field inputId="accent" clearable [(value)]="accent" />
+  </div>
+  <div class="kit-field">
+    <span class="kit-field__label">Own text, no clear button</span>
+    <kit-color-field ariaLabel="Link color" placeholder="Inherited from the theme" [(value)]="link" />
+  </div>
+  <div class="kit-field">
+    <span class="kit-field__label">Disabled</span>
+    <kit-color-field ariaLabel="Locked color" clearable [disabled]="true" [value]="'#93298f'" />
+  </div>
+</div>
+
 <h2>Output</h2>
 <p>
   <code>&lt;output&gt;</code> is plain text with a role, so it is left as is. Here it shows the sum of two

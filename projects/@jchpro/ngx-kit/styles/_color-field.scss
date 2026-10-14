@@ -1,0 +1,36 @@
+// The layout of `<kit-color-field>`: the swatch (the Field's own `input[type=color]`), the hex value or
+// the "not set" text, and the button that clears it. The swatch itself is `kit-field__control`.
+@mixin classes() {
+
+  .kit-color-field {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kit-space-3);
+    vertical-align: top;
+
+    > .kit-field__control[type='color'] {
+      align-self: center;
+      flex: 0 0 auto;
+    }
+  }
+
+  // A color input can't be empty and shows black: dimmed while nothing is set, next to the "not set" text.
+  .kit-color-field__input--unset {
+    opacity: 0.5;
+  }
+
+  .kit-color-field__value {
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-mono);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+  }
+
+  .kit-color-field__unset {
+    color: var(--kit-ink-muted);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-style: italic;
+  }
+
+}

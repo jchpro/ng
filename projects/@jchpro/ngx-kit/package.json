@@ -66,6 +66,9 @@
     "./styles/check": {
       "sass": "./styles/_check.scss"
     },
+    "./styles/color-field": {
+      "sass": "./styles/_color-field.scss"
+    },
     "./styles/dialog": {
       "sass": "./styles/_dialog.scss"
     },

@@ -7,6 +7,7 @@
 @use 'table';
 @use 'breadcrumb';
 @use 'check';
+@use 'color-field';
 @use 'dialog';
 @use 'fieldset';
 @use 'loading';
@@ -27,6 +28,7 @@
   @include prose.classes();
   @include range.classes();
   @include check.classes();
+  @include color-field.classes();
   @include dialog.classes();
   @include fieldset.classes();
   @include loading.classes();

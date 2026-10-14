@@ -69,6 +69,24 @@ protected clear() {
 `resetKitForm(form, formElement, value?)` takes the `<form>` or its `ElementRef`, resets the native form first
 (which empties every control), then the Signal Forms one — so the values of the model, or `value`, are written back.
 
+## An optional color: `<kit-color-field>`
+
+A native `<input type="color">` can't be empty, it shows black. For a color that is optional the form has to tell
+"black" from "nothing chosen". `<kit-color-field>` is the swatch (the Field's own `input[type=color]`, dimmed while
+unset) with the hex value next to it, or the italic "not set" text, and with `clearable` a ghost button that puts it
+back to unset. The value is `string | null`, `null` when unset (an empty string counts as unset too).
+
+```html
+<label class="kit-field__label" for="accent">Accent color</label>
+<kit-color-field inputId="accent" clearable placeholder="Inherited from the theme" [formField]="form.accent" />
+```
+
+It is a Signal Forms control (`FormValueControl<string | null>`), so `[formField]` binds a `string | null` field to it
+and keeps `disabled`, `readonly` and `invalid` in sync; without Signal Forms it is `[(value)]`. A `<label for>` can't
+point at a custom element, so `inputId` goes on the swatch inside; without a visible label give it an `ariaLabel`.
+"Not set" and the clear button's name come from `KIT_FORM_LABELS` (`colorField`, EN and PL), `placeholder` replaces the
+first one. Include `./styles/color-field` on its own, or via `primitives`.
+
 ## A group of checkboxes bound to an array: `kitCheckGroup`
 
 Signal Forms binds one checkbox to a boolean. A group of options bound to a `string[]` (roles, tags) took a
