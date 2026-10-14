@@ -16,6 +16,7 @@
 @use 'progress';
 @use 'prose';
 @use 'range';
+@use 'tabs';
 
 // Convenience aggregate — includes every primitive's classes in one call.
 @mixin classes() {
@@ -37,4 +38,5 @@
   @include badge.classes();
   @include table.classes();
   @include breadcrumb.classes();
+  @include tabs.classes();
 }

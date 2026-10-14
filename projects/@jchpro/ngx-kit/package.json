@@ -99,6 +99,9 @@
     "./styles/table": {
       "sass": "./styles/_table.scss"
     },
+    "./styles/tabs": {
+      "sass": "./styles/_tabs.scss"
+    },
     "./styles/primitives": {
       "sass": "./styles/_primitives.scss"
     },

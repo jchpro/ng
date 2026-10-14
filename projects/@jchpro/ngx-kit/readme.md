@@ -24,6 +24,7 @@ npm i @jchpro/ngx-kit
 - [Primitives](docs/primitives.md) — Button, Field, Card and status-dot CSS classes
 - [Layout shell](docs/layout.md) — `KitShell`, the responsive header/sidenav/footer composition
 - [Page header](docs/page-header.md) — breadcrumb, title and the page's main actions
+- [Tabs](docs/tabs.md) — `kit-tabs`, a nav of links for the sections of a page, the route as its state
 - [Prose](docs/prose.md) — `kit-prose` for long-form content: headings, links, quotes, code, tables
 - [Auth views](docs/auth.md) — local sign-in: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (reset and invitation) and the pieces to build your own
 - [Dialogs](docs/dialogs.md) — one dialog look, `KitDialogService` with Promise-based `alert`/`confirm`
