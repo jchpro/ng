@@ -145,11 +145,13 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
   included in the packaged output and that relative links between them still resolve.
 - **Keep the docs-app Kit pages in sync**: when a change adds, removes or renames an `ngx-kit`
   capability, update its docs-app page (`projects/docs-app/src/app/kit/<feature>/`) in the same
-  change. The Shell page (`kit/shell/`) has a setup walkthrough (examples live in
+  change. The Kit pages are **grouped**: a sidebar page (Foundations, Layout, Forms, Feedback, Tables, Auth) holds
+  the sections of its area as router-driven tabs (`kit-tabs`, `DocsTabbedPage`, `tabs` on `DocPage` in `kit/docs.ts`),
+  folders `kit/<group>/<tab>/`. A new capability is a **tab in the group it belongs to**, not a new sidebar page; a
+  new group only when none fits. The Shell tab (`kit/layout/shell/`) has a setup walkthrough (examples live in
   `projects/docs-app/public/code/kit-shell/`) and a components table — new shell components or
-  setup steps belong there, alongside the library's own `docs/*.md` and changelog. Features
-  without a page yet get one (and a `kit/docs.ts` entry), following the Shell page's shape:
-  short overview, setup with code examples, components list. Keep these pages short.
+  setup steps belong there, alongside the library's own `docs/*.md` and changelog. A tab follows the Shell tab's
+  shape: short overview, setup with code examples, components list. Keep these pages short.
 - **docs-app polish**: its current look is a deliberate placeholder (post-Material, pre-ngx-kit
   styling in spots not yet migrated) — don't proactively "fix" visual rough edges there unless
   asked; it'll be revisited once more of `ngx-kit` exists.

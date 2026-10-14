@@ -1,17 +1,22 @@
-import { LucideAppWindow, LucideEllipsisVertical, LucideKeyRound, LucideLayoutPanelTop, LucideLoader, LucidePanelLeft, LucideSquarePen, LucideTable, LucideTextCursorInput, LucideType } from '@lucide/angular';
+import { LucideKeyRound, LucideMessageSquareText, LucidePanelLeft, LucideSquarePen, LucideTable, LucideType } from '@lucide/angular';
+import { DocsTabbedPage } from '../docs/tabbed-page/docs-tabbed-page';
 import { DocLib } from '../docs/types';
 import pkg from '../../../../@jchpro/ngx-kit/package.json';
 import { KitStartPage } from './_start-page/kit-start-page';
 import { AuthPage } from './auth/auth.page';
-import { DialogsPage } from './dialogs/dialogs.page';
-import { FormControlsPage } from './form-controls/form-controls.page';
-import { FormsPage } from './forms/forms.page';
-import { LoadingPage } from './loading/loading.page';
-import { MenuPage } from './menu/menu.page';
-import { PageHeaderPage } from './page-header/page-header.page';
-import { ShellPage } from './shell/shell.page';
+import { DialogsPage } from './feedback/dialogs/dialogs.page';
+import { LoadingPage } from './feedback/loading/loading.page';
+import { MenuPage } from './feedback/menu/menu.page';
+import { StatusTab } from './feedback/status/status.tab';
+import { ChoiceTab } from './forms/choice/choice.tab';
+import { TextValuesTab } from './forms/text-values/text-values.tab';
+import { FormsPage } from './forms/validation/forms.page';
+import { ButtonsTab } from './foundations/buttons/buttons.tab';
+import { TypographyPage } from './foundations/typography/typography.page';
+import { PageHeaderPage } from './layout/page-header/page-header.page';
+import { ShellPage } from './layout/shell/shell.page';
+import { TabsPage } from './layout/tabs/tabs.page';
 import { TablePage } from './table/table.page';
-import { TypographyPage } from './typography/typography.page';
 
 export const KIT_LIB: DocLib = {
   name: 'Kit',
@@ -22,44 +27,56 @@ export const KIT_LIB: DocLib = {
   component: KitStartPage,
   pages: [
     {
-      fullName: 'Layout shell',
-      menuName: 'Shell',
-      path: 'shell',
+      fullName: 'Foundations',
+      menuName: 'Foundations',
+      path: 'foundations',
+      icon: LucideType,
+      desc: 'Typography and buttons',
+      component: DocsTabbedPage,
+      tabs: [
+        { label: 'Typography', path: 'typography', component: TypographyPage },
+        { label: 'Buttons', path: 'buttons', component: ButtonsTab }
+      ]
+    },
+    {
+      fullName: 'Layout',
+      menuName: 'Layout',
+      path: 'layout',
       icon: LucidePanelLeft,
-      desc: 'Header, collapsible sidenav and footer composition',
-      component: ShellPage
+      desc: 'Shell with header and sidenav, page header, tabs',
+      component: DocsTabbedPage,
+      tabs: [
+        { label: 'Shell', path: 'shell', component: ShellPage },
+        { label: 'Page header', path: 'page-header', component: PageHeaderPage },
+        { label: 'Tabs', path: 'tabs', component: TabsPage }
+      ]
     },
     {
-      fullName: 'Loading state',
-      menuName: 'Loading',
-      path: 'loading',
-      icon: LucideLoader,
-      desc: 'Busy buttons and panels, global loading bar',
-      component: LoadingPage
+      fullName: 'Forms',
+      menuName: 'Forms',
+      path: 'forms',
+      icon: LucideSquarePen,
+      desc: 'Every native control as styled, and the helpers for Signal Forms',
+      component: DocsTabbedPage,
+      tabs: [
+        { label: 'Text and values', path: 'text-values', component: TextValuesTab },
+        { label: 'Choice', path: 'choice', component: ChoiceTab },
+        { label: 'Validation', path: 'validation', component: FormsPage }
+      ]
     },
     {
-      fullName: 'Menus',
-      menuName: 'Menus',
-      path: 'menu',
-      icon: LucideEllipsisVertical,
-      desc: 'Contextual menus on CDK overlays',
-      component: MenuPage
-    },
-    {
-      fullName: 'Page header',
-      menuName: 'Page header',
-      path: 'page-header',
-      icon: LucideLayoutPanelTop,
-      desc: 'Breadcrumb, title and the page\'s main actions',
-      component: PageHeaderPage
-    },
-    {
-      fullName: 'Dialogs',
-      menuName: 'Dialogs',
-      path: 'dialogs',
-      icon: LucideAppWindow,
-      desc: 'Dialog look, alert and confirm with Promises, labels',
-      component: DialogsPage
+      fullName: 'Overlays and feedback',
+      menuName: 'Feedback',
+      path: 'feedback',
+      icon: LucideMessageSquareText,
+      desc: 'Loading state, dialogs, menus, progress and status',
+      component: DocsTabbedPage,
+      tabs: [
+        { label: 'Loading', path: 'loading', component: LoadingPage },
+        { label: 'Dialogs', path: 'dialogs', component: DialogsPage },
+        { label: 'Menus', path: 'menu', component: MenuPage },
+        { label: 'Status', path: 'status', component: StatusTab }
+      ]
     },
     {
       fullName: 'Data tables',
@@ -76,30 +93,6 @@ export const KIT_LIB: DocLib = {
       icon: LucideKeyRound,
       desc: 'Sign in, forgot and set password, and the pieces to build your own',
       component: AuthPage
-    },
-    {
-      fullName: 'Forms',
-      menuName: 'Forms',
-      path: 'forms',
-      icon: LucideSquarePen,
-      desc: 'The error line of a Signal Forms field, resetting a form',
-      component: FormsPage
-    },
-    {
-      fullName: 'Form controls',
-      menuName: 'Form controls',
-      path: 'form-controls',
-      icon: LucideTextCursorInput,
-      desc: 'Every native form control, as styled so far',
-      component: FormControlsPage
-    },
-    {
-      fullName: 'Typography',
-      menuName: 'Typography',
-      path: 'typography',
-      icon: LucideType,
-      desc: 'Interface scale and prose, element by element',
-      component: TypographyPage
     }
   ]
 };

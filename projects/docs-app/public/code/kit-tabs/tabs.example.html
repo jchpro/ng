@@ -1,0 +1,10 @@
+<!-- The route is the state: a reload or a shared link opens the same section -->
+<nav class="kit-tabs" aria-label="Version sections">
+  <a class="kit-tabs__link" routerLink="general" routerLinkActive ariaCurrentWhenActive="page">General</a>
+  <a class="kit-tabs__link" routerLink="questions" routerLinkActive ariaCurrentWhenActive="page">
+    Questions <span class="kit-tabs__count">12</span>
+  </a>
+  <a class="kit-tabs__link" routerLink="tasks" routerLinkActive ariaCurrentWhenActive="page">Tasks</a>
+</nav>
+
+<router-outlet />
