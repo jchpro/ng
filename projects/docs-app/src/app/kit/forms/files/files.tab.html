@@ -1,0 +1,47 @@
+<h2>Overview</h2>
+<p>
+  A native <code>&lt;input type="file"&gt;</code> is styled as a field, see <em>Multi-line, choice and files</em> in
+  Text and values. For uploads, dropping a file on a bigger area is the more common experience:
+  <code>kit-dropzone</code> is a label with the input stretched invisibly over it, so a click and the keyboard work with no
+  extra code, and the <code>kitDropzone</code> directive adds the drop. Hover, focus and a file over the zone share one look.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/dropzone.example.html">
+</app-code-example>
+
+<h2>Drop zone <em>kit</em></h2>
+<p>
+  Images only, several at a time. Anything else is refused and listed, the size limit is yours to check.
+</p>
+<div class="specimens">
+  <div>
+    <label class="kit-dropzone" kitDropzone (files)="images.set($event); refused.set([])" (rejected)="refused.set($event)">
+      <input class="kit-dropzone__input" type="file" accept="image/*" multiple>
+      <span class="kit-dropzone__title">Drop images here or click to choose</span>
+      <span class="kit-dropzone__hint">PNG or JPG, any number</span>
+    </label>
+    <p>Chosen: {{ names(images()) }}</p>
+    @if (refused().length) {
+      <p class="kit-field__error" role="alert">Not an image: {{ names(refused()) }}</p>
+    }
+  </div>
+  <div>
+    <label class="kit-dropzone" kitDropzone (files)="contract.set($event[0] ?? null); contractRefused.set([])" (rejected)="contractRefused.set($event)">
+      <input class="kit-dropzone__input" type="file" accept=".pdf,application/pdf">
+      <span class="kit-dropzone__title">Drop the contract here or click to choose</span>
+      <span class="kit-dropzone__hint">One PDF</span>
+    </label>
+    <p>Chosen: {{ contract()?.name ?? 'nothing' }}</p>
+    @if (contractRefused().length) {
+      <p class="kit-field__error" role="alert">Only one PDF: {{ names(contractRefused()) }} refused</p>
+    }
+  </div>
+  <div>
+    <label class="kit-dropzone">
+      <input class="kit-dropzone__input" type="file" disabled>
+      <span class="kit-dropzone__title">Disabled</span>
+      <span class="kit-dropzone__hint">Takes no drops</span>
+    </label>
+  </div>
+</div>

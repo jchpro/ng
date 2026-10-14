@@ -10,6 +10,7 @@
 @use 'chip';
 @use 'color-field';
 @use 'dialog';
+@use 'dropzone';
 @use 'fieldset';
 @use 'loading';
 @use 'menu';
@@ -33,6 +34,7 @@
   @include chip.classes();
   @include color-field.classes();
   @include dialog.classes();
+  @include dropzone.classes();
   @include fieldset.classes();
   @include loading.classes();
   @include menu.classes();

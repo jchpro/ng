@@ -75,6 +75,9 @@
     "./styles/dialog": {
       "sass": "./styles/_dialog.scss"
     },
+    "./styles/dropzone": {
+      "sass": "./styles/_dropzone.scss"
+    },
     "./styles/fieldset": {
       "sass": "./styles/_fieldset.scss"
     },

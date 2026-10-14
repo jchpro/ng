@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
   Styles only, no component. See `docs/tabs.md`
+- `.kit-dropzone` (`__input`, `__title`, `__hint`) and the `kitDropzone` directive: a file drop zone over a native file input. `(files)`
+  emits what was dropped or picked, and puts it in the input; `(rejected)` what `accept` or a single-file input refused; `dragging`
+  is true while files are over it. Also `kitAcceptsFile(file, accept)`. See `docs/dropzone.md`
 - `kitTiles` / `kitTile` and `.kit-tile` (`__preview`, `__name`): a grid of single-choice items with previews, on the CDK's listbox
   (`role="listbox"`, `aria-selected`, arrow keys, typeahead, disabled tiles). `[(value)]` holds the chosen tile's value. See `docs/tiles.md`
 - `.kit-chips`, `.kit-chip` and `.kit-chip__remove`: a short value as a removable pill, in a wrapping list. Styles only, the field

@@ -9,6 +9,7 @@ import { LoadingPage } from './feedback/loading/loading.page';
 import { MenuPage } from './feedback/menu/menu.page';
 import { StatusTab } from './feedback/status/status.tab';
 import { ChoiceTab } from './forms/choice/choice.tab';
+import { FilesTab } from './forms/files/files.tab';
 import { TextValuesTab } from './forms/text-values/text-values.tab';
 import { FormsPage } from './forms/validation/forms.page';
 import { LabelsTab } from './foundations/labels/labels.tab';
@@ -60,11 +61,12 @@ export const KIT_LIB: DocLib = {
       menuName: 'Forms',
       path: 'forms',
       icon: LucideSquarePen,
-      desc: 'Every native control as styled, and the helpers for Signal Forms',
+      desc: 'Every native control as styled, drop zone, tiles, and the helpers for Signal Forms',
       component: DocsTabbedPage,
       tabs: [
         { label: 'Text and values', path: 'text-values', component: TextValuesTab },
         { label: 'Choice', path: 'choice', component: ChoiceTab },
+        { label: 'Files', path: 'files', component: FilesTab },
         { label: 'Validation', path: 'validation', component: FormsPage }
       ]
     },
