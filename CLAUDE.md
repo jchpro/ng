@@ -109,10 +109,10 @@ plus a `provideKitXLabels(labels | Signal<labels>)` override function. The overr
 and a complete set such as the PL one is just a full partial. Each feature also ships a
 `KIT_X_LABELS_EN`/`KIT_X_LABELS_PL` constant (typed against the same interface, so TS catches
 field drift), plus one root-level `provideKitLabels('en' | 'pl' | Signal<'en' | 'pl'>)` convenience wiring every
-feature at once (a signal follows a language that changes at runtime) — add each new feature to it. Per-call/per-instance options layer on top of the
+feature at once (a signal follows a language that changes at runtime, a factory run in an injection context reads it from a service: `KitLabelsSource`) — add each new feature to it. Per-call/per-instance options layer on top of the
 injected default (closest wins: defaults < app-wide < call). V1 is flat strings only — no
 rich-content projection slots inside labels (add per component later if a real need comes up).
-Implemented for dialogs (`KIT_DIALOG_LABELS`), the forms parts (`KIT_FORM_LABELS`, the messages of `KitFieldError`), the shell (`KIT_SHELL_LABELS`, the sidenav
+Implemented for dialogs (`KIT_DIALOG_LABELS`), the forms parts (`KIT_FORM_LABELS`, the messages of `KitFieldError` and the texts of `kit-color-field`), the toasts (`KIT_TOAST_LABELS`), the shell (`KIT_SHELL_LABELS`, the sidenav
 toggle's aria-label) and the auth views (one `KIT_AUTH_LABELS` with nested groups; two messages use
 named `{min}`/`{identifier}` placeholders, so "flat strings" now means plain strings); the merge/provider logic is shared in `src/lib/labels/kit-labels.ts`
 (`provideKitLabelsFor`), so a new feature's labels are a token + defaults + one-line provider.
@@ -212,5 +212,12 @@ Notes that aren't obvious from the code:
   Reading `resource.value()` throws in the error state: use `hasValue()`. `.kit-badge` is primary ink on a tint with a
   status-colored dot, since `status-*-ink` text on its own tint fails 4.5:1 (the contrast script checks tinted pairs with
   `status-x@10>surface-raised` backgrounds).
+- **Batch 2** (branch `feat/kit-batch-2`, kit 0.6.0 unreleased; issues #31–#39 except the `kit-chip-input` component of #36):
+  `.kit-tabs` (nav of links, `aria-current="page"`), `--kit-surface-sunken`, `.kit-check__note` and `[kitCheckGroup]`
+  (checkboxes bound to an array, any writable signal incl. a Signal Forms `value`), `kit-color-field` (a `FormValueControl<string | null>`),
+  `.kit-chips`/`.kit-chip` (styles only so far), `kitTiles`/`kitTile` (CDK `CdkListbox`/`CdkOption` hostDirectives, `[(value)]`; arrows
+  follow the reading order), `kit-dropzone` + `kitDropzone` (files in the input, `(files)`/`(rejected)`), `KitToastService`
+  (errors sticky, `provideKitToasts`, first toast shows 50 ms late so the live regions are in the page). The CDK key manager reads
+  `keyCode`, so specs that dispatch keys must set it, and a CDK option takes `id` over (use `data-*` in specs).
 - docs-app's `.claude/launch.json` serves on 4200; if another project's dev server holds that
   port, preview on a different one with a temporary launch config rather than reusing it.
