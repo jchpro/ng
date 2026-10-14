@@ -22,19 +22,37 @@ export function mergeKitLabels<T extends object>(defaults: T, override: KitLabel
 }
 
 /**
- * Provider for a feature's labels token: `labels` merged over `defaults`, from a plain value or
- * from a signal (re-merged as it changes). Shared by every feature's `provideKitXLabels`.
+ * Where a feature's labels come from: a plain (partial) value, a signal of one (re-merged as it changes),
+ * or a factory returning that signal, run in an injection context so it can `inject()` a service.
+ */
+export type KitLabelsSource<O> = O | Signal<O> | (() => Signal<O>);
+
+/**
+ * Runs the factory of a `KitLabelsSource` (call it in an injection context), or returns the value or
+ * signal as is. A signal is a function too, so it's told apart with `isSignal`.
+ */
+export function resolveKitLabelsSource<O>(source: KitLabelsSource<O>): O | Signal<O> {
+  return typeof source === 'function' && !isSignal(source) ? (source as () => Signal<O>)() : source as O | Signal<O>;
+}
+
+/**
+ * Provider for a feature's labels token: `labels` merged over `defaults`, from a plain value, from a
+ * signal (re-merged as it changes) or from a factory run when the token is first injected. Shared by
+ * every feature's `provideKitXLabels`.
  */
 export function provideKitLabelsFor<T extends object>(
   token: InjectionToken<Signal<T>>,
   defaults: T,
-  labels: KitLabelsOverride<T> | Signal<KitLabelsOverride<T>>
+  labels: KitLabelsSource<KitLabelsOverride<T>>
 ): Provider {
   return {
     provide: token,
-    useValue: isSignal(labels)
-      ? computed(() => mergeKitLabels(defaults, labels()))
-      : signal(mergeKitLabels(defaults, labels)).asReadonly()
+    useFactory: () => {
+      const source = resolveKitLabelsSource(labels);
+      return isSignal(source)
+        ? computed(() => mergeKitLabels(defaults, source()))
+        : signal(mergeKitLabels(defaults, source)).asReadonly();
+    }
   };
 }
 

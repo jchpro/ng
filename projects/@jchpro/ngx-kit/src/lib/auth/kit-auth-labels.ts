@@ -1,5 +1,5 @@
 import { InjectionToken, Provider, signal, Signal } from '@angular/core';
-import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
+import { KitLabelsOverride, KitLabelsSource, provideKitLabelsFor } from '../labels/kit-labels';
 
 /**
  * Every user-facing string of the auth views. Where a message carries a value it has a
@@ -156,6 +156,6 @@ export const KIT_AUTH_LABELS = new InjectionToken<Signal<KitAuthLabels>>('KIT_AU
  * differs, or a complete set such as `KIT_AUTH_LABELS_PL`. A signal works for labels that
  * change at runtime (e.g. fed from your i18n library).
  */
-export function provideKitAuthLabels(labels: KitAuthLabelsOverride | Signal<KitAuthLabelsOverride>): Provider {
+export function provideKitAuthLabels(labels: KitLabelsSource<KitAuthLabelsOverride>): Provider {
   return provideKitLabelsFor(KIT_AUTH_LABELS, KIT_AUTH_LABELS_EN, labels);
 }

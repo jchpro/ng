@@ -1,4 +1,4 @@
-import { signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { KIT_AUTH_LABELS, KIT_AUTH_LABELS_EN, KIT_AUTH_LABELS_PL } from '../auth/kit-auth-labels';
 import { KIT_DIALOG_LABELS,KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL, provideKitDialogLabels } from '../dialog/kit-dialog-labels';
@@ -114,6 +114,65 @@ describe('provideKitLabels', () => {
 
       // Then
       expect(TestBed.inject(KIT_DIALOG_LABELS)().buttons.ok).toBe('Dobra');
+    });
+
+  });
+
+  describe('with a factory run in an injection context', () => {
+
+    @Injectable({ providedIn: 'root' })
+    class LanguageService {
+      readonly language = signal<KitLanguage>('en');
+    }
+
+    it('should read the language from an injected service and follow it as it changes', () => {
+      // Given
+      TestBed.configureTestingModule({ providers: [provideKitLabels(() => inject(LanguageService).language)] });
+      const dialog = TestBed.inject(KIT_DIALOG_LABELS);
+      expect(dialog()).toEqual(KIT_DIALOG_LABELS_EN);
+
+      // When
+      TestBed.inject(LanguageService).language.set('pl');
+
+      // Then
+      expect(dialog()).toEqual(KIT_DIALOG_LABELS_PL);
+      expect(TestBed.inject(KIT_TABLE_LABELS)()).toEqual(KIT_TABLE_LABELS_PL);
+    });
+
+    it('should run the factory once for all the features', () => {
+      // Given
+      const factory = jasmine.createSpy('factory').and.returnValue(signal<KitLanguage>('pl'));
+      TestBed.configureTestingModule({ providers: [provideKitLabels(factory)] });
+
+      // When
+      TestBed.inject(KIT_AUTH_LABELS);
+      TestBed.inject(KIT_DIALOG_LABELS);
+      TestBed.inject(KIT_FORM_LABELS);
+      TestBed.inject(KIT_SHELL_LABELS);
+      TestBed.inject(KIT_TABLE_LABELS);
+
+      // Then
+      expect(factory).toHaveBeenCalledTimes(1);
+    });
+
+    it('should let a later per-feature override win', () => {
+      // Given
+      TestBed.configureTestingModule({
+        providers: [provideKitLabels(() => signal<KitLanguage>('pl')), provideKitDialogLabels({ buttons: { ok: 'Dobra' } })]
+      });
+
+      // Then
+      expect(TestBed.inject(KIT_DIALOG_LABELS)().buttons.ok).toBe('Dobra');
+    });
+
+    it('should accept a factory in a per-feature provider too', () => {
+      // Given
+      TestBed.configureTestingModule({
+        providers: [provideKitDialogLabels(() => signal({ buttons: { ok: 'Fine' } }))]
+      });
+
+      // Then
+      expect(TestBed.inject(KIT_DIALOG_LABELS)().buttons.ok).toBe('Fine');
     });
 
   });

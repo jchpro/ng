@@ -1,5 +1,5 @@
 import { InjectionToken, Provider, signal, Signal } from '@angular/core';
-import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
+import { KitLabelsOverride, KitLabelsSource, provideKitLabelsFor } from '../labels/kit-labels';
 
 /** Every user-facing string of the layout shell. */
 export interface KitShellLabels {
@@ -30,6 +30,6 @@ export const KIT_SHELL_LABELS = new InjectionToken<Signal<KitShellLabels>>('KIT_
  * App-wide override of the shell labels, merged over the English defaults. A signal works for
  * labels that change at runtime (e.g. fed from your i18n library).
  */
-export function provideKitShellLabels(labels: KitShellLabelsOverride | Signal<KitShellLabelsOverride>): Provider {
+export function provideKitShellLabels(labels: KitLabelsSource<KitShellLabelsOverride>): Provider {
   return provideKitLabelsFor(KIT_SHELL_LABELS, KIT_SHELL_LABELS_EN, labels);
 }

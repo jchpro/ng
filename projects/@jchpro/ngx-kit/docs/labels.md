@@ -46,9 +46,19 @@ providers: [
 It also takes a **signal** of the language, so every feature follows a language that changes at runtime:
 
 ```ts
-providers: [provideKitLabels(inject(LanguageService).language)]   // Signal<'en' | 'pl'>
-``` The
-`_EN`/`_PL` constants are complete sets, typed against the feature's labels interface (so
+providers: [provideKitLabels(language)]   // language: Signal<'en' | 'pl'>
+```
+
+A language that lives in a service can't be passed that way: `providers` is listed before any injector exists, so
+there is nothing to `inject()` it from. Pass a **factory** instead. It runs in an injection context, once, the first
+time any kit label is needed, and every feature shares the signal it returns:
+
+```ts
+providers: [provideKitLabels(() => inject(LanguageService).language)]
+```
+
+The per-feature providers (`provideKitDialogLabels()` and the rest) accept a factory returning a signal of overrides
+the same way. The `_EN`/`_PL` constants are complete sets, typed against the feature's labels interface (so
 TypeScript catches a missing field), and are accepted anywhere an override is.
 
 ## Following your own i18n library

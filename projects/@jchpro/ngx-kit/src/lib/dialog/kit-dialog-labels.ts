@@ -1,5 +1,5 @@
 import { InjectionToken, Provider, signal, Signal } from '@angular/core';
-import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
+import { KitLabelsOverride, KitLabelsSource, provideKitLabelsFor } from '../labels/kit-labels';
 import { KitDialogTone } from './kit-dialog.types';
 
 /** Every user-facing string of the kit's built-in dialogs. */
@@ -65,6 +65,6 @@ export const KIT_DIALOG_LABELS = new InjectionToken<Signal<KitDialogLabels>>('KI
  * differs, or a complete set such as `KIT_DIALOG_LABELS_PL`. A signal works for labels that
  * change at runtime (e.g. fed from your i18n library).
  */
-export function provideKitDialogLabels(labels: KitDialogLabelsOverride | Signal<KitDialogLabelsOverride>): Provider {
+export function provideKitDialogLabels(labels: KitLabelsSource<KitDialogLabelsOverride>): Provider {
   return provideKitLabelsFor(KIT_DIALOG_LABELS, KIT_DIALOG_LABELS_EN, labels);
 }

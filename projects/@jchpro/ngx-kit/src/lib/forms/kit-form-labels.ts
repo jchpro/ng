@@ -1,5 +1,5 @@
 import { InjectionToken, Provider, signal, Signal } from '@angular/core';
-import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
+import { KitLabelsOverride, KitLabelsSource, provideKitLabelsFor } from '../labels/kit-labels';
 
 /**
  * The messages of `<kit-field-error>`, one per kind of Signal Forms validation error.
@@ -60,6 +60,6 @@ export const KIT_FORM_LABELS = new InjectionToken<Signal<KitFormLabels>>('KIT_FO
  * App-wide override of the forms labels, merged over the English defaults. A signal works for
  * labels that change at runtime (e.g. fed from your i18n library).
  */
-export function provideKitFormLabels(labels: KitFormLabelsOverride | Signal<KitFormLabelsOverride>): Provider {
+export function provideKitFormLabels(labels: KitLabelsSource<KitFormLabelsOverride>): Provider {
   return provideKitLabelsFor(KIT_FORM_LABELS, KIT_FORM_LABELS_EN, labels);
 }

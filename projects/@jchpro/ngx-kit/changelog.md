@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
   Styles only, no component. See `docs/tabs.md`
+- `provideKitLabels()` and every per-feature `provideKitXLabels()` also take a factory returning a signal, run in an injection
+  context: `provideKitLabels(() => inject(LanguageService).language)`. The factory runs once and every feature shares its signal.
+  New type `KitLabelsSource<O>`. See `docs/labels.md`
 - `--kit-surface-sunken`: the background of code blocks, wells and tiles, darker than the canvas in both schemes. Primary and muted
   ink and `--kit-border-control` pass on it (`npm run check:contrast`). See `docs/theming.md`
 
