@@ -19,6 +19,7 @@
 @use 'prose';
 @use 'range';
 @use 'tabs';
+@use 'tile';
 
 // Convenience aggregate — includes every primitive's classes in one call.
 @mixin classes() {
@@ -43,4 +44,5 @@
   @include table.classes();
   @include breadcrumb.classes();
   @include tabs.classes();
+  @include tile.classes();
 }

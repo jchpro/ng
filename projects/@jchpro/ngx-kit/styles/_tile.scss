@@ -1,0 +1,93 @@
+// jchPRO App selectable tiles: a grid of single-choice items with a preview and a name, e.g. to pick one
+// of the uploaded files. The behavior (role="listbox"/"option", aria-selected, arrow keys, typeahead) is
+// CDK's listbox, through the `kitTiles` / `kitTile` directives; this is only the look of them.
+//   <div kitTiles aria-label="Files" [(value)]="selected">
+//     <div kitTile="a" [disabled]="!fits(a)">
+//       <span class="kit-tile__preview"><img src="a.png" alt=""></span>
+//       <span class="kit-tile__name">a.png</span>
+//     </div>
+//   </div>
+// The edge is `--kit-border-control` (3:1), a selected tile gets a 2px `brand-pink` edge (3:1) and a tint,
+// and a disabled one (it doesn't match what the field accepts) is dimmed, as every disabled control is.
+@mixin classes() {
+
+  .kit-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    gap: var(--kit-space-3);
+    margin: 0;
+    padding: 0;
+    // The tiles show focus themselves, the grid is never the one focused
+    outline: none;
+  }
+
+  .kit-tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-2);
+    min-width: 0;
+    box-sizing: border-box;
+    padding: var(--kit-space-2);
+    border: 1px solid var(--kit-border-control);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    cursor: pointer;
+    transition: border-color 0.12s, box-shadow 0.12s, background-color 0.12s;
+
+    &:hover:not([aria-disabled='true']) {
+      border-color: var(--kit-ink-primary);
+    }
+
+    // The 2px edge is the 1px border plus a 1px ring, so the tile doesn't change size.
+    &[aria-selected='true'] {
+      border-color: var(--kit-brand-pink);
+      box-shadow: 0 0 0 1px var(--kit-brand-pink);
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 8%, var(--kit-surface-raised));
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--kit-brand-pink);
+      box-shadow: 0 0 0 1px var(--kit-brand-pink), 0 0 0 4px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    &[aria-disabled='true'] {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // A fixed ratio, so a grid of previews of every shape stays regular; an image fits inside it, uncropped.
+  .kit-tile__preview {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--kit-radius-sm);
+    background-color: var(--kit-surface-sunken);
+    color: var(--kit-ink-muted);
+
+    > img,
+    > svg {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .kit-tile__name {
+    overflow: hidden;
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+}

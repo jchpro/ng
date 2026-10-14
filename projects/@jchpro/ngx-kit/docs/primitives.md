@@ -6,9 +6,9 @@ Plain CSS classes, not components — apply them to native elements. Include all
 `@use '@jchpro/ngx-kit/styles/primitives'; @include primitives.classes();`, or cherry-pick
 `./styles/button`, `./styles/field`, `./styles/card`, `./styles/status-dot`, `./styles/badge`, `./styles/table`,
 `./styles/breadcrumb`, `./styles/loading`, `./styles/menu`, `./styles/page-header`,
-`./styles/dialog`, `./styles/check`, `./styles/chip`, `./styles/color-field`, `./styles/range`, `./styles/progress`, `./styles/fieldset`, `./styles/tabs`, `./styles/prose` individually. The loading classes (`kit-spinner`, `kit-skeleton`, `kit-busy`)
+`./styles/dialog`, `./styles/check`, `./styles/tile`, `./styles/chip`, `./styles/color-field`, `./styles/range`, `./styles/progress`, `./styles/fieldset`, `./styles/tabs`, `./styles/prose` individually. The loading classes (`kit-spinner`, `kit-skeleton`, `kit-busy`)
 are covered in [Loading state](loading.md), the menu ones in [Menus](menu.md), the page header in
-[Page header](page-header.md), the tabs in [Tabs](tabs.md), the dialog ones in [Dialogs](dialogs.md), the table, badge and cell classes in [Data tables](table.md).
+[Page header](page-header.md), the tabs in [Tabs](tabs.md), the tiles in [Selectable tiles](tiles.md), the dialog ones in [Dialogs](dialogs.md), the table, badge and cell classes in [Data tables](table.md).
 
 The color modifiers are `kit-btn--primary`, `kit-btn--secondary`, `kit-btn--ghost` and `kit-btn--danger`
 (a destructive action, such as confirming a delete).

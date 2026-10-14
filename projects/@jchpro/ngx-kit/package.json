@@ -102,6 +102,9 @@
     "./styles/range": {
       "sass": "./styles/_range.scss"
     },
+    "./styles/tile": {
+      "sass": "./styles/_tile.scss"
+    },
     "./styles/table": {
       "sass": "./styles/_table.scss"
     },

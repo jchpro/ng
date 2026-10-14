@@ -67,6 +67,30 @@
 </div>
 <p>Selected: {{ selected().join(', ') || 'none' }}</p>
 
+<h2>Selectable tiles <em>kit</em></h2>
+<p>
+  A grid of single-choice items with a preview and a name, on the CDK's listbox: <code>kitTiles</code> on the container,
+  <code>kitTile="value"</code> on each tile. Tab enters the grid, the arrows move, Space or Enter chooses; a tile that
+  doesn't fit the field is <code>[disabled]</code>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/tiles.example.html">
+</app-code-example>
+<div kitTiles aria-label="Pick a color sample" [(value)]="tile">
+  @for (sample of samples; track sample.id) {
+    <div [kitTile]="sample.id" [disabled]="sample.disabled">
+      <span class="kit-tile__preview">
+        <svg viewBox="0 0 48 36" width="48" height="36" aria-hidden="true">
+          <rect width="48" height="36" rx="4" [attr.fill]="sample.color"></rect>
+        </svg>
+      </span>
+      <span class="kit-tile__name">{{ sample.name }}</span>
+    </div>
+  }
+</div>
+<p>Chosen: {{ tile() ?? 'none' }}</p>
+
 <h2>Fieldset and legend <em>kit</em></h2>
 <p>
   <code>kit-fieldset</code> on the <code>&lt;fieldset&gt;</code> and <code>kit-fieldset__legend</code> on the
