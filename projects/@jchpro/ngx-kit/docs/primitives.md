@@ -6,7 +6,7 @@ Plain CSS classes, not components — apply them to native elements. Include all
 `@use '@jchpro/ngx-kit/styles/primitives'; @include primitives.classes();`, or cherry-pick
 `./styles/button`, `./styles/field`, `./styles/card`, `./styles/status-dot`, `./styles/badge`, `./styles/table`,
 `./styles/breadcrumb`, `./styles/loading`, `./styles/menu`, `./styles/page-header`,
-`./styles/dialog`, `./styles/check`, `./styles/color-field`, `./styles/range`, `./styles/progress`, `./styles/fieldset`, `./styles/tabs`, `./styles/prose` individually. The loading classes (`kit-spinner`, `kit-skeleton`, `kit-busy`)
+`./styles/dialog`, `./styles/check`, `./styles/chip`, `./styles/color-field`, `./styles/range`, `./styles/progress`, `./styles/fieldset`, `./styles/tabs`, `./styles/prose` individually. The loading classes (`kit-spinner`, `kit-skeleton`, `kit-busy`)
 are covered in [Loading state](loading.md), the menu ones in [Menus](menu.md), the page header in
 [Page header](page-header.md), the tabs in [Tabs](tabs.md), the dialog ones in [Dialogs](dialogs.md), the table, badge and cell classes in [Data tables](table.md).
 
@@ -102,6 +102,33 @@ outline (the fill alone is only 2.4:1 on the dark raised surface). A control mar
 turns its outline `--kit-status-danger`; put the message under the group (see Invalid fields). In forced-colors (Windows high contrast) the native
 control is restored. Include `./styles/check` on its own, or via `primitives`.
 
+
+## Chips
+
+A short value as a pill, with an optional remove button: `kit-chip` in a `kit-chips` list. Plain classes, no component. What
+adds the chips is yours (a text field and Enter, a picker), the list lives in your component.
+
+```html
+<div class="kit-field">
+  <label class="kit-field__label" for="task">Tasks</label>
+  <input class="kit-field__control" id="task" #task (keydown.enter)="add(task); $event.preventDefault()">
+</div>
+<ul class="kit-chips" aria-label="Tasks">
+  @for (item of tasks(); track item) {
+    <li class="kit-chip">
+      {{ item }}
+      <button type="button" class="kit-chip__remove" [attr.aria-label]="'Remove ' + item" (click)="remove(item)">
+        <svg lucideX size="12"></svg>
+      </button>
+    </li>
+  }
+</ul>
+```
+
+A chip is primary ink on `--kit-surface-sunken`. The remove button's `aria-label` includes the value ("Remove Write the intro"),
+else a list of them reads as a row of identical buttons; leave the button out for a chip that only shows a value. Long text
+wraps inside the pill. Messages about the list (duplicates, a limit) go under the chips with `role="alert"`. Include
+`./styles/chip` on its own, or via `primitives`.
 
 ## Range, progress and meter
 

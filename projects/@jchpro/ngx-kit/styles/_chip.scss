@@ -1,0 +1,72 @@
+// jchPRO App chips: a short value as a pill, optionally removable. Plain classes, no component, the
+// list they live in is the app's (see the docs for the text field that adds them).
+//   <ul class="kit-chips" aria-label="Tasks">
+//     <li class="kit-chip">Write the intro <button type="button" class="kit-chip__remove" aria-label="Remove Write the intro">
+//       <svg lucideX size="12"></svg></button></li>
+//   </ul>
+// The pill is primary ink on the sunken surface (muted ink for the remove icon, both pass there). The
+// remove button's name must include the value, "Remove Write the intro", else a list of them reads as
+// a row of identical buttons.
+@mixin classes() {
+
+  .kit-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kit-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .kit-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kit-space-1);
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 2px var(--kit-space-3);
+    border-radius: var(--kit-radius-full);
+    background-color: var(--kit-surface-sunken);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+    overflow-wrap: anywhere;
+
+    // The remove button sits closer to the edge than the text does
+    &:has(.kit-chip__remove) {
+      padding-right: var(--kit-space-1);
+    }
+  }
+
+  .kit-chip__remove {
+    display: inline-grid;
+    flex: 0 0 auto;
+    place-content: center;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--kit-radius-full);
+    background: transparent;
+    color: var(--kit-ink-muted);
+    cursor: pointer;
+    transition: background-color 0.12s, color 0.12s;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--kit-ink-primary) 12%, transparent);
+      color: var(--kit-ink-primary);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+}

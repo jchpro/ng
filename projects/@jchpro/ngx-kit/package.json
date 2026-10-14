@@ -66,6 +66,9 @@
     "./styles/check": {
       "sass": "./styles/_check.scss"
     },
+    "./styles/chip": {
+      "sass": "./styles/_chip.scss"
+    },
     "./styles/color-field": {
       "sass": "./styles/_color-field.scss"
     },

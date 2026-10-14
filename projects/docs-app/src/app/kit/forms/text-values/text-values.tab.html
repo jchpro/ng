@@ -303,6 +303,33 @@
   </div>
 </div>
 
+<h2>Chips <em>kit</em></h2>
+<p>
+  A short value as a pill, removable or not: <code>kit-chip</code> in a <code>kit-chips</code> list. Only the look is the
+  kit's for now, the text field that adds them is yours. Type and press Enter below. Primary ink on the sunken surface.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/chips.example.html">
+</app-code-example>
+<div class="specimens">
+  <div class="kit-field">
+    <label class="kit-field__label" for="task">Tasks</label>
+    <input class="kit-field__control" id="task" #task placeholder="Type and press Enter"
+           (keydown.enter)="add(task); $event.preventDefault()">
+  </div>
+</div>
+<ul class="kit-chips" aria-label="Tasks">
+  @for (item of tasks(); track item) {
+    <li class="kit-chip">
+      {{ item }}
+      <button type="button" class="kit-chip__remove" [attr.aria-label]="'Remove ' + item" (click)="remove(item)">
+        <svg lucideX size="12"></svg>
+      </button>
+    </li>
+  }
+</ul>
+
 <h2>Output</h2>
 <p>
   <code>&lt;output&gt;</code> is plain text with a role, so it is left as is. Here it shows the sum of two
