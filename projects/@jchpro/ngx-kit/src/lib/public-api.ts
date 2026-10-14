@@ -1,6 +1,7 @@
 export * from './theme/public-api';
 export * from './auth/public-api';
 export * from './dialog/public-api';
+export * from './dropzone/public-api';
 export * from './forms/public-api';
 export * from './icon/public-api';
 export * from './labels/public-api';
@@ -8,3 +9,5 @@ export * from './loading/public-api';
 export * from './menu/public-api';
 export * from './shell/public-api';
 export * from './table/public-api';
+export * from './tile/public-api';
+export * from './toast/public-api';

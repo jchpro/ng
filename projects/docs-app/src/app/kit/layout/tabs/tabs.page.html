@@ -1,0 +1,52 @@
+<h2>Overview</h2>
+<p>
+  Sections of one page where the route is the state, so a reload or a shared link opens the same section: a
+  <code>&lt;nav&gt;</code> of links, with <code>aria-current="page"</code> on the active one. Plain classes, not a component.
+  This very page is built with it, the row above the content is <code>kit-tabs</code>.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-tabs/tabs.example.html">
+</app-code-example>
+
+<h2>Try it</h2>
+<p>
+  Without a router the active link is <code>kit-tabs__link--active</code>, the look is the same. The count
+  is <code>kit-tabs__count</code>. Narrow the window and the row scrolls sideways.
+</p>
+<div class="demo-frame">
+  <nav class="kit-tabs" aria-label="Demo sections">
+    @for (tab of tabs; track tab.label) {
+      <a class="kit-tabs__link" href="#" [class.kit-tabs__link--active]="active() === tab.label"
+         (click)="$event.preventDefault(); active.set(tab.label)">
+        {{ tab.label }}
+        @if (tab.count !== undefined) {
+          <span class="kit-tabs__count">{{ tab.count }}</span>
+        }
+      </a>
+    }
+  </nav>
+  <p>Section: {{ active() }}</p>
+</div>
+
+<h2>Classes</h2>
+<div class="kit-table-frame">
+  <table>
+    <tr>
+      <th>Class</th>
+      <th>Use</th>
+    </tr>
+    <tr>
+      <td><code>kit-tabs</code></td>
+      <td>The <code>&lt;nav&gt;</code>: the divider under the row, horizontal scroll when the links don't fit. Give it an <code>aria-label</code></td>
+    </tr>
+    <tr>
+      <td><code>kit-tabs__link</code></td>
+      <td>A link. <code>aria-current="page"</code> (or <code>--active</code>) draws the 2px line and takes primary ink</td>
+    </tr>
+    <tr>
+      <td><code>kit-tabs__count</code></td>
+      <td>An optional counter after the label</td>
+    </tr>
+  </table>
+</div>

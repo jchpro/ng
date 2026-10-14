@@ -1,0 +1,59 @@
+<h2>Overview</h2>
+<p>
+  Non-blocking messages, where a dialog would be too much: <code>KitToastService</code> with <code>success</code>,
+  <code>error</code> and <code>info</code>. Successes and information go away by themselves, an error stays until it is
+  closed, and a toast with an action stays long enough to use it. Hover or focus pauses the clock. Needs the overlay styles
+  and the toast styles, like the dialogs.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-toast/toast.example.ts">
+</app-code-example>
+
+<h2>Try it</h2>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="toasts.success('Saved.')">Success</button>
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="toasts.info('A new version is available.')">Info</button>
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="toasts.error('Could not save the changes.')">Error, stays</button>
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="remove()">With an action</button>
+  <button type="button" class="kit-btn kit-btn--ghost" (click)="toasts.dismissAll()">Close all</button>
+</div>
+<p>Last action result: {{ result() }}</p>
+
+<h2>How long and where</h2>
+<p>
+  4 s for a success, 5 s for information, until closed for an error, at least 8 s with an action. Change it for the app
+  with <code>provideKitToasts()</code>, or for one toast with <code>duration</code> (a positive number of milliseconds,
+  <code>null</code> for until closed). The labels, the region's name and the close button's, are in
+  <code>KIT_TOAST_LABELS</code>.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-toast/config.example.ts">
+</app-code-example>
+
+<h2>Components and functions</h2>
+<div class="kit-table-frame">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Use</th>
+    </tr>
+    <tr>
+      <td><code>KitToastService</code></td>
+      <td><code>success</code>, <code>error</code>, <code>info</code> (message, <code>{{ '{' }} duration, action {{ '}' }}</code>) returning a <code>KitToastRef</code>, and <code>dismissAll</code></td>
+    </tr>
+    <tr>
+      <td><code>KitToastRef</code></td>
+      <td><code>closed</code>, a Promise of <code>'timeout' | 'dismissed' | 'action'</code>, and <code>dismiss()</code></td>
+    </tr>
+    <tr>
+      <td><code>provideKitToasts()</code></td>
+      <td>App-wide durations, <code>actionMinDuration</code>, <code>max</code> and <code>position</code></td>
+    </tr>
+    <tr>
+      <td><code>provideKitToastLabels()</code></td>
+      <td>Override the texts, or <code>provideKitLabels('pl')</code> for all of the kit</td>
+    </tr>
+  </table>
+</div>

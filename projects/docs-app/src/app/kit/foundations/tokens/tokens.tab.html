@@ -1,0 +1,22 @@
+<h2>Overview</h2>
+<p>
+  Design tokens are CSS custom properties prefixed <code>--kit-*</code>, light and dark. This tab shows the ones that are
+  worth seeing, as they render in the current scheme. The rest, with the rules for using them, are in the
+  library's <code>docs/theming.md</code>.
+</p>
+
+<h2>Surfaces</h2>
+<p>
+  Four backgrounds, each with a job. Text and control edges are checked against every one of them by
+  <code>npm run check:contrast</code>, so <code>--kit-ink-primary</code>, <code>--kit-ink-muted</code> and
+  <code>--kit-border-control</code> are safe on all four.
+</p>
+<div class="surfaces">
+  @for (surface of surfaces; track surface.token) {
+    <div class="surface" [style.background-color]="'var(--kit-surface-' + surface.token + ')'">
+      <code>--kit-surface-{{ surface.token }}</code>
+      <span>{{ surface.use }}</span>
+      <span class="muted">Muted ink on it</span>
+    </div>
+  }
+</div>

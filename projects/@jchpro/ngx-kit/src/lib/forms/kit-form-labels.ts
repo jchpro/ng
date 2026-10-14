@@ -1,5 +1,5 @@
 import { InjectionToken, Provider, signal, Signal } from '@angular/core';
-import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
+import { KitLabelsOverride, KitLabelsSource, provideKitLabelsFor } from '../labels/kit-labels';
 
 /**
  * The messages of `<kit-field-error>`, one per kind of Signal Forms validation error.
@@ -17,6 +17,11 @@ export interface KitFormLabels {
   };
   /** For an error of a kind without a message of its own, which has no `message` either. */
   fallback: string;
+  /** `<kit-color-field>`: the text of a color that isn't set, and the accessible name of the button that clears it. */
+  colorField: {
+    notSet: string;
+    clear: string;
+  };
 }
 
 /** What `provideKitFormLabels` accepts: any part of the labels, the rest stays as is. */
@@ -32,7 +37,11 @@ export const KIT_FORM_LABELS_EN: KitFormLabels = {
     maxLength: 'Enter at most {max} characters.',
     pattern: 'The value is in the wrong format.'
   },
-  fallback: 'The value is not valid.'
+  fallback: 'The value is not valid.',
+  colorField: {
+    notSet: 'Not set',
+    clear: 'Clear the color'
+  }
 };
 
 export const KIT_FORM_LABELS_PL: KitFormLabels = {
@@ -45,7 +54,11 @@ export const KIT_FORM_LABELS_PL: KitFormLabels = {
     maxLength: 'Maksymalna liczba znaków: {max}.',
     pattern: 'Wartość ma niepoprawny format.'
   },
-  fallback: 'Wartość jest niepoprawna.'
+  fallback: 'Wartość jest niepoprawna.',
+  colorField: {
+    notSet: 'Nie ustawiono',
+    clear: 'Wyczyść kolor'
+  }
 };
 
 /**
@@ -60,6 +73,6 @@ export const KIT_FORM_LABELS = new InjectionToken<Signal<KitFormLabels>>('KIT_FO
  * App-wide override of the forms labels, merged over the English defaults. A signal works for
  * labels that change at runtime (e.g. fed from your i18n library).
  */
-export function provideKitFormLabels(labels: KitFormLabelsOverride | Signal<KitFormLabelsOverride>): Provider {
+export function provideKitFormLabels(labels: KitLabelsSource<KitFormLabelsOverride>): Provider {
   return provideKitLabelsFor(KIT_FORM_LABELS, KIT_FORM_LABELS_EN, labels);
 }

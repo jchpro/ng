@@ -1,0 +1,10 @@
+<!-- Import KitTiles and KitTile. [(value)] is the value of the chosen tile, null while there is none -->
+<div kitTiles aria-label="Pick a file" [(value)]="selected">
+  @for (file of files; track file.id) {
+    <!-- [disabled]: it doesn't match what the field accepts -->
+    <div [kitTile]="file.id" [disabled]="!accepts(file)">
+      <span class="kit-tile__preview"><img [src]="file.url" alt=""></span>
+      <span class="kit-tile__name">{{ file.name }}</span>
+    </div>
+  }
+</div>

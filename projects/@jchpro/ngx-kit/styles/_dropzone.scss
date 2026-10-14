@@ -1,0 +1,79 @@
+// jchPRO App file drop zone: a bigger target than the file input's button. A `<label>` with a dashed
+// border, a native `<input type=file>` stretched over it (invisible), so a click and the keyboard work
+// with no extra code, and the `kitDropzone` directive for the drag and drop. Without the directive it
+// is still a label around an input.
+//   <label class="kit-dropzone" kitDropzone (files)="upload($event)">
+//     <input class="kit-dropzone__input" type="file" accept="image/*" multiple>
+//     <span class="kit-dropzone__title">Drop images here or click to choose</span>
+//     <span class="kit-dropzone__hint">PNG or JPG, up to 5 MB</span>
+//   </label>
+// Hover, `:focus-within` and a file over it share one look, so does the keyboard: the edge goes
+// solid pink with a faint tint. The input has no outline of its own (the zone shows the focus), and the
+// label's text is the input's accessible name.
+@mixin classes() {
+
+  .kit-dropzone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kit-space-1);
+    box-sizing: border-box;
+    padding: var(--kit-space-6) var(--kit-space-4);
+    border: 2px dashed var(--kit-border-control);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.12s, background-color 0.12s;
+
+    &:hover:not(:has(.kit-dropzone__input:disabled)),
+    &:focus-within,
+    &.kit-dropzone--active {
+      border-style: solid;
+      border-color: var(--kit-brand-pink);
+      background-color: color-mix(in srgb, var(--kit-brand-pink) 8%, var(--kit-surface-raised));
+    }
+
+    &:has(.kit-dropzone__input:disabled) {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // Covers the whole zone and takes the click and the keyboard; the zone draws everything.
+  .kit-dropzone__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .kit-dropzone__title {
+    font-weight: 500;
+  }
+
+  .kit-dropzone__hint {
+    color: var(--kit-ink-muted);
+    font-size: var(--kit-app-body-sm-size);
+    line-height: var(--kit-app-body-sm-line-height);
+  }
+
+}

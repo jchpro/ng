@@ -41,7 +41,24 @@ export const routes: Routes = [
                   page,
                   title: page.fullName + ' | ' + lib.name
                 },
-                component: page.component
+                component: page.component,
+                children: page.tabs && [
+                  {
+                    path: '',
+                    pathMatch: 'full' as const,
+                    redirectTo: page.tabs[0].path
+                  },
+                  ...page.tabs.map(tab => ({
+                    path: tab.path,
+                    data: {
+                      lib,
+                      page,
+                      tab,
+                      title: tab.label + ' | ' + page.fullName + ' | ' + lib.name
+                    },
+                    component: tab.component
+                  }))
+                ]
               }))
             ]
           };

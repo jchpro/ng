@@ -66,8 +66,17 @@
     "./styles/check": {
       "sass": "./styles/_check.scss"
     },
+    "./styles/chip": {
+      "sass": "./styles/_chip.scss"
+    },
+    "./styles/color-field": {
+      "sass": "./styles/_color-field.scss"
+    },
     "./styles/dialog": {
       "sass": "./styles/_dialog.scss"
+    },
+    "./styles/dropzone": {
+      "sass": "./styles/_dropzone.scss"
     },
     "./styles/fieldset": {
       "sass": "./styles/_fieldset.scss"
@@ -96,8 +105,17 @@
     "./styles/range": {
       "sass": "./styles/_range.scss"
     },
+    "./styles/tile": {
+      "sass": "./styles/_tile.scss"
+    },
+    "./styles/toast": {
+      "sass": "./styles/_toast.scss"
+    },
     "./styles/table": {
       "sass": "./styles/_table.scss"
+    },
+    "./styles/tabs": {
+      "sass": "./styles/_tabs.scss"
     },
     "./styles/primitives": {
       "sass": "./styles/_primitives.scss"

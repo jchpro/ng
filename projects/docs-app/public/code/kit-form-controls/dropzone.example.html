@@ -1,0 +1,11 @@
+<!-- Import KitDropzone. The input is the native one, stretched over the zone -->
+<label class="kit-dropzone" kitDropzone (files)="upload($event)" (rejected)="refused.set($event)">
+  <input class="kit-dropzone__input" type="file" accept="image/*" multiple>
+  <span class="kit-dropzone__title">Drop images here or click to choose</span>
+  <span class="kit-dropzone__hint">PNG or JPG, up to 5 MB</span>
+</label>
+
+<!-- What was chosen is yours to show: a file input hides it with its button -->
+@for (file of files(); track file.name) {
+  <p>{{ file.name }}</p>
+}

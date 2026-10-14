@@ -1,5 +1,5 @@
 import { InjectionToken, Provider, signal, Signal } from '@angular/core';
-import { KitLabelsOverride, provideKitLabelsFor } from '../labels/kit-labels';
+import { KitLabelsOverride, KitLabelsSource, provideKitLabelsFor } from '../labels/kit-labels';
 
 /**
  * Every user-facing string of the data table, its paginator and toolbar parts. `{from}`, `{to}`,
@@ -149,6 +149,6 @@ export const KIT_TABLE_LABELS = new InjectionToken<Signal<KitTableLabels>>('KIT_
  * differs, or a complete set such as `KIT_TABLE_LABELS_PL`. A signal works for labels that
  * change at runtime (e.g. fed from your i18n library).
  */
-export function provideKitTableLabels(labels: KitTableLabelsOverride | Signal<KitTableLabelsOverride>): Provider {
+export function provideKitTableLabels(labels: KitLabelsSource<KitTableLabelsOverride>): Provider {
   return provideKitLabelsFor(KIT_TABLE_LABELS, KIT_TABLE_LABELS_EN, labels);
 }

@@ -1,0 +1,18 @@
+<!-- A text field adds the chips on Enter, each chip removes itself -->
+<div class="kit-field">
+  <label class="kit-field__label" for="task">Tasks</label>
+  <input class="kit-field__control" id="task" #task (keydown.enter)="add(task); $event.preventDefault()">
+</div>
+<ul class="kit-chips" aria-label="Tasks">
+  @for (item of tasks(); track item) {
+    <li class="kit-chip">
+      {{ item }}
+      <button type="button" class="kit-chip__remove" [attr.aria-label]="'Remove ' + item" (click)="remove(item)">
+        <svg lucideX size="12"></svg>
+      </button>
+    </li>
+  }
+</ul>
+
+<!-- Without the button, a chip only shows a value -->
+<ul class="kit-chips"><li class="kit-chip">Draft</li></ul>

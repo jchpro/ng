@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - Unreleased
+
+### Changed
+
+- `.kit-prose`: inline `code` and `<pre>` blocks sit on the new `--kit-surface-sunken` instead of the raised surface, so they are set
+  into a card or dialog instead of looking like another card
+- `KitFormLabels` has a new required `colorField` group (`notSet`, `clear`). A complete set built by hand needs it; a partial
+  override, `KIT_FORM_LABELS_EN` / `_PL` and `provideKitLabels()` are not affected
+
+### Added
+
+- `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
+  Styles only, no component. See `docs/tabs.md`
+- `KitToastService`: non-blocking messages. `success()`, `error()` and `info()` return a `KitToastRef` (`closed` resolves with
+  `'timeout' | 'dismissed' | 'action'`, `dismiss()`), `dismissAll()`. Successes stay 4 s, info 5 s, an error until it is closed, a toast
+  with an `action` at least 8 s; `provideKitToasts({ durations, actionMinDuration, max, position })` and a call's `duration`
+  (`null`: until closed) change that. Hover and focus pause the clock; successes and info are announced politely, errors at once.
+  New `KIT_TOAST_LABELS` (`provideKitToastLabels()`, EN and PL, part of `provideKitLabels()`), styles in `./styles/toast`. See `docs/toast.md`
+- `.kit-dropzone` (`__input`, `__title`, `__hint`) and the `kitDropzone` directive: a file drop zone over a native file input. `(files)`
+  emits what was dropped or picked, and puts it in the input; `(rejected)` what `accept` or a single-file input refused; `dragging`
+  is true while files are over it. Also `kitAcceptsFile(file, accept)`. See `docs/dropzone.md`
+- `kitTiles` / `kitTile` and `.kit-tile` (`__preview`, `__name`): a grid of single-choice items with previews, on the CDK's listbox
+  (`role="listbox"`, `aria-selected`, arrow keys, typeahead, disabled tiles). `[(value)]` holds the chosen tile's value. See `docs/tiles.md`
+- `.kit-chips`, `.kit-chip` and `.kit-chip__remove`: a short value as a removable pill, in a wrapping list. Styles only, the field
+  that adds them is the app's for now. See `docs/primitives.md`
+- `<kit-color-field>`: an optional color. The swatch with the hex value or the "not set" text and, with `clearable`, a button that
+  unsets it. A Signal Forms control (`FormValueControl<string | null>`), `null` when unset; its texts are the new `colorField`
+  group of `KIT_FORM_LABELS` (EN and PL), styles in `./styles/color-field`. See `docs/forms.md`
+- `.kit-check__note`: the muted explanation next to the text of a checkbox, radio or switch
+- `[kitCheckGroup]` / `[kitCheckValue]` on a checkbox: a group of options bound to an array. Checked while the value is in it, a
+  change adds or removes it. Takes any writable signal of an array, so also the `value` of a Signal Forms field. See `docs/forms.md`
+- `provideKitLabels()` and every per-feature `provideKitXLabels()` also take a factory returning a signal, run in an injection
+  context: `provideKitLabels(() => inject(LanguageService).language)`. The factory runs once and every feature shares its signal.
+  New type `KitLabelsSource<O>`. See `docs/labels.md`
+- `--kit-surface-sunken`: the background of code blocks, wells and tiles, darker than the canvas in both schemes. Primary and muted
+  ink and `--kit-border-control` pass on it (`npm run check:contrast`). See `docs/theming.md`
+
 ## [0.5.0] - 2026-10-10
 
 ### Added

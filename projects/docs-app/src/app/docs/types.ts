@@ -12,6 +12,12 @@ export interface DocLib {
   pages: DocPage[];
 }
 
+export interface DocTab {
+  label: string;
+  path: string;
+  component: Type<any>;
+}
+
 export interface DocPage {
   fullName: string;
   menuName: string;
@@ -19,5 +25,7 @@ export interface DocPage {
   icon: LucideIcon;
   desc: string;
   component: Type<any>;
+  /** Sections of the page, as child routes under it; then `component` is the shell that shows them. */
+  tabs?: DocTab[];
   extraData?: any;
 }

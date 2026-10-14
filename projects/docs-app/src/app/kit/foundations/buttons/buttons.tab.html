@@ -1,0 +1,65 @@
+<h2>Buttons <em>kit</em></h2>
+<p>
+  <code>kit-btn</code> with a color modifier works on every native button-like element:
+  <code>&lt;button&gt;</code>, a link, and <code>&lt;input type="button | submit | reset"&gt;</code>.
+  Hover and press darken the fill (the ghost button tints instead), and a disabled one ignores both.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/buttons.example.html">
+</app-code-example>
+
+<h3>Colors</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary">Primary</button>
+  <button type="button" class="kit-btn kit-btn--secondary">Secondary</button>
+  <button type="button" class="kit-btn kit-btn--ghost">Ghost</button>
+  <button type="button" class="kit-btn kit-btn--danger">Danger</button>
+</div>
+
+<h3>Disabled</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary" disabled>Primary</button>
+  <button type="button" class="kit-btn kit-btn--secondary" disabled>Secondary</button>
+  <button type="button" class="kit-btn kit-btn--ghost" disabled>Ghost</button>
+  <button type="button" class="kit-btn kit-btn--danger" disabled>Danger</button>
+</div>
+
+<h3>Sizes</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary">Default</button>
+  <button type="button" class="kit-btn kit-btn--primary kit-btn--lg">Large</button>
+  <button type="button" class="kit-btn kit-btn--ghost kit-btn--icon" aria-label="Add"><svg lucidePlus size="18"></svg></button>
+  <button type="button" class="kit-btn kit-btn--primary kit-btn--icon" aria-label="Add"><svg lucidePlus size="18"></svg></button>
+  <button type="button" class="kit-btn kit-btn--secondary kit-btn--icon kit-btn--lg" aria-label="Add"><svg lucidePlus size="20"></svg></button>
+  <button type="button" class="kit-btn kit-btn--primary"><svg lucidePlus size="16"></svg> With an icon</button>
+</div>
+
+<h3>Native elements</h3>
+<form class="row" (submit)="$event.preventDefault()" (reset)="$event.preventDefault()">
+  <button type="button" class="kit-btn kit-btn--primary">button</button>
+  <button type="submit" class="kit-btn kit-btn--primary">submit</button>
+  <button type="reset" class="kit-btn kit-btn--ghost">reset</button>
+  <a href="#" class="kit-btn kit-btn--secondary" (click)="$event.preventDefault()">link</a>
+  <a href="#" class="kit-btn kit-btn--ghost" aria-disabled="true" tabindex="-1">disabled link</a>
+  <input type="button" class="kit-btn kit-btn--primary" value="input button">
+  <input type="submit" class="kit-btn kit-btn--secondary" value="input submit">
+  <input type="reset" class="kit-btn kit-btn--ghost" value="input reset">
+  <input type="button" class="kit-btn kit-btn--primary" value="input, disabled" disabled>
+</form>
+
+<h3>Busy</h3>
+<div class="row">
+  <button type="button" class="kit-btn kit-btn--primary" [kitBusy]="busy()" (click)="runBusy()">Button</button>
+  <a href="#" class="kit-btn kit-btn--secondary" [kitBusy]="busy()" (click)="$event.preventDefault(); runBusy()">Link</a>
+  <input type="button" class="kit-btn kit-btn--ghost" [kitBusy]="busy()" (click)="runBusy()" value="Input">
+  <span class="note">Click any: a spinner replaces the label, an input can only be dimmed</span>
+</div>
+
+<h3>Image input</h3>
+<p>
+  <code>&lt;input type="image"&gt;</code> is its image, so there is nothing to style: the kit leaves it alone.
+</p>
+<div class="row">
+  <input type="image" alt="input image" width="24" height="24" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2393298f'/%3E%3C/svg%3E">
+</div>

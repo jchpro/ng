@@ -1,0 +1,71 @@
+// jchPRO App tabs for sections of one page where the route is the state: a plain `<nav>` of
+// links, not a component. Links rather than buttons, so a reload or a shared URL opens the same
+// section; the active one is marked by `aria-current="page"` (what `routerLinkActive` with
+// `ariaCurrentWhenActive="page"` sets), `kit-tabs__link--active` is the same look without a router.
+// The ARIA tabs pattern (roving tabindex, arrow keys) is for panels on one page and doesn't apply
+// to a nav of links, so Tab walks the links.
+//   <nav class="kit-tabs" aria-label="Version sections">
+//     <a class="kit-tabs__link" routerLink="general" routerLinkActive ariaCurrentWhenActive="page">General</a>
+//     <a class="kit-tabs__link" routerLink="questions" routerLinkActive ariaCurrentWhenActive="page">
+//       Questions <span class="kit-tabs__count">12</span>
+//     </a>
+//   </nav>
+// A 1px divider runs under the whole row and the active link draws a 2px `brand-pink` line over it
+// (3:1 on both surfaces, like the focus ring). Too narrow for the links, the row scrolls sideways.
+@mixin classes() {
+
+  .kit-tabs {
+    display: flex;
+    gap: var(--kit-space-1);
+    // Scrolls sideways when the links don't fit. `overflow-x` alone would make `overflow-y` auto as well, so
+    // nothing may stick out of the row vertically: the divider is a shadow inside it, not a border the links
+    // overlap with a negative margin (which made them 1px too tall for the row, and a scrollbar of its own).
+    overflow-x: auto;
+    overflow-y: hidden;
+    box-shadow: inset 0 -1px 0 var(--kit-border-subtle);
+    scrollbar-width: thin;
+  }
+
+  .kit-tabs__link {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: var(--kit-space-2);
+    padding: var(--kit-space-2) var(--kit-space-3);
+    // Drawn over the row's divider, so the active line replaces it instead of stacking on it.
+    border-bottom: 2px solid transparent;
+    color: var(--kit-ink-muted);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.12s;
+
+    &:hover {
+      color: var(--kit-ink-primary);
+    }
+
+    &[aria-current='page'],
+    &--active {
+      border-bottom-color: var(--kit-brand-pink);
+      color: var(--kit-ink-primary);
+    }
+
+    // Inset: the row clips overflow, so an outer ring would be cut off at its edges.
+    &:focus-visible {
+      outline: none;
+      border-radius: var(--kit-radius-sm) var(--kit-radius-sm) 0 0;
+      box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--kit-brand-pink) 30%, transparent);
+    }
+  }
+
+  // A counter after the label ("Questions 12"); the muted ink follows the link's state.
+  .kit-tabs__count {
+    color: var(--kit-ink-muted);
+    font-size: var(--kit-app-body-sm-size);
+    font-variant-numeric: tabular-nums;
+  }
+
+}

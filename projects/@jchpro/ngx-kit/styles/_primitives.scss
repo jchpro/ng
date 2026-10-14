@@ -7,7 +7,10 @@
 @use 'table';
 @use 'breadcrumb';
 @use 'check';
+@use 'chip';
+@use 'color-field';
 @use 'dialog';
+@use 'dropzone';
 @use 'fieldset';
 @use 'loading';
 @use 'menu';
@@ -16,6 +19,9 @@
 @use 'progress';
 @use 'prose';
 @use 'range';
+@use 'tabs';
+@use 'tile';
+@use 'toast';
 
 // Convenience aggregate — includes every primitive's classes in one call.
 @mixin classes() {
@@ -26,7 +32,10 @@
   @include prose.classes();
   @include range.classes();
   @include check.classes();
+  @include chip.classes();
+  @include color-field.classes();
   @include dialog.classes();
+  @include dropzone.classes();
   @include fieldset.classes();
   @include loading.classes();
   @include menu.classes();
@@ -37,4 +46,7 @@
   @include badge.classes();
   @include table.classes();
   @include breadcrumb.classes();
+  @include tabs.classes();
+  @include tile.classes();
+  @include toast.classes();
 }

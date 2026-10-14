@@ -24,6 +24,9 @@ npm i @jchpro/ngx-kit
 - [Primitives](docs/primitives.md) — Button, Field, Card and status-dot CSS classes
 - [Layout shell](docs/layout.md) — `KitShell`, the responsive header/sidenav/footer composition
 - [Page header](docs/page-header.md) — breadcrumb, title and the page's main actions
+- [Tabs](docs/tabs.md) — `kit-tabs`, a nav of links for the sections of a page, the route as its state
+- [File drop zone](docs/dropzone.md) — `kit-dropzone` and the `kitDropzone` directive for dropping files, with `accept` and `multiple`
+- [Selectable tiles](docs/tiles.md) — `kitTiles` / `kitTile`: a grid of single-choice items with previews, on the CDK listbox
 - [Prose](docs/prose.md) — `kit-prose` for long-form content: headings, links, quotes, code, tables
 - [Auth views](docs/auth.md) — local sign-in: `KitLogin`, `KitForgotPassword`, `KitSetPassword` (reset and invitation) and the pieces to build your own
 - [Dialogs](docs/dialogs.md) — one dialog look, `KitDialogService` with Promise-based `alert`/`confirm`
@@ -31,5 +34,6 @@ npm i @jchpro/ngx-kit
 - [Data tables](docs/table.md) — `KitDataTable` frame, `KitSort` headers, `KitPaginator`, column conventions, `kit-badge`
 - [Forms](docs/forms.md) — `<kit-field-error>` for a Signal Forms field, `resetKitForm()`
 - [Testing helpers](docs/testing.md) — `@jchpro/ngx-kit/testing`: `settle`, `openMenu`, `type`, `pick`, `submit`
+- [Toasts](docs/toast.md) — `KitToastService`: `success`/`error`/`info`, auto-dismiss that pauses on hover, an action, polite and assertive live regions
 - [Menus](docs/menu.md) — contextual menus on CDK overlays: `kitMenuTriggerFor`, `kitMenu`, `kitMenuItem`
 - [Loading state](docs/loading.md) — `kitBusy` for buttons and panels, the shell's global loading bar

@@ -1,0 +1,27 @@
+<h2>Overview</h2>
+<p>
+  Every string the kit shows, visible text and accessible names alike, goes through a per-feature labels token with
+  English defaults. The kit has no i18n dependency, not even an optional one: the labels are plain strings, you bring the
+  translations. The closest layer wins: the defaults, then the app-wide labels, then the call or instance's own option.
+</p>
+
+<h2>App-wide</h2>
+<p>
+  <code>provideKitLabels('pl')</code> switches every feature to a complete set, <code>provideKitDialogLabels()</code> and
+  its siblings override single strings. Providers apply in order, so the language comes first.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-labels/app-wide.example.ts">
+</app-code-example>
+
+<h2>A language that lives in a service</h2>
+<p>
+  <code>providers</code> is listed before any injector exists, so a service can't be injected there. Give
+  <code>provideKitLabels()</code> a factory returning the language signal instead: it runs in an injection context, once,
+  and all the features follow the signal as the language changes.
+</p>
+<app-code-example
+  lang="ts"
+  source="/code/kit-labels/factory.example.ts">
+</app-code-example>
