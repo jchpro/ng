@@ -10,3 +10,4 @@ export * from './menu/public-api';
 export * from './shell/public-api';
 export * from './table/public-api';
 export * from './tile/public-api';
+export * from './toast/public-api';

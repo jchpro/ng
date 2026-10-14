@@ -4,6 +4,7 @@ import { KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL, provideKitDialogLabels } fr
 import { KIT_FORM_LABELS_EN, KIT_FORM_LABELS_PL, provideKitFormLabels } from '../forms/kit-form-labels';
 import { KIT_SHELL_LABELS_EN, KIT_SHELL_LABELS_PL, provideKitShellLabels } from '../shell/kit-shell-labels';
 import { KIT_TABLE_LABELS_EN, KIT_TABLE_LABELS_PL, provideKitTableLabels } from '../table/kit-table-labels';
+import { KIT_TOAST_LABELS_EN, KIT_TOAST_LABELS_PL, provideKitToastLabels } from '../toast/kit-toast-labels';
 import { KitLabelsSource, resolveKitLabelsSource } from './kit-labels';
 
 export type KitLanguage = 'en' | 'pl';
@@ -40,6 +41,7 @@ export function provideKitLabels(language: KitLabelsSource<KitLanguage>): Provid
     provideKitDialogLabels(pick(KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL)),
     provideKitFormLabels(pick(KIT_FORM_LABELS_EN, KIT_FORM_LABELS_PL)),
     provideKitShellLabels(pick(KIT_SHELL_LABELS_EN, KIT_SHELL_LABELS_PL)),
-    provideKitTableLabels(pick(KIT_TABLE_LABELS_EN, KIT_TABLE_LABELS_PL))
+    provideKitTableLabels(pick(KIT_TABLE_LABELS_EN, KIT_TABLE_LABELS_PL)),
+    provideKitToastLabels(pick(KIT_TOAST_LABELS_EN, KIT_TOAST_LABELS_PL))
   ];
 }

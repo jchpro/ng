@@ -8,6 +8,7 @@ import { DialogsPage } from './feedback/dialogs/dialogs.page';
 import { LoadingPage } from './feedback/loading/loading.page';
 import { MenuPage } from './feedback/menu/menu.page';
 import { StatusTab } from './feedback/status/status.tab';
+import { ToastsTab } from './feedback/toasts/toasts.tab';
 import { ChoiceTab } from './forms/choice/choice.tab';
 import { FilesTab } from './forms/files/files.tab';
 import { TextValuesTab } from './forms/text-values/text-values.tab';
@@ -75,12 +76,13 @@ export const KIT_LIB: DocLib = {
       menuName: 'Feedback',
       path: 'feedback',
       icon: LucideMessageSquareText,
-      desc: 'Loading state, dialogs, menus, progress and status',
+      desc: 'Loading state, dialogs, menus, toasts, progress and status',
       component: DocsTabbedPage,
       tabs: [
         { label: 'Loading', path: 'loading', component: LoadingPage },
         { label: 'Dialogs', path: 'dialogs', component: DialogsPage },
         { label: 'Menus', path: 'menu', component: MenuPage },
+        { label: 'Toasts', path: 'toasts', component: ToastsTab },
         { label: 'Status', path: 'status', component: StatusTab }
       ]
     },

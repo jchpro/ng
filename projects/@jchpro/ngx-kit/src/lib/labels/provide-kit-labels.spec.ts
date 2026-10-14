@@ -5,6 +5,7 @@ import { KIT_DIALOG_LABELS,KIT_DIALOG_LABELS_EN, KIT_DIALOG_LABELS_PL, provideKi
 import { KIT_FORM_LABELS, KIT_FORM_LABELS_EN, KIT_FORM_LABELS_PL } from '../forms/kit-form-labels';
 import { KIT_SHELL_LABELS, KIT_SHELL_LABELS_EN, KIT_SHELL_LABELS_PL } from '../shell/kit-shell-labels';
 import { KIT_TABLE_LABELS, KIT_TABLE_LABELS_EN, KIT_TABLE_LABELS_PL } from '../table/kit-table-labels';
+import { KIT_TOAST_LABELS, KIT_TOAST_LABELS_EN, KIT_TOAST_LABELS_PL } from '../toast/kit-toast-labels';
 import { KitLanguage, provideKitLabels } from './provide-kit-labels';
 
 describe('provideKitLabels', () => {
@@ -70,6 +71,20 @@ describe('provideKitLabels', () => {
     // Then
     expect(TestBed.inject(KIT_FORM_LABELS)()).toEqual(KIT_FORM_LABELS_PL);
     expect(TestBed.inject(KIT_TABLE_LABELS)()).toEqual(KIT_TABLE_LABELS_PL);
+  });
+
+  it('should wire the toast labels too', () => {
+    // Given
+    const language = signal<KitLanguage>('pl');
+    TestBed.configureTestingModule({ providers: [provideKitLabels(language)] });
+    const labels = TestBed.inject(KIT_TOAST_LABELS);
+    expect(labels()).toEqual(KIT_TOAST_LABELS_PL);
+
+    // When
+    language.set('en');
+
+    // Then
+    expect(labels()).toEqual(KIT_TOAST_LABELS_EN);
   });
 
   describe('with a language signal', () => {

@@ -108,6 +108,9 @@
     "./styles/tile": {
       "sass": "./styles/_tile.scss"
     },
+    "./styles/toast": {
+      "sass": "./styles/_toast.scss"
+    },
     "./styles/table": {
       "sass": "./styles/_table.scss"
     },

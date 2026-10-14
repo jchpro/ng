@@ -14,6 +14,7 @@ bring the translations.
 | [Forms](forms.md) | `KIT_FORM_LABELS` | `provideKitFormLabels()` | `KIT_FORM_LABELS_EN`, `KIT_FORM_LABELS_PL` |
 | [Layout shell](layout.md) | `KIT_SHELL_LABELS` | `provideKitShellLabels()` | `KIT_SHELL_LABELS_EN`, `KIT_SHELL_LABELS_PL` |
 | [Data tables](table.md) | `KIT_TABLE_LABELS` | `provideKitTableLabels()` | `KIT_TABLE_LABELS_EN`, `KIT_TABLE_LABELS_PL` |
+| [Toasts](toast.md) | `KIT_TOAST_LABELS` | `provideKitToastLabels()` | `KIT_TOAST_LABELS_EN`, `KIT_TOAST_LABELS_PL` |
 
 Each token holds a `Signal` of the feature's labels, so they can follow a language switch at
 runtime.

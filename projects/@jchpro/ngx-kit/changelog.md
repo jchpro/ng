@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
   Styles only, no component. See `docs/tabs.md`
+- `KitToastService`: non-blocking messages. `success()`, `error()` and `info()` return a `KitToastRef` (`closed` resolves with
+  `'timeout' | 'dismissed' | 'action'`, `dismiss()`), `dismissAll()`. Successes stay 4 s, info 5 s, an error until it is closed, a toast
+  with an `action` at least 8 s; `provideKitToasts({ durations, actionMinDuration, max, position })` and a call's `duration`
+  (`null`: until closed) change that. Hover and focus pause the clock; successes and info are announced politely, errors at once.
+  New `KIT_TOAST_LABELS` (`provideKitToastLabels()`, EN and PL, part of `provideKitLabels()`), styles in `./styles/toast`. See `docs/toast.md`
 - `.kit-dropzone` (`__input`, `__title`, `__hint`) and the `kitDropzone` directive: a file drop zone over a native file input. `(files)`
   emits what was dropped or picked, and puts it in the input; `(rejected)` what `accept` or a single-file input refused; `dragging`
   is true while files are over it. Also `kitAcceptsFile(file, accept)`. See `docs/dropzone.md`

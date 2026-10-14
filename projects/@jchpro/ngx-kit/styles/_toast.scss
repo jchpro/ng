@@ -1,0 +1,88 @@
+// jchPRO App toasts — the look of what `KitToastService` shows: a short message in a card on the raised surface, a
+// status icon, an optional action and a close button. Plain classes, the container is the kit's own component.
+// Needs the overlay styles too (`styles/overlay`), the toasts open in an overlay.
+//
+// Primary ink on the raised surface, the status color only on the icon (3:1, as for every status icon).
+@mixin classes() {
+
+  @keyframes kit-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  // Two live regions, one per urgency, stacked
+  .kit-toasts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-2);
+    width: min(24rem, calc(100vw - 2 * var(--kit-space-4)));
+  }
+
+  .kit-toasts__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kit-space-2);
+  }
+
+  .kit-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kit-space-3);
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--kit-space-3);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-overlay);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    animation: kit-toast-in 0.16s ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  .kit-toast__icon {
+    flex: 0 0 auto;
+    // Centers the 20px icon on the first line of text
+    margin-top: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .kit-toast--success .kit-toast__icon {
+    color: var(--kit-status-success);
+  }
+
+  .kit-toast--error .kit-toast__icon {
+    color: var(--kit-status-danger);
+  }
+
+  .kit-toast--info .kit-toast__icon {
+    color: var(--kit-status-info);
+  }
+
+  .kit-toast__message {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .kit-toast__action,
+  .kit-toast__dismiss {
+    flex: 0 0 auto;
+    // The buttons are control height, which would make a one-line toast tall: pull them in
+    margin: calc(-1 * var(--kit-space-2)) 0;
+  }
+
+  .kit-toast__dismiss {
+    margin-right: calc(-1 * var(--kit-space-1));
+  }
+
+}
