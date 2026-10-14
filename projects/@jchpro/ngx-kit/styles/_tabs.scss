@@ -17,8 +17,12 @@
   .kit-tabs {
     display: flex;
     gap: var(--kit-space-1);
+    // Scrolls sideways when the links don't fit. `overflow-x` alone would make `overflow-y` auto as well, so
+    // nothing may stick out of the row vertically: the divider is a shadow inside it, not a border the links
+    // overlap with a negative margin (which made them 1px too tall for the row, and a scrollbar of its own).
     overflow-x: auto;
-    border-bottom: 1px solid var(--kit-border-subtle);
+    overflow-y: hidden;
+    box-shadow: inset 0 -1px 0 var(--kit-border-subtle);
     scrollbar-width: thin;
   }
 
@@ -28,8 +32,7 @@
     align-items: center;
     gap: var(--kit-space-2);
     padding: var(--kit-space-2) var(--kit-space-3);
-    // Overlaps the row's divider, so the active line replaces it instead of stacking on it.
-    margin-bottom: -1px;
+    // Drawn over the row's divider, so the active line replaces it instead of stacking on it.
     border-bottom: 2px solid transparent;
     color: var(--kit-ink-muted);
     font-family: var(--kit-font-body);
