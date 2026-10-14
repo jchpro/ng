@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `.kit-tabs` (`__link`, `--active`, `__count`): sections of one page as a nav of links, the active one marked by `aria-current="page"`.
   Styles only, no component. See `docs/tabs.md`
+- `--kit-surface-sunken`: the background of code blocks, wells and tiles, darker than the canvas in both schemes. Primary and muted
+  ink and `--kit-border-control` pass on it (`npm run check:contrast`). See `docs/theming.md`
 
 ## [0.5.0] - 2026-10-10
 

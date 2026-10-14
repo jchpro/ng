@@ -28,6 +28,10 @@ theme.set('dark');
 theme.toggle(); // cycles system -> dark -> light -> system
 ```
 
+**Surfaces.** `--kit-surface-canvas` (the page), `-raised` (cards, fields, panels), `-overlay` (dialogs, menus, popovers)
+and `-sunken` (code blocks, wells and the background of tiles: set into the surface instead of sitting on it, slightly darker
+than the canvas in both schemes). The ink and `--kit-border-control` pairings are checked on the sunken one too.
+
 **Contrast tokens.** A few tokens exist so a pairing never has to be patched in a component:
 `--kit-ink-on-primary` (the primary button's label: white in dark, near-black in light),
 `--kit-border-control` (the edge of a control, at 3:1 or more on both surfaces; `--kit-border-subtle` is for

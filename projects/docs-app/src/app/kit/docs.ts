@@ -11,6 +11,7 @@ import { StatusTab } from './feedback/status/status.tab';
 import { ChoiceTab } from './forms/choice/choice.tab';
 import { TextValuesTab } from './forms/text-values/text-values.tab';
 import { FormsPage } from './forms/validation/forms.page';
+import { TokensTab } from './foundations/tokens/tokens.tab';
 import { ButtonsTab } from './foundations/buttons/buttons.tab';
 import { TypographyPage } from './foundations/typography/typography.page';
 import { PageHeaderPage } from './layout/page-header/page-header.page';
@@ -31,10 +32,11 @@ export const KIT_LIB: DocLib = {
       menuName: 'Foundations',
       path: 'foundations',
       icon: LucideType,
-      desc: 'Typography and buttons',
+      desc: 'Typography, tokens and buttons',
       component: DocsTabbedPage,
       tabs: [
         { label: 'Typography', path: 'typography', component: TypographyPage },
+        { label: 'Tokens', path: 'tokens', component: TokensTab },
         { label: 'Buttons', path: 'buttons', component: ButtonsTab }
       ]
     },

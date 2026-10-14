@@ -1,0 +1,26 @@
+.surfaces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--kit-space-4);
+}
+
+.surface {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kit-space-2);
+  padding: var(--kit-space-4);
+  border: 1px solid var(--kit-border-control);
+  border-radius: var(--kit-radius-md);
+  color: var(--kit-ink-primary);
+
+  // The code chip of a prose container has a surface of its own, a bare one reads better here.
+  code {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+}
+
+.muted {
+  color: var(--kit-ink-muted);
+}
