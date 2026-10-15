@@ -105,8 +105,9 @@ control is restored. Include `./styles/check` on its own, or via `primitives`.
 
 ## Chips
 
-A short value as a pill, with an optional remove button: `kit-chip` in a `kit-chips` list. Plain classes, no component. What
-adds the chips is yours (a text field and Enter, a picker), the list lives in your component.
+A short value as a pill, with an optional remove button: `kit-chip` in a `kit-chips` list. Plain classes, no component. For a
+list of texts that is typed in, with Enter, paste and Backspace, use `<kit-chip-input>` (see [Forms](forms.md)), which is
+built from these. Here the chips are yours: a picker that adds them, or chips that only show values.
 
 ```html
 <div class="kit-field">
