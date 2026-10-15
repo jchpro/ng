@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - Unreleased
+
+### Changed
+
+- `KitFormLabels` has a new required `chipInput` group (`remove`, `added`, `removed`), like `colorField` before it, and two new
+  `errors` (`minItems`, `maxItems`): a complete set built by hand needs them; a partial override, `KIT_FORM_LABELS_EN` / `_PL` and
+  `provideKitLabels()` are not affected
+- `<kit-field-error>` says "items" instead of "characters" for `minLength` and `maxLength` when the value of the field is an array,
+  e.g. "Add at most 3 items." for a chip input. `[messages]` still goes by `minLength` / `maxLength`
+
+### Added
+
+- `<kit-chip-input>`: a list of short texts, type one, press Enter, get a removable chip. A Signal Forms control
+  (`FormValueControl<string[]>`) or `[(value)]`. Enter and the comma add (`separators`), a pasted text with line breaks becomes
+  one chip per piece, Backspace in an empty field removes the last chip, `addOnBlur` keeps the text left in the field. It trims
+  and drops empty texts and leaves duplicates, limits and the rest to the validators of the field. Adding and removing are said in
+  a live region, the remove buttons are named with the chip's text. See `docs/forms.md`
+
 ## [0.6.0] - 2026-10-14
 
 ### Changed

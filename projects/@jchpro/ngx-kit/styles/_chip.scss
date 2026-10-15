@@ -39,6 +39,29 @@
     }
   }
 
+  // `<kit-chip-input>`: the text field, the chips under it, and a live region nobody sees.
+  .kit-chip-input {
+    position: relative;
+    display: block;
+
+    // The list is always rendered, but only takes room once it has chips
+    .kit-chips:not(:empty) {
+      margin-top: var(--kit-space-2);
+    }
+  }
+
+  .kit-chip-input__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .kit-chip__remove {
     display: inline-grid;
     flex: 0 0 auto;

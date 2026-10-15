@@ -1,18 +1,13 @@
-<!-- A text field adds the chips on Enter, each chip removes itself -->
+<!-- Import KitChipInput. Enter or a comma adds, a pasted list is split, Backspace removes the last -->
 <div class="kit-field">
-  <label class="kit-field__label" for="task">Tasks</label>
-  <input class="kit-field__control" id="task" #task (keydown.enter)="add(task); $event.preventDefault()">
+  <label class="kit-field__label" for="tasks">Tasks</label>
+  <kit-chip-input inputId="tasks" ariaLabel="Tasks" placeholder="Add a task" [formField]="form.tasks" />
+  <!-- Duplicates and limits are validators of the field, the error is shown under the chips -->
+  <kit-field-error [field]="form.tasks" />
 </div>
-<ul class="kit-chips" aria-label="Tasks">
-  @for (item of tasks(); track item) {
-    <li class="kit-chip">
-      {{ item }}
-      <button type="button" class="kit-chip__remove" [attr.aria-label]="'Remove ' + item" (click)="remove(item)">
-        <svg lucideX size="12"></svg>
-      </button>
-    </li>
-  }
-</ul>
 
-<!-- Without the button, a chip only shows a value -->
+<!-- Without Signal Forms -->
+<kit-chip-input ariaLabel="Tags" addOnBlur [(value)]="tags" />
+
+<!-- Chips that only show values: the classes alone -->
 <ul class="kit-chips"><li class="kit-chip">Draft</li></ul>

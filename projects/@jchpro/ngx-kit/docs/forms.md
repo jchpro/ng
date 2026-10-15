@@ -31,7 +31,13 @@ The text is chosen by the `kind` of the error:
 | `max` | Enter a value of at most {max}. | `{max}` |
 | `minLength` | Enter at least {min} characters. | `{min}` is the length |
 | `maxLength` | Enter at most {max} characters. | `{max}` is the length |
+| `minItems` | Add at least {min} items. | `{min}` is the number of items |
+| `maxItems` | Add at most {max} items. | `{max}` is the number of items |
 | `pattern` | The value is in the wrong format. | |
+
+`minItems` and `maxItems` aren't kinds Angular reports: it reports `minLength` and `maxLength` for a list too. When the value
+of the field is an array (`<kit-chip-input>`, a group of checkboxes), those two read these texts, so a limit on the number of
+chips doesn't talk about characters. `[messages]` is still by the kind Angular reports, `maxLength`.
 
 For any other kind: the text from `[messages]`, then the `message` of the error itself, then the generic
 `fallback` label (“The value is not valid.”).
@@ -68,6 +74,32 @@ protected clear() {
 
 `resetKitForm(form, formElement, value?)` takes the `<form>` or its `ElementRef`, resets the native form first
 (which empties every control), then the Signal Forms one — so the values of the model, or `value`, are written back.
+
+## A list of short texts: `<kit-chip-input>`
+
+Many short texts at once (tasks, tags, emails): type one, press Enter, get a removable chip. The value is a `string[]`.
+
+```html
+<label class="kit-field__label" for="tasks">Tasks</label>
+<kit-chip-input inputId="tasks" ariaLabel="Tasks" placeholder="Add a task" [formField]="form.tasks" />
+<kit-field-error [field]="form.tasks" />
+```
+
+- **Adding.** Enter and the comma (`[separators]`, `KeyboardEvent.key` values) turn the typed text into a chip. A pasted text with
+  line breaks, or with a one-character separator in it, becomes one chip per piece. The text is trimmed, an empty one isn't added.
+  An Enter in an empty field isn't taken, so it still submits a form; a comma in an empty field isn't typed. With `addOnBlur` the
+  text left in the field when it loses the focus is added too, so it isn't lost on the way to the save button.
+- **Removing.** A chip's button, or Backspace in an empty field, which removes the last chip. After a button the focus returns to
+  the text field.
+- **No validation in it.** Duplicates, a limit on the number of chips, a text that is too long: validators on the field, shown by
+  `<kit-field-error>` under the chips. The component never refuses a chip, since one that vanishes without a word is worse than a
+  message. `maxlength` limits what is typed; a longer piece that is pasted is added as it is, the validator tells.
+- **Screen readers.** The chips are a list, each remove button is named with the text ("Remove Write the intro"), and adding or
+  removing is said in a polite live region ("Added Write the intro"). The texts are `KIT_FORM_LABELS.chipInput`, EN and PL.
+- A Signal Forms control (`FormValueControl<string[]>`): `[formField]` binds a `string[]` field and keeps `disabled`, `readonly`
+  and `invalid` in sync; without Signal Forms it is `[(value)]`. A `<label for>` can't point at a custom element, so `inputId`
+  goes on the text field inside. Without a chip input, the `kit-chips` classes are the look alone,
+  see [Primitives](primitives.md).
 
 ## An optional color: `<kit-color-field>`
 

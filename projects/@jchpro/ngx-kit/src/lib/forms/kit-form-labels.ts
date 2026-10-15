@@ -13,6 +13,9 @@ export interface KitFormLabels {
     max: string;
     minLength: string;
     maxLength: string;
+    /** `minLength` and `maxLength` of a field whose value is a list (`<kit-chip-input>`, a group of checkboxes): the number of items. */
+    minItems: string;
+    maxItems: string;
     pattern: string;
   };
   /** For an error of a kind without a message of its own, which has no `message` either. */
@@ -21,6 +24,15 @@ export interface KitFormLabels {
   colorField: {
     notSet: string;
     clear: string;
+  };
+  /**
+   * `<kit-chip-input>`: the accessible name of a chip's remove button, and what is said when chips are added or removed.
+   * `{value}` is the text of the chip (the texts, joined, for several).
+   */
+  chipInput: {
+    remove: string;
+    added: string;
+    removed: string;
   };
 }
 
@@ -35,12 +47,19 @@ export const KIT_FORM_LABELS_EN: KitFormLabels = {
     max: 'Enter a value of at most {max}.',
     minLength: 'Enter at least {min} characters.',
     maxLength: 'Enter at most {max} characters.',
+    minItems: 'Add at least {min} items.',
+    maxItems: 'Add at most {max} items.',
     pattern: 'The value is in the wrong format.'
   },
   fallback: 'The value is not valid.',
   colorField: {
     notSet: 'Not set',
     clear: 'Clear the color'
+  },
+  chipInput: {
+    remove: 'Remove {value}',
+    added: 'Added {value}',
+    removed: 'Removed {value}'
   }
 };
 
@@ -52,12 +71,19 @@ export const KIT_FORM_LABELS_PL: KitFormLabels = {
     max: 'Podaj wartość nie większą niż {max}.',
     minLength: 'Minimalna liczba znaków: {min}.',
     maxLength: 'Maksymalna liczba znaków: {max}.',
+    minItems: 'Minimalna liczba elementów: {min}.',
+    maxItems: 'Maksymalna liczba elementów: {max}.',
     pattern: 'Wartość ma niepoprawny format.'
   },
   fallback: 'Wartość jest niepoprawna.',
   colorField: {
     notSet: 'Nie ustawiono',
     clear: 'Wyczyść kolor'
+  },
+  chipInput: {
+    remove: 'Usuń {value}',
+    added: 'Dodano {value}',
+    removed: 'Usunięto {value}'
   }
 };
 

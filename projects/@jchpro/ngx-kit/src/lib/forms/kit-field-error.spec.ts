@@ -7,7 +7,7 @@ import { provideKitFormLabels } from './kit-form-labels';
 
 describe('KitFieldError', () => {
 
-  const FIELDS = ['required', 'email', 'min', 'max', 'minLength', 'maxLength', 'pattern', 'custom', 'own', 'bare', 'proto', 'two'] as const;
+  const FIELDS = ['required', 'email', 'min', 'max', 'minLength', 'maxLength', 'pattern', 'custom', 'own', 'bare', 'proto', 'two', 'tooMany', 'tooFew'] as const;
   type FieldName = typeof FIELDS[number];
 
   @Component({
@@ -26,12 +26,15 @@ describe('KitFieldError', () => {
       <kit-field-error id="bare" [field]="f.bare" />
       <kit-field-error id="proto" [field]="f.proto" />
       <kit-field-error id="two" [field]="f.two" />
+      <kit-field-error id="tooMany" [field]="f.tooMany" [messages]="messages()" />
+      <kit-field-error id="tooFew" [field]="f.tooFew" />
     `
   })
   class TestCmp {
     readonly model = signal({
       required: '', email: 'nope', min: 1, max: 11, minLength: 'ab', maxLength: 'abcdef', pattern: '123',
-      custom: 'x', own: 'x', bare: 'x', proto: 'x', two: ''
+      custom: 'x', own: 'x', bare: 'x', proto: 'x', two: '',
+      tooMany: ['a', 'b', 'c', 'd'], tooFew: ['a']
     });
     readonly messages = signal<Record<string, string>>({});
     readonly f = form(this.model, path => {
@@ -48,6 +51,8 @@ describe('KitFieldError', () => {
       validate(path.proto, () => ({ kind: 'constructor' }));
       required(path.two);
       minLength(path.two, 3);
+      maxLength(path.tooMany, 3);
+      minLength(path.tooFew, 2);
     });
   }
 
@@ -140,6 +145,24 @@ describe('KitFieldError', () => {
 
   // Angular documents the error classes but not the names of their limit properties. The component reads the limit
   // by these names, so a change in Angular shows up here instead of as an empty `{min}` in a message
+  it('should count items, not characters, for the length of a list', () => {
+    // Given
+    create();
+
+    // Then
+    expect(touch('tooMany')).toBe('Add at most 3 items.');
+    expect(touch('tooFew')).toBe('Add at least 2 items.');
+  });
+
+  it('should let [messages] reword the length of a list by its kind too', () => {
+    // Given
+    create();
+    cmp.messages.set({ maxLength: 'Three tasks at most.' });
+
+    // Then
+    expect(touch('tooMany')).toBe('Three tasks at most.');
+  });
+
   it('should find the limit of an error under min, max, minLength and maxLength', () => {
     // Given
     create();

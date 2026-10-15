@@ -48,13 +48,15 @@ export class KitFieldError {
     }
     const labels = this.#labels();
     const builtIn = labels.errors as Record<string, string>;
-    const own = (messages: Readonly<Record<string, string>>) => Object.hasOwn(messages, error.kind) ? messages[error.kind] : undefined;
+    // The length of a list is a number of items, not of characters: its own built-in texts (a custom [messages] one is by `kind`)
+    const builtInKind = Array.isArray(state.value()) && /^(min|max)Length$/.test(error.kind) ? error.kind.replace('Length', 'Items') : error.kind;
+    const own = (messages: Readonly<Record<string, string>>, kind = error.kind) => Object.hasOwn(messages, kind) ? messages[kind] : undefined;
     // The limit is carried under a name of its own (`min`, `max`, `minLength`, `maxLength`): Angular documents the
     // classes, not these properties, so a spec pins them
     const limits = error as unknown as Record<string, unknown>;
     const min = limits['minLength'] ?? limits['min'];
     const max = limits['maxLength'] ?? limits['max'];
-    const template = own(this.messages()) ?? own(builtIn) ?? error.message ?? labels.fallback;
+    const template = own(this.messages()) ?? own(builtIn, builtInKind) ?? error.message ?? labels.fallback;
     return { text: formatKitLabel(template, { ...(min === undefined ? {} : { min: String(min) }), ...(max === undefined ? {} : { max: String(max) }) }) };
   });
 

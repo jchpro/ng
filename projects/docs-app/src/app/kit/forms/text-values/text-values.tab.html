@@ -303,10 +303,13 @@
   </div>
 </div>
 
-<h2>Chips <em>kit</em></h2>
+<h2>Chips and chip input <em>kit</em></h2>
 <p>
-  A short value as a pill, removable or not: <code>kit-chip</code> in a <code>kit-chips</code> list. Only the look is the
-  kit's for now, the text field that adds them is yours. Type and press Enter below. Primary ink on the sunken surface.
+  <code>&lt;kit-chip-input&gt;</code> is a list of short texts: type one, press Enter or a comma, get a removable chip. Paste a list and
+  it is split, Backspace in an empty field removes the last chip. It only trims and drops empty texts: the duplicates and the limits
+  are validators of the field, <code>&lt;kit-field-error&gt;</code> shows them under the chips (try a fourth chip below, or the same
+  text twice). A Signal Forms control, or <code>[(value)]</code>. The chips themselves are <code>kit-chip</code> in a
+  <code>kit-chips</code> list, primary ink on the sunken surface.
 </p>
 <app-code-example
   lang="html"
@@ -314,21 +317,23 @@
 </app-code-example>
 <div class="specimens">
   <div class="kit-field">
-    <label class="kit-field__label" for="task">Tasks</label>
-    <input class="kit-field__control" id="task" #task placeholder="Type and press Enter"
-           (keydown.enter)="add(task); $event.preventDefault()">
+    <label class="kit-field__label" for="tasks">Tasks, at most 3, no duplicates</label>
+    <kit-chip-input inputId="tasks" ariaLabel="Tasks" placeholder="Type and press Enter" [formField]="tasksForm.tasks" />
+    <kit-field-error [field]="tasksForm.tasks" [messages]="{ duplicate: 'Every task can be there only once.' }" />
+  </div>
+  <div class="kit-field">
+    <label class="kit-field__label" for="tags">Tags, added on blur too</label>
+    <kit-chip-input inputId="tags" ariaLabel="Tags" addOnBlur [(value)]="tags" />
+    <p class="kit-field__hint">{{ tags().length }} tag(s): {{ tags().join(' | ') || 'none' }}</p>
+  </div>
+  <div class="kit-field">
+    <span class="kit-field__label">Chips that only show values</span>
+    <ul class="kit-chips" aria-label="Status">
+      <li class="kit-chip">Draft</li>
+      <li class="kit-chip">Needs a review</li>
+    </ul>
   </div>
 </div>
-<ul class="kit-chips" aria-label="Tasks">
-  @for (item of tasks(); track item) {
-    <li class="kit-chip">
-      {{ item }}
-      <button type="button" class="kit-chip__remove" [attr.aria-label]="'Remove ' + item" (click)="remove(item)">
-        <svg lucideX size="12"></svg>
-      </button>
-    </li>
-  }
-</ul>
 
 <h2>Output</h2>
 <p>

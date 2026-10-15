@@ -212,10 +212,10 @@ Notes that aren't obvious from the code:
   Reading `resource.value()` throws in the error state: use `hasValue()`. `.kit-badge` is primary ink on a tint with a
   status-colored dot, since `status-*-ink` text on its own tint fails 4.5:1 (the contrast script checks tinted pairs with
   `status-x@10>surface-raised` backgrounds).
-- **Batch 2** (branch `feat/kit-batch-2`, kit 0.6.0 unreleased; issues #31–#39 except the `kit-chip-input` component of #36):
+- **Batch 2** (kit 0.6.0 released, issues #31–#39; the `kit-chip-input` of #36 is on `feat/kit-chip-input`, for 0.7.0):
   `.kit-tabs` (nav of links, `aria-current="page"`), `--kit-surface-sunken`, `.kit-check__note` and `[kitCheckGroup]`
   (checkboxes bound to an array, any writable signal incl. a Signal Forms `value`), `kit-color-field` (a `FormValueControl<string | null>`),
-  `.kit-chips`/`.kit-chip` (styles only so far), `kitTiles`/`kitTile` (CDK `CdkListbox`/`CdkOption` hostDirectives, `[(value)]`; arrows
+  `.kit-chips`/`.kit-chip` and `kit-chip-input` (kit 0.7.0, a `FormValueControl<string[]>` that trims and drops empties and leaves duplicates and limits to the form's validators), `kitTiles`/`kitTile` (CDK `CdkListbox`/`CdkOption` hostDirectives, `[(value)]`; arrows
   follow the reading order), `kit-dropzone` + `kitDropzone` (files in the input, `(files)`/`(rejected)`), `KitToastService`
   (errors sticky, `provideKitToasts`, first toast shows 50 ms late so the live regions are in the page). The CDK key manager reads
   `keyCode`, so specs that dispatch keys must set it, and a CDK option takes `id` over (use `data-*` in specs).
