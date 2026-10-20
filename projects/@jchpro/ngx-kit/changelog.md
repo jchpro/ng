@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - Unreleased
+
+### Changed
+
+- The peer range on `@jchpro/ngx-common` is `^0.8.0 || ^0.9.0`, was `^0.9.0`: 0.8.0 is the first release with everything the kit uses from it
+  (`LocalStorageService`, `LOCAL_STORAGE` and `WINDOW`, with the Angular 22 peer), so an app isn't made to upgrade `common` along with the kit
+
 ## [0.7.0] - 2026-10-15
 
 ### Changed
