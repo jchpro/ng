@@ -150,7 +150,9 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
   change. The Kit pages are **grouped**: a sidebar page (Foundations, Layout, Forms, Feedback, Tables, Auth) holds
   the sections of its area as router-driven tabs (`kit-tabs`, `DocsTabbedPage`, `tabs` on `DocPage` in `kit/docs.ts`),
   folders `kit/<group>/<tab>/`. A new capability is a **tab in the group it belongs to**, not a new sidebar page; a
-  new group only when none fits. The Shell tab (`kit/layout/shell/`) has a setup walkthrough (examples live in
+  new group only when none fits. The **Common** pages work the same way: Internationalization and Storage stay single pages,
+  Components & directives (`common/components/<tab>/`) and Browser & routing (`common/browser/<tab>/`) hold their features as tabs, so a new
+  `ngx-common` service or directive is a tab there. The Shell tab (`kit/layout/shell/`) has a setup walkthrough (examples live in
   `projects/docs-app/public/code/kit-shell/`) and a components table — new shell components or
   setup steps belong there, alongside the library's own `docs/*.md` and changelog. A tab follows the Shell tab's
   shape: short overview, setup with code examples, components list. Keep these pages short.

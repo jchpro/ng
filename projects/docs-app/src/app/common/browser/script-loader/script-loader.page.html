@@ -1,0 +1,38 @@
+<h2>Overview</h2>
+<p>
+  <code copy>ScriptLoaderService.load(url)</code> loads an external script on demand, a captcha or an analytics SDK that a
+  page needs only sometimes. It appends the <code>&lt;script&gt;</code> to the head over the <code>DOCUMENT</code> token and
+  answers with a <code>Promise&lt;void&gt;</code> that resolves when the script has loaded.
+</p>
+<ul>
+  <li>
+    A URL loads <strong>once</strong>. Calls made while it is still loading get the same promise, so none of them resolves
+    before the script is really there, and a call after it has loaded resolves at once.
+  </li>
+  <li>
+    A script that is already in the document, by its <code>src</code> or by the <code>id</code> option, counts as loaded.
+  </li>
+  <li>
+    A failure rejects with a <code>ScriptLoadError</code> (it has the <code>url</code>) and takes the element out, so the
+    next call tries again.
+  </li>
+  <li>
+    <code>attributes</code> adds to the element what the SDK asks for: <code>integrity</code>, <code>crossorigin</code>,
+    <code>nonce</code>, <code>data-*</code>.
+  </li>
+</ul>
+<app-code-example
+  lang="ts"
+  source="/code/script-loader/script-loader.example.ts">
+</app-code-example>
+
+<h3>Try it</h3>
+<div class="flex row wrap x-center gap-sm">
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="load()">Load the script</button>
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="loadThreeTimes()">Load it three times at once</button>
+  <button type="button" class="kit-btn kit-btn--secondary" (click)="loadMissing()">Load one that does not exist</button>
+</div>
+<p role="status">
+  {{ message() }}
+  <span class="note">Elements of the demo script in the page: {{ elements() }}.</span>
+</p>
