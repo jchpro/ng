@@ -25,15 +25,30 @@ export function compareSemver(a, b) {
   return 0;
 }
 
-// Only the plain `^X.Y.Z` form is used between our own libraries; anything else is flagged, not guessed at.
+// A peer range between our own libraries is plain `^X.Y.Z` clauses joined by `||`, e.g. `^0.8.0 || ^0.9.0`: the lowest
+// version that has what is used, then every later minor that works too (on 0.x a caret pins the minor, so each one is
+// a clause of its own). Anything else is flagged, not guessed at.
+const CARET = /^\^(\d+\.\d+\.\d+)$/;
+
+export const peerClauses = (range) => range.split('||').map((clause) => clause.trim());
+
+// true / false, or null when the range is not made of plain caret clauses.
 export function caretSatisfies(range, version) {
-  const match = /^\^(\d+\.\d+\.\d+)$/.exec(range);
-  if (!match) return null;
-  const [major, minor] = match[1].split('.').map(Number);
+  const clauses = peerClauses(range).map((clause) => CARET.exec(clause)?.[1]);
+  if (clauses.includes(undefined)) return null;
   const [vMajor, vMinor] = version.split('.').map(Number);
-  if (compareSemver(version, match[1]) < 0) return false;
-  // Caret on 0.x pins the minor, on 1+ it pins the major.
-  return major > 0 ? vMajor === major : vMajor === 0 && vMinor === minor;
+  return clauses.some((clause) => {
+    const [major, minor] = clause.split('.').map(Number);
+    if (compareSemver(version, clause) < 0) return false;
+    // Caret on 0.x pins the minor, on 1+ it pins the major.
+    return major > 0 ? vMajor === major : vMajor === 0 && vMinor === minor;
+  });
+}
+
+// The range a release of the dependency needs: the same one when it already admits `version`, else with a `|| ^version`
+// clause added. Never moves the lowest version, that is for whoever starts using something newer.
+export function admitVersion(range, version) {
+  return caretSatisfies(range, version) === false ? `${range} || ^${version}` : range;
 }
 
 // The newest changelog entry: `## [X.Y.Z] - Unreleased` or `## [X.Y.Z] - YYYY-MM-DD`.

@@ -48,8 +48,15 @@ The same flow by hand, without `gh`:
    npm run release -- prepare <common|kit> <X.Y.Z>
    ```
    This sets `version` in the library's `package.json` and dates the changelog heading. When
-   releasing `common` it also moves `kit`'s peer range on it to `^X.Y.Z`: on 0.x a caret pins the
-   minor, so a minor bump of `common` would otherwise leave kit's peer unsatisfiable.
+   releasing `common` it also makes sure `kit`'s peer range on it admits the new version. That range
+   is the **lowest `common` that has what the kit uses, then every later minor that works**, as
+   `^0.8.0 || ^0.9.0` (on 0.x a caret pins the minor, so each minor is a clause of its own). A patch,
+   or a version the range already admits, leaves it alone; a new minor adds a `|| ^X.Y.0` clause. It
+   never raises the lowest version, so an app isn't made to upgrade `common` for nothing: do that by
+   hand, in the PR, on the day the kit starts using something newer from it. The published kit keeps
+   the range it was released with, so a new minor of `common` is only installable next to the kit
+   after the kit's next release. An additive change that breaks nothing is best released as a patch
+   of `common`, which needs no kit release at all.
 3. **Review `git diff`, commit and open a PR.** The PR check
    ([pull_request.yaml](.github/workflows/pull_request.yaml)) builds everything and runs
    `npm test`, which includes `npm run check:versions`: it fails on drift between `package.json`,

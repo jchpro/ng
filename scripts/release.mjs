@@ -12,8 +12,10 @@
 //   flags: --yes (don't ask before pushing the tag), --dry-run (check the preconditions, print the plan)
 //
 // `prepare` needs a `## [X.Y.Z] - Unreleased` heading in the library's changelog. It sets package.json's
-// version, dates that heading and, when releasing common, moves kit's peer range to ^X.Y.Z (on 0.x a caret
-// pins the minor, so a common minor bump would otherwise leave kit's peer unsatisfiable).
+// version, dates that heading and, when releasing common, makes sure kit's peer range admits it: a new
+// minor adds a `|| ^X.Y.0` clause (on 0.x a caret pins the minor), a patch or a version it already admits
+// leaves the range as it is. It never raises the lowest version kit accepts, that is a decision for the day
+// kit starts using something newer from common.
 // `tag` never pushes: `git push origin <tag>` is what starts the publish workflow.
 //
 // `finish` can be run again after an interruption or a failed check: it works out where things stand from
@@ -23,7 +25,7 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
-import { changelogPath, isSemver, libs, packagePath, readPackage, topChangelogEntry } from './lib/libs.mjs';
+import { admitVersion, changelogPath, isSemver, libs, packagePath, readPackage, topChangelogEntry } from './lib/libs.mjs';
 
 const run = (command, args, input) => execFileSync(command, args, { encoding: 'utf8', input }).trim();
 const git = (...args) => run('git', args);
@@ -94,7 +96,9 @@ function applyVersion(lib, version) {
   replaceOnce(changelogPath(lib), new RegExp(`^(## \\[${version}\\]) - Unreleased`, 'm'), `$1 - ${date}`, 'changelog');
   if (lib === 'common') {
     const name = libs.common.name.replace('/', '\\/');
-    replaceOnce(packagePath('kit'), new RegExp(`("${name}":\\s*")[^"]+(")`), `$1^${version}$2`, 'kit peer range');
+    const range = readPackage('kit').peerDependencies?.[libs.common.name];
+    if (!range) die(`${libs.kit.name} has no peer dependency on ${libs.common.name}`);
+    replaceOnce(packagePath('kit'), new RegExp(`("${name}":\\s*")[^"]+(")`), `$1${admitVersion(range, version)}$2`, 'kit peer range');
   }
   return date;
 }

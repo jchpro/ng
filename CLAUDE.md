@@ -135,7 +135,9 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
   `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
   tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
   up-to-date `main` → push the tag. `npm run check:versions`
-  (in `npm test`) guards drift, including kit's peer range on common.
+  (in `npm test`) guards drift, including kit's peer range on common. That range is the **lowest common the kit works with, then each later
+  minor** (`^0.8.0 || ^0.9.0`), not the current version: the release tool only appends a clause for a new minor of common and never raises
+  the floor (raise it by hand when kit needs newer API). So an additive change to common is a patch (no kit release); a minor is for breaking.
 - **`box-sizing` in kit CSS**: a rule that sets a size (`width`, `max-height`…) together with padding or a border sets
   `box-sizing: border-box` itself. The docs-app has a global reset, so a miss only shows in apps without one (menu items overflowed
   their panel, #24). `npm run check:box-sizing` (part of `npm test`) compiles the styles and fails on a rule without it; the few

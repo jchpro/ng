@@ -26,7 +26,7 @@ function checkKitPeer() {
   const { version } = readPackage('common');
   if (!range) return fail(`${libs.kit.name}: no peer dependency on ${libs.common.name}`);
   const ok = caretSatisfies(range, version);
-  if (ok === null) fail(`${libs.kit.name}: peer range "${range}" on common is not a plain ^X.Y.Z`);
+  if (ok === null) fail(`${libs.kit.name}: peer range "${range}" on common is not plain ^X.Y.Z clauses joined by ||`);
   else if (!ok) fail(`${libs.kit.name}: peer range "${range}" is not satisfied by common ${version}`);
 }
 
