@@ -1,15 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ScriptLoaderService, ScriptLoadError } from '@jchpro/ngx-common';
-import { CodeExample } from '../../docs/code-example/code-example';
-import { LibPageTitle } from '../../docs/page-title/lib-page-title';
+import { CodeExample } from '../../../docs/code-example/code-example';
 
 const DEMO_SCRIPT = '/demo/script-loader.js';
 
 @Component({
   selector: 'app-script-loader',
   imports: [
-    LibPageTitle,
     CodeExample
   ],
   templateUrl: './script-loader.page.html',

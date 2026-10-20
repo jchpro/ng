@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { CodeExample } from '../../docs/code-example/code-example';
-import { LibPageTitle } from '../../docs/page-title/lib-page-title';
+import { CodeExample } from '../../../docs/code-example/code-example';
 
 @Component({
   selector: 'app-reactive',
   imports: [
-    LibPageTitle,
     CodeExample
   ],
   templateUrl: './reactive.page.html'

@@ -1,12 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { ClipboardService } from '@jchpro/ngx-common';
-import { CodeExample } from '../../docs/code-example/code-example';
-import { LibPageTitle } from '../../docs/page-title/lib-page-title';
+import { CodeExample } from '../../../docs/code-example/code-example';
 
 @Component({
   selector: 'app-clipboard',
   imports: [
-    LibPageTitle,
     CodeExample
   ],
   templateUrl: './clipboard.page.html'
