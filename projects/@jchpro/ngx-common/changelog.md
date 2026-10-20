@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - Unreleased
+
+### Added
+
+- `ScriptLoaderService.load(url, { id?, attributes? })`: loads an external script on demand (a captcha or analytics SDK) over the `DOCUMENT`
+  token. A URL loads once: a call while it is still loading gets the same promise, so it never resolves before the script is there, and
+  a script already in the document (by `src` or `id`) counts as loaded. Rejects with a `ScriptLoadError` (it has the `url`) and takes the
+  element out, so the next call tries again
+
 ## [0.9.0] - 2026-10-10
 
 ### Added

@@ -1,4 +1,4 @@
-import { LucideBroom, LucideClipboardCopy, LucideGitBranch, LucideGlobe, LucideHardDrive, LucideHeading, LucideRoute, LucideWorkflow } from '@lucide/angular';
+import { LucideBroom, LucideClipboardCopy, LucideDownload, LucideGitBranch, LucideGlobe, LucideHardDrive, LucideHeading, LucideRoute, LucideWorkflow } from '@lucide/angular';
 import { DocLib } from '../docs/types';
 import pkg from '../../../../@jchpro/ngx-common/package.json';
 import { CommonStartPage } from './_start-page/common-start-page';
@@ -8,6 +8,7 @@ import { ContentPage } from './content/content.page';
 import { IntlUtilsPage } from './intl-utils/intl-utils.page';
 import { ReactivePage } from './reactive-directive/reactive.page';
 import { RouterEventsPage } from './router-events-service/router-events.page';
+import { ScriptLoaderPage } from './script-loader/script-loader.page';
 import { StoragePage } from './storage/storage.page';
 import { TitleServicePage } from './title-service/title-service.page';
 
@@ -74,6 +75,14 @@ export const COMMON_LIB: DocLib = {
       icon: LucideClipboardCopy,
       desc: 'Copy text to the clipboard without throwing.',
       component: ClipboardPage
+    },
+    {
+      fullName: 'Script loader service',
+      menuName: 'Script loader',
+      path: 'script-loader',
+      icon: LucideDownload,
+      desc: 'Load an external script on demand, once, with the race out of it.',
+      component: ScriptLoaderPage
     },
     {
       fullName: 'Custom structural directives',
