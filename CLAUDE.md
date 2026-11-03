@@ -140,48 +140,16 @@ sticky-header technique (`height: 100dvh` cap + flex scroll regions, not `positi
 
 ## Icons
 
-`@lucide/angular` (peer dependency of `ngx-kit`) — decided and migrated 2026-09-24, replacing
-Font Awesome entirely (repo-wide, not just the library). Static icons: `<svg lucideGlobe>` +
-import the class into `imports`. Data-driven icons (icon chosen at runtime, e.g. from a config
-object): `<svg [lucideIcon]="value">` + `LucideDynamicIcon` in `imports`, where `value` is the
-imported icon *class* (type `LucideIcon`) — no `provideLucideIcons()` registry needed unless
-looking icons up by string name. `size` is a raw CSS length (not Font Awesome's `"2x"` tokens)
-and defaults to a fixed 24px; `docs-app` sets `provideLucideConfig({ size: '1em' })` so icons
-scale with surrounding text.
-
-**Override pattern** (`KitIcon`, the `[kitIcon="slot"]` marker; implemented in `KitPasswordToggle`
-only so far, the shell header's mobile toggle is the next candidate): a content-projection slot for components that render a built-in icon but should let a consumer swap it for
-literally anything (a different icon library, inline SVG, emoji) — not a plain token swap, which
-is enough when the only need is picking a different icon from Lucide itself:
-```html
-@if (customIcon()) {
-  <ng-content select="[kitIcon=slotname]"></ng-content>
-} @else {
-  <svg lucideDefaultIcon></svg>
-}
-```
-with `contentChildren(KitIcon, { descendants: false })` checked for the slot name (`icon.slot()`)
-detecting whether anything was projected. A projected `@if` block only matches `select` when it
-has a single root element. Reserve this for spots where a different icon *source* is plausible, not every icon.
+`@lucide/angular` (peer dependency of `ngx-kit`), no Font Awesome anywhere. Static: `<svg lucideGlobe>`; data-driven: `<svg [lucideIcon]="value">`.
+Where a different icon *source* is plausible, a component offers the `[kitIcon="slot"]` projection slot (`KitIcon`; so far
+`KitPasswordToggle`). Details and the slot pattern: [docs/icons.md](docs/icons.md).
 
 ## i18n
 
-`ngx-kit` stays framework-agnostic — **no transloco or any i18n library dependency, not even a
-peer dep.** Every user-facing string (visible text and aria-labels) goes through a
-per-feature `InjectionToken<Signal<T>>` (e.g. `KIT_SHELL_LABELS`) with English defaults baked in,
-plus a `provideKitXLabels(labels | Signal<labels>)` override function. The override is a deep
-*partial* merged over the English defaults (so overriding one string doesn't need the rest),
-and a complete set such as the PL one is just a full partial. Each feature also ships a
-`KIT_X_LABELS_EN`/`KIT_X_LABELS_PL` constant (typed against the same interface, so TS catches
-field drift), plus one root-level `provideKitLabels('en' | 'pl' | Signal<'en' | 'pl'>)` convenience wiring every
-feature at once (a signal follows a language that changes at runtime, a factory run in an injection context reads it from a service: `KitLabelsSource`) — add each new feature to it. Per-call/per-instance options layer on top of the
-injected default (closest wins: defaults < app-wide < call). V1 is flat strings only — no
-rich-content projection slots inside labels (add per component later if a real need comes up).
-Implemented for dialogs (`KIT_DIALOG_LABELS`), the forms parts (`KIT_FORM_LABELS`, the messages of `KitFieldError` and the texts of `kit-color-field`), the toasts (`KIT_TOAST_LABELS`), the shell (`KIT_SHELL_LABELS`, the sidenav
-toggle's aria-label) and the auth views (one `KIT_AUTH_LABELS` with nested groups; two messages use
-named `{min}`/`{identifier}` placeholders, so "flat strings" now means plain strings); the merge/provider logic is shared in `src/lib/labels/kit-labels.ts`
-(`provideKitLabelsFor`), so a new feature's labels are a token + defaults + one-line provider.
-Documented in `docs/labels.md`.
+`ngx-kit` has **no i18n library dependency, not even a peer dep.** Every user-facing string (text and aria-labels) goes through a
+per-feature `InjectionToken<Signal<T>>` (e.g. `KIT_SHELL_LABELS`) with English defaults, a `provideKitXLabels()` partial override,
+`KIT_X_LABELS_EN`/`_PL` constants, and an entry in the root `provideKitLabels()` (a new feature must be added there). Shared logic:
+`src/lib/labels/kit-labels.ts`. Full design: [docs/i18n.md](docs/i18n.md); usage: `ngx-kit/docs/labels.md`.
 
 ## Secondary entry points and optional peers
 
@@ -194,39 +162,14 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
 - **Changelog**: accumulate everything under one `## [X.Y.Z] - Unreleased` entry per package —
   don't bump the version number or add a new dated entry per work session. Bump only at an
   actual release.
-- **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump. Libraries version independently (tags `common-vX.Y.Z` /
-  `kit-vX.Y.Z`; full guide in [releasing.md](releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
-  `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
-  tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
-  up-to-date `main` → push the tag. `npm run check:versions`
-  (in `npm test`) guards drift, including kit's peer range on common. That range is the **lowest common the kit works with, then each later
-  minor** (`^0.8.0 || ^0.9.0`), not the current version: the release tool only appends a clause for a new minor of common and never raises
-  the floor (raise it by hand when kit needs newer API). So an additive change to common is a patch (no kit release); a minor is for breaking.
-- **`box-sizing` in kit CSS**: a rule that sets a size (`width`, `max-height`…) together with padding or a border sets
-  `box-sizing: border-box` itself. The docs-app has a global reset, so a miss only shows in apps without one (menu items overflowed
-  their panel, #24). `npm run check:box-sizing` (part of `npm test`) compiles the styles and fails on a rule without it; the few
-  deliberate exceptions are listed in the script with their reason.
-- **Readme size**: once a package readme grows large, split feature-specific content into
-  `docs/*.md` files (see `ngx-kit/docs/`) and link back — verify the split files are actually
-  included in the packaged output and that relative links between them still resolve.
-- **Keep the docs-app Kit pages in sync**: when a change adds, removes or renames an `ngx-kit`
-  capability, update its docs-app page (`projects/docs-app/src/app/kit/<feature>/`) in the same
-  change. The Kit pages are **grouped**: a sidebar page (Foundations, Layout, Forms, Feedback, Tables, Auth) holds
-  the sections of its area as router-driven tabs (`kit-tabs`, `DocsTabbedPage`, `tabs` on `DocPage` in `kit/docs.ts`),
-  folders `kit/<group>/<tab>/`. A new capability is a **tab in the group it belongs to**, not a new sidebar page; a
-  new group only when none fits. The **Common** pages work the same way: Internationalization and Storage stay single pages,
-  Components & directives (`common/components/<tab>/`) and Browser & routing (`common/browser/<tab>/`) hold their features as tabs, so a new
-  `ngx-common` service or directive is a tab there. The Shell tab (`kit/layout/shell/`) has a setup walkthrough (examples live in
-  `projects/docs-app/public/code/kit-shell/`) and a components table — new shell components or
-  setup steps belong there, alongside the library's own `docs/*.md` and changelog. A tab follows the Shell tab's
-  shape: short overview, setup with code examples, components list. Keep these pages short.
+- **Versioning**: pre-1.0, so a breaking change to any `@jchpro/*` package can be a minor bump. Libraries version independently (tags `common-vX.Y.Z` / `kit-vX.Y.Z`); release with `npm run release` (asks before pushing the tag), see [releasing.md](releasing.md). Kit's peer range on common is the *lowest compatible version, then each later minor*, not the current one; an additive change to common is a patch. More: [docs/repo-conventions.md](docs/repo-conventions.md).
+- **`box-sizing`**: a kit CSS rule that sets a size together with padding or a border sets `box-sizing: border-box` itself (`npm run check:box-sizing` enforces it).
+- **Readme size**: split large readmes into `docs/*.md`, then verify packaging and relative links.
+- **Keep the docs-app Kit pages in sync**: a change to an `ngx-kit` or `ngx-common` capability updates its docs-app page in the same change. A new capability is a **tab in the group it belongs to**, not a new sidebar page. Keep these pages short. Structure: [docs/repo-conventions.md](docs/repo-conventions.md).
 - **docs-app polish**: its current look is a deliberate placeholder (post-Material, pre-ngx-kit
   styling in spots not yet migrated) — don't proactively "fix" visual rough edges there unless
   asked; it'll be revisited once more of `ngx-kit` exists.
-- **docs-app code highlighting**: the highlight.js themes (`github`, `github-dark`) are SCSS partials in
-  `docs/code-example/hljs/` that wrap the package's CSS in a `theme` mixin, `@use`d by `code-example.scss` (the package files are
-  meant for `@import`, which Sass deprecates). They are generated: after upgrading `highlight.js` run
-  `npm run generate:hljs-themes` and commit; `npm run check:hljs-themes` (in `npm test`) fails when they have drifted.
+- **docs-app code highlighting**: the hljs theme SCSS is generated; after upgrading `highlight.js` run `npm run generate:hljs-themes` and commit (`check:hljs-themes` fails on drift).
 - **`main`**: protected, but Jakub can bypass it. Code and CI changes go through a PR so the PR check runs and the docs-app
   auto-deploy (every push to `main`) never ships untested code; docs-only changes too (see Git above). Releases never need a
   bypass. Ask before pushing a release tag.
