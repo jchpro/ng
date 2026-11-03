@@ -1,7 +1,6 @@
 # @jchpro/ng — working notes for Claude
 
-Angular monorepo of `@jchpro/*` libraries, maintained solo by Jakub (publishes to npm himself;
-consumed by five repos: `ngx-common` by bookshelf, garden, landing, auth and babyroom, `ngx-kit` by auth and babyroom). See [conventions.md](conventions.md) for coding rules — read that
+Angular monorepo of `@jchpro/*` libraries, maintained solo by Jakub (publishes to npm himself). See [conventions.md](conventions.md) for coding rules — read that
 file too, it's not duplicated here.
 
 <!-- overseer:begin id=ng hash=17efe828 -->
@@ -195,8 +194,7 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
 - **Changelog**: accumulate everything under one `## [X.Y.Z] - Unreleased` entry per package —
   don't bump the version number or add a new dated entry per work session. Bump only at an
   actual release.
-- **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump, but
-  every breaking release opens bump issues in the consumer repos (ask first). Libraries version independently (tags `common-vX.Y.Z` /
+- **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump. Libraries version independently (tags `common-vX.Y.Z` /
   `kit-vX.Y.Z`; full guide in [releasing.md](releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
   `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
   tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
