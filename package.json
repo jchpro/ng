@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --project docs-app",
+    "start": "ng serve --project docs-app --port 4300",
     "generate:hljs-themes": "node scripts/generate-hljs-themes.mjs",
     "build": "npm run build:common:prod && npm run build:kit:prod && npm run build:app:prod",
     "build:app:dev": "ng build --project docs-app --configuration development",
