@@ -1,8 +1,74 @@
 # @jchpro/ng — working notes for Claude
 
-Angular monorepo of `@jchpro/*` libraries, maintained solo by Jakub (publishes to npm himself,
-no external consumers yet). See [conventions.md](conventions.md) for coding rules — read that
+Angular monorepo of `@jchpro/*` libraries, maintained solo by Jakub (publishes to npm himself;
+consumed by five repos: `ngx-common` by bookshelf, garden, landing, auth and babyroom, `ngx-kit` by auth and babyroom). See [conventions.md](conventions.md) for coding rules — read that
 file too, it's not duplicated here.
+
+<!-- overseer:begin id=ng hash=17efe828 -->
+<!-- Managed by the overseer repo. Do not edit between the markers; change the rules there. -->
+
+## CI and Actions minutes
+
+The account's free Actions minutes are limited. Private repos spend them; public repos are exempt.
+
+- Private repos run CI on pull requests, not on pushes to the default branch, and not on `develop` pushes. A weekly scheduled run is fine.
+- Skip docs-only changes (`paths-ignore`) and cancel superseded runs (`concurrency`).
+- Batch work into fewer pull requests, and run lint, type-check, tests and the build locally before pushing.
+- A repo that deviates from this says why in its CLAUDE.md.
+
+## Git
+
+- Work on a branch. Never push to the default branch unless asked.
+- Commit on your branch without asking: small commits, one concern each, with a short, to-the-point message. Reference the issue (`#123`) when there is one. Push only when asked.
+- Opening a PR needs a yes in the current session. Never merge and never enable auto-merge unless asked.
+- Never force-push (branches or tags) unless explicitly asked in the current session. Never rewrite shared history.
+- Check `git status` before committing; do not commit unrelated changes or secrets.
+- Deploys, releases and publishing happen through GitHub Actions, and only when asked.
+
+## Issues and other repos
+
+- Work is tracked in GitHub issues; open work does not live in CLAUDE.md or TODO files. Reference the issue in commits and PRs.
+- Ask before creating an issue.
+- Do not change other repos from here; read them only to look things up. A change needed elsewhere (library change, deploy, infra) becomes an issue there, drafted for the owner to approve.
+- Use labels `overseer:blocked`, `overseer:needs-release`, `overseer:needs-deploy` to signal cross-repo state.
+- Cross-repo dependencies go in the issue body as a fenced YAML block (`depends-on: owner/repo#12`, `next: deploy`).
+
+## Language
+
+- Chat, code, comments, commits and issues are in English.
+- User-facing text follows each app's own languages, which may be one or several.
+
+## Privacy and secrets
+
+- Never commit, log or paste secrets, tokens, keys or `.env` contents. Real values live in the password manager or on the server.
+- Real user or customer data may exist only as a local copy, never the live system. Never commit it, never put it in tracked fixtures, issues, PRs, commits or logs, and never point dev or test at production. You may run against the copy but must not dump or quote records in the session; use counts, shapes or invented examples.
+- A customer may be referred to by first name only.
+- Use anonymised sample data in tests and fixtures.
+
+## Servers and background processes
+
+- A server or process you started for your own checks: stop it before you finish.
+- One the owner asked you to start: leave it running until told to stop, and say what is running (what and which port) when you finish a task.
+
+## Quality
+
+- Run the repo's tests and linter before saying work is done; report failures plainly instead of hiding them.
+- Match the surrounding code's style, naming and comment density.
+- Keep changes scoped to what was asked. Mention, but do not silently fix, unrelated problems.
+
+## Context: library
+
+Public libraries consumed by other repos (e.g. Nest and Angular libs).
+
+- Semver. From 1.0 a breaking change is a major bump, with a migration note in the changelog. Before 1.0 a breaking change may be a minor.
+- Every user-facing change needs a changelog entry and an updated README/docs. When the version is bumped (with the change, or at release) is the repo's own convention, written in its CLAUDE.md; follow it.
+- Never publish, tag or release unless explicitly asked in the session. Releases are cut deliberately (owner confirms).
+- Publishing is done by Actions (tag-triggered, npm trusted publishing), not from a laptop. A repo that publishes differently records the exception and its reason in the registry.
+- Before a breaking change, check `uses:` in the registry for consumers and open a bump issue in each (ask first, as for any issue).
+- Nothing private, internal or customer-related in what gets published (package contents, docs, changelog) or in a public repo's code, issues and commits.
+- After a release, dependent repos get a bump issue (labels: `overseer:needs-release` on the lib until published).
+
+<!-- overseer:end -->
 
 ## Stack
 
@@ -129,8 +195,8 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
 - **Changelog**: accumulate everything under one `## [X.Y.Z] - Unreleased` entry per package —
   don't bump the version number or add a new dated entry per work session. Bump only at an
   actual release.
-- **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump —
-  there are no real external consumers yet. Libraries version independently (tags `common-vX.Y.Z` /
+- **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump, but
+  every breaking release opens bump issues in the consumer repos (ask first). Libraries version independently (tags `common-vX.Y.Z` /
   `kit-vX.Y.Z`; full guide in [releasing.md](releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
   `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
   tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
@@ -163,11 +229,9 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
   `docs/code-example/hljs/` that wrap the package's CSS in a `theme` mixin, `@use`d by `code-example.scss` (the package files are
   meant for `@import`, which Sass deprecates). They are generated: after upgrading `highlight.js` run
   `npm run generate:hljs-themes` and commit; `npm run check:hljs-themes` (in `npm test`) fails when they have drifted.
-- **`main` and force pushes**: `main` is protected, but Jakub can bypass it and force-push. Don't use
-  that for code or CI changes — they go through a PR, so the PR check runs and the docs-app
-  auto-deploy (every push to `main`) never ships untested code. Pushing straight to `main` is
-  acceptable only for docs-only changes (readmes, roadmap, changelogs, CLAUDE.md). Releases never
-  need it. Never force-push `main` yourself; ask first.
+- **`main`**: protected, but Jakub can bypass it. Code and CI changes go through a PR so the PR check runs and the docs-app
+  auto-deploy (every push to `main`) never ships untested code; docs-only changes too (see Git above). Releases never need a
+  bypass. Ask before pushing a release tag.
 - **npm publish workflows**: `publish-common.yaml` / `publish-kit.yaml` publish with npm OIDC
   trusted publishing (`id-token: write`, no `NPM_TOKEN`) on a `common-v*` / `kit-v*` tag only —
   deliberately no `workflow_dispatch`, so a branch can't publish. The trusted publisher is bound to
@@ -223,5 +287,5 @@ Notes that aren't obvious from the code:
   follow the reading order), `kit-dropzone` + `kitDropzone` (files in the input, `(files)`/`(rejected)`), `KitToastService`
   (errors sticky, `provideKitToasts`, first toast shows 50 ms late so the live regions are in the page). The CDK key manager reads
   `keyCode`, so specs that dispatch keys must set it, and a CDK option takes `id` over (use `data-*` in specs).
-- docs-app's `.claude/launch.json` serves on 4200; if another project's dev server holds that
+- docs-app's `.claude/launch.json` serves on 4300 (4200 is taken by other repos' dev servers); if something else holds that
   port, preview on a different one with a temporary launch config rather than reusing it.
