@@ -83,7 +83,7 @@ no `standalone: true` needed), built with `ng-packagr`. TypeScript strict mode.
   Replaces the old `@jchpro/ngx-admin`/`@jchpro/ngx-material` (dropped entirely in the 2026-09
   rewrite — no Material, no bundled i18n library, CDK-only for behavior).
 - `projects/docs-app` — consumer/demo app, served at `npm start`, deployed to
-  https://ng.jchpro.pl. Also doubles as the realistic "does this actually work" testbed for
+  https://ng.jchpro.pl (via `infra-vps`, see [deployment.md](deployment.md)). Also doubles as the realistic "does this actually work" testbed for
   `ngx-kit` before anything ships.
 
 Root `package.json` has per-project `build:*`/`watch:*`/`test:*` scripts (see that file) — use

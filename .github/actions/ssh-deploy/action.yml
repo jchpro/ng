@@ -1,0 +1,67 @@
+# Copy of jchpro/infra-vps/.github/actions/ssh-deploy@v1 (that repo is private, this one is public so it cannot call it). Keep in sync by hand.
+name: ssh-deploy
+description: Run one deploy-gate command on the VPS over SSH, optionally streaming a release artifact on stdin (ADR 0007).
+
+inputs:
+  host:
+    description: Server hostname (the DEPLOY_HOST environment variable)
+    required: true
+  ssh-key:
+    description: Private deploy key of this app instance (the DEPLOY_SSH_KEY environment secret)
+    required: true
+  known-hosts:
+    description: Pinned server host key line(s) (the DEPLOY_KNOWN_HOSTS environment secret)
+    required: true
+  command:
+    description: deploy-gate command, e.g. "release 1a2b3c4d5e6f", "preview-open 12", "preview-close 12", "rollback"
+    required: true
+  artifact:
+    description: Path of the tar.gz to stream on stdin (empty for commands without an artifact)
+    required: false
+    default: ""
+  dry-run:
+    description: Validate the inputs and report what would be sent, without connecting
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        HOST: ${{ inputs.host }}
+        SSH_KEY: ${{ inputs.ssh-key }}
+        KNOWN_HOSTS: ${{ inputs.known-hosts }}
+        CMD: ${{ inputs.command }}
+        ARTIFACT: ${{ inputs.artifact }}
+        DRY_RUN: ${{ inputs.dry-run }}
+      run: |
+        set -euo pipefail
+        fail() { echo "::error::$*"; exit 1; }
+
+        [ -n "$HOST" ] || fail "DEPLOY_HOST is empty: set it as a variable of the GitHub Environment"
+        [ -n "$SSH_KEY" ] || fail "DEPLOY_SSH_KEY is empty: add it as a secret of the GitHub Environment"
+        [ -n "$KNOWN_HOSTS" ] || fail "DEPLOY_KNOWN_HOSTS is empty: add it as a secret of the GitHub Environment"
+        [[ "$HOST" =~ ^[A-Za-z0-9.-]+$ ]] || fail "DEPLOY_HOST is not a plain hostname"
+        [[ "$CMD" =~ ^(release\ [A-Za-z0-9._-]{1,40}|rollback|status|preview-(open|close)\ [1-9][0-9]{0,4})$ ]] ||
+            fail "command not accepted by deploy-gate: $CMD"
+        grep -qE '(ssh-ed25519|ssh-rsa|ecdsa-sha2-)' <<<"$KNOWN_HOSTS" || fail "DEPLOY_KNOWN_HOSTS has no host key line"
+        if [ -n "$ARTIFACT" ]; then
+          [ -s "$ARTIFACT" ] || fail "artifact $ARTIFACT is missing or empty"
+        fi
+
+        if [ "$DRY_RUN" = "true" ]; then
+          echo "dry run: would run '$CMD' on $HOST as deploy, artifact: ${ARTIFACT:-none} ($( [ -n "$ARTIFACT" ] && stat -c %s "$ARTIFACT" || echo 0 ) bytes)"
+          exit 0
+        fi
+
+        key_file="$(mktemp)"
+        trap 'rm -f "$key_file"' EXIT
+        printf '%s\n' "$SSH_KEY" >"$key_file"
+        chmod 600 "$key_file"
+        install -d -m 700 ~/.ssh
+        printf '%s\n' "$KNOWN_HOSTS" >~/.ssh/known_hosts
+
+        # The key is pinned to one app instance on the server and can only reach deploy-gate; stdin carries the artifact.
+        ssh -i "$key_file" -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 \
+          "deploy@$HOST" "$CMD" <"${ARTIFACT:-/dev/null}"

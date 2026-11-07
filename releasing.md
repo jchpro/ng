@@ -4,8 +4,8 @@
 a PR that bumps the version, then a tag that makes GitHub Actions publish to npm. Tags are
 `common-vX.Y.Z` and `kit-vX.Y.Z`. Pre-1.0, a breaking change can be a minor bump.
 
-The docs-app is not part of this: every push to `main` deploys it
-([example_app.yaml](.github/workflows/example_app.yaml)).
+The docs-app is not part of this: every push to `main` deploys it through `infra-vps`
+([deploy-docs-app.yaml](.github/workflows/deploy-docs-app.yaml), see [deployment.md](deployment.md)).
 
 ## The quick way (needs `gh`)
 
