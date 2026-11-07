@@ -79,7 +79,7 @@ no `standalone: true` needed), built with `ng-packagr`. TypeScript strict mode.
 - `projects/@jchpro/ngx-common` — framework-agnostic utility lib (i18n, storage, reactivity,
   routing, browser tokens). Stable, pre-dates the current rewrite.
 - `projects/@jchpro/ngx-kit` — **the active project.** Admin-app UI kit (layout shell, form
-  primitives, theming, soon a login view) styled with the jchPRO "App" surface.
+  primitives, theming, auth views) styled with the jchPRO "App" surface.
   Replaces the old `@jchpro/ngx-admin`/`@jchpro/ngx-material` (dropped entirely in the 2026-09
   rewrite — no Material, no bundled i18n library, CDK-only for behavior).
 - `projects/docs-app` — consumer/demo app, served at `npm start`, deployed to

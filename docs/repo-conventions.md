@@ -3,7 +3,7 @@
 Moved out of CLAUDE.md; the short rules stay there.
 
 - **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump. Libraries version independently (tags `common-vX.Y.Z` /
-  `kit-vX.Y.Z`; full guide in [releasing.md](releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
+  `kit-vX.Y.Z`; full guide in [releasing.md](../releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
   `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
   tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
   up-to-date `main` → push the tag. `npm run check:versions`
