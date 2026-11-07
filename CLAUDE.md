@@ -166,9 +166,6 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
 - **`box-sizing`**: a kit CSS rule that sets a size together with padding or a border sets `box-sizing: border-box` itself (`npm run check:box-sizing` enforces it).
 - **Readme size**: split large readmes into `docs/*.md`, then verify packaging and relative links.
 - **Keep the docs-app Kit pages in sync**: a change to an `ngx-kit` or `ngx-common` capability updates its docs-app page in the same change. A new capability is a **tab in the group it belongs to**, not a new sidebar page. Keep these pages short. Structure: [docs/repo-conventions.md](docs/repo-conventions.md).
-- **docs-app polish**: its current look is a deliberate placeholder (post-Material, pre-ngx-kit
-  styling in spots not yet migrated) — don't proactively "fix" visual rough edges there unless
-  asked; it'll be revisited once more of `ngx-kit` exists.
 - **docs-app code highlighting**: the hljs theme SCSS is generated; after upgrading `highlight.js` run `npm run generate:hljs-themes` and commit (`check:hljs-themes` fails on drift).
 - **`main`**: protected, but Jakub can bypass it. Code and CI changes go through a PR so the PR check runs and the docs-app
   auto-deploy (every push to `main`) never ships untested code; docs-only changes too (see Git above). Releases never need a
