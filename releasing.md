@@ -31,7 +31,7 @@ npm run release -- finish <lib> [X.Y.Z]   # wait for checks, merge, tag, push th
 ```
 
 `finish` takes the version from the release branch you are on, or from `package.json` on `main`
-after the merge. Flags: `--yes` skips the prompt before pushing the tag, `--dry-run` checks the
+after the merge. Flags: `--yes` skips the prompt before pushing the tag (without a terminal, `ship` refuses up front unless you pass it), `--dry-run` checks the
 preconditions and prints what would happen. Releasing both libraries: `ship common`, then
 `ship kit` ([see below](#releasing-both)).
 

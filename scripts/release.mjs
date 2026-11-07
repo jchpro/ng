@@ -266,6 +266,8 @@ else if (command === 'tag') tag(lib);
 else if (command === 'start') await start(lib, versionArg);
 else if (command === 'finish') await finish(lib, inferVersion(lib));
 else if (command === 'ship') {
+  // finish() asks before pushing the tag, so fail now rather than after the PR is merged
+  if (!yes && !dryRun && !process.stdin.isTTY) die('not a terminal: pass --yes, or run start and then finish later');
   await start(lib, versionArg);
   if (!dryRun) await finish(lib, versionArg);
 } else die(`unknown command "${command}"\n${usage}`);
