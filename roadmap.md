@@ -3,33 +3,15 @@
 Not a commitment list — a parking lot for things worth doing eventually. Pull items into actual
 work when there's time; delete or rewrite anything that stops being true.
 
-## Next up
-
-- **Phase 4 — auth views (local auth only).** The only remaining phase of the original `ngx-kit`
-  plan; in progress on `feat/kit-auth`. Two layers, the components built on the pieces:
-  - Pieces: `KitAuthCard` (shell: card, logo/title slot, `role="alert"` error, footer slot),
-    `KitPasswordToggle` (show/hide on a native input, no `@angular/forms` dependency, `kitIcon`
-    slots), `.kit-auth-notice` (confirmation views), plus the existing field and button classes —
-    so a signal-forms app composes its own form with the same look.
-  - Self-contained components: `KitLogin` (identifier, password, remember me), `KitForgotPassword`
-    (identifier), `KitSetPassword` (new password + confirmation; `flow="reset" | "invite"` picks
-    the default labels, a slot takes extra invite fields).
-  - No auth logic or routing in the kit: components emit `submitted`/`requested`, the app reads the
-    token from the URL and makes the request. `[busy]`/`[error]` inputs; `identifierType: 'email' |
-    'username'`; labels via the usual token (`KIT_AUTH_LABELS`, EN + PL).
-  - Later: per-field server errors on `KitSetPassword`, MFA, registration without an invite.
-
 ## CI & releases
 
-The flow itself is done (PR → CI, `<lib>-v*` tag → OIDC publish, merge to `main` → docs-app deploy; how
-to release is in [CLAUDE.md](CLAUDE.md)). What's left:
+The flow itself is done (PR → CI, `<lib>-v*` tag → OIDC publish, merge to `main` → docs-app deploy through `infra-vps`, see [deployment.md](deployment.md); how
+to release is in [releasing.md](releasing.md)). What's left:
 
 - **`release -- ship` is proven** (kit 0.3.0 went out through it: PR, checks, squash-merge, tag, publish with
   provenance). One gap: with no terminal (an agent, a script) it stops before pushing the tag with "not a terminal: pass
   `--yes`"; finish the release with `npm run release -- finish <lib> <X.Y.Z> --yes` after confirming. Worth deciding whether
   `ship` should say so up front, or detect a non-interactive run before opening the PR.
-- **Atomic docs-app deploy** (optional): swap the bundle in with a `mv` instead of `rm -rf` + `cp`,
-  which leaves a brief empty-site window.
 - **Drop `@angular/platform-browser-dynamic`** (direct dependency, deprecated in favour of
   `@angular/platform-browser`).
 
@@ -61,9 +43,6 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
      (`kitClientTable`, `applyKitTableParams`). Also done: `kit-filter-chips`, `urlSync` `history: 'push'`, `hasNext` on the frame, `densityStorageKey`.
      Row expansion is done too (`kitTableExpansion`, `kit-expand-toggle`, `td[kitDetail]`).
      Still open: a "select all N matching rows" for server-side bulk actions.
-- **Implement the `kitIcon` content-projection override pattern** (see [CLAUDE.md](CLAUDE.md))
-  somewhere real — the shell header's mobile toggle (`LucideMenu`) is the obvious first
-  candidate, since it's the only built-in icon in the library today.
 - **Compound/non-standard form controls** — combobox, date/range picker, etc. The
   class-vs-component graduation rule was explicitly written with these in mind; nothing's been
   started yet.
@@ -79,7 +58,7 @@ to release is in [CLAUDE.md](CLAUDE.md)). What's left:
   as text, say). Add the pairing to the script whenever a new color use appears.
 - **Keyboard/focus-trap testing for the sidenav overlay** beyond what's covered by unit tests —
   a manual pass (or Playwright) through open/close/Escape/Tab-wrap on an actual mobile viewport
-  wouldn't hurt once login (which will add another focus-trapped surface) exists.
+  wouldn't hurt now that the login views and dialogs add more focus-trapped surfaces.
 
 ## docs-app
 
