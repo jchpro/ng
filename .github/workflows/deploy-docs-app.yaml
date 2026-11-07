@@ -5,7 +5,7 @@ name: Deploy docs-app
 # the workflow cannot call it and the steps live here (with a local copy of the ssh-deploy action).
 # Runs on every push to `main` except docs-only changes, and by hand (a dry run by default: builds and packs,
 # validates the Environment, does not connect to the server). The Environment `docs-prod` holds DEPLOY_SSH_KEY and
-# DEPLOY_KNOWN_HOSTS (secrets) and DEPLOY_HOST (variable); it is limited to the `main` branch.
+# DEPLOY_KNOWN_HOSTS and DEPLOY_HOST (all secrets: the logs of a public repo are public and only secrets are masked); it is limited to the `main` branch.
 on:
   workflow_dispatch:
     inputs:
@@ -55,7 +55,7 @@ jobs:
       - name: Deploy
         uses: ./.github/actions/ssh-deploy
         with:
-          host: ${{ vars.DEPLOY_HOST }}
+          host: ${{ secrets.DEPLOY_HOST }}
           ssh-key: ${{ secrets.DEPLOY_SSH_KEY }}
           known-hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
           command: release ${{ github.sha }}
