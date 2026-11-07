@@ -2,10 +2,10 @@
 
 Things that aren't obvious from the code, moved out of CLAUDE.md. Per-feature usage lives in `projects/@jchpro/ngx-kit/docs/`.
 
-- **Auth views** (local auth only; `docs/auth.md`): `KitLogin`, `KitForgotPassword`, `KitSetPassword` (`flow="reset" | "invite"`) on
+- **Auth views** (local auth only; `ngx-kit/docs/auth.md`): `KitLogin`, `KitForgotPassword`, `KitSetPassword` (`flow="reset" | "invite"`) on
   `KitAuthCard`, `KitPasswordToggle` and `KitIcon`. The kit does no auth itself: views emit `submitted`/`requested`, the app makes the
   request and feeds `busy`/`error` back; no router, no `@angular/forms`. While `busy` the submit button spins and fields turn
-  read-only (not a card scrim, which would drop focus). Open work: #49, #50, #51, #52.
+  read-only (not a card scrim, which would drop focus).
 - CDK overlays (menus, dialogs) need `@jchpro/ngx-kit/styles/overlay` included once in the app's
   global styles — nothing else provides the overlay container CSS now that Material is gone.
 - `--kit-prose-*` type tokens (doc-style headings) are the `prose-h2`/`prose-h3`
@@ -14,11 +14,11 @@ Things that aren't obvious from the code, moved out of CLAUDE.md. Per-feature us
 - `.kit-prose` (`styles/_prose.scss`, in `primitives`) applies the prose tokens to the plain, unclassed
   elements of a container, plus links, blockquote, inline code and tables; `.kit-table-frame` is the optional
   table wrapper (frame + horizontal scroll). docs-app's content area uses it (`@extend`ed onto
-  `.kit-shell__content`). Elements not styled yet are listed on the docs-app Typography page. See `docs/prose.md`.
+  `.kit-shell__content`). Elements not styled yet are listed on the docs-app Typography page. See `ngx-kit/docs/prose.md`.
 - Contrast: use `--kit-border-control` (never `--kit-border-subtle`) for the edge of a control,
   `--kit-status-*-ink` for status as text (the plain `--kit-status-*` are fills/icons), and
   `--kit-ink-on-primary` for the primary button label. `npm run check:contrast` (part of `npm test`) prints the
-  ratio of every pairing from `_tokens.scss` and fails on one under its threshold, minus documented exceptions.
+  ratio of every pairing from `_tokens.scss` and fails on one under its threshold, minus documented exceptions. It only covers listed pairings: add one whenever a component uses a token in a new place (a brand/accent token as text, say).
   Invalid state: `aria-invalid="true"` / `:user-invalid` (never `:invalid`), message line `kit-field__error`.
 - **Data tables** (`ngx-kit/docs/table.md`, docs-app Tables page): your own typed `<table class="kit-table">`
   with `@for` inside the layout-only `KitDataTable` frame (slots by attribute, loading/empty/error states), `th[kitSort]`
