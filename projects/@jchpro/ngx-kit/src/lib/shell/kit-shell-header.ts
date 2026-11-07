@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, contentChildren, inject, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideDynamicIcon, LucideMenu } from '@lucide/angular';
+import { KitIcon } from '../icon/kit-icon.directive';
 import { KIT_SHELL_LABELS } from './kit-shell-labels';
 import { KitShellNavItem } from './kit-shell-nav-item';
 import { KitShellState } from './kit-shell-state';
@@ -9,6 +10,8 @@ import { KitShellState } from './kit-shell-state';
 /**
  * The shell's header row. Automatically renders a sidenav-toggle button when the sidenav
  * is in overlay (mobile) mode; anything projected renders alongside it.
+ *
+ * Replace the toggle's built-in icon by projecting an element marked `kitIcon="toggle"`.
  *
  * Any `KitShellNavItem`s projected in render as top navigation — the same items used for a
  * `KitShellNavSection`, rendered horizontally here instead. They stay inline in this row while
@@ -39,6 +42,8 @@ export class KitShellHeader {
 
   protected readonly state = inject(KitShellState);
   protected readonly navItems = contentChildren(KitShellNavItem);
+  protected readonly icons = contentChildren(KitIcon, { descendants: false });
+  protected readonly customToggleIcon = computed(() => this.icons().some(icon => icon.slot() === 'toggle'));
   protected readonly toggleLabel = computed(() => this.toggleNavigationLabel() ?? this.#labels().toggleNavigation);
 
 }

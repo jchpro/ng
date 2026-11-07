@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { LucideGlobe } from '@lucide/angular';
 import { of } from 'rxjs';
+import { KitIcon } from '../icon/kit-icon.directive';
 import { provideKitLabels } from '../labels/provide-kit-labels';
 import { KitShellHeader } from './kit-shell-header';
 import { KitShellLabelsOverride, provideKitShellLabels } from './kit-shell-labels';
@@ -222,6 +223,56 @@ describe('KitShellHeader', () => {
       const [prefix, exact] = Array.from(host.querySelectorAll<HTMLElement>('.kit-shell-header__nav-item'));
       expect(prefix.classList.contains('kit-shell-header__nav-item--active')).toBe(true);
       expect(exact.classList.contains('kit-shell-header__nav-item--active')).toBe(false);
+    });
+
+  });
+
+
+  describe('toggle icon', () => {
+
+    @Component({
+      imports: [KitShellHeader, KitIcon],
+      template: `
+        <kit-shell-header>
+          @if (custom) {
+            <span kitIcon="toggle" class="custom-toggle">M</span>
+          }
+        </kit-shell-header>`
+    })
+    class IconHost {
+      custom = false;
+    }
+
+    function createWithIcon(custom: boolean) {
+      TestBed.configureTestingModule({
+        providers: [
+          provideRouter([]),
+          { provide: BreakpointObserver, useValue: { observe: () => of<BreakpointState>({ matches: true, breakpoints: {} }), isMatched: () => true } },
+          KitShellState,
+        ]
+      });
+      const fixture = TestBed.createComponent(IconHost);
+      fixture.componentInstance.custom = custom;
+      fixture.detectChanges();
+      return fixture.nativeElement as HTMLElement;
+    }
+
+    it('should show the Lucide menu icon by default', () => {
+      // Given
+      const host = createWithIcon(false);
+
+      // Then
+      expect(host.querySelector('.kit-shell-header__toggle svg')).toBeTruthy();
+      expect(host.querySelector('.custom-toggle')).toBeNull();
+    });
+
+    it('should show a projected kitIcon="toggle" element instead of the built-in icon', () => {
+      // Given
+      const host = createWithIcon(true);
+
+      // Then
+      expect(host.querySelector('.kit-shell-header__toggle .custom-toggle')).toBeTruthy();
+      expect(host.querySelector('.kit-shell-header__toggle svg')).toBeNull();
     });
 
   });

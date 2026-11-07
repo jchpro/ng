@@ -9,8 +9,7 @@ looking icons up by string name. `size` is a raw CSS length (not Font Awesome's 
 and defaults to a fixed 24px; `docs-app` sets `provideLucideConfig({ size: '1em' })` so icons
 scale with surrounding text.
 
-**Override pattern** (`KitIcon`, the `[kitIcon="slot"]` marker; implemented in `KitPasswordToggle`
-only so far, the shell header's mobile toggle is the next candidate): a content-projection slot for components that render a built-in icon but should let a consumer swap it for
+**Override pattern** (`KitIcon`, the `[kitIcon="slot"]` marker; implemented in `KitPasswordToggle` and the shell header's mobile toggle): a content-projection slot for components that render a built-in icon but should let a consumer swap it for
 literally anything (a different icon library, inline SVG, emoji) — not a plain token swap, which
 is enough when the only need is picking a different icon from Lucide itself:
 ```html

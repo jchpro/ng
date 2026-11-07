@@ -35,7 +35,11 @@
             [attr.aria-expanded]="state.sidenavOpen()"
             [attr.aria-label]="toggleLabel()"
             (click)="state.toggleSidenav()">
-      <svg lucideMenu size="20"></svg>
+      @if (customToggleIcon()) {
+        <ng-content select="[kitIcon=toggle]"></ng-content>
+      } @else {
+        <svg lucideMenu size="20"></svg>
+      }
     </button>
   }
   <ng-content select="[kit-shell-header-leading]"></ng-content>

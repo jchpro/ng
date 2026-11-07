@@ -142,7 +142,7 @@ sticky-header technique (`height: 100dvh` cap + flex scroll regions, not `positi
 
 `@lucide/angular` (peer dependency of `ngx-kit`), no Font Awesome anywhere. Static: `<svg lucideGlobe>`; data-driven: `<svg [lucideIcon]="value">`.
 Where a different icon *source* is plausible, a component offers the `[kitIcon="slot"]` projection slot (`KitIcon`; so far
-`KitPasswordToggle`). Details and the slot pattern: [docs/icons.md](docs/icons.md).
+`KitPasswordToggle` and the shell header toggle). Details and the slot pattern: [docs/icons.md](docs/icons.md).
 
 ## i18n
 
