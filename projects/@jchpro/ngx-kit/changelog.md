@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The licence is MIT, was LGPL-3.0-only: use it anywhere, no conditions beyond keeping the notice. Versions already published stay under LGPL-3.0-only
 - The peer range on `@jchpro/ngx-common` is `^0.8.0 || ^0.9.0`, was `^0.9.0`: 0.8.0 is the first release with everything the kit uses from it
   (`LocalStorageService`, `LOCAL_STORAGE` and `WINDOW`, with the Angular 22 peer), so an app isn't made to upgrade `common` along with the kit
 
