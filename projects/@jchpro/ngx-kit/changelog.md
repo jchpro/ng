@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.1] - Unreleased
 
+### Added
+
+- `kit-shell-header`: replace the sidenav toggle's built-in icon by projecting an element marked `kitIcon="toggle"`, as in `KitPasswordToggle` (#52)
+
 ### Changed
 
 - The licence is MIT, was LGPL-3.0-only: use it anywhere, no conditions beyond keeping the notice. Versions already published stay under LGPL-3.0-only

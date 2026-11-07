@@ -64,6 +64,15 @@ its accessible name, "Toggle navigation". Change it app-wide with
 `provideKitShellLabels({ toggleNavigation: '…' })` (or `provideKitLabels('pl')` for Polish), or
 for one header with `<kit-shell-header toggleNavigationLabel="…">` — see [Labels](labels.md).
 
+To use an icon from another library, an inline SVG or an emoji on that button, project an element marked
+`kitIcon="toggle"` into the header (import `KitIcon`):
+
+```html
+<kit-shell-header>
+  <my-menu-icon kitIcon="toggle" />
+</kit-shell-header>
+```
+
 `KitShellRoot` just adds the `kit-shell-root` class to its host — apply it directly
 (`<app-root kitShellRoot>`) if you'd rather not use `hostDirectives`. If `<kit-shell>` can't
 find it anywhere above it in the component tree, it warns to the console: the shell's CSS
