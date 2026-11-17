@@ -91,6 +91,28 @@
 </div>
 <p>Chosen: {{ tile() ?? 'none' }}</p>
 
+<h2>Combobox <em>kit</em></h2>
+<p>
+  A select with a text field to look the options up: type to narrow the list, then pick one. The value is the chosen option's
+  <code>value</code>. Static options are filtered in the component; with <code>remote</code> the app answers the debounced
+  <code>(search)</code> and the popup shows what it is given.
+</p>
+<app-code-example
+  lang="html"
+  source="/code/kit-form-controls/combobox.example.html">
+</app-code-example>
+<div class="kit-field">
+  <label class="kit-field__label" for="combo-country">Country</label>
+  <kit-combobox inputId="combo-country" clearable placeholder="Search…" [options]="countries" [(value)]="country" />
+</div>
+<p>Chosen: {{ country() ?? 'none' }}</p>
+<div class="kit-field">
+  <label class="kit-field__label" for="combo-lookup">Country, looked up (simulated 600 ms request)</label>
+  <kit-combobox inputId="combo-lookup" remote clearable placeholder="Type to search…"
+                [options]="found()" [loading]="loading()" (search)="search($event)" [(value)]="lookupCountry" />
+</div>
+<p>Chosen: {{ lookupCountry() ?? 'none' }}</p>
+
 <h2>Fieldset and legend <em>kit</em></h2>
 <p>
   <code>kit-fieldset</code> on the <code>&lt;fieldset&gt;</code> and <code>kit-fieldset__legend</code> on the

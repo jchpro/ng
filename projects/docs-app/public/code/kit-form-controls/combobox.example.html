@@ -1,0 +1,9 @@
+<!-- Import KitCombobox. [options] are { value, label, disabled? }; [(value)] is the chosen value, null while none is -->
+<div class="kit-field">
+  <label class="kit-field__label" for="country">Country</label>
+  <kit-combobox inputId="country" clearable placeholder="Search…" [options]="countries" [(value)]="country" />
+</div>
+
+<!-- Lookup on the server: nothing is filtered here. (search) emits the query after a pause, [options] is what the app answers -->
+<kit-combobox inputId="customer" remote [loading]="loading()" [options]="found()"
+              (search)="search($event)" [(value)]="customer" />

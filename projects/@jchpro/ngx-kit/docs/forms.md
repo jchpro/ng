@@ -101,6 +101,40 @@ Many short texts at once (tasks, tags, emails): type one, press Enter, get a rem
   goes on the text field inside. Without a chip input, the `kit-chips` classes are the look alone,
   see [Primitives](primitives.md).
 
+## Pick one from a long list: `<kit-combobox>`
+
+A select with a text field to look the options up. Type to narrow the list, pick one; the value is the chosen option's `value`,
+`null` while none is. Include `./styles/combobox` (in `primitives`) and the overlay styles.
+
+```html
+<label class="kit-field__label" for="country">Country</label>
+<kit-combobox inputId="country" [options]="countries" clearable placeholder="Search…" [formField]="form.country" />
+<kit-field-error [field]="form.country" />
+```
+
+```ts
+countries: KitComboboxOption<string>[] = [{ value: 'pl', label: 'Poland' }, { value: 'se', label: 'Sweden', disabled: true }];
+```
+
+- **Static options.** `[options]` is the whole list, narrowed as the person types by `[filter]` (default `kitComboboxFilter`: the query
+  is in the label, ignoring case and accents, so "zolc" finds "Żółć").
+- **Lookup on the server.** Set `remote`: nothing is filtered here, `(search)` emits the query after `[debounce]` ms (250) of no
+  typing, and the popup shows the `[options]` the app puts in, with `[loading]` while it waits. `(search)` emits `''` when the popup closes
+  after a search, so the next open lists the whole list again. The label of the chosen option is remembered, so it stays in the field
+  when a later search no longer lists it. A value set from outside (a saved form) shows its text once its option is in `[options]`;
+  until then the value is kept. `[compareWith]` tells two values apart when they are objects (default `Object.is`).
+- **Keyboard.** Arrows move through the options (a disabled one is skipped), Enter chooses, Escape closes and puts the chosen text back
+  (and doesn't reach a dialog around it), Tab leaves. While typing, the first match is active, so Enter takes the best one. Home and End
+  stay with the caret, as the WAI-ARIA combobox pattern has it. With the popup closed Enter is left to submit a form.
+- **Never free text.** When the field loses the focus the text goes back to the chosen label; emptied, it clears the value.
+  `clearable` adds a button that does the same.
+- **Screen readers.** The ARIA combobox pattern: the focus stays in the text field and `aria-activedescendant` names the active option. The
+  number of options ("Results available: 4"), "No results" and "Loading…" are said in a polite live region. The texts are
+  `KIT_FORM_LABELS.combobox`, EN and PL.
+- A Signal Forms control (`FormValueControl<T | null>`): `[formField]` binds the field and keeps `disabled`, `readonly` and `invalid` in
+  sync; without Signal Forms it is `[(value)]`. `inputId` goes on the text field inside, for a `<label for>`. Not in it: several values
+  at once, groups, adding an option from the query, virtual scrolling.
+
 ## An optional color: `<kit-color-field>`
 
 A native `<input type="color">` can't be empty, it shows black. For a color that is optional the form has to tell
