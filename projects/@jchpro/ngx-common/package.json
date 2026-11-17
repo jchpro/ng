@@ -1,6 +1,6 @@
 {
   "name": "@jchpro/ngx-common",
-  "version": "0.9.1",
+  "version": "1.0.0",
   "description": "Common parts for the Angular apps",
   "private": false,
   "keywords": [
