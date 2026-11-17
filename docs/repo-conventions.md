@@ -2,14 +2,15 @@
 
 Moved out of CLAUDE.md; the short rules stay there.
 
-- **Versioning**: pre-1.0, so breaking changes to any `@jchpro/*` package can be a minor bump. Libraries version independently (tags `common-vX.Y.Z` /
+- **Versioning**: both libraries are 1.0+ (1.0.0 is the first stable release), so semver applies in full: breaking is a major bump with a migration note, a
+  feature a minor, a fix a patch. Libraries version independently (tags `common-vX.Y.Z` /
   `kit-vX.Y.Z`; full guide in [releasing.md](../releasing.md)). To release: add a `## [X.Y.Z] - Unreleased` changelog heading, then
   `npm run release -- ship <common|kit> <X.Y.Z>` (needs `gh`: branch, PR, waits for checks, merges,
   tags, asks before pushing the tag), or by hand `prepare` → PR → merge → `tag <lib>` on an
   up-to-date `main` → push the tag. `npm run check:versions`
   (in `npm test`) guards drift, including kit's peer range on common. That range is the **lowest common the kit works with, then each later
-  minor** (`^0.8.0 || ^0.9.0`), not the current version: the release tool only appends a clause for a new minor of common and never raises
-  the floor (raise it by hand when kit needs newer API). So an additive change to common is a patch (no kit release); a minor is for breaking.
+  major** (`^1.0.0`, a caret pins the major from 1.0), not the current version: the release tool only appends a clause for a new major of common
+  and never raises the floor (raise it by hand when kit needs newer API). So a minor or patch of common needs no kit release; a major does.
 
 - **`box-sizing` in kit CSS**: a rule that sets a size (`width`, `max-height`…) together with padding or a border sets
   `box-sizing: border-box` itself. The docs-app has a global reset, so a miss only shows in apps without one (menu items overflowed
