@@ -2,7 +2,7 @@
 
 `@jchpro/ngx-common` and `@jchpro/ngx-kit` are versioned and published independently. A release is
 a PR that bumps the version, then a tag that makes GitHub Actions publish to npm. Tags are
-`common-vX.Y.Z` and `kit-vX.Y.Z`. Pre-1.0, a breaking change can be a minor bump.
+`common-vX.Y.Z` and `kit-vX.Y.Z`. Semver: a breaking change is a major bump, with a migration note in the changelog.
 
 The docs-app is not part of this: every push to `main` deploys it through `infra-vps`
 ([deploy-docs-app.yaml](.github/workflows/deploy-docs-app.yaml), see [deployment.md](deployment.md)).
@@ -49,14 +49,13 @@ The same flow by hand, without `gh`:
    ```
    This sets `version` in the library's `package.json` and dates the changelog heading. When
    releasing `common` it also makes sure `kit`'s peer range on it admits the new version. That range
-   is the **lowest `common` that has what the kit uses, then every later minor that works**, as
-   `^0.8.0 || ^0.9.0` (on 0.x a caret pins the minor, so each minor is a clause of its own). A patch,
-   or a version the range already admits, leaves it alone; a new minor adds a `|| ^X.Y.0` clause. It
+   is the **lowest `common` that has what the kit uses, then every later major that works**, as
+   `^1.0.0` (from 1.0 a caret pins the major; on 0.x it pinned the minor). A minor or a patch, or a version the
+   range already admits, leaves it alone; a new major adds a `|| ^X.0.0` clause. It
    never raises the lowest version, so an app isn't made to upgrade `common` for nothing: do that by
    hand, in the PR, on the day the kit starts using something newer from it. The published kit keeps
-   the range it was released with, so a new minor of `common` is only installable next to the kit
-   after the kit's next release. An additive change that breaks nothing is best released as a patch
-   of `common`, which needs no kit release at all.
+   the range it was released with, so a new major of `common` is only installable next to the kit
+   after the kit's next release. A minor or a patch of `common` needs no kit release at all.
 3. **Review `git diff`, commit and open a PR.** The PR check
    ([pull_request.yaml](.github/workflows/pull_request.yaml)) builds everything and runs
    `npm test`, which includes `npm run check:versions`: it fails on drift between `package.json`,

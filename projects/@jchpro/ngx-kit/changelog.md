@@ -5,7 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.7.1] - Unreleased
+## [1.0.0] - Unreleased
+
+The first stable release: the public API is now covered by semver, so from here a breaking change is a major version with a migration note.
+The peer range on `@jchpro/ngx-common` is `^1.0.0`, so install both at 1.x.
 
 ### Added
 
@@ -20,8 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `KitFormLabels` has a new required `combobox` group (`noResults`, `loading`, `results`, `clear`, `toggle`), like `chipInput` before it: a
   complete set built by hand needs it; a partial override, `KIT_FORM_LABELS_EN` / `_PL` and `provideKitLabels()` are not affected
 - The licence is MIT, was LGPL-3.0-only: use it anywhere, no conditions beyond keeping the notice. Versions already published stay under LGPL-3.0-only
-- The peer range on `@jchpro/ngx-common` is `^0.8.0 || ^0.9.0`, was `^0.9.0`: 0.8.0 is the first release with everything the kit uses from it
-  (`LocalStorageService`, `LOCAL_STORAGE` and `WINDOW`, with the Angular 22 peer), so an app isn't made to upgrade `common` along with the kit
+- The peer range on `@jchpro/ngx-common` is `^1.0.0`, was `^0.9.0`: an app on `common` 0.x upgrades it to 1.x together with the kit. `common` 1.0.0
+  has the same API as 0.9.x
 
 ## [0.7.0] - 2026-10-15
 

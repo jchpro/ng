@@ -59,7 +59,7 @@ The account's free Actions minutes are limited. Private repos spend them; public
 
 Public libraries consumed by other repos (e.g. Nest and Angular libs).
 
-- Semver. From 1.0 a breaking change is a major bump, with a migration note in the changelog. Before 1.0 a breaking change may be a minor.
+- Semver. A breaking change is a major bump, with a migration note in the changelog.
 - Every user-facing change needs a changelog entry and an updated README/docs. When the version is bumped (with the change, or at release) is the repo's own convention, written in its CLAUDE.md; follow it.
 - Never publish, tag or release unless explicitly asked in the session. Releases are cut deliberately (owner confirms).
 - Publishing is done by Actions (tag-triggered, npm trusted publishing), not from a laptop. A repo that publishes differently records the exception and its reason in the registry.
@@ -162,7 +162,7 @@ peer is optional: only `KitFieldError` / `resetKitForm` use it, as types (`Field
 - **Changelog**: accumulate everything under one `## [X.Y.Z] - Unreleased` entry per package —
   don't bump the version number or add a new dated entry per work session. Bump only at an
   actual release.
-- **Versioning**: pre-1.0, so a breaking change to any `@jchpro/*` package can be a minor bump. Libraries version independently (tags `common-vX.Y.Z` / `kit-vX.Y.Z`); release with `npm run release` (asks before pushing the tag), see [releasing.md](releasing.md). Kit's peer range on common is the *lowest compatible version, then each later minor*, not the current one; an additive change to common is a patch. More: [docs/repo-conventions.md](docs/repo-conventions.md).
+- **Versioning**: both libraries are 1.0+ (1.0.0 is the first stable release), so semver applies in full: a breaking change to any `@jchpro/*` package is a major bump with a migration note in the changelog, a new feature is a minor, a fix a patch. Libraries version independently (tags `common-vX.Y.Z` / `kit-vX.Y.Z`); release with `npm run release` (asks before pushing the tag), see [releasing.md](releasing.md). Kit's peer range on common is the *lowest compatible version, then each later major* (`^1.0.0`; a caret pins the major), not the current one: a minor or patch of common needs no kit release. More: [docs/repo-conventions.md](docs/repo-conventions.md).
 - **`box-sizing`**: a kit CSS rule that sets a size together with padding or a border sets `box-sizing: border-box` itself (`npm run check:box-sizing` enforces it).
 - **Readme size**: split large readmes into `docs/*.md`, then verify packaging and relative links.
 - **Keep the docs-app Kit pages in sync**: a change to an `ngx-kit` or `ngx-common` capability updates its docs-app page in the same change. A new capability is a **tab in the group it belongs to**, not a new sidebar page. Keep these pages short. Structure: [docs/repo-conventions.md](docs/repo-conventions.md).
