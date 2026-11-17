@@ -1,0 +1,129 @@
+// The layout of `<kit-combobox>`: the text field (the Field's own `kit-field__control`) with its clear and
+// chevron buttons laid over the end of it, and the popup it opens in an overlay (needs `styles/overlay` too).
+// The popup is a listbox: the active option (the one the arrows are on, the focus stays in the text field) is
+// a tint with primary ink, like the menu's, and the chosen one has a check. Brand colors are fills, not text.
+@mixin classes() {
+
+  .kit-combobox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+
+    > .kit-combobox__input {
+      flex: 1 1 auto;
+      min-width: 0;
+      // Room for the chevron, and for the clear button next to it
+      padding-right: calc(var(--kit-space-3) + 28px);
+    }
+
+    &:has(.kit-combobox__button + .kit-combobox__button) > .kit-combobox__input {
+      padding-right: calc(var(--kit-space-3) + 56px);
+    }
+  }
+
+  .kit-combobox__button {
+    position: absolute;
+    top: 50%;
+    right: var(--kit-space-1);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: var(--kit-radius-sm);
+    background: transparent;
+    color: var(--kit-ink-muted);
+    cursor: pointer;
+
+    // The clear button comes first in the markup and sits left of the chevron
+    &:not(:last-of-type) {
+      right: calc(var(--kit-space-1) + 28px);
+    }
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+      color: var(--kit-ink-primary);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .kit-combobox__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .kit-combobox__panel {
+    box-sizing: border-box;
+    max-width: 90vw;
+    max-height: min(20rem, 60dvh);
+    overflow-y: auto;
+    padding: var(--kit-space-1);
+    border: 1px solid var(--kit-border-subtle);
+    border-radius: var(--kit-radius-md);
+    background-color: var(--kit-surface-raised);
+    box-shadow: var(--kit-shadow-overlay);
+    color: var(--kit-ink-primary);
+    font-family: var(--kit-font-body);
+  }
+
+  .kit-combobox__option {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kit-space-2);
+    padding: var(--kit-space-2) var(--kit-space-3);
+    border-radius: var(--kit-radius-sm);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-weight: var(--kit-app-body-weight);
+    cursor: pointer;
+
+    svg {
+      flex: 0 0 auto;
+    }
+
+    &--active {
+      background-color: color-mix(in srgb, var(--kit-brand-violet-muted) 15%, transparent);
+    }
+
+    &[aria-selected='true'] {
+      font-weight: 600;
+    }
+
+    &[aria-disabled='true'] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .kit-combobox__label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .kit-combobox__message {
+    padding: var(--kit-space-2) var(--kit-space-3);
+    color: var(--kit-ink-muted);
+    font-size: var(--kit-app-body-size);
+    line-height: var(--kit-app-body-line-height);
+    font-style: italic;
+  }
+
+}

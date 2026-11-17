@@ -10,9 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `kit-shell-header`: replace the sidenav toggle's built-in icon by projecting an element marked `kitIcon="toggle"`, as in `KitPasswordToggle` (#52)
+- `<kit-combobox>`: a select with a text field to look the options up, for one value from a long list. Static options narrowed by `[filter]`
+  (case- and accent-insensitive by default) or `remote` lookup with a debounced `(search)` and `[loading]`; the WAI-ARIA combobox pattern;
+  a Signal Forms control (`FormValueControl<T | null>`); `clearable`. `styles/combobox`, in `primitives`. See `docs/forms.md` (#64)
+- `@jchpro/ngx-kit/testing`: `openCombobox` and `pickOption` for `<kit-combobox>`
 
 ### Changed
 
+- `KitFormLabels` has a new required `combobox` group (`noResults`, `loading`, `results`, `clear`, `toggle`), like `chipInput` before it: a
+  complete set built by hand needs it; a partial override, `KIT_FORM_LABELS_EN` / `_PL` and `provideKitLabels()` are not affected
 - The licence is MIT, was LGPL-3.0-only: use it anywhere, no conditions beyond keeping the notice. Versions already published stay under LGPL-3.0-only
 - The peer range on `@jchpro/ngx-common` is `^0.8.0 || ^0.9.0`, was `^0.9.0`: 0.8.0 is the first release with everything the kit uses from it
   (`LocalStorageService`, `LOCAL_STORAGE` and `WINDOW`, with the Angular 22 peer), so an app isn't made to upgrade `common` along with the kit

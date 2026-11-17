@@ -9,6 +9,7 @@
 @use 'check';
 @use 'chip';
 @use 'color-field';
+@use 'combobox';
 @use 'dialog';
 @use 'dropzone';
 @use 'fieldset';
@@ -34,6 +35,7 @@
   @include check.classes();
   @include chip.classes();
   @include color-field.classes();
+  @include combobox.classes();
   @include dialog.classes();
   @include dropzone.classes();
   @include fieldset.classes();

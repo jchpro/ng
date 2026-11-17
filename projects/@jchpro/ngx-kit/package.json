@@ -72,6 +72,9 @@
     "./styles/color-field": {
       "sass": "./styles/_color-field.scss"
     },
+    "./styles/combobox": {
+      "sass": "./styles/_combobox.scss"
+    },
     "./styles/dialog": {
       "sass": "./styles/_dialog.scss"
     },

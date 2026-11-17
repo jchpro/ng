@@ -34,6 +34,17 @@ export interface KitFormLabels {
     added: string;
     removed: string;
   };
+  /**
+   * `<kit-combobox>`: the texts in the popup, the accessible names of its two buttons, and what is said when the list changes.
+   * `{count}` is the number of options now listed.
+   */
+  combobox: {
+    noResults: string;
+    loading: string;
+    results: string;
+    clear: string;
+    toggle: string;
+  };
 }
 
 /** What `provideKitFormLabels` accepts: any part of the labels, the rest stays as is. */
@@ -60,6 +71,13 @@ export const KIT_FORM_LABELS_EN: KitFormLabels = {
     remove: 'Remove {value}',
     added: 'Added {value}',
     removed: 'Removed {value}'
+  },
+  combobox: {
+    noResults: 'No results',
+    loading: 'Loading…',
+    results: 'Results available: {count}',
+    clear: 'Clear the selection',
+    toggle: 'Show the options'
   }
 };
 
@@ -84,6 +102,13 @@ export const KIT_FORM_LABELS_PL: KitFormLabels = {
     remove: 'Usuń {value}',
     added: 'Dodano {value}',
     removed: 'Usunięto {value}'
+  },
+  combobox: {
+    noResults: 'Brak wyników',
+    loading: 'Wczytywanie…',
+    results: 'Liczba dostępnych opcji: {count}',
+    clear: 'Wyczyść wybór',
+    toggle: 'Pokaż opcje'
   }
 };
 
