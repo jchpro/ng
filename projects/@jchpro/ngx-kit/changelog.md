@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - Unreleased
+## [1.0.0] - 2026-11-17
 
 The first stable release: the public API is now covered by semver, so from here a breaking change is a major version with a migration note.
 The peer range on `@jchpro/ngx-common` is `^1.0.0`, so install both at 1.x.
